@@ -11,7 +11,7 @@ import pygame
 
 
 
-window = pygame.display.set_mode((500,500))
+
 
 
 red = (200,0,0)
@@ -20,45 +20,50 @@ asteroids_info = []
 
 #Have to edit this to accomadate resolution sizes
 #---------------------------------
-BaseAsteroid_start = -1000/10
-BaseAsteroid_end = 1000/10
 
-Base_Start_Width = 1000/10
-Base_End_Width = 500/10
+#How many asteroids we have 
+BaseAsteroid_start = -50
+BaseAsteroid_end = BaseAsteroid_start * -1
 
-#-------------------------------
-
-
-angle = random.uniform(-1, 1)
-width = random.randint(int(Base_End_Width),int(Base_Start_Width))
-
-
-
-print((math.e)**((-2)**2))
-for x in range(int(BaseAsteroid_start), int(BaseAsteroid_end)):
-   size = random.randint(int(15/5), int(20/5))
+Base_Start_Width = 400/5
+Base_End_Width = 350/5
 
 #-------------------------------
-   threshold1 = (-(x))**2 * (0.000000000015*(BaseAsteroid_end))
 
-#-------------------------------
-   threshold = math.e**threshold1 
-   place = random.randint(0,100) >= math.e**threshold
-   
-   if(place):
-      y = angle * x
-      asteroid_cord_dict = {(x-30), y}
-      temp_list = [size, asteroid_cord_dict]
-      asteroids_info.append(temp_list)
-      print(x+random.randint(-int(width*threshold), int(width*threshold)), int(y+random.randint(-int(width*threshold), int(width*threshold))))
-      pygame.draw.circle(window,red,(x+random.randint(-int(width*threshold), int(width*threshold)), int(y+random.randint(-int(width*threshold), int(width*threshold)))),size)
-   
+def generate_asteroids(window, clear=False):
+   if(clear):
+      window.fill((0,0,0))
 
 
-circleX = 100
-circleY = 100
-radius = 10
+   angle = random.uniform(-1, 1)
+   width = random.randint(int(Base_End_Width),int(Base_Start_Width))
 
+
+
+   print((math.e)**((-2)**2))
+   for x in range(int(BaseAsteroid_start), int(BaseAsteroid_end)):
+      size = random.randint(int(1), int(5))
+
+   #-------------------------------
+      threshold1 = (-(x))**2 * (0.000000015*(BaseAsteroid_end))
+
+   #-------------------------------
+      threshold = math.e**threshold1 
+      place = random.randint(0,100) >= math.e**threshold
+      
+      if(place):
+         y = angle * x
+         asteroid_cord_dict = {(x-30), y}
+         temp_list = [size, asteroid_cord_dict]
+         asteroids_info.append(temp_list)
+         #print(x+random.randint(-int(width*threshold), int(width*threshold)), int(y+random.randint(-int(width*threshold), int(width*threshold))))
+         x=x+250
+         y=y+250
+         pygame.draw.circle(window,red,(x+random.randint(-int(width*threshold), int(width*threshold)), int(y+random.randint(-int(width*threshold), int(width*threshold)))),size)
+      
+
+
+window = pygame.display.set_mode((500,500))
 
 # slope is random number between -1 and 1
 
@@ -70,6 +75,11 @@ while active:
       if event.type == pygame.QUIT:
          active = False
 
+
+      if event.type == pygame.KEYDOWN:
+         if event.key == pygame.K_a:
+            generate_asteroids(window, True)
+   
    
 
    pygame.display.update()
