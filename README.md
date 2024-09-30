@@ -15,10 +15,9 @@ Insert description of game here
 
 - Asteroid Generation Planning
   - [x] Make algorithm to generate asteroids on the map
-  - [] Create a class for each asteroid with the following properties, Current Size, Coords
-  - [] Make scale automatically adjust when size changes in game
-  - 
-
+  - [ ] Create a class for each asteroid with the following properties, Current Size, Coords
+  - [ ] Make scale automatically adjust when size changes in game
+  
 
 
 
