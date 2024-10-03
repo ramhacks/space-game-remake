@@ -40,7 +40,7 @@ Insert description of game here
 
 
 - ### Building Towers
-       (*Work with Node Energy Transfer Team*)
+  *Work with Node Energy Transfer Team*
    -
 
 
