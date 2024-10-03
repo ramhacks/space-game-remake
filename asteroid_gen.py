@@ -38,11 +38,14 @@ class Player(pygame.sprite.Sprite):
     def control(self, x, y):
         self.movex += x
         self.movey += y
+        
 
     def update(self):
 
         self.rect.x = self.rect.x + self.movex
         self.rect.y = self.rect.y + self.movey
+        self.movex = 0
+        self.movey = 0
 
         # moving left
         
@@ -81,10 +84,12 @@ class Asteroid(pygame.sprite.Sprite):
    
 
 
-   def update(self, events):
+   def update(self, events, player_group, mygroup):
       #update, if clicked (can change to any event we define, we can maybe create custom events have to look into 
       # that) 
       for event in events:
+        # if (pygame.sprite.groupcollide(mygroup, player_group, False, False, pygame.sprite.collide_mask)):
+        #     print("KILL ME")
          if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
             pos_in_mask = event.pos[0] - self.rect.x, event.pos[1] - self.rect.y
@@ -175,16 +180,16 @@ while active:
       if event.type == pygame.KEYDOWN:
             
             if event.key == pygame.K_LEFT or event.key == ord('a'):
-                print("Moveing")
-                
-                player.control(-5, 0)
+                player.control(-10, 0)
             if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                player.control(5, 0)
+                player.control(10, 0)
             if event.key == pygame.K_UP or event.key == ord('w'):
-                print('jump')
+                player.control(0,-10)
+            if event.key == pygame.K_DOWN or event.key == ord('s'):
+                player.control(0,10)
 
       if event.type == pygame.KEYDOWN:
-         if event.key == pygame.K_a:
+         if event.key == pygame.K_g:
             
             window.fill((0,0,0))
          
@@ -198,9 +203,9 @@ while active:
             
    
    window.fill((0,0,0))
-   #all_sprites_list.draw(window) 
-   #all_sprites_list.update(events)
+   all_sprites_list.draw(window) 
+   all_sprites_list.update(events, player_list, all_sprites_list)
    player.update()
    player_list.draw(window)
    pygame.display.update()
-   pygame.display.flip()
+
