@@ -46,26 +46,29 @@ class Asteroid(pygame.sprite.Sprite):
       self.image.fill((0,0,0)) # clear asteroid 
       self.resources = self.resources - 20 #change resource amount
 
-      self.recal_size()
-      print(self.size, self.resources)
-      pygame.draw.circle(self.image, self.color, (self.width//2, self.height//2), self.size) #redraw
+
+      self.recal_size() #change size by 1
+      
+
+      #draw the asteroid
+      pygame.draw.circle(self.image, self.color, (self.width//2, self.height//2), self.size)
       
 
 
    def update(self, events):
+      #update, if clicked (can change to any event we define, we can maybe create custom events have to look into 
+      # that) 
       for event in events:
          if event.type == pygame.MOUSEBUTTONUP:
+            #we mouse clicked
             if self.rect.collidepoint(event.pos):
+               #if mouse click is over asteroid pos
                self.image.fill((0,0,0)) # clear asteroid 
                self.mine()
+
+               #if no more resources kill the sprite
                if(self.resources < 0):
                   self.kill()
-
-               
-
-
-                    #'size', 'cordarray'
-
 
 
 #Have to edit this to accomadate resolution sizes
@@ -87,7 +90,7 @@ all_sprites_list = pygame.sprite.Group()
 
 def generate_asteroids(window, clear=False):
    
-
+   #generate asteroid   
 
    angle = random.uniform(-1, 1)
    width = random.randint(int(Base_End_Width),int(Base_Start_Width))
@@ -95,7 +98,7 @@ def generate_asteroids(window, clear=False):
 
 
    for x in range(int(BaseAsteroid_start), int(BaseAsteroid_end)):
-      size = random.randint(int(3), int(8)) #size range
+      size = random.randint(int(3), int(5)) #size range will change when we can zoom out
 
    #-------------------------------
       threshold1 = (-(x))**2 * (0.0000015*(BaseAsteroid_end))
@@ -108,17 +111,19 @@ def generate_asteroids(window, clear=False):
          y = angle * x
 
       
-         #print(x+random.randint(-int(width*threshold), int(width*threshold)), int(y+random.randint(-int(width*threshold), int(width*threshold))))
+         #Move it to the center of screen, REMOVE THIS WHEN WE ADD A CAMERA TO THE GAME!!!
          x=x+250
          y=y+250
 
+
+         #Generate xpos and ypos
          xpos = x+random.randint(-int(width*threshold), int(width*threshold))
          ypos = int(y+random.randint(-int(width*threshold), int(width*threshold)))
          object_ = Asteroid(size, size*2, size*2, red)
          object_.rect.x = xpos
          object_.rect.y = ypos
          all_sprites_list.add(object_) 
-         #pygame.draw.circle(window,red,(x+random.randint(-int(width*threshold), int(width*threshold)), int(y+random.randint(-int(width*threshold), int(width*threshold)))),size)
+        
       
 
 
