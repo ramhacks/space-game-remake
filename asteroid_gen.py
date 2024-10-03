@@ -129,10 +129,6 @@ def generate_asteroids(window, clear=False):
 
 window = pygame.display.set_mode((500,500))
 
-# slope is random number between -1 and 1
-
-  
-
 active = True
 
 
@@ -147,8 +143,7 @@ while active:
          if event.key == pygame.K_a:
             
             window.fill((0,0,0))
-            #pygame.draw.circle(window, COLOR, (250, 250), 30)
-            #pygame.draw.circle(window, SURFACE_COLOR, (250, 250), 5)
+         
             all_sprites_list = pygame.sprite.Group() 
             
             generate_asteroids(window, True)
