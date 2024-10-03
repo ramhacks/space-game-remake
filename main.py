@@ -28,7 +28,7 @@ rect_color = (0, 0, 0)
 pygame.draw.rect(screen, rect_color, pygame.Rect(4,246,192,112))
 
 # Create an object for the buttons
-button_img = pygame.image.load()
+button_img = pygame.image.load("images/button.png")
 class Button(object):
     def _init(self):
         super().__init__()
