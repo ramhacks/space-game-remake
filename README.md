@@ -7,33 +7,53 @@ Insert description of game here
 
 ## Planning Document
 
-- UI Planning
+- ### UI Planning
 
 
 
 
 
-- Asteroid Generation Planning
+- ### Asteroid Generation 
   - [x] Make algorithm to generate asteroids on the map
-  - [ ] Create a class for each asteroid with the following properties, Current Size, Coords
+  - [x] Create a sprite class for each asteroid with the following properties, Current Size, Coords
   - [ ] Make scale automatically adjust when size changes in game
   
 
 
-
-- Tower Planning
-
-
-
-
-
-- Node Placement Planning
+- ### Towers:
+   -  Tower Missle/Laser Targeting AI
+     
+   -  Tower Mining Asteroids
+     
 
 
+- ### Enemies:
+   - Enemy AI/Targeting
+ 
+   - Enemy Spawning
+
+
+- ### Node Placement/Energy Transfer
+   -
+  
 
 
 
-- Energy Usage Planning
+- ### Building Towers *Work with Node Energy Transfer Team*
+   -
+
+
+
+
+
+
+
+
+
+
+
+
+ 
   
 
 
