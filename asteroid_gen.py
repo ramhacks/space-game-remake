@@ -20,6 +20,34 @@ import pygame
 red = (200,0,0)
 COLOR = (255, 100, 98) 
 SURFACE_COLOR = (167, 255, 100) 
+class Player(pygame.sprite.Sprite):
+    """
+    Spawn a player
+    """
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.movex = 0
+        self.movey = 0
+        self.frame = 0
+        self.image = pygame.image.load("space-game-remake\Asteroid_Images\945.png").convert_alpha()
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect = self.image.get_rect()
+        
+
+    def control(self, x, y):
+        self.movex += x
+        self.movey += y
+
+    def update(self):
+
+        self.rect.x = self.rect.x + self.movex
+        self.rect.y = self.rect.y + self.movey
+
+        # moving left
+        
+
+
 
 class Asteroid(pygame.sprite.Sprite): 
    def __init__(self, size, width, height, color): 
@@ -27,7 +55,12 @@ class Asteroid(pygame.sprite.Sprite):
       self.image = pygame.Surface((width, height), pygame.SRCALPHA)
       self.color = color
       self.size = size
-      pygame.draw.circle(self.image, self.color, (width//2, height//2), self.size)
+
+      self.dry = False
+
+      self.image = pygame.image.load("space-game-remake\Asteroid_Images\941.png").convert_alpha()
+      self.mask  = pygame.mask.from_surface( self.image )
+      #pygame.draw.circle(self.image, self.color, (width//2, height//2), self.size)
       self.rect = self.image.get_rect()
       self.width = width
       self.height = height
@@ -35,25 +68,17 @@ class Asteroid(pygame.sprite.Sprite):
       self.resources = self.size * 52
 
 
-   def recal_size(self):
-      #recalculate the size of the asteroid
-      try:
-         self.size = int(self.resources/52)
-      except: #size is under 0 so destroy the asteroid because it is now a negative size
-         pass
-   
+  
 #mine the asteroid every time you "click" on it, 
    def mine(self):
-      self.image.fill((0,0,0)) # clear asteroid 
       self.resources = self.resources - 20 #change resource amount
-
-
-      self.recal_size() #change size by 1
+      print("Mine, ", self)
+      if(self.resources < 0):
+         self.dry = True
       
-
       #draw the asteroid
-      pygame.draw.circle(self.image, self.color, (self.width//2, self.height//2), self.size)
       
+   
 
 
    def update(self, events):
@@ -61,15 +86,18 @@ class Asteroid(pygame.sprite.Sprite):
       # that) 
       for event in events:
          if event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            pos_in_mask = event.pos[0] - self.rect.x, event.pos[1] - self.rect.y
+            touching = self.rect.collidepoint(*pos) and self.mask.get_at(pos_in_mask)
+            print(touching)
             #we mouse clicked
-            if self.rect.collidepoint(event.pos):
+            if self.rect.collidepoint(event.pos) and self.mask.get_at(pos_in_mask):
                #if mouse click is over asteroid pos
-               self.image.fill((0,0,0)) # clear asteroid 
+              
                self.mine()
 
                #if no more resources kill the sprite
-               if(self.resources < 0):
-                  self.kill()
+               #change alpha channel
 
 
 #Have to edit this to accomadate resolution sizes
@@ -130,15 +158,30 @@ def generate_asteroids(window, clear=False):
 
 window = pygame.display.set_mode((500,500))
 
+
 active = True
 
+player = Player()
+player_list = pygame.sprite.Group()
+player_list.add(player)
 
 while active:
    events = pygame.event.get()
    for event in events:
+
       if event.type == pygame.QUIT:
          active = False
 
+      if event.type == pygame.KEYDOWN:
+            
+            if event.key == pygame.K_LEFT or event.key == ord('a'):
+                print("Moveing")
+                
+                player.control(-5, 0)
+            if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                player.control(5, 0)
+            if event.key == pygame.K_UP or event.key == ord('w'):
+                print('jump')
 
       if event.type == pygame.KEYDOWN:
          if event.key == pygame.K_a:
@@ -154,7 +197,10 @@ while active:
             
             
    
-   
-   all_sprites_list.draw(window) 
-   all_sprites_list.update(events)
+   window.fill((0,0,0))
+   #all_sprites_list.draw(window) 
+   #all_sprites_list.update(events)
+   player.update()
+   player_list.draw(window)
    pygame.display.update()
+   pygame.display.flip()
