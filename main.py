@@ -27,6 +27,19 @@ pygame.draw.rect(screen, rect_color, pygame.Rect(2,244,196,168))
 rect_color = (0, 0, 0)
 pygame.draw.rect(screen, rect_color, pygame.Rect(4,246,192,112))
 
+# Create an object for the buttons
+button_img = pygame.image.load()
+class Button(object):
+    def _init(self):
+        super().__init__()
+        self.image = pygame.Surface((50, 50))
+        self.rect = self.image.get_rect()
+        self.rect.x = 100
+        self.rect.y = 100
+
+# Create a button object
+button1 = Button
+
 # Update the display using flip 
 pygame.display.flip() 
   
