@@ -14,9 +14,7 @@ Insert description of game here
 
 
 - ### Asteroid Generation 
-  - [x] Make algorithm to generate asteroids on the map
-  - [x] Create a sprite class for each asteroid with the following properties, Current Size, Coords
-  - [ ] Make scale automatically adjust when size changes in game
+  - [x] REDO ASTEROID ALGORITHM BASED ON IF IN WAVE FUNCTION AREA
   
 
 
