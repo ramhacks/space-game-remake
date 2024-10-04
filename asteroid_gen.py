@@ -109,11 +109,11 @@ class Asteroid(pygame.sprite.Sprite):
 #---------------------------------
 
 #How many asteroids we have 
-BaseAsteroid_start = -60
+BaseAsteroid_start = -40
 BaseAsteroid_end = BaseAsteroid_start * -1
 
-Base_Start_Width = 500/5
-Base_End_Width = 350/5
+Base_Start_Width = 800/5
+Base_End_Width = 600/5
 
 #-------------------------------
 
@@ -128,20 +128,26 @@ def generate_asteroids(window, clear=False):
 
    angle = random.uniform(-1, 1)
    width = random.randint(int(Base_End_Width),int(Base_Start_Width))
-
-
+   print(width)
 
    for x in range(int(BaseAsteroid_start), int(BaseAsteroid_end)):
       size = random.randint(int(3), int(5)) #size range will change when we can zoom out
 
    #-------------------------------
-      threshold1 = (-(x))**2 * (0.0000015*(BaseAsteroid_end))
+      threshold1 = ((-(x))**2)/200 * (0.00005*(BaseAsteroid_end))
 
    #-------------------------------
-      threshold = math.e**threshold1 
-      place = random.randint(0,90) >= math.e**threshold
+      threshold = (math.e**threshold1) - 1
       
+      
+      place = (random.uniform(0,0.4)) >= threshold
+      
+
+
+
+      threshold = (math.e**threshold1)
       if(place):
+         
          y = angle * x
 
       
@@ -151,8 +157,12 @@ def generate_asteroids(window, clear=False):
 
 
          #Generate xpos and ypos
-         xpos = x+random.randint(-int(width*threshold), int(width*threshold))
-         ypos = int(y+random.randint(-int(width*threshold), int(width*threshold)))
+         threshold*=1.5
+         xpos = x*threshold
+         print(width*threshold, threshold, place)
+
+
+         ypos = y+random.randint(-int(width*threshold), int(width*threshold))
          object_ = Asteroid(size, size*2, size*2, red)
          object_.rect.x = xpos
          object_.rect.y = ypos
