@@ -121,54 +121,66 @@ all_sprites_list = pygame.sprite.Group()
   
 
 
-
-def generate_asteroids(window, clear=False):
-   
-   #generate asteroid   
-
-   angle = random.uniform(-1, 1)
-   width = random.randint(int(Base_End_Width),int(Base_Start_Width))
-   print(width)
-
-   for x in range(int(BaseAsteroid_start), int(BaseAsteroid_end)):
-      size = random.randint(int(3), int(5)) #size range will change when we can zoom out
-
-   #-------------------------------
-      threshold1 = ((-(x))**2)/200 * (0.00005*(BaseAsteroid_end))
-
-   #-------------------------------
-      threshold = (math.e**threshold1) - 1
-      
-      
-      place = (random.uniform(0,0.4)) >= threshold
-      
-
-
-
-      threshold = (math.e**threshold1)
-      if(place):
-         
-         y = angle * x
-
-      
-         #Move it to the center of screen, REMOVE THIS WHEN WE ADD A CAMERA TO THE GAME!!!
-         x=x+250
-         y=y+250
-
-
-         #Generate xpos and ypos
-         threshold*=1.5
-         xpos = x*threshold
-         print(width*threshold, threshold, place)
-
-
-         ypos = y+random.randint(-int(width*threshold), int(width*threshold))
-         object_ = Asteroid(size, size*2, size*2, red)
-         object_.rect.x = xpos
-         object_.rect.y = ypos
-         all_sprites_list.add(object_) 
         
-      
+
+#Function to make a large wave then generate points inside that wave at random intervals
+
+#The only thing we need to add is how to angle the wave we generated
+def make_wave(window):
+
+   min_x_pos=100 #this scales the wave/makes it wider
+   #as we get bigger, scale up asteroid field
+   max_x_pos=200
+   
+   min_y_pos=150 #minimum y and max, this is how tall the wave can be
+   max_y_pos=300
+
+   d= -0.1
+   for i in range(0, 10):
+      #This part generates the first half of the wave (the positive side)
+      for j in range(0,int(i/2)):
+         size = random.randint(int(3), int(5)) #size range will change when we can zoom out
+
+         #get the y position of the dot
+         y = random.randint(min_y_pos,max_y_pos)
+         threshold2 = (-(d*i)**2) 
+         y_pos = (math.e**threshold2) * y
+
+         x = random.randint(min_x_pos,max_x_pos)
+
+         #get the x position of the dot
+         thresholdx = (-(d*i)**2) 
+         x_pos = (math.e**thresholdx) * x
+         
+         #Add the asteroid to the sprite list
+         object_ = Asteroid(size, size*2, size*2, red)
+            
+         object_.rect.x = x_pos
+         object_.rect.y = y_pos
+         all_sprites_list.add(object_) 
+   for i in range(0, 10):
+            #This part generates the second half of the wave (the negative side)
+      for j in range(0,i):
+         size = random.randint(int(3), int(5)) #size range will change when we can zoom out
+
+      #get the y position of the dot
+         y = random.randint(min_y_pos,max_y_pos)
+         threshold2 = (-(d*i)**2) 
+         y_pos = (math.e**threshold2) * y
+
+         x = random.randint(min_x_pos,max_x_pos)
+
+         #get the x position of the dot
+         thresholdx = (-(d*i)**2) 
+         x_pos = (math.e**thresholdx) * x
+
+
+         #Add the asteroid to the sprite list
+         object_ = Asteroid(size, size*2, size*2, red)
+            
+         object_.rect.x = max_x_pos-x_pos 
+         object_.rect.y = max_y_pos-y_pos 
+         all_sprites_list.add(object_) 
 
 
 window = pygame.display.set_mode((500,500))
@@ -179,8 +191,10 @@ active = True
 player = Player()
 player_list = pygame.sprite.Group()
 player_list.add(player)
-
+player.rect.x = 200
+player.rect.y = 200
 while active:
+   
    events = pygame.event.get()
    for event in events:
 
@@ -204,8 +218,8 @@ while active:
             window.fill((0,0,0))
          
             all_sprites_list = pygame.sprite.Group() 
-            
-            generate_asteroids(window, True)
+            make_wave(window)
+            #generate_asteroids(window, True)
 
             
 
