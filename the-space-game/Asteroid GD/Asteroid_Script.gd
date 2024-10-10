@@ -3,7 +3,7 @@ extends Sprite2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("hello, my name is: ")
+	pass
 
 func setname(name):
 	print(name)
