@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://ooitrepr3xpn"]
+[gd_scene load_steps=3 format=3 uid="uid://ooitrepr3xpn"]
 
+[ext_resource type="Texture2D" uid="uid://dd8lwsmwdhokv" path="res://Asteroid_Images/890.png" id="1_4fakc"]
 [ext_resource type="Script" path="res://Asteroid GD/Asteroid_Script.gd" id="1_gioje"]
 
 [node name="Asteroid" type="Sprite2D"]
+texture = ExtResource("1_4fakc")
 script = ExtResource("1_gioje")
