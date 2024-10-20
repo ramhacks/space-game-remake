@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://c6np11nexofah"]
+
+[ext_resource type="Script" path="res://towers/mine.gd" id="1_2thg4"]
+[ext_resource type="Texture2D" uid="uid://74vxxnfct1cd" path="res://images/303.png" id="1_ooltd"]
+[ext_resource type="Script" path="res://towers/miner.gd" id="2_7igyp"]
+[ext_resource type="Script" path="res://towers/mining_laser.gd" id="4_njm1e"]
+
+[sub_resource type="Gradient" id="Gradient_okg80"]
+offsets = PackedFloat32Array(0, 0.458333, 1)
+colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699, 0, 1, 0.0183086, 0.319085, 0.184432, 1)
+metadata/_snap_count = 12
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rqckh"]
+radius = 38.0526
+
+[node name="Miner" type="Area2D"]
+position = Vector2(453, 401)
+collision_mask = 3
+script = ExtResource("1_2thg4")
+
+[node name="Mining_Laser" type="Line2D" parent="."]
+width = 5.0
+default_color = Color(0.192157, 0.988235, 0.164706, 1)
+gradient = SubResource("Gradient_okg80")
+script = ExtResource("4_njm1e")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+texture = ExtResource("1_ooltd")
+script = ExtResource("2_7igyp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rqckh")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_entered" from="." to="Sprite2D" method="_on_miner_area_entered"]
+[connection signal="area_exited" from="." to="Sprite2D" method="_on_miner_area_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

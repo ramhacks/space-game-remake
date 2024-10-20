@@ -13,11 +13,7 @@ var screen_start_position
 
 var dragging = false
 
-
-
-
 func _input(event):
-	
 	if event is InputEventMouseButton:
 		if event.is_pressed():
 			mouse_start_pos = event.position
@@ -38,6 +34,5 @@ func _input(event):
 		
 		
 	elif event is InputEventMouseMotion and dragging:
-		print("drag")
 		position = (mouse_start_pos - event.position)/zoom + screen_start_position
 	

@@ -20,8 +20,8 @@ func _ready() -> void:
 	
 	var angle = 11 #w
 
-	var height = 150 # how tall it is, every iteration make smaller to generate asteroid along it
-	var width =  100#how wide the wave is
+	var height = 180 # how tall it is, every iteration make smaller to generate asteroid along it
+	var width =  140#how wide the wave is
    
 
 	var transformx = int(-(get_viewport_rect().size.x/2)+(get_viewport_rect().size.x/50))
@@ -29,15 +29,15 @@ func _ready() -> void:
 
 	var center = [int(get_viewport_rect().size.x/2), transformy*-1]
    
-	var place_chance = 15 #chance of placing asteroid, right now it is 10%
+	var place_chance = 12 #chance of placing asteroid, right now it is 10%
    #change it so that generates more toward center point 
    #do this by getting distance from center, the closer it is the higher the chance of placing it
 
 
-	var asteroid_x_spread = 4 #spread of asteroids over the x-axis
+	var asteroid_x_spread = 10 #spread of asteroids over the x-axis
    
 
-	var loopamount = 12 #amount of times to iterate over smaller wave
+	var loopamount = 15 #amount of times to iterate over smaller wave
 	for j in range(0, loopamount):
 		var random_chance_change = random.randf_range(1.5,2)
 		var asteroid_separation = random.randf_range(1, 3)  #amount asteroids are separated over the x axis
@@ -50,9 +50,13 @@ func _ready() -> void:
 			var distance = sqrt(((center[0]-x_pos)**2)+(center[1]-y_pos)**2) # calculate the distance from the center point (this will change when we make the center point 0, 0)
 			var place = random.randi_range(0, int(distance))
 			if(place < place_chance and x_pos < get_viewport_rect().size.x):
-				var jiggle_asteroid = random.randi_range(-10, 10)  #if place is less then 10 place asteroid
+				var jiggle_asteroid = random.randi_range(-50, 50)  #if place is less then 10 place asteroid
 				var asteroid = preload( "res://Asteroid_Gen/asteroid.tscn")
+				
 				var s = asteroid.instantiate()
+				s.get_node("Sprite2D").set_random_size()
+				
+				s.get_node("Sprite2D").assign_full_texture()
 				s.position.x = x_pos + jiggle_asteroid
 				s.position.y = y_pos
 				self.add_child(s)
@@ -65,9 +69,12 @@ func _ready() -> void:
 			var distance = sqrt(((center[0]-x_pos)**2)+(center[1]-y_pos)**2) # calculate the distance from the center point (this will change when we make the center point 0, 0)
 			var place = random.randi_range(0, int(distance))
 			if(place < place_chance and x_pos < get_viewport_rect().size.x):
-				var jiggle_asteroid = random.randi_range(-10, 10)  #if place is less then 10 place asteroid
+				var jiggle_asteroid = random.randi_range(-50, 50)  #if place is less then 10 place asteroid
 				var asteroid = preload( "res://Asteroid_Gen/asteroid.tscn")
+				
 				var s = asteroid.instantiate()
+				s.get_node("Sprite2D").set_random_size()
+				s.get_node("Sprite2D").assign_full_texture()
 				s.position.x = x_pos + jiggle_asteroid
 				s.position.y = y_pos
 				self.add_child(s)

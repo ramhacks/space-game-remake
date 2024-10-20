@@ -1,8 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://ooitrepr3xpn"]
+[gd_scene load_steps=4 format=3 uid="uid://cfeksehulo62x"]
 
-[ext_resource type="Texture2D" uid="uid://dd8lwsmwdhokv" path="res://Asteroid_Images/890.png" id="1_4fakc"]
-[ext_resource type="Script" path="res://Asteroid GD/Asteroid_Script.gd" id="1_gioje"]
+[ext_resource type="Script" path="res://Asteroid GD/asteroid_collision.gd" id="1_8gv7b"]
+[ext_resource type="Script" path="res://Asteroid GD/Asteroid_Script.gd" id="1_ejgq3"]
 
-[node name="Asteroid" type="Sprite2D"]
-texture = ExtResource("1_4fakc")
-script = ExtResource("1_gioje")
+[sub_resource type="CircleShape2D" id="CircleShape2D_fbfk6"]
+
+[node name="Asteroid" type="Area2D"]
+script = ExtResource("1_8gv7b")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+script = ExtResource("1_ejgq3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_fbfk6")
+
+[connection signal="input_event" from="." to="Sprite2D" method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="." to="Sprite2D" method="_on_area_2d_mouse_entered"]
