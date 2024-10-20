@@ -3,7 +3,7 @@
 Insert description of game here
 
 
-**Prototype made in Pygame**. Official Game will be made in Unity.
+**Game now being created in Godot**
 
 ## Planning Document
 
