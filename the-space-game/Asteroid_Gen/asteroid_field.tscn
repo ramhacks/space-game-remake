@@ -3,4 +3,5 @@
 [ext_resource type="Script" path="res://Asteroid GD/asteroid_gen.gd" id="1_qldky"]
 
 [node name="Asteroid_Field" type="Node2D"]
+z_index = 1
 script = ExtResource("1_qldky")

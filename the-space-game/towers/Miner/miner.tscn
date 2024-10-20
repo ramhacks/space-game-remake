@@ -14,6 +14,7 @@ metadata/_snap_count = 12
 radius = 38.0526
 
 [node name="Miner" type="Area2D"]
+z_index = 1
 position = Vector2(453, 401)
 collision_mask = 3
 script = ExtResource("1_2thg4")
@@ -25,7 +26,7 @@ gradient = SubResource("Gradient_okg80")
 script = ExtResource("4_njm1e")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 1
+z_index = 2
 texture = ExtResource("1_ooltd")
 script = ExtResource("2_7igyp")
 

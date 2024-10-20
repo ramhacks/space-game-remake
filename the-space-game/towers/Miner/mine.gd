@@ -26,6 +26,7 @@ func _process(delta: float) -> void:
 	pass
 
 func _physics_process(delta):
+
 	if Input.is_action_pressed("move_right"):
 		#simulate the node getting power
 		
@@ -35,7 +36,7 @@ func _physics_process(delta):
 
 
 func _on_timer_timeout() -> void:
-	
+
 	if !loaded:
 		child.change_collision_list(self.get_overlapping_areas())
 		loaded = true
