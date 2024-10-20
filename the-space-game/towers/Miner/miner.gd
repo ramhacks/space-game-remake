@@ -6,9 +6,9 @@ var asteroids_in_range = {}
 var upgrade_level = 1
 
 var upgrade_resource_drain = {
-	1: 5,
-	2: 10,
-	3: 20
+	1: 10,
+	2: 20,
+	3: 30
 }
 
 var closest = false
@@ -39,16 +39,16 @@ func _process(delta: float) -> void:
 				closest = asteroids_in_range[asteroid]
 				current_drained = true
 				valid = true
-				
+	
+
 func mine(line_node):
-	
-	
+	line_node.clear_points()
 	if(valid and powered): #only mine if there is a node nearby and powered
 		line_node.add_point(to_local(self.global_position))
 		line_node.add_point(to_local(closest.global_position))
 	
 		#create mining laser graphic
-
+		
 		closest.get_node("Sprite2D").extractresources(upgrade_resource_drain[upgrade_level])		
 		#print(closest, closest.get_node("Sprite2D").resources)
 		if(closest.get_node("Sprite2D").resources <= 0):
@@ -65,12 +65,8 @@ func mine(line_node):
 func recieve_power():
 	powered = true
 	
-	
-func _on_miner_area_entered(area: Area2D) -> void:
-	closest = Vector2(0,0)
-	asteroids_in_range[area] = area
-	
-
-
-func _on_miner_area_exited(area: Area2D) -> void:
-	asteroids_in_range.erase(area)
+func change_collision_list(asteroids):
+	if(len(asteroids_in_range) != len(asteroids)):
+		asteroids_in_range = {}
+		for rock in asteroids:
+			asteroids_in_range[rock] = rock

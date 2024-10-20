@@ -24,6 +24,7 @@ func _ready() -> void:
 	var width =  140#how wide the wave is
    
 
+
 	var transformx = int(-(get_viewport_rect().size.x/2)+(get_viewport_rect().size.x/50))
 	var transformy = int(-(get_viewport_rect().size.y/2))
 
@@ -52,6 +53,7 @@ func _ready() -> void:
 			if(place < place_chance and x_pos < get_viewport_rect().size.x):
 				var jiggle_asteroid = random.randi_range(-50, 50)  #if place is less then 10 place asteroid
 				var asteroid = preload( "res://Asteroid_Gen/asteroid.tscn")
+				
 				
 				var s = asteroid.instantiate()
 				s.get_node("Sprite2D").set_random_size()

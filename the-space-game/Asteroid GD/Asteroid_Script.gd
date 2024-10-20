@@ -10,6 +10,9 @@ extends Sprite2D
 var resources = 10
 var asteroid_size = 0
 
+
+var max_size = 15
+
 var texture_path
 func _ready() -> void:
 	pass
@@ -22,6 +25,10 @@ func set_random_size():
 	# fix so that larger numbers are generated not as often as the smaller numbers, put a weight to them
 	self.asteroid_size = min(random.randi_range(892, 932), random.randi_range(892, 932), random.randi_range(892, 932)) 
 	#--------------------------------------------------------
+	var my_size = (932 - self.asteroid_size) % 15
+	
+	self.resources = my_size * 52
+	
 	
 	
 	if(self.asteroid_size % 2):
@@ -47,12 +54,21 @@ func setresources(amount): #set resources
 
 func extractresources(change): #change resources by a certain amount, if no more resources return 0 if 
 	#some left return 1
+	
 	if(self.resources > 0):
+		if((self.resources - change) > 0):
+			Globals.resources += change
+		else:
+			Globals.resources += self.resources
 		self.resources -= change
+		
 		return 1
 	else:
+		
 		assign_empty_texture()
 		return 0
+	
+	print("Remaining Resources: " + self.resources)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

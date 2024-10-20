@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://c6np11nexofah"]
 
-[ext_resource type="Script" path="res://towers/mine.gd" id="1_2thg4"]
+[ext_resource type="Script" path="res://towers/Miner/mine.gd" id="1_2thg4"]
 [ext_resource type="Texture2D" uid="uid://74vxxnfct1cd" path="res://images/303.png" id="1_ooltd"]
-[ext_resource type="Script" path="res://towers/miner.gd" id="2_7igyp"]
-[ext_resource type="Script" path="res://towers/mining_laser.gd" id="4_njm1e"]
+[ext_resource type="Script" path="res://towers/Miner/miner.gd" id="2_7igyp"]
+[ext_resource type="Script" path="res://towers/Miner/mining_laser.gd" id="4_njm1e"]
 
 [sub_resource type="Gradient" id="Gradient_okg80"]
 offsets = PackedFloat32Array(0, 0.458333, 1)

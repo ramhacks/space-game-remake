@@ -15,6 +15,10 @@ run/main_scene="res://survival.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Globals="*res://Other_Scripts/globals.gd"
+
 [input]
 
 BUTTON_LEFT={

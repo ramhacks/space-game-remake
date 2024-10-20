@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=4 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://survival.gd" id="1_e2foe"]
-[ext_resource type="Script" path="res://camera_2d.gd" id="2_whqux"]
+[ext_resource type="Script" path="res://Other_Scripts/camera_2d.gd" id="2_whqux"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_a1qks"]
+font_size = 50
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Survival" type="Node2D"]
 script = ExtResource("1_e2foe")
@@ -9,3 +13,18 @@ script = ExtResource("1_e2foe")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(575, 325)
 script = ExtResource("2_whqux")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_top = 576.0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.34902, 0.941176, 0, 0.431373)
+
+[node name="Resources" type="Label" parent="CanvasLayer"]
+offset_left = 984.0
+offset_top = 576.0
+offset_right = 1148.0
+offset_bottom = 645.0
+label_settings = SubResource("LabelSettings_a1qks")
