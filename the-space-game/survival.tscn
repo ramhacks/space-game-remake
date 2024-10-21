@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=6 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://survival.gd" id="1_e2foe"]
-[ext_resource type="Script" path="res://Other_Scripts/camera_2d.gd" id="2_whqux"]
+[ext_resource type="Script" path="res://area_2d.gd" id="2_fmvyw"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://images/image(1).jpg" id="3_vqmru"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
+size = Vector2(1152, 722)
 
 [sub_resource type="LabelSettings" id="LabelSettings_a1qks"]
 font_size = 50
@@ -11,9 +14,19 @@ outline_color = Color(0, 0, 0, 1)
 [node name="Survival" type="Node2D"]
 script = ExtResource("1_e2foe")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera_Area" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+script = ExtResource("2_fmvyw")
+
+[node name="Camera2D" type="Camera2D" parent="Camera_Area"]
 position = Vector2(575, 325)
-script = ExtResource("2_whqux")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera_Area"]
+position = Vector2(576, 351)
+shape = SubResource("RectangleShape2D_fy202")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -35,3 +48,5 @@ offset_top = 576.0
 offset_right = 1148.0
 offset_bottom = 645.0
 label_settings = SubResource("LabelSettings_a1qks")
+
+[connection signal="spawn_tower" from="Camera_Area" to="." method="_on_area_2d_spawn_tower"]

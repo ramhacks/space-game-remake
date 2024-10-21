@@ -11,12 +11,13 @@ colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699
 metadata/_snap_count = 12
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rqckh"]
-radius = 38.0526
+radius = 58.1378
 
 [node name="Miner" type="Area2D"]
 z_index = 1
 position = Vector2(453, 401)
-collision_mask = 3
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_2thg4")
 
 [node name="Mining_Laser" type="Line2D" parent="."]
@@ -35,7 +36,8 @@ shape = SubResource("CircleShape2D_rqckh")
 
 [node name="Timer" type="Timer" parent="."]
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_entered" from="." to="Sprite2D" method="_on_miner_area_entered"]
 [connection signal="area_exited" from="." to="Sprite2D" method="_on_miner_area_exited"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="force_change_collision" from="Sprite2D" to="." method="_on_sprite_2d_force_change_collision"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

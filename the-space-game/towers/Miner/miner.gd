@@ -2,7 +2,7 @@ extends Sprite2D
 
 
 
-var asteroids_in_range = {}
+var asteroids_in_range = []
 var upgrade_level = 1
 
 var upgrade_resource_drain = {
@@ -15,58 +15,55 @@ var closest = false
 var valid = false
 var current_drained
 
-var powered = true # temporary until power is implemented
 
+signal force_change_collision
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
 
 
-func distance(input_vector, target_vector):
-	#calculate distance between 2 points to find the smallest
-	var p1 = (target_vector.x - input_vector.x)**2
-	var p2 = (target_vector.y - input_vector.y)**2
-	return sqrt(p1+p2)
+
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	for asteroid in asteroids_in_range:
-		if !closest:
-			closest = asteroids_in_range[asteroid]
-		else:
-			if(distance(self.position, asteroids_in_range[asteroid].global_position) < distance(self.position, closest.global_position)  or current_drained):
-				closest = asteroids_in_range[asteroid]
-				current_drained = true
-				valid = true
+	pass
 	
 
 func mine(line_node):
-	line_node.clear_points()
-	if(valid and powered): #only mine if there is a node nearby and powered
-		line_node.add_point(to_local(self.global_position))
-		line_node.add_point(to_local(closest.global_position))
-	
+	if closest:
+	#only mine if there is a node nearby and powered
 		#create mining laser graphic
+		if(closest.cur_name == "asteroid"):
+			if(closest.get_resource_amount() > 0):
+				line_node.add_point(to_local(self.global_position))
+				line_node.add_point(to_local(closest.global_position))
+				closest.extract(upgrade_resource_drain[upgrade_level])		
+			#print(closest, closest.get_node("Sprite2D").resources)
+				if(closest.get_resource_amount() <= 0):
+					#asteroid is empty, move to next available asteroid in range
+					current_drained = true
+					asteroids_in_range.pop_back()
+					if(len(asteroids_in_range)):
+						closest = asteroids_in_range[0]
+					else:
+						force_change_collision.emit()
+						closest = false
+				
 		
-		closest.get_node("Sprite2D").extractresources(upgrade_resource_drain[upgrade_level])		
-		#print(closest, closest.get_node("Sprite2D").resources)
-		if(closest.get_node("Sprite2D").resources <= 0):
-			#asteroid is empty, move to next available asteroid in range
-			current_drained = true
-			closest.get_node("Sprite2D").assign_empty_texture()
-			asteroids_in_range.erase(closest)
-			valid = false
 		
 
 
 
 #when miner is powered, start to mine 
-func recieve_power():
-	powered = true
+
 	
 func change_collision_list(asteroids):
-	if(len(asteroids_in_range) != len(asteroids)):
-		asteroids_in_range = {}
-		for rock in asteroids:
-			asteroids_in_range[rock] = rock
+	closest = asteroids
+	asteroids_in_range.append(asteroids)
+		
+		
+	
+	
+	
+		

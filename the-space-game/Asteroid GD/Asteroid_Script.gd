@@ -70,12 +70,3 @@ func extractresources(change): #change resources by a certain amount, if no more
 	
 	print("Remaining Resources: " + self.resources)
 	
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			extractresources(10)
