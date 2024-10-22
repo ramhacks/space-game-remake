@@ -12,6 +12,7 @@ Add a check function, if there are not a minimum of 10 asteroids in a 100 radius
 import random
 import math 
 import pygame
+import numpy as np
 
 
 
@@ -120,68 +121,90 @@ Base_End_Width = 600/5
 all_sprites_list = pygame.sprite.Group() 
   
 
-
-        
+screen_height = 500
+screen_width = 500
 
 #Function to make a large wave then generate points inside that wave at random intervals
 
 #The only thing we need to add is how to angle the wave we generated
 def make_wave(window):
-
-   min_x_pos=100 #this scales the wave/makes it wider
-   #as we get bigger, scale up asteroid field
-   max_x_pos=200
    
-   min_y_pos=150 #minimum y and max, this is how tall the wave can be
-   max_y_pos=300
 
-   d= -0.1
-   for i in range(0, 10):
-      #This part generates the first half of the wave (the positive side)
-      for j in range(0,int(i/2)):
-         size = random.randint(int(3), int(5)) #size range will change when we can zoom out
+   angle = 11 #w
 
-         #get the y position of the dot
-         y = random.randint(min_y_pos,max_y_pos)
-         threshold2 = (-(d*i)**2) 
-         y_pos = (math.e**threshold2) * y
+   height = 100 # how tall it is, every iteration make smaller to generate asteroid along it
+   width = 50 #how wide the wave is
+   
 
-         x = random.randint(min_x_pos,max_x_pos)
+   transformx = int(-(screen_width/2)+(screen_width/50))
+   transformy = int(-(screen_height/2))
 
-         #get the x position of the dot
-         thresholdx = (-(d*i)**2) 
-         x_pos = (math.e**thresholdx) * x
+   center = (int(screen_width/2), transformy*-1)
+   
+   place_chance = 10 #chance of placing asteroid, right now it is 10%
+   #change it so that generates more toward center point 
+   #do this by getting distance from center, the closer it is the higher the chance of placing it
+
+
+   asteroid_x_spread = 5 #spread of asteroids over the x-axis
+   o = 100
+
+   loopamount = 10 #amount of times to iterate over smaller wave
+   for j in range(0, loopamount):
+      random_chance_change = random.uniform(1.5,2)
+      
+      asteroid_separation = random.uniform(1, 3) #amount asteroids are separated over the x axis
+      for i in np.arange(0, transformy*-1, asteroid_separation):
          
-         #Add the asteroid to the sprite list
-         object_ = Asteroid(size, size*2, size*2, red)
+         x_pos = i*asteroid_x_spread # multiple by a constant to spread out the points
+         y_pos = (height/(1+((x_pos+transformx)/width)**2))-transformy # plot the function
+         
+         #have to find a way to tilt the wave
+
             
-         object_.rect.x = x_pos
-         object_.rect.y = y_pos
-         all_sprites_list.add(object_) 
-   for i in range(0, 10):
-            #This part generates the second half of the wave (the negative side)
-      for j in range(0,i):
-         size = random.randint(int(3), int(5)) #size range will change when we can zoom out
+       
 
-      #get the y position of the dot
-         y = random.randint(min_y_pos,max_y_pos)
-         threshold2 = (-(d*i)**2) 
-         y_pos = (math.e**threshold2) * y
-
-         x = random.randint(min_x_pos,max_x_pos)
-
-         #get the x position of the dot
-         thresholdx = (-(d*i)**2) 
-         x_pos = (math.e**thresholdx) * x
+         distance = math.sqrt(((center[0]-x_pos)**2)+(center[1]-y_pos)**2) # calculate the distance from the center point (this will change when we make the center point 0, 0)
+         place = random.randint(0, int(distance))
 
 
-         #Add the asteroid to the sprite list
-         object_ = Asteroid(size, size*2, size*2, red)
+         if(place < place_chance and x_pos < screen_width): #if place is less then 10 place asteroid
+            jiggle_asteroid = random.randint(-10, 10) # shuffle asteroid a bit
+            object_ = Asteroid(3, 3*2, 3*2, red)
+               
+            object_.rect.x = x_pos + jiggle_asteroid
+            object_.rect.y = y_pos
+            all_sprites_list.add(object_) 
+      
+
+      
+#2 for loops to plot both parts of the wave function
+      for i in np.arange(0, transformy*-1, asteroid_separation):
+         
+         x_pos = i*asteroid_x_spread # multiple by a constant to spread out the points
+         y_pos = ((height*-1)/(1+((x_pos+transformx)/width)**2))-transformy #plot over the wave function
+
             
-         object_.rect.x = max_x_pos-x_pos 
-         object_.rect.y = max_y_pos-y_pos 
-         all_sprites_list.add(object_) 
+         distance = math.sqrt(((center[0]-x_pos)**2)+(center[1]-y_pos)**2) # calculate the distance from the center point (this will change when we make the center point 0, 0)
+         place = random.randint(0, int(distance))
 
+        # print(place<distance/5)
+         if(place < place_chance and x_pos < screen_width):
+            jiggle_asteroid = random.randint(-10, 10) # shuffle asteroid a bit
+            object_ = Asteroid(3, 3*2, 3*2, red)
+               
+            object_.rect.x = x_pos + jiggle_asteroid
+            object_.rect.y = y_pos
+            all_sprites_list.add(object_) 
+
+      if(height > 0):
+         print(height)
+         #shrink the wave so we can generate asteroids inside the wave, this is how we make the asteroids to appear to look nateral
+         height -= (j+(loopamount/random_chance_change))
+      else:
+         break
+   
+   
 
 window = pygame.display.set_mode((500,500))
 
@@ -191,8 +214,16 @@ active = True
 player = Player()
 player_list = pygame.sprite.Group()
 player_list.add(player)
-player.rect.x = 200
-player.rect.y = 200
+
+transformx = int(-(screen_width/2)+(screen_width/50))
+
+transformy = int(-(screen_height/2))
+
+center = (int(screen_width/2), transformy*-1)
+
+player.rect.y = 250
+player.rect.x = 250
+
 while active:
    
    events = pygame.event.get()
@@ -226,10 +257,12 @@ while active:
             
             
    
-   window.fill((0,0,0))
+   #window.fill((0,0,0))
+   pygame.draw.circle(window, red, center, 20, 20)
+   #window.fill((0,0,0))
    all_sprites_list.draw(window) 
    all_sprites_list.update(events, player_list, all_sprites_list)
-   player.update()
-   player_list.draw(window)
+   #player.update()
+   #player_list.draw(window)
    pygame.display.update()
 

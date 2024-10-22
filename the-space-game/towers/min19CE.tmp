@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6np11nexofah"]
+
+[ext_resource type="Script" path="res://towers/mine.gd" id="1_2thg4"]
+[ext_resource type="Texture2D" uid="uid://74vxxnfct1cd" path="res://images/303.png" id="1_ooltd"]
+[ext_resource type="Script" path="res://towers/miner.gd" id="2_7igyp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rqckh"]
+radius = 58.0086
+
+[node name="Miner" type="Area2D"]
+position = Vector2(94, 65)
+collision_mask = 3
+script = ExtResource("1_2thg4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ooltd")
+script = ExtResource("2_7igyp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rqckh")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_entered" from="." to="Sprite2D" method="_on_miner_area_entered"]
+[connection signal="area_exited" from="." to="Sprite2D" method="_on_miner_area_exited"]

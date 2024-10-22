@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cj2xpw6u3yej1"]
+
+[ext_resource type="Script" path="res://Tower Template/template_tower_object.gd" id="1_su0q7"]
+[ext_resource type="Script" path="res://Tower Template/tower.gd" id="2_xq2rf"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lpst5"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"place",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3kjhl"]
+
+[node name="Template" type="Area2D"]
+script = ExtResource("1_su0q7")
+
+[node name="Tower" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_lpst5")
+animation = &"place"
+script = ExtResource("2_xq2rf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3kjhl")
