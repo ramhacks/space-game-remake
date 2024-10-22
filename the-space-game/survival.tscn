@@ -1,11 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=7 format=3 uid="uid://cf5pqleati37r"]
 
-[ext_resource type="Script" path="res://survival.gd" id="1_e2foe"]
-[ext_resource type="Script" path="res://area_2d.gd" id="2_fmvyw"]
+[ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
+[ext_resource type="Script" path="res://Survival_Scene_Scripts/area_2d.gd" id="2_fmvyw"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://images/image(1).jpg" id="3_vqmru"]
+[ext_resource type="Texture2D" uid="uid://beq1a1rqkgpe5" path="res://images/514.png" id="4_rpxq8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
-size = Vector2(1152, 722)
+size = Vector2(1152, 712)
 
 [sub_resource type="LabelSettings" id="LabelSettings_a1qks"]
 font_size = 50
@@ -25,7 +26,7 @@ script = ExtResource("2_fmvyw")
 position = Vector2(575, 325)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera_Area"]
-position = Vector2(576, 351)
+position = Vector2(576, 356)
 shape = SubResource("RectangleShape2D_fy202")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -49,4 +50,14 @@ offset_right = 1148.0
 offset_bottom = 645.0
 label_settings = SubResource("LabelSettings_a1qks")
 
-[connection signal="spawn_tower" from="Camera_Area" to="." method="_on_area_2d_spawn_tower"]
+[node name="Miner_Button" type="TextureButton" parent="CanvasLayer"]
+offset_left = 640.0
+offset_top = 584.0
+offset_right = 696.0
+offset_bottom = 640.0
+texture_normal = ExtResource("4_rpxq8")
+stretch_mode = 0
+
+[connection signal="cancel_spawn_tower" from="Camera_Area" to="." method="_on_camera_area_cancel_spawn_tower"]
+[connection signal="place_tower" from="Camera_Area" to="." method="_on_camera_area_place_tower"]
+[connection signal="pressed" from="CanvasLayer/Miner_Button" to="." method="_on_miner_button_pressed"]

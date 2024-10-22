@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Globals="*res://Other_Scripts/globals.gd"
+Globals="*res://Survival_Scene_Scripts/globals.gd"
 
 [display]
 

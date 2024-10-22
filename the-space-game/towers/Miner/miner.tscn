@@ -1,14 +1,65 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6np11nexofah"]
+[gd_scene load_steps=18 format=3 uid="uid://c6np11nexofah"]
 
 [ext_resource type="Script" path="res://towers/Miner/mine.gd" id="1_2thg4"]
-[ext_resource type="Texture2D" uid="uid://74vxxnfct1cd" path="res://images/303.png" id="1_ooltd"]
 [ext_resource type="Script" path="res://towers/Miner/miner.gd" id="2_7igyp"]
+[ext_resource type="Texture2D" uid="uid://cgs7ld2xn3gnc" path="res://images/494.png" id="3_jupu6"]
+[ext_resource type="Texture2D" uid="uid://beq1a1rqkgpe5" path="res://images/514.png" id="3_yabks"]
+[ext_resource type="Texture2D" uid="uid://do7iu2mcny87c" path="res://images/496.png" id="4_gvx7w"]
 [ext_resource type="Script" path="res://towers/Miner/mining_laser.gd" id="4_njm1e"]
+[ext_resource type="Texture2D" uid="uid://bvkvwhlcr5ip7" path="res://images/498.png" id="5_a04ud"]
+[ext_resource type="Texture2D" uid="uid://b8pk13k7joa65" path="res://images/500.png" id="6_flqx2"]
+[ext_resource type="Texture2D" uid="uid://cvl4wefefvjuf" path="res://images/502.png" id="7_442wm"]
+[ext_resource type="Texture2D" uid="uid://b0dfj375air7j" path="res://images/504.png" id="8_vyu6w"]
+[ext_resource type="Texture2D" uid="uid://ds0gxpdkhb7yg" path="res://images/506.png" id="9_30j5l"]
+[ext_resource type="Texture2D" uid="uid://bmg2qsmvvkksl" path="res://images/508.png" id="10_gcjpd"]
+[ext_resource type="Texture2D" uid="uid://bvbqt8ghe7pen" path="res://images/510.png" id="11_kf5bi"]
+[ext_resource type="Texture2D" uid="uid://bvwnoixwfeuyu" path="res://images/512.png" id="12_1enlj"]
 
 [sub_resource type="Gradient" id="Gradient_okg80"]
 offsets = PackedFloat32Array(0, 0.458333, 1)
 colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699, 0, 1, 0.0183086, 0.319085, 0.184432, 1)
 metadata/_snap_count = 12
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f73n1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jupu6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gvx7w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_a04ud")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_flqx2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_442wm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_vyu6w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_30j5l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_gcjpd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_kf5bi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_1enlj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_yabks")
+}],
+"loop": false,
+"name": &"place",
+"speed": 10.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rqckh"]
 radius = 58.1378
@@ -26,9 +77,10 @@ default_color = Color(0.192157, 0.988235, 0.164706, 1)
 gradient = SubResource("Gradient_okg80")
 script = ExtResource("4_njm1e")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 2
-texture = ExtResource("1_ooltd")
+sprite_frames = SubResource("SpriteFrames_f73n1")
+animation = &"place"
 script = ExtResource("2_7igyp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -36,8 +88,6 @@ shape = SubResource("CircleShape2D_rqckh")
 
 [node name="Timer" type="Timer" parent="."]
 
-[connection signal="area_entered" from="." to="Sprite2D" method="_on_miner_area_entered"]
-[connection signal="area_exited" from="." to="Sprite2D" method="_on_miner_area_exited"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="force_change_collision" from="Sprite2D" to="." method="_on_sprite_2d_force_change_collision"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

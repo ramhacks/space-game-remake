@@ -1,4 +1,4 @@
-extends Sprite2D
+extends AnimatedSprite2D
 
 
 
@@ -13,6 +13,9 @@ var upgrade_resource_drain = {
 
 var closest = false
 var valid = false
+
+var placed = false #required for all towers
+
 var current_drained
 
 
@@ -21,13 +24,15 @@ signal force_change_collision
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
-
-
+		
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if placed:
+		self.play("place")
+		placed = false
+		#when ready run animation only once then stop
 	
 
 func mine(line_node):
