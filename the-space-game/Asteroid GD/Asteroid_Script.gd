@@ -25,7 +25,8 @@ func set_random_size():
 	# fix so that larger numbers are generated not as often as the smaller numbers, put a weight to them
 	self.asteroid_size = min(random.randi_range(892, 932), random.randi_range(892, 932), random.randi_range(892, 932)) 
 	#--------------------------------------------------------
-	var my_size = (932 - self.asteroid_size) % 15
+	
+	var my_size = (892 + self.asteroid_size) % 15
 	
 	self.resources = my_size * 52
 	
@@ -36,7 +37,7 @@ func set_random_size():
 			self.asteroid_size = self.asteroid_size - 1
 		else:
 			self.asteroid_size = self.asteroid_size + 1
-	self.texture_path = "res://Asteroid_Images/" + str(self.asteroid_size) + '.png'
+	self.texture_path = "res://Asteroid_Images/" + str(self.asteroid_size) + '.png' # need to fix, it is making the largest the smallest asteroids
 
 
 func assign_full_texture():
@@ -54,7 +55,6 @@ func setresources(amount): #set resources
 
 func extractresources(change): #change resources by a certain amount, if no more resources return 0 if 
 	#some left return 1
-	
 	if(self.resources > 0):
 		if((self.resources - change) > 0):
 			Globals.resources += change
@@ -68,5 +68,5 @@ func extractresources(change): #change resources by a certain amount, if no more
 		assign_empty_texture()
 		return 0
 	
-	print("Remaining Resources: " + self.resources)
+	
 	

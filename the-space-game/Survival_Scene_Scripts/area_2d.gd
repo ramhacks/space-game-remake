@@ -3,6 +3,8 @@ extends Area2D
 signal cancel_spawn_tower
 signal place_tower(cur_position)
 
+var cur_name = "camera"
+
 var cam
 
 var mouse_start_pos

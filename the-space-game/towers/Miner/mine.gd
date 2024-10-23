@@ -1,5 +1,6 @@
 extends Area2D
 
+
 var cur_name = "miner"
 
 var timer
@@ -7,6 +8,9 @@ var timer
 var line_node
 
 var child
+
+var hovering = false #hovering next to mouse, not placed yet
+#assumed false until told otherwise
 
 var powered = false #is this node powered? once set to true it will mine once
 
@@ -19,11 +23,14 @@ func _ready() -> void:
 	
 	line_node = self.get_node("Mining_Laser")
 	
-func set_placed():  #required for all towers
-	child.frame = 0
+func set_placed(re_animate):  #required for all towers
+	hovering = false
+	if(re_animate):
+		child.frame = 0
 	#this function is so when we press the button to place a tower and we just want to show the tower being placed
 	#we won't activate this function so it will not activate the tower, only show it
-	child.placed = true
+		child.placed = true
+		
 	timer.start() #start mining functionality
 
 func set_frame_child(frame): #required for all towers
@@ -34,7 +41,16 @@ func frame_count(): #required for all towers
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
 func _process(delta: float) -> void:
-	pass
+	if hovering:
+		line_node.clear_points()
+		var overlap = self.get_overlapping_bodies()
+		for body in overlap:
+			
+			#loop through all overlapping bodies and create a line from the miner
+			#to the bodies
+			line_node.add_point(to_local(self.global_position))
+			line_node.add_point(to_local(body.global_position))
+			line_node.add_point(to_local(self.global_position))
 	
 	
 
@@ -61,7 +77,11 @@ func _on_timer_timeout() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	child.change_collision_list(body)
+	if body.cur_name == "asteroid":
+		if body.get_resource_amount() > 0:
+			#only add if asteroid is not empty of resources
+			child.change_collision_list(body)
+
 
 func collision_list():
 	return child.asteroids_in_range

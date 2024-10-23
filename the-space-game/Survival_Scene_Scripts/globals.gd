@@ -1,6 +1,6 @@
 extends Node
 
-var resources = 0  # amount of resources the current player has
+var resources = 50  # amount of resources the current player has
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

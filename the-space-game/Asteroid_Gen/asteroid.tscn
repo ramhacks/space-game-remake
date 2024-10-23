@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://Asteroid GD/Asteroid_Script.gd" id="1_ejgq3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fbfk6"]
+radius = 3.0
 
 [node name="Asteroid" type="StaticBody2D"]
 z_index = 1

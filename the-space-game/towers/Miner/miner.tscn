@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c6np11nexofah"]
+[gd_scene load_steps=19 format=3 uid="uid://c6np11nexofah"]
 
 [ext_resource type="Script" path="res://towers/Miner/mine.gd" id="1_2thg4"]
 [ext_resource type="Script" path="res://towers/Miner/miner.gd" id="2_7igyp"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://bmg2qsmvvkksl" path="res://images/508.png" id="10_gcjpd"]
 [ext_resource type="Texture2D" uid="uid://bvbqt8ghe7pen" path="res://images/510.png" id="11_kf5bi"]
 [ext_resource type="Texture2D" uid="uid://bvwnoixwfeuyu" path="res://images/512.png" id="12_1enlj"]
+[ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://images/Green-Circle-PNG-Photo-2603984782.png" id="15_ekrsg"]
 
 [sub_resource type="Gradient" id="Gradient_okg80"]
 offsets = PackedFloat32Array(0, 0.458333, 1)
@@ -22,6 +23,14 @@ metadata/_snap_count = 12
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_f73n1"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_yabks")
+}],
+"loop": true,
+"name": &"hover",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_jupu6")
@@ -76,6 +85,12 @@ width = 5.0
 default_color = Color(0.192157, 0.988235, 0.164706, 1)
 gradient = SubResource("Gradient_okg80")
 script = ExtResource("4_njm1e")
+
+[node name="collider" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(-2, 5)
+scale = Vector2(0.185, 0.183333)
+texture = ExtResource("15_ekrsg")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 2

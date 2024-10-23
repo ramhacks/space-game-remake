@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=8 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/area_2d.gd" id="2_fmvyw"]
@@ -7,6 +7,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
 size = Vector2(1152, 712)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_otb3a"]
+size = Vector2(1149, 68)
 
 [sub_resource type="LabelSettings" id="LabelSettings_a1qks"]
 font_size = 50
@@ -29,21 +32,34 @@ position = Vector2(575, 325)
 position = Vector2(576, 356)
 shape = SubResource("RectangleShape2D_fy202")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
 layer = -1
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+[node name="Background" type="TextureRect" parent="CanvasLayer2"]
+z_index = 4
 offset_right = 1152.0
-offset_bottom = 648.0
+offset_bottom = 710.0
 texture = ExtResource("3_vqmru")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hotbar" type="Area2D" parent="CanvasLayer"]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/Hotbar"]
+position = Vector2(577.5, 614)
+shape = SubResource("RectangleShape2D_otb3a")
+
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+z_index = 4
 offset_top = 576.0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0.34902, 0.941176, 0, 0.431373)
 
 [node name="Resources" type="Label" parent="CanvasLayer"]
+z_index = 4
 offset_left = 984.0
 offset_top = 576.0
 offset_right = 1148.0
@@ -51,6 +67,7 @@ offset_bottom = 645.0
 label_settings = SubResource("LabelSettings_a1qks")
 
 [node name="Miner_Button" type="TextureButton" parent="CanvasLayer"]
+z_index = 4
 offset_left = 640.0
 offset_top = 584.0
 offset_right = 696.0
