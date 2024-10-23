@@ -31,7 +31,7 @@ func _ready() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	self.get_node("CanvasLayer/Resources").text = str(Globals.resources)
+	self.get_node("CanvasLayer/ColorRect2/Right Box/Resources").text = str(Globals.resources) + " minerals"
 	if(placing_tower):
 		tower_to_place.position = self.get_node("Camera_Area").get_relative_mouse_pos()
 		

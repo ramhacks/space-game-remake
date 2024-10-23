@@ -1,19 +1,40 @@
-[gd_scene load_steps=8 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=15 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/area_2d.gd" id="2_fmvyw"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://images/image(1).jpg" id="3_vqmru"]
+[ext_resource type="Theme" uid="uid://chdmu6kfrhoyk" path="res://Themes/hotbar_background1.tres" id="4_ihjta"]
 [ext_resource type="Texture2D" uid="uid://beq1a1rqkgpe5" path="res://images/514.png" id="4_rpxq8"]
+[ext_resource type="Theme" uid="uid://dyhmoabmqtjno" path="res://Themes/hotbar_background2.tres" id="5_85nvo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
 size = Vector2(1152, 712)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_otb3a"]
-size = Vector2(1149, 68)
+size = Vector2(896, 126)
+
+[sub_resource type="Theme" id="Theme_tklwr"]
+Panel/styles/panel = null
 
 [sub_resource type="LabelSettings" id="LabelSettings_a1qks"]
-font_size = 50
-outline_color = Color(0, 0, 0, 1)
+line_spacing = 1.0
+font_color = Color(0.292819, 0.991776, 0, 1)
+outline_color = Color(0, 1, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qefu7"]
+font_size = 10
+font_color = Color(0.294118, 0.992157, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jdsif"]
+font_size = 17
+font_color = Color(0, 0.803922, 0.803922, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tu7kn"]
+bg_color = Color(0, 0.804175, 0.804175, 1)
+corner_detail = 19
+
+[sub_resource type="Theme" id="Theme_f3iv3"]
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_tu7kn")
 
 [node name="Survival" type="Node2D"]
 script = ExtResource("1_e2foe")
@@ -48,33 +69,88 @@ collision_layer = 3
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/Hotbar"]
-position = Vector2(577.5, 614)
+position = Vector2(704, 585)
 shape = SubResource("RectangleShape2D_otb3a")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-z_index = 4
-offset_top = 576.0
-offset_right = 1152.0
-offset_bottom = 648.0
-color = Color(0.34902, 0.941176, 0, 0.431373)
+[node name="Hotbar_Background" type="Panel" parent="CanvasLayer"]
+offset_left = 258.0
+offset_top = 521.0
+offset_right = 1154.0
+offset_bottom = 654.0
+theme = ExtResource("4_ihjta")
+metadata/_edit_lock_ = true
 
-[node name="Resources" type="Label" parent="CanvasLayer"]
-z_index = 4
-offset_left = 984.0
-offset_top = 576.0
-offset_right = 1148.0
-offset_bottom = 645.0
-label_settings = SubResource("LabelSettings_a1qks")
+[node name="Panel" type="Panel" parent="CanvasLayer/Hotbar_Background"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 768.0
+offset_bottom = 130.0
+theme = ExtResource("5_85nvo")
+metadata/_edit_lock_ = true
 
-[node name="Miner_Button" type="TextureButton" parent="CanvasLayer"]
-z_index = 4
-offset_left = 640.0
-offset_top = 584.0
-offset_right = 696.0
-offset_bottom = 640.0
+[node name="Miner_Button" type="TextureButton" parent="CanvasLayer/Hotbar_Background/Panel"]
+z_index = 7
+layout_mode = 2
+offset_left = 18.0
+offset_top = 9.0
+offset_right = 40.0
+offset_bottom = 29.0
 texture_normal = ExtResource("4_rpxq8")
 stretch_mode = 0
 
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+z_index = 3
+offset_left = 1028.0
+offset_top = 523.0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme = SubResource("Theme_tklwr")
+color = Color(0, 0, 0, 0.768627)
+metadata/_edit_lock_ = true
+
+[node name="Right Box" type="Control" parent="CanvasLayer/ColorRect2"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 124.0
+offset_bottom = 62.0
+
+[node name="Resources" type="Label" parent="CanvasLayer/ColorRect2/Right Box"]
+z_index = 4
+offset_left = 4.0
+offset_top = 5.0
+offset_right = 120.0
+offset_bottom = 28.0
+text = "50 minerals"
+label_settings = SubResource("LabelSettings_a1qks")
+
+[node name="RPM" type="Label" parent="CanvasLayer/ColorRect2/Right Box"]
+z_index = 4
+offset_left = 4.0
+offset_top = 29.0
+offset_right = 133.0
+offset_bottom = 46.0
+text = "0 minerals per minute"
+label_settings = SubResource("LabelSettings_qefu7")
+
+[node name="RPM2" type="Label" parent="CanvasLayer/ColorRect2/Right Box"]
+z_index = 4
+offset_left = 4.0
+offset_top = 65.0
+offset_right = 133.0
+offset_bottom = 89.0
+text = "0 energy"
+label_settings = SubResource("LabelSettings_jdsif")
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/ColorRect2/Right Box"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 97.0
+offset_right = 116.0
+offset_bottom = 116.0
+theme = SubResource("Theme_f3iv3")
+value = 50.0
+show_percentage = false
+
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="." method="_on_camera_area_cancel_spawn_tower"]
 [connection signal="place_tower" from="Camera_Area" to="." method="_on_camera_area_place_tower"]
-[connection signal="pressed" from="CanvasLayer/Miner_Button" to="." method="_on_miner_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Hotbar_Background/Panel/Miner_Button" to="." method="_on_miner_button_pressed"]
