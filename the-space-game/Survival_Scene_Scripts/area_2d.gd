@@ -12,6 +12,8 @@ var screen_start_position
 
 var dragging = false
 
+var button_move_amount = 10 #amount camera will move when moved by arrow keys
+
 func _ready() -> void:
 	cam = get_node("Camera2D")
 
@@ -23,6 +25,15 @@ func get_relative_mouse_pos():
 	
 	
 func _input(event):
+	if event.is_action("move_left"):
+		position.x -= button_move_amount
+	if event.is_action("move_right"):
+		position.x += button_move_amount
+	if event.is_action("move_up"):
+		position.y -= button_move_amount
+	if event.is_action("move_down"):
+		position.y += button_move_amount
+	
 	if event is InputEventMouseButton:
 		if event.is_pressed():
 			

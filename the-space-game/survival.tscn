@@ -1,11 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=18 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/area_2d.gd" id="2_fmvyw"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://images/image(1).jpg" id="3_vqmru"]
 [ext_resource type="Theme" uid="uid://chdmu6kfrhoyk" path="res://Themes/hotbar_background1.tres" id="4_ihjta"]
-[ext_resource type="Texture2D" uid="uid://beq1a1rqkgpe5" path="res://images/514.png" id="4_rpxq8"]
 [ext_resource type="Theme" uid="uid://dyhmoabmqtjno" path="res://Themes/hotbar_background2.tres" id="5_85nvo"]
+[ext_resource type="Texture2D" uid="uid://boml38qf8ys4i" path="res://images/infobutton_frame1.png" id="6_dq7hv"]
+[ext_resource type="Texture2D" uid="uid://trco7br4nfk5" path="res://images/infobutton_frame2.png" id="7_to1tn"]
+[ext_resource type="Texture2D" uid="uid://wbukxynxwi2f" path="res://images/miner_button_frame_1.png" id="8_vnyq4"]
+[ext_resource type="Texture2D" uid="uid://cykts73ldu7ri" path="res://images/miner_button_frame_2.png" id="9_pw457"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
 size = Vector2(1152, 712)
@@ -53,26 +56,26 @@ position = Vector2(575, 325)
 position = Vector2(576, 356)
 shape = SubResource("RectangleShape2D_fy202")
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+[node name="Background_Layer" type="CanvasLayer" parent="."]
 layer = -1
 
-[node name="Background" type="TextureRect" parent="CanvasLayer2"]
+[node name="Background" type="TextureRect" parent="Background_Layer"]
 z_index = 4
 offset_right = 1152.0
 offset_bottom = 710.0
 texture = ExtResource("3_vqmru")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HotBar_Layer" type="CanvasLayer" parent="."]
 
-[node name="Hotbar" type="Area2D" parent="CanvasLayer"]
+[node name="Hotbar" type="Area2D" parent="HotBar_Layer"]
 collision_layer = 3
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/Hotbar"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HotBar_Layer/Hotbar"]
 position = Vector2(704, 585)
 shape = SubResource("RectangleShape2D_otb3a")
 
-[node name="Hotbar_Background" type="Panel" parent="CanvasLayer"]
+[node name="Hotbar_Background" type="Panel" parent="HotBar_Layer"]
 offset_left = 258.0
 offset_top = 521.0
 offset_right = 1154.0
@@ -80,7 +83,8 @@ offset_bottom = 654.0
 theme = ExtResource("4_ihjta")
 metadata/_edit_lock_ = true
 
-[node name="Panel" type="Panel" parent="CanvasLayer/Hotbar_Background"]
+[node name="Hotbar_Forground" type="Panel" parent="HotBar_Layer/Hotbar_Background"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 768.0
@@ -88,17 +92,36 @@ offset_bottom = 130.0
 theme = ExtResource("5_85nvo")
 metadata/_edit_lock_ = true
 
-[node name="Miner_Button" type="TextureButton" parent="CanvasLayer/Hotbar_Background/Panel"]
-z_index = 7
+[node name="Info" type="TextureButton" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
+z_index = 3
+offset_left = 4.0
+offset_top = 101.0
+offset_right = 104.0
+offset_bottom = 124.0
+texture_normal = ExtResource("6_dq7hv")
+texture_pressed = ExtResource("7_to1tn")
+
+[node name="Miner_Button" type="TextureButton" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
+z_index = 2
 layout_mode = 2
-offset_left = 18.0
+offset_left = 4.0
 offset_top = 9.0
-offset_right = 40.0
-offset_bottom = 29.0
-texture_normal = ExtResource("4_rpxq8")
+offset_right = 104.0
+offset_bottom = 109.0
+texture_normal = ExtResource("8_vnyq4")
+texture_pressed = ExtResource("9_pw457")
 stretch_mode = 0
 
-[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+[node name="Price" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
+z_index = 2
+layout_mode = 0
+offset_left = 12.0
+offset_top = 81.0
+offset_right = 52.0
+offset_bottom = 104.0
+text = "45m"
+
+[node name="ColorRect2" type="ColorRect" parent="HotBar_Layer"]
 z_index = 3
 offset_left = 1028.0
 offset_top = 523.0
@@ -108,14 +131,15 @@ theme = SubResource("Theme_tklwr")
 color = Color(0, 0, 0, 0.768627)
 metadata/_edit_lock_ = true
 
-[node name="Right Box" type="Control" parent="CanvasLayer/ColorRect2"]
+[node name="Right Box" type="Control" parent="HotBar_Layer/ColorRect2"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 124.0
 offset_bottom = 62.0
 
-[node name="Resources" type="Label" parent="CanvasLayer/ColorRect2/Right Box"]
+[node name="Resources" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]
 z_index = 4
+layout_mode = 0
 offset_left = 4.0
 offset_top = 5.0
 offset_right = 120.0
@@ -123,8 +147,9 @@ offset_bottom = 28.0
 text = "50 minerals"
 label_settings = SubResource("LabelSettings_a1qks")
 
-[node name="RPM" type="Label" parent="CanvasLayer/ColorRect2/Right Box"]
+[node name="RPM" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]
 z_index = 4
+layout_mode = 0
 offset_left = 4.0
 offset_top = 29.0
 offset_right = 133.0
@@ -132,8 +157,9 @@ offset_bottom = 46.0
 text = "0 minerals per minute"
 label_settings = SubResource("LabelSettings_qefu7")
 
-[node name="RPM2" type="Label" parent="CanvasLayer/ColorRect2/Right Box"]
+[node name="Energy" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]
 z_index = 4
+layout_mode = 0
 offset_left = 4.0
 offset_top = 65.0
 offset_right = 133.0
@@ -141,7 +167,7 @@ offset_bottom = 89.0
 text = "0 energy"
 label_settings = SubResource("LabelSettings_jdsif")
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/ColorRect2/Right Box"]
+[node name="Energy_Amount_Bar" type="ProgressBar" parent="HotBar_Layer/ColorRect2/Right Box"]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 97.0
@@ -153,4 +179,4 @@ show_percentage = false
 
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="." method="_on_camera_area_cancel_spawn_tower"]
 [connection signal="place_tower" from="Camera_Area" to="." method="_on_camera_area_place_tower"]
-[connection signal="pressed" from="CanvasLayer/Hotbar_Background/Panel/Miner_Button" to="." method="_on_miner_button_pressed"]
+[connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Miner_Button" to="." method="_on_miner_button_pressed"]
