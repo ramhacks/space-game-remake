@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=19 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/area_2d.gd" id="2_fmvyw"]
+[ext_resource type="Script" path="res://game_ticks.gd" id="2_yr8rd"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://images/image(1).jpg" id="3_vqmru"]
 [ext_resource type="Theme" uid="uid://chdmu6kfrhoyk" path="res://Themes/hotbar_background1.tres" id="4_ihjta"]
 [ext_resource type="Theme" uid="uid://dyhmoabmqtjno" path="res://Themes/hotbar_background2.tres" id="5_85nvo"]
@@ -14,7 +15,7 @@
 size = Vector2(1152, 712)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_otb3a"]
-size = Vector2(896, 126)
+size = Vector2(892, 126)
 
 [sub_resource type="Theme" id="Theme_tklwr"]
 Panel/styles/panel = null
@@ -42,6 +43,11 @@ ProgressBar/styles/fill = SubResource("StyleBoxFlat_tu7kn")
 [node name="Survival" type="Node2D"]
 script = ExtResource("1_e2foe")
 
+[node name="Global_Ticks" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+script = ExtResource("2_yr8rd")
+
 [node name="Camera_Area" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 0
@@ -64,16 +70,19 @@ z_index = 4
 offset_right = 1152.0
 offset_bottom = 710.0
 texture = ExtResource("3_vqmru")
+metadata/_edit_lock_ = true
 
 [node name="HotBar_Layer" type="CanvasLayer" parent="."]
 
 [node name="Hotbar" type="Area2D" parent="HotBar_Layer"]
 collision_layer = 3
 collision_mask = 3
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HotBar_Layer/Hotbar"]
-position = Vector2(704, 585)
+position = Vector2(706, 585)
 shape = SubResource("RectangleShape2D_otb3a")
+metadata/_edit_lock_ = true
 
 [node name="Hotbar_Background" type="Panel" parent="HotBar_Layer"]
 offset_left = 258.0
@@ -92,34 +101,42 @@ offset_bottom = 130.0
 theme = ExtResource("5_85nvo")
 metadata/_edit_lock_ = true
 
-[node name="Info" type="TextureButton" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
-z_index = 3
-offset_left = 4.0
-offset_top = 101.0
-offset_right = 104.0
-offset_bottom = 124.0
-texture_normal = ExtResource("6_dq7hv")
-texture_pressed = ExtResource("7_to1tn")
-
-[node name="Miner_Button" type="TextureButton" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
-z_index = 2
-layout_mode = 2
+[node name="Mine_Button_Holder" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
+anchors_preset = 0
 offset_left = 4.0
 offset_top = 9.0
 offset_right = 104.0
-offset_bottom = 109.0
+offset_bottom = 125.0
+
+[node name="Info" type="TextureButton" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Mine_Button_Holder"]
+z_index = 3
+layout_mode = 0
+offset_top = 92.0
+offset_right = 100.0
+offset_bottom = 115.0
+texture_normal = ExtResource("6_dq7hv")
+texture_pressed = ExtResource("7_to1tn")
+metadata/_edit_lock_ = true
+
+[node name="Miner_Button" type="TextureButton" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Mine_Button_Holder"]
+z_index = 2
+layout_mode = 2
+offset_right = 100.0
+offset_bottom = 100.0
 texture_normal = ExtResource("8_vnyq4")
 texture_pressed = ExtResource("9_pw457")
 stretch_mode = 0
+metadata/_edit_lock_ = true
 
-[node name="Price" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
+[node name="Price" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Mine_Button_Holder"]
 z_index = 2
 layout_mode = 0
-offset_left = 12.0
-offset_top = 81.0
-offset_right = 52.0
-offset_bottom = 104.0
+offset_left = 8.0
+offset_top = 72.0
+offset_right = 48.0
+offset_bottom = 95.0
 text = "45m"
+metadata/_edit_lock_ = true
 
 [node name="ColorRect2" type="ColorRect" parent="HotBar_Layer"]
 z_index = 3
@@ -136,6 +153,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 124.0
 offset_bottom = 62.0
+metadata/_edit_lock_ = true
 
 [node name="Resources" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]
 z_index = 4
@@ -146,6 +164,7 @@ offset_right = 120.0
 offset_bottom = 28.0
 text = "50 minerals"
 label_settings = SubResource("LabelSettings_a1qks")
+metadata/_edit_lock_ = true
 
 [node name="RPM" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]
 z_index = 4
@@ -156,6 +175,7 @@ offset_right = 133.0
 offset_bottom = 46.0
 text = "0 minerals per minute"
 label_settings = SubResource("LabelSettings_qefu7")
+metadata/_edit_lock_ = true
 
 [node name="Energy" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]
 z_index = 4
@@ -166,6 +186,7 @@ offset_right = 133.0
 offset_bottom = 89.0
 text = "0 energy"
 label_settings = SubResource("LabelSettings_jdsif")
+metadata/_edit_lock_ = true
 
 [node name="Energy_Amount_Bar" type="ProgressBar" parent="HotBar_Layer/ColorRect2/Right Box"]
 layout_mode = 0
@@ -176,7 +197,10 @@ offset_bottom = 116.0
 theme = SubResource("Theme_f3iv3")
 value = 50.0
 show_percentage = false
+metadata/_edit_lock_ = true
 
+[connection signal="connect_game_ticks" from="." to="Global_Ticks" method="_on_survival_connect_game_ticks"]
+[connection signal="timeout" from="Global_Ticks" to="Global_Ticks" method="_on_timeout"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="." method="_on_camera_area_cancel_spawn_tower"]
 [connection signal="place_tower" from="Camera_Area" to="." method="_on_camera_area_place_tower"]
-[connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Miner_Button" to="." method="_on_miner_button_pressed"]
+[connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Mine_Button_Holder/Miner_Button" to="." method="_on_miner_button_pressed"]

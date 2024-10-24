@@ -3,7 +3,14 @@ extends Area2D
 
 var cur_name = "miner"
 
-var timer
+var timer #temporary
+
+
+
+var cooldown_timer
+var cooldown_delay = 1.5 #may need to be adjusted based on upgrade level
+var cooling_down = false
+
 
 var line_node
 
@@ -18,10 +25,14 @@ var powered = false #is this node powered? once set to true it will mine once
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	child = self.get_node("Sprite2D")
-	timer = self.get_node("Timer")
+	
+	timer = self.get_node("Timer") #The timer is in place of a power node, when we implement power, we won't need a timer
 	timer.set_wait_time(2)
+
 	
 	line_node = self.get_node("Mining_Laser")
+	cooldown_timer = self.get_node("Cooldown")
+	cooldown_timer.set_wait_time(cooldown_delay)
 	
 func set_placed(re_animate):  #required for all towers
 	hovering = false
@@ -31,7 +42,8 @@ func set_placed(re_animate):  #required for all towers
 	#we won't activate this function so it will not activate the tower, only show it
 		child.placed = true
 		
-	timer.start() #start mining functionality
+	timer.start() #start mining functionality, will be removed once we implement power
+	
 
 func set_frame_child(frame): #required for all towers
 	child.frame = frame
@@ -54,25 +66,20 @@ func _process(delta: float) -> void:
 	
 	
 
-func _physics_process(delta):
-	if Input.is_action_pressed("move_right"):
-		#simulate the node getting power can change to any signal
-		powered = true
 	
-	
-
-func _on_timer_timeout() -> void:	
-	#if powered mine, else on the next 2 sec cycle delete the mining laser graphic
-	if(!powered):
-		line_node.clear_points()
-		powered = true #remove 
+#this function will be replaced with a signal from the power node connecting it to the power grid. Each power node
+#will relay a signal until it gets to this, for now we are just using a timer
+func _on_timer_timeout() -> void:	 
+	if(!cooling_down):
+		#if powered mine, else on the next 2 sec cycle delete the mining laser graphic
 		
-	else:
 		child = self.get_node("Sprite2D")
 		if(child):
 			child.mine(line_node)
-		powered = false
-	timer.start()
+		
+		cooling_down = true
+		cooldown_timer.start()
+	
 	
 
 
@@ -85,3 +92,11 @@ func _on_body_entered(body: Node2D) -> void:
 
 func collision_list():
 	return child.asteroids_in_range
+
+func _on_cooldown_timeout() -> void:
+	#when the mining lasers cooldown is finished, we are available to mine when we recieve another power
+	#pulse, (for now it means we are available to mine when the timer is 0)
+	#this makes it so that it is not overpowered and has a mining time limit
+	line_node.clear_points()
+	cooling_down = false
+	timer.start()

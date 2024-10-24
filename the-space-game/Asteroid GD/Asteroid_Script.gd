@@ -31,7 +31,6 @@ func set_random_size():
 	self.resources = my_size * 52
 	
 	
-	
 	if(self.asteroid_size % 2):
 		if((self.asteroid_size + 1) > 932):
 			self.asteroid_size = self.asteroid_size - 1
@@ -41,7 +40,7 @@ func set_random_size():
 
 
 func assign_full_texture():
-	texture = load(self.texture_path)
+	texture = load(self.texture_path) #assign full texture to self
 
 func assign_empty_texture():
 	self.texture_path = "res://Asteroid_Images/" + str(self.asteroid_size+1) + '.png'
@@ -64,7 +63,7 @@ func extractresources(change): #change resources by a certain amount, if no more
 		
 		return 1
 	else:
-		
+		#assign an empty texture if it is empty, this will rarly be called but is here just in case
 		assign_empty_texture()
 		return 0
 	

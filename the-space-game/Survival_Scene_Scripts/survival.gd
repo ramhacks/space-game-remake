@@ -5,6 +5,7 @@ var mining_tower
 
 
 
+signal connect_game_ticks(node)
 
 #these two variables are if we are going to place a tower, press the tower button and show the tower following
 #the mouse and then what type of tower we are placing, the functionality of the towers will be the same for 
@@ -12,6 +13,8 @@ var mining_tower
 var placing_tower = false
 var tower_to_place
 var tower_scene
+
+var game_tick_timer
 
 
 var starting_tower_pos
@@ -26,6 +29,8 @@ func _ready() -> void:
 	#temporary just to test miner tower
 	
 	mining_tower = preload("res://towers/Miner/miner.tscn")
+	
+	game_tick_timer = get_node("Global_Ticks")
 
 
 	
@@ -76,6 +81,10 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 					copy.set_placed(true)
 			
 			copy.get_node("collider").visible = false		
+			
+			
+			
+			
 		
 
 func _on_miner_button_pressed() -> void:

@@ -81,7 +81,7 @@ collision_mask = 2
 script = ExtResource("1_2thg4")
 
 [node name="Mining_Laser" type="Line2D" parent="."]
-width = 5.0
+width = 3.0
 default_color = Color(0.192157, 0.988235, 0.164706, 1)
 gradient = SubResource("Gradient_okg80")
 script = ExtResource("4_njm1e")
@@ -102,7 +102,12 @@ script = ExtResource("2_7igyp")
 shape = SubResource("CircleShape2D_rqckh")
 
 [node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Cooldown" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="force_change_collision" from="Sprite2D" to="." method="_on_sprite_2d_force_change_collision"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Cooldown" to="." method="_on_cooldown_timeout"]
