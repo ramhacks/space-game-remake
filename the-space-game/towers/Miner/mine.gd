@@ -6,7 +6,10 @@ var cur_name = "miner"
 
 var timer #temporary
 
-signal draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time)
+var hover_line = Line2D.new()  #hover line node pointer
+
+signal draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time, tower_origin)
+signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
 
 var cooldown_timer
 var cooldown_delay = 1.5 #may need to be adjusted based on upgrade level
@@ -35,6 +38,7 @@ func _ready() -> void:
 	cooldown_timer = self.get_node("Cooldown")
 	cooldown_timer.set_wait_time(cooldown_delay)
 	
+	
 func set_placed(re_animate):  #required for all towers
 	hovering = false
 	if(re_animate):
@@ -55,15 +59,17 @@ func frame_count(): #required for all towers
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
 	if hovering:
-		line_node.clear_points()
+		
 		var overlap = self.get_overlapping_bodies()
-		for body in overlap:
-			#loop through all overlapping bodies and create a line from the miner
-			#to the bodies
-			line_node.add_point(to_local(self.global_position))
-			line_node.add_point(to_local(body.global_position))
-			line_node.add_point(to_local(self.global_position))
+		draw_hover_line.emit(self.global_position, overlap, 0.192, 0.988, 0.165, 3, hover_line)
+		
+		
+		
+
+
+		
 	
 	
 
@@ -79,7 +85,7 @@ func _on_timer_timeout() -> void:
 			child.mine(line_node)
 		
 		cooling_down = true
-		cooldown_timer.start()
+
 	
 	
 
@@ -94,15 +100,9 @@ func _on_body_entered(body: Node2D) -> void:
 func collision_list():
 	return child.asteroids_in_range
 
-func _on_cooldown_timeout() -> void:
-	
-	#when the mining lasers cooldown is finished, we are available to mine when we recieve another power
-	#pulse, (for now it means we are available to mine when the timer is 0)
-	#this makes it so that it is not overpowered and has a mining time limit
-	line_node.clear_points()
-	cooling_down = false
-	timer.start()
 
 
 func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
-	draw_laser.emit(pos1, pos2, 0.192, 0.988, 0.165, 3, 3)
+	cooling_down = true
+	draw_laser.emit(pos1, pos2, 0.192, 0.988, 0.165, 3, 3, self)
+	

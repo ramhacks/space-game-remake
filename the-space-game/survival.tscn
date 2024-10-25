@@ -40,7 +40,7 @@ corner_detail = 19
 [sub_resource type="Theme" id="Theme_f3iv3"]
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_tu7kn")
 
-[node name="Survival" type="Node2D" groups=["asteroid"]]
+[node name="Survival" type="Node2D"]
 script = ExtResource("1_e2foe")
 
 [node name="Global_Ticks" type="Timer" parent="."]

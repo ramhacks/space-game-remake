@@ -3,7 +3,7 @@ extends Node2D
 #list of towers
 var mining_tower
 
-
+signal finished_cooldown
 
 signal connect_game_ticks(node)
 
@@ -71,7 +71,8 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 		copy.get_node("collider").visible = false	
 		
 		#connect laser_signal to tower so it can call it itself
-		copy.draw_laser.connect(Callable(draw_laser))
+		copy.draw_laser.connect(draw_laser)
+		
 			
 			
 			
@@ -82,9 +83,10 @@ func _on_miner_button_pressed() -> void:
 	if(Globals.resources - 45 >= 0):
 		
 		#miner tower button pressed
-		tower_scene = mining_tower
-		tower_to_place = tower_scene.instantiate()
-		tower_to_place.draw_laser.connect(Callable(draw_laser))
+		tower_scene = mining_tower  
+		tower_to_place = tower_scene.instantiate() #create a temporary tower object, will be deleted and replaced once placed
+		
+		tower_to_place.draw_hover_line.connect(hover_line)
 		#don't run the placed function so nothing will happen
 		self.add_child(tower_to_place)
 		starting_tower_pos = self.get_node("Camera_Area").get_relative_mouse_pos()
@@ -92,7 +94,7 @@ func _on_miner_button_pressed() -> void:
 		placing_tower = true
 	
 	
-func draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time):
+func draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time, tower_origin):
 	#create line node 
 	# 3 points, 
 	#1st is self(pos1) position
@@ -100,7 +102,7 @@ func draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time):
 	#3rd is self(pos1) position again
 
 	var line = Line2D.new()
-	var color = Color(R, G, B, opacity)
+	var color = Color(R, G, B, 1)
 
 	self.add_child(line)
 
@@ -115,28 +117,37 @@ func draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time):
 	var cooltime = Timer.new()
 	self.add_child(cooltime)
 	cooltime.set_wait_time(cooldown_time)
-	cooltime.timeout.connect(Callable(clear_laser).bind(cooltime, line))
+	cooltime.timeout.connect(Callable(clear_laser).bind(cooltime, line, tower_origin))
 	cooltime.start()
 		
 		
 		
 	
-	color = Color(R, G, B, cooltime.time_left/100)
+	#color = Color(R, G, B, cooltime.time_left/100)
 		
-	line.set_default_color(color)
+	#line.set_default_color(color)
 	
-	
-	
-	
-	
-
-	
-func clear_laser(timer, line):
+func clear_laser(timer, line, tower_origin):
+	#tower origin is so we can tell the tower that called to draw a laser that the cooldown after firing is up and it
+	#can resume normal activities
 	timer.stop()
 	line.clear_points()
+	line.queue_free()
+	timer.queue_free()
+	tower_origin.cooling_down = false
+	
+	tower_origin.timer.start() #remove after power is implmeneted
 	
 	
+func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
+	line_node.clear_points()
+	var color = Color(R, G, B, opacity)
+	self.add_child(line_node)
+	line_node.set_default_color(color)
+	line_node.width = 3
+	for nodes in pos2_list:
+		line_node.add_point(to_local(pos1))
+		line_node.add_point(to_local(nodes.global_position))
+		line_node.add_point(to_local(pos1))
 	
-
-
-#on timer time up, queue_free line
+	
