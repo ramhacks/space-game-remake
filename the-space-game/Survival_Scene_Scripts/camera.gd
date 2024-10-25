@@ -36,17 +36,6 @@ func get_relative_mouse_pos(event_pos):
 
 	
 func _input(event):
-	if event.is_action("move_left"):
-		position.x -= button_move_amount
-	if event.is_action("move_right"):
-		position.x += button_move_amount
-	if event.is_action("move_up"):
-		position.y -= button_move_amount
-	if event.is_action("move_down"):
-		position.y += button_move_amount
-	
-	
-		
 	
 	if (event is InputEventMouseButton and event.is_alt_pressed()) or event.is_action("Middle_Button"):
 		if event.is_pressed():
