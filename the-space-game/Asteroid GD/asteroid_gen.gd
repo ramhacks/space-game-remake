@@ -19,7 +19,7 @@ func _ready() -> void:
 	var angle = 11 #w
 
 	var height = 270 # how tall it is, every iteration make smaller to generate asteroid along it
-	var width =  200#how wide the wave is
+	var width =  200 #how wide the wave is
    
 
 

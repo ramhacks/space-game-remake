@@ -1,6 +1,5 @@
 extends Timer
 
-signal one_and_half_ticks
 
 
 # Called when the node enters the scene tree for the first time.

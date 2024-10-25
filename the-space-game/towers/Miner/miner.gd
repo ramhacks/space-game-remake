@@ -6,6 +6,8 @@ var asteroids_in_range = []
 var all_object_collisions = []
 var upgrade_level = 1
 
+signal draw_line(pos1, pos2)
+
 var upgrade_resource_drain = {
 	1: 10,
 	2: 20,
@@ -43,8 +45,10 @@ func mine(line_node):
 		#create mining laser graphic
 		if(closest.cur_name == "asteroid"):
 			if(closest.get_resource_amount() > 0):
-				line_node.add_point(to_local(self.global_position))
-				line_node.add_point(to_local(closest.global_position))
+				
+				#connect line to as a "laser" to itself and a miner
+				draw_line.emit(self.global_position, closest.global_position)
+
 				closest.extract(upgrade_resource_drain[upgrade_level])		
 				
 			else:

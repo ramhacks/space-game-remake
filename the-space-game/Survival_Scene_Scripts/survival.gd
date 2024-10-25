@@ -55,32 +55,23 @@ func _on_camera_area_cancel_spawn_tower() -> void:
 		tower_to_place.queue_free()
 		placing_tower = false
 
-
-	
-	
-	
 func _on_camera_area_place_tower(cur_position: Variant) -> void:
-	if(placing_tower):
+	if(placing_tower and len(tower_to_place.get_overlapping_bodies()) != 0):
+		
 		Globals.resources = Globals.resources - 45
-		if len(tower_to_place.collision_list()) != 0:
-			placing_tower = false
-			tower_to_place.queue_free()
-			var copy = tower_scene.instantiate()
-			copy.position = cur_position
+		placing_tower = false
+		tower_to_place.queue_free()
+		var copy = tower_scene.instantiate()
+		copy.position = cur_position
 			
-			self.add_child(copy)
-			copy.set_placed(true)
-			if copy.cur_name == "miner":
-				if(len(copy.collision_list()) == 0):
-					#if no collision try again just to make test collison bounds
-					copy.queue_free()
-					copy = tower_scene.instantiate()
-					copy.position = cur_position
-					
-					self.add_child(copy)
-					copy.set_placed(true)
+		self.add_child(copy)
+		copy.set_placed(true)
+		
 			
-			copy.get_node("collider").visible = false		
+		copy.get_node("collider").visible = false	
+		
+		#connect laser_signal to tower so it can call it itself
+		copy.draw_laser.connect(Callable(draw_laser))
 			
 			
 			
@@ -93,10 +84,59 @@ func _on_miner_button_pressed() -> void:
 		#miner tower button pressed
 		tower_scene = mining_tower
 		tower_to_place = tower_scene.instantiate()
-		
+		tower_to_place.draw_laser.connect(Callable(draw_laser))
 		#don't run the placed function so nothing will happen
 		self.add_child(tower_to_place)
 		starting_tower_pos = self.get_node("Camera_Area").get_relative_mouse_pos()
 		tower_to_place.set_frame_child(tower_to_place.frame_count())
 		placing_tower = true
 	
+	
+func draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time):
+	#create line node 
+	# 3 points, 
+	#1st is self(pos1) position
+	#2nd is pos2 position
+	#3rd is self(pos1) position again
+
+	var line = Line2D.new()
+	var color = Color(R, G, B, opacity)
+
+	self.add_child(line)
+
+	line.set_default_color(color)
+	line.width = 3
+	
+	line.add_point(to_local(pos1))
+	line.add_point(to_local(pos2))
+	line.add_point(to_local(pos1))
+	
+	
+	var cooltime = Timer.new()
+	self.add_child(cooltime)
+	cooltime.set_wait_time(cooldown_time)
+	cooltime.timeout.connect(Callable(clear_laser).bind(cooltime, line))
+	cooltime.start()
+		
+		
+		
+	
+	color = Color(R, G, B, cooltime.time_left/100)
+		
+	line.set_default_color(color)
+	
+	
+	
+	
+	
+
+	
+func clear_laser(timer, line):
+	timer.stop()
+	line.clear_points()
+	
+	
+	
+
+
+#on timer time up, queue_free line

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/area_2d.gd" id="2_fmvyw"]
-[ext_resource type="Script" path="res://game_ticks.gd" id="2_yr8rd"]
+[ext_resource type="Script" path="res://Survival_Scene_Scripts/game_ticks.gd" id="2_yr8rd"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://images/image(1).jpg" id="3_vqmru"]
 [ext_resource type="Theme" uid="uid://chdmu6kfrhoyk" path="res://Themes/hotbar_background1.tres" id="4_ihjta"]
 [ext_resource type="Theme" uid="uid://dyhmoabmqtjno" path="res://Themes/hotbar_background2.tres" id="5_85nvo"]
@@ -40,7 +40,7 @@ corner_detail = 19
 [sub_resource type="Theme" id="Theme_f3iv3"]
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_tu7kn")
 
-[node name="Survival" type="Node2D"]
+[node name="Survival" type="Node2D" groups=["asteroid"]]
 script = ExtResource("1_e2foe")
 
 [node name="Global_Ticks" type="Timer" parent="."]
@@ -202,5 +202,6 @@ metadata/_edit_lock_ = true
 [connection signal="connect_game_ticks" from="." to="Global_Ticks" method="_on_survival_connect_game_ticks"]
 [connection signal="timeout" from="Global_Ticks" to="Global_Ticks" method="_on_timeout"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="." method="_on_camera_area_cancel_spawn_tower"]
+[connection signal="cancel_spawn_tower" from="Camera_Area" to="Global_Ticks" method="_on_camera_area_cancel_spawn_tower"]
 [connection signal="place_tower" from="Camera_Area" to="." method="_on_camera_area_place_tower"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Mine_Button_Holder/Miner_Button" to="." method="_on_miner_button_pressed"]

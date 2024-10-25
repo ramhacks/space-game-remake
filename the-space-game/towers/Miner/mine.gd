@@ -1,11 +1,12 @@
 extends Area2D
 
 
+
 var cur_name = "miner"
 
 var timer #temporary
 
-
+signal draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time)
 
 var cooldown_timer
 var cooldown_delay = 1.5 #may need to be adjusted based on upgrade level
@@ -50,14 +51,14 @@ func set_frame_child(frame): #required for all towers
 	
 func frame_count(): #required for all towers
 	return child.sprite_frames.get_frame_count("place")
+	
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-
 func _process(delta: float) -> void:
 	if hovering:
 		line_node.clear_points()
 		var overlap = self.get_overlapping_bodies()
 		for body in overlap:
-			
 			#loop through all overlapping bodies and create a line from the miner
 			#to the bodies
 			line_node.add_point(to_local(self.global_position))
@@ -94,9 +95,14 @@ func collision_list():
 	return child.asteroids_in_range
 
 func _on_cooldown_timeout() -> void:
+	
 	#when the mining lasers cooldown is finished, we are available to mine when we recieve another power
 	#pulse, (for now it means we are available to mine when the timer is 0)
 	#this makes it so that it is not overpowered and has a mining time limit
 	line_node.clear_points()
 	cooling_down = false
 	timer.start()
+
+
+func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
+	draw_laser.emit(pos1, pos2, 0.192, 0.988, 0.165, 3, 3)
