@@ -20,6 +20,9 @@ var game_tick_timer
 var starting_tower_pos
 var activate_nearby_node_showing = false
 
+func clear_hover_lines():
+	var hover_line_node = get_tree().get_nodes_in_group("hover_line")[1]
+	hover_line_node.queue_free()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
@@ -38,11 +41,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	self.get_node("HotBar_Layer/ColorRect2/Right Box/Resources").text = str(Globals.resources) + " minerals"
 	if(placing_tower):
-		tower_to_place.position = self.get_node("Camera_Area").get_relative_mouse_pos()
+		tower_to_place.position = self.get_node("Camera_Area").get_relative_mouse_pos(false)
 		
 		#the code below makes it so that we don't try and draw collidiing asteroids until the mouse is not
 		#inside the hotbar anymore
-		if(starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos().y > 25):
+		if(starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 25):
 			tower_to_place.hovering = true
 		
 
@@ -52,11 +55,13 @@ func _process(delta: float) -> void:
 func _on_camera_area_cancel_spawn_tower() -> void:
 	#if mouse right_clicked and currently placeing_tower cancel it
 	if(placing_tower):
+		clear_hover_lines()
 		tower_to_place.queue_free()
 		placing_tower = false
 
 func _on_camera_area_place_tower(cur_position: Variant) -> void:
 	if(placing_tower and len(tower_to_place.get_overlapping_bodies()) != 0):
+		clear_hover_lines()
 		
 		Globals.resources = Globals.resources - 45
 		placing_tower = false
@@ -89,7 +94,7 @@ func _on_miner_button_pressed() -> void:
 		tower_to_place.draw_hover_line.connect(hover_line)
 		#don't run the placed function so nothing will happen
 		self.add_child(tower_to_place)
-		starting_tower_pos = self.get_node("Camera_Area").get_relative_mouse_pos()
+		starting_tower_pos = self.get_node("Camera_Area").get_relative_mouse_pos(false)
 		tower_to_place.set_frame_child(tower_to_place.frame_count())
 		placing_tower = true
 	
@@ -140,6 +145,7 @@ func clear_laser(timer, line, tower_origin):
 	
 	
 func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
+	line_node.add_to_group("hover_line")
 	line_node.clear_points()
 	var color = Color(R, G, B, opacity)
 	self.add_child(line_node)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
-[ext_resource type="Script" path="res://Survival_Scene_Scripts/area_2d.gd" id="2_fmvyw"]
+[ext_resource type="Script" path="res://Survival_Scene_Scripts/camera.gd" id="2_fmvyw"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/game_ticks.gd" id="2_yr8rd"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://images/image(1).jpg" id="3_vqmru"]
 [ext_resource type="Theme" uid="uid://chdmu6kfrhoyk" path="res://Themes/hotbar_background1.tres" id="4_ihjta"]
@@ -40,7 +40,7 @@ corner_detail = 19
 [sub_resource type="Theme" id="Theme_f3iv3"]
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_tu7kn")
 
-[node name="Survival" type="Node2D"]
+[node name="Survival" type="Node2D" groups=["hover_line"]]
 script = ExtResource("1_e2foe")
 
 [node name="Global_Ticks" type="Timer" parent="."]
