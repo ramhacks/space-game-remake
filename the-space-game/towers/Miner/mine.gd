@@ -8,11 +8,8 @@ var timer #temporary
 
 var hover_line = Line2D.new()  #hover line node pointer
 
-<<<<<<< Updated upstream
-signal draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time, tower_origin)
-=======
 signal draw_laser(tower, pos1, pos2, cooldown_time, tower_origin)
->>>>>>> Stashed changes
+
 signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
 signal draw_selection_animation(tower_pos, tower_radius, clicked_self)
 
@@ -111,11 +108,9 @@ func collision_list():
 
 func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	cooling_down = true
-<<<<<<< Updated upstream
-	draw_laser.emit(pos1, pos2, 0.192, 0.988, 0.165, 3, 3, self)
-=======
+
 	draw_laser.emit(self, pos1, pos2, cooldown_delay, self)
->>>>>>> Stashed changes
+
 	
 #upgrade tower (max of 3)
 func upgrade():
