@@ -1,8 +1,6 @@
-<<<<<<< Updated upstream
-[gd_scene load_steps=19 format=3 uid="uid://c6np11nexofah"]
-=======
+
 [gd_scene load_steps=23 format=3 uid="uid://c6np11nexofah"]
->>>>>>> Stashed changes
+
 
 [ext_resource type="Script" path="res://towers/Miner/mine.gd" id="1_2thg4"]
 [ext_resource type="Script" path="res://towers/Miner/miner.gd" id="2_7igyp"]
@@ -36,8 +34,6 @@ tracks/0/keys = {
 "values": [1.5708]
 }
 
-<<<<<<< Updated upstream
-=======
 [sub_resource type="Animation" id="Animation_dnjmh"]
 length = 0.001
 tracks/0/type = "value"
@@ -100,7 +96,7 @@ _data = {
 "selection": SubResource("Animation_vv4br")
 }
 
->>>>>>> Stashed changes
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_f73n1"]
 animations = [{
 "frames": [{
@@ -165,8 +161,7 @@ script = ExtResource("1_2thg4")
 
 [node name="Selection_Draw" type="Node2D" parent="."]
 
-<<<<<<< Updated upstream
-=======
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Selection_Draw")
 libraries = {
@@ -179,7 +174,7 @@ default_color = Color(0.52227, 0.952408, 3.85046e-07, 1)
 antialiased = true
 script = ExtResource("4_njm1e")
 
->>>>>>> Stashed changes
+
 [node name="collider" type="Sprite2D" parent="."]
 z_index = 2
 position = Vector2(-2, 5)
@@ -198,22 +193,18 @@ shape = SubResource("CircleShape2D_rqckh")
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
-<<<<<<< Updated upstream
-[node name="Cooldown" type="Timer" parent="."]
-one_shot = true
-=======
+
 [node name="Sprite_Collision" type="Area2D" parent="."]
 
 [node name="Sprite_Collider" type="CollisionShape2D" parent="Sprite_Collision"]
 shape = SubResource("CircleShape2D_2m84e")
->>>>>>> Stashed changes
+
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="draw_line" from="Sprite2D" to="." method="_on_sprite_2d_draw_line"]
 [connection signal="force_change_collision" from="Sprite2D" to="." method="_on_sprite_2d_force_change_collision"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-<<<<<<< Updated upstream
-[connection signal="timeout" from="Cooldown" to="." method="_on_cooldown_timeout"]
+
 =======
 [connection signal="input_event" from="Sprite_Collision" to="." method="_on_sprite_collision_input_event"]
 >>>>>>> Stashed changes
