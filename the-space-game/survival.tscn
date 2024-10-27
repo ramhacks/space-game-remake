@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cykts73ldu7ri" path="res://images/miner_button_frame_2.png" id="9_pw457"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
-size = Vector2(1152, 712)
+size = Vector2(1152, 519)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_otb3a"]
 size = Vector2(892, 126)
@@ -40,7 +40,7 @@ corner_detail = 19
 [sub_resource type="Theme" id="Theme_f3iv3"]
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_tu7kn")
 
-[node name="Survival" type="Node2D" groups=["hover_line"]]
+[node name="Survival" type="Node2D"]
 script = ExtResource("1_e2foe")
 
 [node name="Global_Ticks" type="Timer" parent="."]
@@ -49,8 +49,6 @@ autostart = true
 script = ExtResource("2_yr8rd")
 
 [node name="Camera_Area" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 0
 monitoring = false
 monitorable = false
 script = ExtResource("2_fmvyw")
@@ -59,7 +57,7 @@ script = ExtResource("2_fmvyw")
 position = Vector2(575, 325)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera_Area"]
-position = Vector2(576, 356)
+position = Vector2(576, 259.5)
 shape = SubResource("RectangleShape2D_fy202")
 
 [node name="Background_Layer" type="CanvasLayer" parent="."]
@@ -166,7 +164,7 @@ text = "50 minerals"
 label_settings = SubResource("LabelSettings_a1qks")
 metadata/_edit_lock_ = true
 
-[node name="RPM" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]
+[node name="RPM" type="Label" parent="HotBar_Layer/ColorRect2/Right Box" groups=["selection"]]
 z_index = 4
 layout_mode = 0
 offset_left = 4.0
@@ -203,5 +201,6 @@ metadata/_edit_lock_ = true
 [connection signal="timeout" from="Global_Ticks" to="Global_Ticks" method="_on_timeout"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="." method="_on_camera_area_cancel_spawn_tower"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="Global_Ticks" method="_on_camera_area_cancel_spawn_tower"]
+[connection signal="input_event" from="Camera_Area" to="Camera_Area" method="_on_input_event"]
 [connection signal="place_tower" from="Camera_Area" to="." method="_on_camera_area_place_tower"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Mine_Button_Holder/Miner_Button" to="." method="_on_miner_button_pressed"]

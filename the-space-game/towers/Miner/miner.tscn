@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 [gd_scene load_steps=19 format=3 uid="uid://c6np11nexofah"]
+=======
+[gd_scene load_steps=23 format=3 uid="uid://c6np11nexofah"]
+>>>>>>> Stashed changes
 
 [ext_resource type="Script" path="res://towers/Miner/mine.gd" id="1_2thg4"]
 [ext_resource type="Script" path="res://towers/Miner/miner.gd" id="2_7igyp"]
@@ -16,11 +20,87 @@
 [ext_resource type="Texture2D" uid="uid://bvwnoixwfeuyu" path="res://images/512.png" id="12_1enlj"]
 [ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://images/Green-Circle-PNG-Photo-2603984782.png" id="15_ekrsg"]
 
-[sub_resource type="Gradient" id="Gradient_okg80"]
-offsets = PackedFloat32Array(0, 0.458333, 1)
-colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699, 0, 1, 0.0183086, 0.319085, 0.184432, 1)
-metadata/_snap_count = 12
+[sub_resource type="Animation" id="Animation_vv4br"]
+resource_name = "selection"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5708]
+}
 
+<<<<<<< Updated upstream
+=======
+[sub_resource type="Animation" id="Animation_dnjmh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Laser:width")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.0]
+}
+
+[sub_resource type="Animation" id="Animation_umjbx"]
+resource_name = "deselect"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Laser:default_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.46667),
+"transitions": PackedFloat32Array(1, 0.31864),
+"update": 0,
+"values": [Color(0.52227, 0.952408, 3.85046e-07, 1), Color(0.186, 0.977, 0.16, 0.646)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Laser:width")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2, 1.16667, 1.46667),
+"transitions": PackedFloat32Array(1, 4.75683, 7.20999),
+"update": 0,
+"values": [2.0, 1.5, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4nrav"]
+_data = {
+"RESET": SubResource("Animation_dnjmh"),
+"line_disolve": SubResource("Animation_umjbx"),
+"selection": SubResource("Animation_vv4br")
+}
+
+>>>>>>> Stashed changes
 [sub_resource type="SpriteFrames" id="SpriteFrames_f73n1"]
 animations = [{
 "frames": [{
@@ -73,19 +153,33 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_rqckh"]
 radius = 58.1378
 
-[node name="Miner" type="Area2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_2m84e"]
+radius = 8.06226
+
+[node name="Miner" type="Area2D" groups=["Drawers"]]
 z_index = 1
 position = Vector2(453, 401)
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_2thg4")
 
-[node name="Mining_Laser" type="Line2D" parent="."]
+[node name="Selection_Draw" type="Node2D" parent="."]
+
+<<<<<<< Updated upstream
+=======
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Selection_Draw")
+libraries = {
+"": SubResource("AnimationLibrary_4nrav")
+}
+
+[node name="Laser" type="Line2D" parent="."]
 width = 3.0
-default_color = Color(0.192157, 0.988235, 0.164706, 1)
-gradient = SubResource("Gradient_okg80")
+default_color = Color(0.52227, 0.952408, 3.85046e-07, 1)
+antialiased = true
 script = ExtResource("4_njm1e")
 
+>>>>>>> Stashed changes
 [node name="collider" type="Sprite2D" parent="."]
 z_index = 2
 position = Vector2(-2, 5)
@@ -104,11 +198,22 @@ shape = SubResource("CircleShape2D_rqckh")
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
+<<<<<<< Updated upstream
 [node name="Cooldown" type="Timer" parent="."]
 one_shot = true
+=======
+[node name="Sprite_Collision" type="Area2D" parent="."]
+
+[node name="Sprite_Collider" type="CollisionShape2D" parent="Sprite_Collision"]
+shape = SubResource("CircleShape2D_2m84e")
+>>>>>>> Stashed changes
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="draw_line" from="Sprite2D" to="." method="_on_sprite_2d_draw_line"]
 [connection signal="force_change_collision" from="Sprite2D" to="." method="_on_sprite_2d_force_change_collision"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+<<<<<<< Updated upstream
 [connection signal="timeout" from="Cooldown" to="." method="_on_cooldown_timeout"]
+=======
+[connection signal="input_event" from="Sprite_Collision" to="." method="_on_sprite_collision_input_event"]
+>>>>>>> Stashed changes

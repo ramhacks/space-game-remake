@@ -9,10 +9,11 @@ var upgrade_level = 1
 signal draw_line(pos1, pos2)
 
 var upgrade_resource_drain = {
-	1: 10,
+	1: 4, #80 minerals per minute if mine 4 minerals per minute (cooldown is 3 seconds)
 	2: 20,
 	3: 30
 }
+
 
 var closest = false
 var valid = false
