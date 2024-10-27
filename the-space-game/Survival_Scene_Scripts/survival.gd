@@ -21,6 +21,7 @@ var starting_tower_pos
 var activate_nearby_node_showing = false
 
 func clear_hover_lines():
+	#fix so that you can't place tower in hotbar
 	var hover_line_node = get_tree().get_nodes_in_group("hover_line")[1]
 	hover_line_node.queue_free()
 # Called when the node enters the scene tree for the first time.
@@ -60,7 +61,7 @@ func _on_camera_area_cancel_spawn_tower() -> void:
 		placing_tower = false
 
 func _on_camera_area_place_tower(cur_position: Variant) -> void:
-	if(placing_tower and len(tower_to_place.get_overlapping_bodies()) != 0):
+	if(placing_tower and len(tower_to_place.get_overlapping_bodies()) != 0 && (starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 30)):
 		clear_hover_lines()
 		
 		Globals.resources = Globals.resources - 45
@@ -99,14 +100,13 @@ func _on_miner_button_pressed() -> void:
 		placing_tower = true
 	
 	
-func draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time, tower_origin):
+func draw_laser(line, pos1, pos2, R, G, B, opacity, cooldown_time, tower_origin):
 	#create line node 
 	# 3 points, 
 	#1st is self(pos1) position
 	#2nd is pos2 position
 	#3rd is self(pos1) position again
-
-	var line = Line2D.new()
+	line.clear_points()
 	var color = Color(R, G, B, 1)
 
 	self.add_child(line)
@@ -114,11 +114,13 @@ func draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time, tower_origin):
 	line.set_default_color(color)
 	line.width = 3
 	
-	line.add_point(to_local(pos1))
-	line.add_point(to_local(pos2))
-	line.add_point(to_local(pos1))
+	line.add_point(pos1)
+	line.add_point(pos2)
+	line.add_point(pos1)
+	line.get_node("AnimationPlayer").play("line_disolve") 
 	
 	
+	#at some point replace below with just a check if animation is finished or not, when finished just set cooldown to false
 	var cooltime = Timer.new()
 	self.add_child(cooltime)
 	cooltime.set_wait_time(cooldown_time)
@@ -133,11 +135,13 @@ func draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time, tower_origin):
 	#line.set_default_color(color)
 	
 func clear_laser(timer, line, tower_origin):
+	#this is on a separate branch because I do not know
+	#how to attach animations to nodes that are created during runtime
+	
 	#tower origin is so we can tell the tower that called to draw a laser that the cooldown after firing is up and it
 	#can resume normal activities
 	timer.stop()
-	line.clear_points()
-	line.queue_free()
+	#line.clear_points()
 	timer.queue_free()
 	tower_origin.cooling_down = false
 	
@@ -151,9 +155,18 @@ func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
 	self.add_child(line_node)
 	line_node.set_default_color(color)
 	line_node.width = 3
+	var draw = true
 	for nodes in pos2_list:
-		line_node.add_point(to_local(pos1))
-		line_node.add_point(to_local(nodes.global_position))
-		line_node.add_point(to_local(pos1))
+		#only draw line (only applies to miner class) if asteroid is not empty of resources
+		if(nodes.cur_name == "asteroid"):
+			if(nodes.asteroid_empty):
+				draw = false
+			else:
+				draw = true
+		
+		if draw:
+			line_node.add_point(to_local(pos1))
+			line_node.add_point(to_local(nodes.global_position))
+			line_node.add_point(to_local(pos1))
 	
 	

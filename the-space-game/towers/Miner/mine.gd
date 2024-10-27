@@ -8,7 +8,7 @@ var timer #temporary
 
 var hover_line = Line2D.new()  #hover line node pointer
 
-signal draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time, tower_origin)
+signal draw_laser(line, pos1, pos2, R, G, B, opacity, cooldown_time, tower_origin)
 signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
 
 var cooldown_timer
@@ -35,8 +35,6 @@ func _ready() -> void:
 
 	
 	line_node = self.get_node("Mining_Laser")
-	cooldown_timer = self.get_node("Cooldown")
-	cooldown_timer.set_wait_time(cooldown_delay)
 	
 	
 func set_placed(re_animate):  #required for all towers
@@ -86,23 +84,16 @@ func _on_timer_timeout() -> void:
 		
 		cooling_down = true
 
-	
-	
-
-
 func _on_body_entered(body: Node2D) -> void:
 	if body.cur_name == "asteroid":
 		if body.get_resource_amount() > 0:
 			#only add if asteroid is not empty of resources
 			child.change_collision_list(body)
 
-
 func collision_list():
 	return child.asteroids_in_range
 
-
-
 func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	cooling_down = true
-	draw_laser.emit(pos1, pos2, 0.192, 0.988, 0.165, 3, 3, self)
+	draw_laser.emit(self.get_node("Mining_Laser"), pos1, pos2, 0.192, 0.988, 0.165, 3, 3, self)
 	
