@@ -49,7 +49,7 @@ autostart = true
 script = ExtResource("2_yr8rd")
 
 [node name="Camera_Area" type="Area2D" parent="."]
-monitoring = false
+collision_mask = 0
 monitorable = false
 script = ExtResource("2_fmvyw")
 
@@ -164,7 +164,7 @@ text = "50 minerals"
 label_settings = SubResource("LabelSettings_a1qks")
 metadata/_edit_lock_ = true
 
-[node name="RPM" type="Label" parent="HotBar_Layer/ColorRect2/Right Box" groups=["selection"]]
+[node name="RPM" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]
 z_index = 4
 layout_mode = 0
 offset_left = 4.0
@@ -201,6 +201,5 @@ metadata/_edit_lock_ = true
 [connection signal="timeout" from="Global_Ticks" to="Global_Ticks" method="_on_timeout"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="." method="_on_camera_area_cancel_spawn_tower"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="Global_Ticks" method="_on_camera_area_cancel_spawn_tower"]
-[connection signal="input_event" from="Camera_Area" to="Camera_Area" method="_on_input_event"]
 [connection signal="place_tower" from="Camera_Area" to="." method="_on_camera_area_place_tower"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Mine_Button_Holder/Miner_Button" to="." method="_on_miner_button_pressed"]
