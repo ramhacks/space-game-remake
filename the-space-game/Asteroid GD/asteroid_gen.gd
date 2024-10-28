@@ -18,8 +18,8 @@ func _ready() -> void:
 	
 	var angle = 11 #w
 
-	var height = 280 # how tall it is, every iteration make smaller to generate asteroid along it
-	var width =  300 #how wide the wave is
+	var height = 270 # how tall it is, every iteration make smaller to generate asteroid along it
+	var width =  200 #how wide the wave is
    
 
 
@@ -33,10 +33,10 @@ func _ready() -> void:
    #do this by getting distance from center, the closer it is the higher the chance of placing it
 
 
-	var asteroid_x_spread = 15 #spread of asteroids over the x-axis
+	var asteroid_x_spread = 10 #spread of asteroids over the x-axis
    
 
-	var loopamount = 17 #amount of times to iterate over smaller wave
+	var loopamount = 16 #amount of times to iterate over smaller wave
 	for j in range(0, loopamount):
 		var random_chance_change = random.randf_range(1.5,2)
 		var asteroid_separation = random.randf_range(1, 3)  #amount asteroids are separated over the x axis

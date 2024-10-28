@@ -9,11 +9,10 @@ var upgrade_level = 1
 signal draw_line(pos1, pos2)
 
 var upgrade_resource_drain = {
-	1: 4, #80 minerals per minute if mine 4 minerals per minute (cooldown is 3 seconds)
+	1: 10,
 	2: 20,
 	3: 30
 }
-
 
 var closest = false
 var valid = false
@@ -48,11 +47,12 @@ func mine(line_node):
 			if(closest.get_resource_amount() > 0):
 				
 				#connect line to as a "laser" to itself and a miner
-				draw_line.emit(self.global_position, closest.global_position)
+				draw_line.emit(to_local(self.global_position), to_local(closest.global_position))
 
 				closest.extract(upgrade_resource_drain[upgrade_level])		
 				
 			else:
+				closest.asteroid_empty = true
 				closest.assign_empty_texture()
 					#asteroid is empty, move to next available asteroid in range
 				current_drained = true

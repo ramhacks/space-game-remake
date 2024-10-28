@@ -5,4 +5,4 @@ extends Node
 
 
 var resources = 50  # amount of resources the current player has
-var RPM = 0 #each miner mines once every 2 seconds
+var RPM = 0

@@ -1,11 +1,14 @@
 extends Sprite2D
 
+
+
 #Script for each individual asteroid, this is the asteroid class
 
 
 #public variables below
 
 #892 - 932 //evens are full, odds are empty (start as random number between this but only even number
+
 
 var resources = 10
 var asteroid_size = 0

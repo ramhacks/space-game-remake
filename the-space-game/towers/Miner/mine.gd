@@ -39,8 +39,7 @@ func _ready() -> void:
 
 	
 	line_node = self.get_node("Mining_Laser")
-	cooldown_timer = self.get_node("Cooldown")
-	cooldown_timer.set_wait_time(cooldown_delay)
+
 	
 	
 func set_placed(re_animate):  #required for all towers
@@ -120,8 +119,9 @@ func upgrade():
 		child.upgrade_level += 1
 		Globals.RPM += child.upgrade_resource_drain[child.upgrade_level] * 60/cooldown_delay
 	
-	
-func _on_sprite_collision_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+
+
+func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	var current_animation : String = child.animation
 	#get size of first frame in animated texture (some towers are larger so this is necessary to draw the circle
 	#the correct size

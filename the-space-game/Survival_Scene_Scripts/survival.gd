@@ -15,32 +15,28 @@ var tower_to_place
 var tower_scene
 
 var game_tick_timer
-
 var selection_node
 
 var starting_tower_pos
 var activate_nearby_node_showing = false
 
 func clear_hover_lines():
-<<<<<<< Updated upstream
-	var hover_line_node = get_tree().get_nodes_in_group("hover_line")[1]
-=======
 	#fix so that you can't place tower in hotbar
 	var hover_line_node = get_tree().get_nodes_in_group("hover_line")[0]
->>>>>>> Stashed changes
+	
 	hover_line_node.queue_free()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
 	var asteroid_scene = preload("res://Asteroid_Gen/asteroid_field.tscn")
+	selection_node = preload("res://Selection_Draw_Node/Selection_Draw.tscn").instantiate()
 	var instance = asteroid_scene.instantiate()
 	self.add_child(instance)
 	#temporary just to test miner tower
 	
 	mining_tower = preload("res://towers/Miner/miner.tscn")
-	selection_node = preload("res://Selection_Draw_Node/Selection_Draw.tscn").instantiate()
+	
 	game_tick_timer = get_node("Global_Ticks")
-	self.get_node("Camera_Area").draw_select.connect(draw_selector)
 
 
 	
@@ -54,8 +50,6 @@ func _process(delta: float) -> void:
 		#inside the hotbar anymore
 		if(starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 25):
 			tower_to_place.hovering = true
-	
-	self.get_node("HotBar_Layer/ColorRect2/Right Box/RPM").text = str(Globals.RPM) + " minerals per minute"
 		
 
 		
@@ -69,7 +63,7 @@ func _on_camera_area_cancel_spawn_tower() -> void:
 		placing_tower = false
 
 func _on_camera_area_place_tower(cur_position: Variant) -> void:
-	if(placing_tower and len(tower_to_place.get_overlapping_bodies()) != 0):
+	if(placing_tower and len(tower_to_place.get_overlapping_bodies()) != 0 && (starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 30)):
 		clear_hover_lines()
 		
 		Globals.resources = Globals.resources - 45
@@ -86,8 +80,7 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 		
 		#connect laser_signal to tower so it can call it itself
 		copy.draw_laser.connect(draw_laser)
-		copy.draw_selection_animation.connect(draw_selector) #draw animation when tower is selected
-		
+		copy.draw_selection_animation.connect(draw_selector)
 			
 			
 			
@@ -109,30 +102,12 @@ func _on_miner_button_pressed() -> void:
 		placing_tower = true
 	
 	
-<<<<<<< Updated upstream
-func draw_laser(pos1, pos2, R, G, B, opacity, cooldown_time, tower_origin):
-=======
 func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
->>>>>>> Stashed changes
 	#create line node 
 	# 3 points, 
 	#1st is self(pos1) position
 	#2nd is pos2 position
 	#3rd is self(pos1) position again
-<<<<<<< Updated upstream
-
-	var line = Line2D.new()
-	var color = Color(R, G, B, 1)
-
-	self.add_child(line)
-
-	line.set_default_color(color)
-	line.width = 3
-	
-	line.add_point(to_local(pos1))
-	line.add_point(to_local(pos2))
-	line.add_point(to_local(pos1))
-=======
 	var line = tower.get_node("Laser")
 	
 	line.clear_points()
@@ -141,35 +116,33 @@ func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
 	line.add_point(pos2)
 	line.add_point(pos1)
 	tower.get_node("AnimationPlayer").play("line_disolve") 
->>>>>>> Stashed changes
 	
 	
+	#at some point replace below with just a check if animation is finished or not, when finished just set cooldown to false
 	var cooltime = Timer.new()
 	self.add_child(cooltime)
 	cooltime.set_wait_time(cooldown_time)
 	cooltime.timeout.connect(Callable(clear_laser).bind(cooltime, tower_origin))
 	cooltime.start()
 		
+		
+		
 	
-<<<<<<< Updated upstream
 	#color = Color(R, G, B, cooltime.time_left/100)
 		
 	#line.set_default_color(color)
 	
-func clear_laser(timer, line, tower_origin):
-=======
 func clear_laser(timer, tower_origin):
 	#this is on a separate branch because I do not know
 	#how to attach animations to nodes that are created during runtime
 	
->>>>>>> Stashed changes
 	#tower origin is so we can tell the tower that called to draw a laser that the cooldown after firing is up and it
 	#can resume normal activities
 	timer.stop()
-	line.clear_points()
-	line.queue_free()
+	#line.clear_points()
 	timer.queue_free()
-	tower_origin.cooling_down = false #we have finished the cooldown will always be 3 seconds for all towers
+	tower_origin.cooling_down = false
+	
 	tower_origin.timer.start() #remove after power is implmeneted
 	
 	
@@ -180,14 +153,16 @@ func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
 	self.add_child(line_node)
 	line_node.set_default_color(color)
 	line_node.width = 3
+	var draw = true
 	for nodes in pos2_list:
-<<<<<<< Updated upstream
-		line_node.add_point(to_local(pos1))
-		line_node.add_point(to_local(nodes.global_position))
-		line_node.add_point(to_local(pos1))
-	
-=======
 		#only draw line (only applies to miner class) if asteroid is not empty of resources
+		if(nodes.cur_name == "asteroid"):
+			if(nodes.asteroid_empty):
+				draw = false
+			else:
+				draw = true
+		
+			#only draw line (only applies to miner class) if asteroid is not empty of resources
 		if(nodes.cur_name == "asteroid"):
 			if(nodes.asteroid_empty):
 				draw = false
@@ -200,6 +175,8 @@ func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
 			line_node.add_point(to_local(pos1))
 
 var waiting_for_clickout = false
+
+
 func draw_selector(tower_pos, tower_radius, clicked_self): #if add, add else play tween then remove
 	#draw the selection animation, we will add a tween after finishing creating the base selection shape
 	if(clicked_self and selection_node not in get_tree().get_nodes_in_group("selection")): #only draw if clicked node
@@ -226,5 +203,5 @@ func tween_done(create):
 		self.remove_child(selection_node)
 		waiting_for_clickout = false
 
->>>>>>> Stashed changes
+	
 	
