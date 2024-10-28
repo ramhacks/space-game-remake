@@ -37,6 +37,8 @@ func _ready() -> void:
 	mining_tower = preload("res://towers/Miner/miner.tscn")
 	
 	game_tick_timer = get_node("Global_Ticks")
+	
+	self.get_node("Camera_Area").draw_select.connect(draw_selector)
 
 
 	
@@ -178,6 +180,7 @@ var waiting_for_clickout = false
 
 
 func draw_selector(tower_pos, tower_radius, clicked_self): #if add, add else play tween then remove
+	
 	#draw the selection animation, we will add a tween after finishing creating the base selection shape
 	if(clicked_self and selection_node not in get_tree().get_nodes_in_group("selection")): #only draw if clicked node
 		#it has been clicked so now if somewhere that is not this node is clicked hide the select drawing
@@ -188,7 +191,7 @@ func draw_selector(tower_pos, tower_radius, clicked_self): #if add, add else pla
 		#create tween to animate
 		var tween = self.get_tree().create_tween() #rotate the drawing 
 		tween.tween_property(selection_node, "rotation", deg_to_rad(-90), 0.5)	
-		tween.finished.connect(tween_done.bind(clicked_self))
+		tween.finished.connect(tween_done.bind(true))
 		
 	elif(waiting_for_clickout and selection_node in get_tree().get_nodes_in_group("selection")):
 		var tween = self.get_tree().create_tween() #rotate the drawing 
