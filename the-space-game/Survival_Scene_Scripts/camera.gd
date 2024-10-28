@@ -2,6 +2,7 @@ extends Area2D
 
 signal cancel_spawn_tower
 signal place_tower(cur_position)
+signal draw_select(tower_pos, tower_radius, clicked_self)
 
 var cur_name = "camera"
 
@@ -36,8 +37,7 @@ func get_relative_mouse_pos(event_pos):
 
 	
 func _input(event):
-	
-	if (event is InputEventMouseButton and event.is_alt_pressed()) or event.is_action("Middle_Button"):
+	if (event is InputEventMouseButton) or event.is_action("Middle_Button"):
 		if event.is_pressed():
 			mouse_start_pos = get_viewport().get_mouse_position()
 			
@@ -45,6 +45,7 @@ func _input(event):
 			dragging = true
 		else:
 			dragging = false
+			
 	elif event is InputEventMouseMotion and dragging:
 		position = get_relative_mouse_pos(event.position)
 	
@@ -54,3 +55,9 @@ func _input(event):
 	if event.is_action("BUTTON_LEFT"):
 		place_tower.emit(get_relative_mouse_pos(false))
 	
+
+
+func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouseButton:
+		if event.is_action("BUTTON_LEFT"):
+			draw_select.emit(Vector2(0,0), 1, false)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c6np11nexofah"]
+[gd_scene load_steps=23 format=3 uid="uid://c6np11nexofah"]
 
 [ext_resource type="Script" path="res://towers/Miner/mine.gd" id="1_2thg4"]
 [ext_resource type="Script" path="res://towers/Miner/miner.gd" id="2_7igyp"]
@@ -15,11 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://bvbqt8ghe7pen" path="res://images/510.png" id="11_kf5bi"]
 [ext_resource type="Texture2D" uid="uid://bvwnoixwfeuyu" path="res://images/512.png" id="12_1enlj"]
 [ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://images/Green-Circle-PNG-Photo-2603984782.png" id="15_ekrsg"]
-
-[sub_resource type="Gradient" id="Gradient_okg80"]
-offsets = PackedFloat32Array(0, 0.458333, 1)
-colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699, 0, 1, 0.0183086, 0.319085, 0.184432, 1)
-metadata/_snap_count = 12
 
 [sub_resource type="Animation" id="Animation_b7t7o"]
 length = 0.001
@@ -82,6 +77,11 @@ _data = {
 "line_disolve": SubResource("Animation_v036w")
 }
 
+[sub_resource type="Gradient" id="Gradient_okg80"]
+offsets = PackedFloat32Array(0, 0.458333, 1)
+colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699, 0, 1, 0.0183086, 0.319085, 0.184432, 1)
+metadata/_snap_count = 12
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_f73n1"]
 animations = [{
 "frames": [{
@@ -134,6 +134,9 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_rqckh"]
 radius = 58.1378
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_sf37x"]
+radius = 8.0
+
 [node name="Miner" type="Area2D"]
 z_index = 1
 position = Vector2(453, 401)
@@ -141,16 +144,17 @@ collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_2thg4")
 
-[node name="Mining_Laser" type="Line2D" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Laser")
+libraries = {
+"": SubResource("AnimationLibrary_w34gp")
+}
+
+[node name="Laser" type="Line2D" parent="."]
 width = 3.0
 default_color = Color(0.192157, 0.988235, 0.164706, 1)
 gradient = SubResource("Gradient_okg80")
 script = ExtResource("4_njm1e")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Mining_Laser"]
-libraries = {
-"": SubResource("AnimationLibrary_w34gp")
-}
 
 [node name="collider" type="Sprite2D" parent="."]
 z_index = 2
@@ -170,9 +174,13 @@ shape = SubResource("CircleShape2D_rqckh")
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
-[node name="CanvasGroup" type="CanvasGroup" parent="."]
+[node name="Sprite" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite"]
+shape = SubResource("CircleShape2D_sf37x")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="draw_line" from="Sprite2D" to="." method="_on_sprite_2d_draw_line"]
 [connection signal="force_change_collision" from="Sprite2D" to="." method="_on_sprite_2d_force_change_collision"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="input_event" from="Sprite" to="." method="_on_sprite_input_event"]
