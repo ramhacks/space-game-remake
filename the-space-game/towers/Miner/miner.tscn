@@ -1,9 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://c6np11nexofah"]
+[gd_scene load_steps=27 format=3 uid="uid://c6np11nexofah"]
 
 [ext_resource type="Script" path="res://towers/Miner/mine.gd" id="1_2thg4"]
 [ext_resource type="Script" path="res://towers/Miner/miner.gd" id="2_7igyp"]
 [ext_resource type="Texture2D" uid="uid://cgs7ld2xn3gnc" path="res://images/494.png" id="3_jupu6"]
 [ext_resource type="Texture2D" uid="uid://beq1a1rqkgpe5" path="res://images/514.png" id="3_yabks"]
+[ext_resource type="Texture2D" uid="uid://b6exsv0vss8qr" path="res://images/490.png" id="4_ewh2d"]
 [ext_resource type="Texture2D" uid="uid://do7iu2mcny87c" path="res://images/496.png" id="4_gvx7w"]
 [ext_resource type="Script" path="res://towers/Miner/mining_laser.gd" id="4_njm1e"]
 [ext_resource type="Texture2D" uid="uid://bvkvwhlcr5ip7" path="res://images/498.png" id="5_a04ud"]
@@ -16,32 +17,18 @@
 [ext_resource type="Texture2D" uid="uid://bvwnoixwfeuyu" path="res://images/512.png" id="12_1enlj"]
 [ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://images/Green-Circle-PNG-Photo-2603984782.png" id="15_ekrsg"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g7k0a"]
+bg_color = Color(0.0156863, 0.0470588, 0.862745, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fjhom"]
+bg_color = Color(0.0156863, 0.611765, 0.988235, 1)
+
+[sub_resource type="Theme" id="Theme_bw76j"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_g7k0a")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_fjhom")
+
 [sub_resource type="Animation" id="Animation_b7t7o"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:width")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [3.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:default_color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.192157, 0.988235, 0.164706, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_v036w"]
 resource_name = "line_disolve"
@@ -53,10 +40,10 @@ tracks/0/path = NodePath(".:width")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(1.43333, 2.9),
+"times": PackedFloat32Array(1.1, 2.9),
 "transitions": PackedFloat32Array(1, 7.21),
 "update": 0,
-"values": [3.0, 0.0]
+"values": [2.0, 0.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -86,7 +73,7 @@ metadata/_snap_count = 12
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_yabks")
+"texture": ExtResource("4_ewh2d")
 }],
 "loop": true,
 "name": &"hover",
@@ -139,10 +126,18 @@ radius = 8.0
 
 [node name="Miner" type="Area2D"]
 z_index = 1
-position = Vector2(453, 401)
+position = Vector2(79, 66)
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_2thg4")
+
+[node name="BuildProgress" type="ProgressBar" parent="."]
+offset_left = -7.0
+offset_top = -11.0
+offset_right = 7.0
+offset_bottom = -9.0
+theme = SubResource("Theme_bw76j")
+show_percentage = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Laser")
@@ -151,8 +146,8 @@ libraries = {
 }
 
 [node name="Laser" type="Line2D" parent="."]
-width = 3.0
-default_color = Color(0.192157, 0.988235, 0.164706, 1)
+width = 2.0
+default_color = Color(0.52227, 0.952408, 3.85046e-07, 1)
 gradient = SubResource("Gradient_okg80")
 script = ExtResource("4_njm1e")
 
@@ -161,23 +156,27 @@ z_index = 2
 position = Vector2(-2, 5)
 scale = Vector2(0.185, 0.183333)
 texture = ExtResource("15_ekrsg")
+metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_f73n1")
-animation = &"place"
+animation = &"hover"
 script = ExtResource("2_7igyp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_rqckh")
+metadata/_edit_lock_ = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
 [node name="Sprite" type="Area2D" parent="."]
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite"]
 shape = SubResource("CircleShape2D_sf37x")
+metadata/_edit_lock_ = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="draw_line" from="Sprite2D" to="." method="_on_sprite_2d_draw_line"]

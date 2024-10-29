@@ -126,13 +126,6 @@ func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
 	cooltime.set_wait_time(cooldown_time)
 	cooltime.timeout.connect(Callable(clear_laser).bind(cooltime, tower_origin))
 	cooltime.start()
-		
-		
-		
-	
-	#color = Color(R, G, B, cooltime.time_left/100)
-		
-	#line.set_default_color(color)
 	
 func clear_laser(timer, tower_origin):
 	#this is on a separate branch because I do not know

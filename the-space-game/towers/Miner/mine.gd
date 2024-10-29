@@ -4,6 +4,11 @@ extends Area2D
 
 var cur_name = "miner"
 
+
+var build_progress = 0 #percantage up to 100
+
+var built = true #we will set this to false when we implement power
+
 var timer #temporary
 
 var hover_line = Line2D.new()  #hover line node pointer
@@ -76,11 +81,19 @@ func _process(delta: float) -> void:
 	if hovering:
 		var overlap = self.get_overlapping_bodies()
 		draw_hover_line.emit(self.global_position, overlap, 0.192, 0.988, 0.165, 3, hover_line)
+	
+	#if build progress is complete and we did not already build it remove progress bar to build 
+	#(make invisible we will need it again when upgrading)
+	if build_progress == 100 and !built:
+		self.get_node("BuildProgress").set_visible(false)
+		built = true
+	else:
+		self.get_node("BuildProgress").value = build_progress
 		
 #this function will be replaced with a signal from the power node connecting it to the power grid. Each power node
 #will relay a signal until it gets to this, for now we are just using a timer
 func _on_timer_timeout() -> void:	 
-	if(!cooling_down):
+	if(!cooling_down and built):
 		#if powered mine, else on the next 2 sec cycle delete the mining laser graphic
 		
 		child = self.get_node("Sprite2D")
@@ -88,10 +101,6 @@ func _on_timer_timeout() -> void:
 			child.mine(line_node)
 		
 		cooling_down = true
-
-	
-	
-
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.cur_name == "asteroid":
@@ -104,11 +113,12 @@ func collision_list():
 	return child.asteroids_in_range
 
 
-
 func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	cooling_down = true
 
-	draw_laser.emit(self, pos1, pos2, cooldown_delay, self)
+	draw_laser.emit(self, pos1, pos2, cooldown_delay, self) 
+	#we can't use tweens because tweens are meant for single animations
+	#we need to animate 2 things at once so we have to use attached line node and can't dynamically create one
 
 	
 #upgrade tower (max of 3)
@@ -131,3 +141,9 @@ func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -
 		if event.is_action("BUTTON_LEFT"):
 			draw_selection_animation.emit(self.global_position, sprite_texture.get_size().x/2, true)
 			#will change the hot bar or something to let us upgrade the selected tower
+
+func rebuild():
+	build_progress = 0
+	built = false
+	self.get_node("BuildProgress").set_visible(true)
+	self.get_node("BuildProgress").value = 0 #reset value
