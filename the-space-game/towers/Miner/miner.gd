@@ -4,14 +4,15 @@ extends AnimatedSprite2D
 
 var asteroids_in_range = []
 var all_object_collisions = []
-var upgrade_level = 1
+var upgrade_level = 1 #same as parent value, miner just needs it so it knows how much it needs to mine
 
 signal draw_line(pos1, pos2)
 
-var upgrade_resource_drain = {
+
+
+var upgrade_map = {
 	1: 10,
-	2: 20,
-	3: 30
+	2: 20
 }
 
 var closest = false
@@ -48,8 +49,9 @@ func mine(line_node):
 				
 				#connect line to as a "laser" to itself and a miner
 				draw_line.emit(to_local(self.global_position), to_local(closest.global_position))
-
-				closest.extract(upgrade_resource_drain[upgrade_level])		
+				
+				closest.extract(upgrade_map[upgrade_level])
+				return upgrade_map[upgrade_level]
 				
 			else:
 				closest.asteroid_empty = true
@@ -62,6 +64,8 @@ func mine(line_node):
 				else:
 					force_change_collision.emit()
 					closest = false
+			
+	return 0
 
 func change_collision_list(asteroids):
 	closest = asteroids

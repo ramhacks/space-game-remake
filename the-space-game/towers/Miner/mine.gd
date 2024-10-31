@@ -1,10 +1,15 @@
 extends Area2D
 
+var level = 1
+
 
 
 var cur_name = "miner"
 
+var total_mined = 0
+var mpm = 0
 
+var health = 300
 var build_progress = 0 #percantage up to 100
 
 var built = true #we will set this to false when we implement power
@@ -16,7 +21,7 @@ var hover_line = Line2D.new()  #hover line node pointer
 signal draw_laser(tower, pos1, pos2, cooldown_time, tower_origin)
 
 signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
-signal draw_selection_animation(tower_pos, tower_radius, clicked_self)
+signal draw_selection_animation(tower_pos, tower_radius, clicked_self, tower_type)
 
 
 var cooldown_delay = 3  #may need to be adjusted based on upgrade level
@@ -34,6 +39,21 @@ var powered = false #is this node powered? once set to true it will mine once
 
 var clickable = false #this is so that we don't think the tower is being clicked after we place it down
 
+var on_object = false #if sprite itself is on asteroid don't let the player place the tower
+
+
+var upgrade_price = {
+	1: 100,
+	2: -1
+}
+
+var recycle_price = {
+	1: 45,
+	2: 45,
+	3: 45
+}
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
@@ -49,7 +69,7 @@ func _ready() -> void:
 	
 func set_placed(re_animate):  #required for all towers
 	hovering = false
-	Globals.RPM += child.upgrade_resource_drain[child.upgrade_level] * 60/cooldown_delay #(10 minerals every second, can change)
+	Globals.RPM += child.upgrade_map[child.upgrade_level] * 60/cooldown_delay #(10 minerals every second, can change)
 	if(re_animate):
 		child.frame = 0
 	#this function is so when we press the button to place a tower and we just want to show the tower being placed
@@ -78,7 +98,14 @@ func frame_count(): #required for all towers
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	child.upgrade_level = level
+	mpm = child.upgrade_map[level]
 	if hovering:
+		if(len(self.get_node("Sprite").get_overlapping_bodies()) > 0):
+			on_object = true
+		else:
+			on_object = false
+	
 		var overlap = self.get_overlapping_bodies()
 		draw_hover_line.emit(self.global_position, overlap, 0.192, 0.988, 0.165, 3, hover_line)
 	
@@ -98,7 +125,7 @@ func _on_timer_timeout() -> void:
 		
 		child = self.get_node("Sprite2D")
 		if(child):
-			child.mine(line_node)
+			total_mined += child.mine(line_node)
 		
 		cooling_down = true
 
@@ -139,7 +166,7 @@ func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -
 	
 	if event is InputEventMouseButton and clickable:
 		if event.is_action("BUTTON_LEFT"):
-			draw_selection_animation.emit(self.global_position, sprite_texture.get_size().x/2, true)
+			draw_selection_animation.emit(self.global_position, sprite_texture.get_size().x/2, true,  self)
 			#will change the hot bar or something to let us upgrade the selected tower
 
 func rebuild():

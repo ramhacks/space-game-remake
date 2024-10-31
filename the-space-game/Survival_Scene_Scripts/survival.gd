@@ -20,16 +20,26 @@ var selection_node
 var starting_tower_pos
 var activate_nearby_node_showing = false
 
+var waiting_for_clickout = false
+
+
+var vbox_children = []#list of children in buttons (upgrade level so on) so if they are removed we can add them back in
+
 func clear_hover_lines():
+	var hover_line_node
 	#fix so that you can't place tower in hotbar
-	var hover_line_node = get_tree().get_nodes_in_group("hover_line")[0]
+	if(len(get_tree().get_nodes_in_group("hover_line"))):
+		hover_line_node = get_tree().get_nodes_in_group("hover_line")[0]
 	
-	hover_line_node.queue_free()
+	if(hover_line_node):
+		hover_line_node.queue_free()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
 	var asteroid_scene = preload("res://Asteroid_Gen/asteroid_field.tscn")
 	selection_node = preload("res://Selection_Draw_Node/Selection_Draw.tscn").instantiate()
+	var tween = self.get_tree().create_tween() #rotate the drawing 
+	tween.tween_property(selection_node, "rotation", deg_to_rad(0), 0.5)
 	var instance = asteroid_scene.instantiate()
 	self.add_child(instance)
 	#temporary just to test miner tower
@@ -39,7 +49,10 @@ func _ready() -> void:
 	game_tick_timer = get_node("Global_Ticks")
 	
 	self.get_node("Camera_Area").draw_select.connect(draw_selector)
-
+	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Custom"))
+	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button"))
+	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Recycle"))
+	
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -65,7 +78,8 @@ func _on_camera_area_cancel_spawn_tower() -> void:
 		placing_tower = false
 
 func _on_camera_area_place_tower(cur_position: Variant) -> void:
-	if(placing_tower and len(tower_to_place.get_overlapping_bodies()) != 0 && (starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 30)):
+	if(placing_tower and len(tower_to_place.get_overlapping_bodies()) != 0 && (starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 30)
+		and !tower_to_place.on_object):
 		clear_hover_lines()
 		
 		Globals.resources = Globals.resources - 45
@@ -90,7 +104,7 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 		
 
 func _on_miner_button_pressed() -> void:
-	if(Globals.resources - 45 >= 0):
+	if(Globals.resources - 45 >= 0 and !placing_tower):
 		
 		#miner tower button pressed
 		tower_scene = mining_tower  
@@ -136,9 +150,12 @@ func clear_laser(timer, tower_origin):
 	timer.stop()
 	#line.clear_points()
 	timer.queue_free()
-	tower_origin.cooling_down = false
-	
-	tower_origin.timer.start() #remove after power is implmeneted
+	if(not Globals.tower_just_removed):
+		tower_origin.cooling_down = false
+		
+		tower_origin.timer.start() #remove after power is implmeneted
+	else:
+		Globals.tower_just_removed = false
 	
 	
 func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
@@ -147,7 +164,7 @@ func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
 	var color = Color(R, G, B, opacity)
 	self.add_child(line_node)
 	line_node.set_default_color(color)
-	line_node.width = 3
+	line_node.width = 1.5
 	var draw = true
 	for nodes in pos2_list:
 		#only draw line (only applies to miner class) if asteroid is not empty of resources
@@ -169,12 +186,14 @@ func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
 			line_node.add_point(to_local(nodes.global_position))
 			line_node.add_point(to_local(pos1))
 
-var waiting_for_clickout = false
 
 
-func draw_selector(tower_pos, tower_radius, clicked_self): #if add, add else play tween then remove
-	
+
+func draw_selector(tower_pos, tower_radius, clicked_self, tower): #if add, add else play tween then remove
 	#draw the selection animation, we will add a tween after finishing creating the base selection shape
+	if(tower):
+		Globals.tower_selected = tower
+		
 	if(clicked_self and selection_node not in get_tree().get_nodes_in_group("selection")): #only draw if clicked node
 		#it has been clicked so now if somewhere that is not this node is clicked hide the select drawing
 		self.add_child(selection_node)
@@ -183,21 +202,93 @@ func draw_selector(tower_pos, tower_radius, clicked_self): #if add, add else pla
 		selection_node.redraw_self(tower_radius)
 		#create tween to animate
 		var tween = self.get_tree().create_tween() #rotate the drawing 
-		tween.tween_property(selection_node, "rotation", deg_to_rad(-90), 0.5)	
+		tween.tween_property(selection_node, "rotation", deg_to_rad(-90), 0.2)	
 		tween.finished.connect(tween_done.bind(true))
+		show_selection_ui(tower)
+		
+		Globals.tower_selection_mode = true
 		
 	elif(waiting_for_clickout and selection_node in get_tree().get_nodes_in_group("selection")):
-		var tween = self.get_tree().create_tween() #rotate the drawing 
-		tween.tween_property(selection_node, "rotation", deg_to_rad(90), 0.5)
-		tween.finished.connect(tween_done.bind(false))
+		waiting_for_clickout = false
+		selection_node.remove_from_group("selection")
+		self.remove_child(selection_node)
+		
+		hide_selection_ui(Globals.tower_selected)
+		
+		Globals.tower_selection_mode = false
 		
 func tween_done(create):
 	if create:
 		waiting_for_clickout = true
-	else:
-		selection_node.remove_from_group("selection")
-		self.remove_child(selection_node)
-		waiting_for_clickout = false
 
+
+#return tower ui node
+func get_tower_ui_node(tower_type):
+	#you need to name the nodes the same as the cur_name attribute of your tower so we can get the path of their seleciton ui
+	var pathstring = "HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/" + tower_type + "_Selection"
+	var pathstring_button = "HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/" + tower_type + "_Button_Holder/Button"
 	
+	return [self.get_node(pathstring), self.get_node(pathstring_button)]
+
+func get_all_children(in_node,arr:=[]):
+	arr.push_back(in_node)
+	for child in in_node.get_children():
+		arr = get_all_children(child,arr)
+	return arr
+
+#show selection ui	
+func show_selection_ui(tower):
+	#re-add all button nodes just in case they were removed in another tower seleciton menu
+	var vbox = self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons")
+	var children = get_all_children(vbox)
+	for nodes in vbox_children:
+		if(nodes not in children):
+			vbox.add_child(nodes)
+	
+	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = false
+	
+	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").visible = true
+	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Health/ProgressBar").value = 100 % tower.health
+	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Health/Label").text = "Health " + str(tower.health)
+	if(tower.cur_name == "miner"):
+		self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars/Label1").text = "Mine Rate:  " + str(tower.mpm) + " mpm"
+		self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars/Label2").text = "Total Mined: " + str(tower.total_mined)
+	
+	#set upgrade (if any)
+
+	if(tower.upgrade_price[tower.level] != -1): #if there are still available upgrades
+		self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button").text = "Upgrade: " + str(tower.upgrade_price[tower.level])
+	else:
+		self.remove_child(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button"))
+	
+	var ui_list = get_tower_ui_node(tower.cur_name)
+	ui_list[0].visible = true
+	ui_list[1].disabled = true
+
+#hide selection and go back to default hotbar
+
+signal finished
+
+func hide_selection_ui(tower):
+	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = true
+	
+	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").visible = false
+	var ui_list = get_tower_ui_node(tower.cur_name)
+	ui_list[0].visible = true
+	ui_list[1].disabled = false
+	
+	var tween = self.get_tree().create_tween() #rotate the drawing 
+	tween.tween_property(selection_node, "rotation", deg_to_rad(0), 0)	
+	tween.finished.connect(hide_tween_done)
+	
+func hide_tween_done():
+	#if we need to remove this node say that yes we can
+	finished.emit()
+	
+func _on_side_buttons_hide_selection() -> void:
+	waiting_for_clickout = false
+	selection_node.remove_from_group("selection")
+	self.remove_child(selection_node)
+	hide_selection_ui(Globals.tower_selected)
+	Globals.tower_selection_mode = false
 	

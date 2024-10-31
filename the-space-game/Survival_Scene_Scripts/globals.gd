@@ -6,3 +6,8 @@ extends Node
 
 var resources = 50  # amount of resources the current player has
 var RPM = 0
+
+var tower_selection_mode = false
+var tower_selected
+
+var tower_just_removed = false

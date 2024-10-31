@@ -63,8 +63,6 @@ func extractresources(change): #change resources by a certain amount, if no more
 		else:
 			Globals.resources += self.resources
 		self.resources -= change
-		
-		return 1
 	else:
 		#assign an empty texture if it is empty, this will rarly be called but is here just in case
 		assign_empty_texture()

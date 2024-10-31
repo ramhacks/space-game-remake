@@ -1,0 +1,27 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://c31puf50m0oxm"]
+
+[ext_resource type="StyleBox" uid="uid://dn11or8hchhjb" path="res://Themes/border.tres" id="1_pav7f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1aav7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_obea2"]
+bg_color = Color(0.288518, 0.288518, 0.288518, 1)
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.677578, 0.993103, 0.673959, 1)
+corner_radius_bottom_right = 2
+shadow_color = Color(0.77084, 0.770839, 0.770839, 0.874)
+
+[resource]
+Button/colors/font_color = Color(0.266667, 0.713726, 0.290196, 1)
+Button/colors/font_focus_color = Color(0.266667, 0.713726, 0.290196, 1)
+Button/colors/font_hover_color = Color(0.266667, 0.713726, 0.290196, 1)
+Button/colors/font_hover_pressed_color = Color(0.266667, 0.713726, 0.290196, 1)
+Button/colors/font_pressed_color = Color(0.266667, 0.713726, 0.290196, 1)
+Button/styles/focus = SubResource("StyleBoxEmpty_1aav7")
+Button/styles/hover = ExtResource("1_pav7f")
+Button/styles/normal = ExtResource("1_pav7f")
+Button/styles/pressed = SubResource("StyleBoxFlat_obea2")
