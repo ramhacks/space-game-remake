@@ -2,7 +2,7 @@ extends Area2D
 
 var level = 1
 
-
+var player_ = false #used to check if enemy should attack it or not
 
 var cur_name = "miner"
 
@@ -26,7 +26,6 @@ signal draw_selection_animation(tower_pos, tower_radius, clicked_self, tower_typ
 
 var cooldown_delay = 3  #may need to be adjusted based on upgrade level
 var cooling_down = false
-
 
 var line_node
 
@@ -52,7 +51,6 @@ var recycle_price = {
 	2: 45,
 	3: 45
 }
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -4,10 +4,9 @@ extends AnimatedSprite2D
 
 var asteroids_in_range = []
 var all_object_collisions = []
-var upgrade_level = 1 #same as parent value, miner just needs it so it knows how much it needs to mine
+var upgrade_level = 1  #same as parent value, miner just needs it so it knows how much it needs to mine
 
 signal draw_line(pos1, pos2)
-
 
 
 var upgrade_map = {

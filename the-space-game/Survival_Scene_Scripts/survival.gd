@@ -2,10 +2,13 @@ extends Node2D
 
 #list of towers
 var mining_tower
+var test
 
 signal finished_cooldown
 
 signal connect_game_ticks(node)
+
+signal finished
 
 #these two variables are if we are going to place a tower, press the tower button and show the tower following
 #the mouse and then what type of tower we are placing, the functionality of the towers will be the same for 
@@ -46,13 +49,20 @@ func _ready() -> void:
 	
 	mining_tower = preload("res://towers/Miner/miner.tscn")
 	
+	test = preload("res://Tower Template/Template_Tower_Object.tscn")
+	
 	game_tick_timer = get_node("Global_Ticks")
 	
 	self.get_node("Camera_Area").draw_select.connect(draw_selector)
+	
 	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Custom"))
 	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button"))
 	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Recycle"))
-	
+	var vbox = self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons")
+	var children = get_all_children(vbox)
+	children.pop_front()
+	for i in range(1, 3):
+		vbox.remove_child(children[i])
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -150,12 +160,11 @@ func clear_laser(timer, tower_origin):
 	timer.stop()
 	#line.clear_points()
 	timer.queue_free()
-	if(not Globals.tower_just_removed):
+	if(is_instance_valid(tower_origin)):
 		tower_origin.cooling_down = false
 		
 		tower_origin.timer.start() #remove after power is implmeneted
-	else:
-		Globals.tower_just_removed = false
+
 	
 	
 func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
@@ -240,11 +249,21 @@ func get_all_children(in_node,arr:=[]):
 func show_selection_ui(tower):
 	#re-add all button nodes just in case they were removed in another tower seleciton menu
 	var vbox = self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons")
-	var children = get_all_children(vbox)
-	for nodes in vbox_children:
-		if(nodes not in children):
-			vbox.add_child(nodes)
 	
+	var children = get_all_children(vbox)
+	children.pop_front()
+	if(len(children)>1):
+		for i in range(0, 3):
+			vbox.remove_child(children[i])
+	#FIX THIS AT SOME POINT, NOT ADDING IN ORDER
+	vbox.add_child(vbox_children[0])
+	if(tower.upgrade_price[tower.level] != -1):
+		vbox_children[1].text = "Upgrade: " + str(tower.upgrade_price[tower.level])
+		vbox.add_child(vbox_children[1])
+	vbox_children[2].text = "Recycle: " + str(tower.recycle_price[tower.level])
+	vbox.add_child(vbox_children[2])
+	
+
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = false
 	
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").visible = true
@@ -256,10 +275,6 @@ func show_selection_ui(tower):
 	
 	#set upgrade (if any)
 
-	if(tower.upgrade_price[tower.level] != -1): #if there are still available upgrades
-		self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button").text = "Upgrade: " + str(tower.upgrade_price[tower.level])
-	else:
-		self.remove_child(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button"))
 	
 	var ui_list = get_tower_ui_node(tower.cur_name)
 	ui_list[0].visible = true
@@ -267,7 +282,7 @@ func show_selection_ui(tower):
 
 #hide selection and go back to default hotbar
 
-signal finished
+
 
 func hide_selection_ui(tower):
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = true

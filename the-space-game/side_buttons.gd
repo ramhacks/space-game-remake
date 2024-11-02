@@ -23,7 +23,7 @@ func _on_upgrade_button_pressed() -> void:
 		else:
 			$Upgrade_Button.text = "Upgrade: " + str(Globals.tower_selected.upgrade_price[Globals.tower_selected.level])
 			
-		Globals.tower_selected.built = true
+		Globals.tower_selected.built = true #change to false when power is implmented
 		
 		Globals.tower_selected.build_progress = 0
 		Globals.tower_selected.child.play("level" + str(Globals.tower_selected.level))
@@ -31,7 +31,6 @@ func _on_upgrade_button_pressed() -> void:
 
 
 func _on_recycle_pressed() -> void:
-	Globals.tower_just_removed = true
 	recycle_pressed = true
 	Globals.resources += Globals.tower_selected.recycle_price[Globals.tower_selected.level]
 	hide_selection.emit()

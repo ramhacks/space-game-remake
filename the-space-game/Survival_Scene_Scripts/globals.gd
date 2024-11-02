@@ -9,5 +9,3 @@ var RPM = 0
 
 var tower_selection_mode = false
 var tower_selected
-
-var tower_just_removed = false

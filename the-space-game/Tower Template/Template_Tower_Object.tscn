@@ -1,17 +1,79 @@
-[gd_scene load_steps=5 format=3 uid="uid://cj2xpw6u3yej1"]
+[gd_scene load_steps=16 format=3 uid="uid://cj2xpw6u3yej1"]
 
 [ext_resource type="Script" path="res://Tower Template/template_tower_object.gd" id="1_su0q7"]
+[ext_resource type="Texture2D" uid="uid://d07u7pah6ppym" path="res://images/29.png" id="2_2y1tk"]
 [ext_resource type="Script" path="res://Tower Template/tower.gd" id="2_xq2rf"]
+[ext_resource type="Script" path="res://towers/Miner/mining_laser.gd" id="3_fnlgq"]
+[ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://images/Green-Circle-PNG-Photo-2603984782.png" id="5_knsrp"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_lpst5"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_2y1tk")
+}],
 "loop": true,
 "name": &"place",
 "speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3kjhl"]
+radius = 32.1403
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g7k0a"]
+bg_color = Color(0.0156863, 0.0470588, 0.862745, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fjhom"]
+bg_color = Color(0.0156863, 0.611765, 0.988235, 1)
+
+[sub_resource type="Theme" id="Theme_o2v86"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_g7k0a")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_fjhom")
+
+[sub_resource type="Gradient" id="Gradient_xd4kp"]
+offsets = PackedFloat32Array(0, 0.458333, 1)
+colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699, 0, 1, 0.0183086, 0.319085, 0.184432, 1)
+metadata/_snap_count = 12
+
+[sub_resource type="Animation" id="Animation_b7t7o"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_v036w"]
+resource_name = "line_disolve"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:width")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.1, 2.9),
+"transitions": PackedFloat32Array(1, 7.21),
+"update": 0,
+"values": [2.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:default_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.366667, 2.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.52227, 0.952408, 3.85046e-07, 1), Color(0.186, 0.977, 0.16, 0.646)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w34gp"]
+_data = {
+"RESET": SubResource("Animation_b7t7o"),
+"line_disolve": SubResource("Animation_v036w")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k8ata"]
+radius = 12.0
 
 [node name="Template" type="Area2D"]
 script = ExtResource("1_su0q7")
@@ -23,3 +85,37 @@ script = ExtResource("2_xq2rf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_3kjhl")
+
+[node name="BuildProgress" type="ProgressBar" parent="."]
+offset_left = -7.0
+offset_top = -15.0
+offset_right = 7.0
+offset_bottom = -13.0
+theme = SubResource("Theme_o2v86")
+show_percentage = false
+
+[node name="Laser" type="Line2D" parent="."]
+width = 0.0
+default_color = Color(0.186, 0.977, 0.16, 0.646)
+gradient = SubResource("Gradient_xd4kp")
+script = ExtResource("3_fnlgq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Laser")
+libraries = {
+"": SubResource("AnimationLibrary_w34gp")
+}
+
+[node name="Sprite" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Sprite"]
+shape = SubResource("CircleShape2D_k8ata")
+
+[node name="collider" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(-2, 5)
+scale = Vector2(0.185, 0.183333)
+texture = ExtResource("5_knsrp")
+metadata/_edit_lock_ = true
+
+[connection signal="input_event" from="Sprite" to="." method="_on_sprite_input_event"]

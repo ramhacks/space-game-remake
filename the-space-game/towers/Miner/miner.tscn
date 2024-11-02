@@ -27,15 +27,15 @@
 [ext_resource type="Texture2D" uid="uid://bp3lql4l1n5pn" path="res://images/536.png" id="24_sgic6"]
 [ext_resource type="Texture2D" uid="uid://crau3vdk0vtxi" path="res://images/538.png" id="25_nnu05"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g7k0a"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3lut5"]
 bg_color = Color(0.0156863, 0.0470588, 0.862745, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fjhom"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ttvds"]
 bg_color = Color(0.0156863, 0.611765, 0.988235, 1)
 
 [sub_resource type="Theme" id="Theme_bw76j"]
-ProgressBar/styles/background = SubResource("StyleBoxFlat_g7k0a")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_fjhom")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_3lut5")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_ttvds")
 
 [sub_resource type="Animation" id="Animation_b7t7o"]
 length = 0.001
@@ -191,8 +191,8 @@ libraries = {
 }
 
 [node name="Laser" type="Line2D" parent="."]
-width = 2.0
-default_color = Color(0.52227, 0.952408, 3.85046e-07, 1)
+width = 0.0
+default_color = Color(0.186, 0.977, 0.16, 0.646)
 gradient = SubResource("Gradient_okg80")
 script = ExtResource("4_njm1e")
 
