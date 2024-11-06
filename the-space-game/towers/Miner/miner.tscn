@@ -1,12 +1,13 @@
-[gd_scene load_steps=37 format=3 uid="uid://c6np11nexofah"]
+[gd_scene load_steps=29 format=3 uid="uid://c6np11nexofah"]
 
-[ext_resource type="Script" path="res://towers/Miner/mine.gd" id="1_2thg4"]
+[ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_x10fq"]
+[ext_resource type="Script" path="res://towers/Miner/miner_tower.gd" id="2_3ciky"]
 [ext_resource type="Script" path="res://towers/Miner/miner.gd" id="2_7igyp"]
 [ext_resource type="Texture2D" uid="uid://cgs7ld2xn3gnc" path="res://images/494.png" id="3_jupu6"]
 [ext_resource type="Texture2D" uid="uid://beq1a1rqkgpe5" path="res://images/514.png" id="3_yabks"]
 [ext_resource type="Texture2D" uid="uid://b6exsv0vss8qr" path="res://images/490.png" id="4_ewh2d"]
 [ext_resource type="Texture2D" uid="uid://do7iu2mcny87c" path="res://images/496.png" id="4_gvx7w"]
-[ext_resource type="Script" path="res://towers/Miner/mining_laser.gd" id="4_njm1e"]
+[ext_resource type="Texture2D" uid="uid://bvpcse3e1ysy0" path="res://images/541.png" id="4_u6ypk"]
 [ext_resource type="Texture2D" uid="uid://bvkvwhlcr5ip7" path="res://images/498.png" id="5_a04ud"]
 [ext_resource type="Texture2D" uid="uid://b8pk13k7joa65" path="res://images/500.png" id="6_flqx2"]
 [ext_resource type="Texture2D" uid="uid://cvl4wefefvjuf" path="res://images/502.png" id="7_442wm"]
@@ -15,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bmg2qsmvvkksl" path="res://images/508.png" id="10_gcjpd"]
 [ext_resource type="Texture2D" uid="uid://bvbqt8ghe7pen" path="res://images/510.png" id="11_kf5bi"]
 [ext_resource type="Texture2D" uid="uid://bvwnoixwfeuyu" path="res://images/512.png" id="12_1enlj"]
-[ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://images/Green-Circle-PNG-Photo-2603984782.png" id="15_ekrsg"]
+[ext_resource type="Texture2D" uid="uid://u7stu0yjtd8p" path="res://images/517.png" id="14_kb7ms"]
 [ext_resource type="Texture2D" uid="uid://d2ea7vxim36uq" path="res://images/520.png" id="16_4ky0b"]
 [ext_resource type="Texture2D" uid="uid://bexy5ew2cvldh" path="res://images/522.png" id="17_f7yyx"]
 [ext_resource type="Texture2D" uid="uid://bnsrodpjpyxf1" path="res://images/524.png" id="18_m4yhk"]
@@ -27,59 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://bp3lql4l1n5pn" path="res://images/536.png" id="24_sgic6"]
 [ext_resource type="Texture2D" uid="uid://crau3vdk0vtxi" path="res://images/538.png" id="25_nnu05"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3lut5"]
-bg_color = Color(0.0156863, 0.0470588, 0.862745, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ttvds"]
-bg_color = Color(0.0156863, 0.611765, 0.988235, 1)
-
-[sub_resource type="Theme" id="Theme_bw76j"]
-ProgressBar/styles/background = SubResource("StyleBoxFlat_3lut5")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_ttvds")
-
-[sub_resource type="Animation" id="Animation_b7t7o"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_v036w"]
-resource_name = "line_disolve"
-length = 3.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:width")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(1.1, 2.9),
-"transitions": PackedFloat32Array(1, 7.21),
-"update": 0,
-"values": [2.0, 0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:default_color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.366667, 2.9),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0.52227, 0.952408, 3.85046e-07, 1), Color(0.186, 0.977, 0.16, 0.646)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_w34gp"]
-_data = {
-"RESET": SubResource("Animation_b7t7o"),
-"line_disolve": SubResource("Animation_v036w")
-}
-
-[sub_resource type="Gradient" id="Gradient_okg80"]
-offsets = PackedFloat32Array(0, 0.458333, 1)
-colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699, 0, 1, 0.0183086, 0.319085, 0.184432, 1)
-metadata/_snap_count = 12
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_f73n1"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_xrw86"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -90,6 +39,9 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_u6ypk")
+}, {
 "duration": 1.0,
 "texture": ExtResource("16_4ky0b")
 }, {
@@ -125,6 +77,9 @@ animations = [{
 "speed": 10.0
 }, {
 "frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_kb7ms")
+}, {
 "duration": 1.0,
 "texture": ExtResource("3_jupu6")
 }, {
@@ -163,68 +118,23 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_rqckh"]
-radius = 58.1378
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_sf37x"]
-radius = 8.0
-
-[node name="Miner" type="Area2D"]
-z_index = 1
-position = Vector2(79, 66)
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("1_2thg4")
-
-[node name="BuildProgress" type="ProgressBar" parent="."]
-offset_left = -7.0
-offset_top = -11.0
-offset_right = 7.0
-offset_bottom = -9.0
-theme = SubResource("Theme_bw76j")
-show_percentage = false
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Laser")
-libraries = {
-"": SubResource("AnimationLibrary_w34gp")
+[node name="miner" instance=ExtResource("1_x10fq")]
+script = ExtResource("2_3ciky")
+cur_name = "miner"
+recycle_price = {
+1: 45,
+2: 45,
+3: -1
 }
 
-[node name="Laser" type="Line2D" parent="."]
-width = 0.0
-default_color = Color(0.186, 0.977, 0.16, 0.646)
-gradient = SubResource("Gradient_okg80")
-script = ExtResource("4_njm1e")
+[node name="Timer" type="Timer" parent="." index="4"]
+one_shot = true
 
-[node name="collider" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." index="5"]
 z_index = 2
-position = Vector2(-2, 5)
-scale = Vector2(0.185, 0.183333)
-texture = ExtResource("15_ekrsg")
-metadata/_edit_lock_ = true
-
-[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
-z_index = 2
-sprite_frames = SubResource("SpriteFrames_f73n1")
+sprite_frames = SubResource("SpriteFrames_xrw86")
 animation = &"hover"
 script = ExtResource("2_7igyp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_rqckh")
-metadata/_edit_lock_ = true
-
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
-
-[node name="Sprite" type="Area2D" parent="."]
-metadata/_edit_lock_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite"]
-shape = SubResource("CircleShape2D_sf37x")
-metadata/_edit_lock_ = true
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="draw_line" from="Sprite2D" to="." method="_on_sprite_2d_draw_line"]
-[connection signal="force_change_collision" from="Sprite2D" to="." method="_on_sprite_2d_force_change_collision"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="input_event" from="Sprite" to="." method="_on_sprite_input_event"]
+[connection signal="draw_line" from="Sprite2D" to="." method="_on_sprite_2d_draw_line"]

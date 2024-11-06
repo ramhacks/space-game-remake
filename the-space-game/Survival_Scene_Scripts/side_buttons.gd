@@ -26,7 +26,8 @@ func _on_upgrade_button_pressed() -> void:
 		Globals.tower_selected.built = true #change to false when power is implmented
 		
 		Globals.tower_selected.build_progress = 0
-		Globals.tower_selected.child.play("level" + str(Globals.tower_selected.level))
+		Globals.tower_selected.animated_node.frame = 1
+		Globals.tower_selected.animated_node.play("level" + str(Globals.tower_selected.level))
 		
 
 

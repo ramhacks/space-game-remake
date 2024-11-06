@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=39 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/camera.gd" id="2_fmvyw"]
@@ -10,7 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://trco7br4nfk5" path="res://images/infobutton_frame2.png" id="7_to1tn"]
 [ext_resource type="Texture2D" uid="uid://wbukxynxwi2f" path="res://images/miner_button_frame_1.png" id="8_vnyq4"]
 [ext_resource type="Texture2D" uid="uid://cykts73ldu7ri" path="res://images/miner_button_frame_2.png" id="9_pw457"]
-[ext_resource type="Script" path="res://side_buttons.gd" id="11_26wvg"]
+[ext_resource type="Script" path="res://Survival_Scene_Scripts/side_buttons.gd" id="11_26wvg"]
+[ext_resource type="Script" path="res://text_bars.gd" id="11_hj758"]
+[ext_resource type="Script" path="res://selection.gd" id="11_sh5ow"]
 [ext_resource type="Theme" uid="uid://c31puf50m0oxm" path="res://Themes/Upgrade_Button.tres" id="11_vnck4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
@@ -138,18 +140,6 @@ position = Vector2(575, 325)
 position = Vector2(576, 259.5)
 shape = SubResource("RectangleShape2D_fy202")
 
-[node name="Camera_Area2" type="Area2D" parent="."]
-z_index = 1
-collision_layer = 3
-script = ExtResource("2_fmvyw")
-
-[node name="Camera2D" type="Camera2D" parent="Camera_Area2"]
-position = Vector2(575, 325)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera_Area2"]
-position = Vector2(576, 259.5)
-shape = SubResource("RectangleShape2D_fy202")
-
 [node name="Background_Layer" type="CanvasLayer" parent="."]
 layer = -1
 
@@ -211,7 +201,7 @@ texture_normal = ExtResource("6_dq7hv")
 texture_pressed = ExtResource("7_to1tn")
 metadata/_edit_lock_ = true
 
-[node name="Button" type="TextureButton" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/miner_Button_Holder"]
+[node name="minerButton" type="TextureButton" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/miner_Button_Holder"]
 z_index = 2
 layout_mode = 2
 offset_right = 100.0
@@ -232,11 +222,51 @@ offset_bottom = 95.0
 text = "45m"
 metadata/_edit_lock_ = true
 
+[node name="solar_Button_Holder" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 113.0
+offset_top = 9.0
+offset_right = 213.0
+offset_bottom = 125.0
+
+[node name="Info" type="TextureButton" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/solar_Button_Holder"]
+z_index = 3
+layout_mode = 0
+offset_top = 92.0
+offset_right = 100.0
+offset_bottom = 115.0
+texture_normal = ExtResource("6_dq7hv")
+texture_pressed = ExtResource("7_to1tn")
+metadata/_edit_lock_ = true
+
+[node name="solarButton" type="TextureButton" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/solar_Button_Holder"]
+z_index = 2
+layout_mode = 2
+offset_right = 100.0
+offset_bottom = 100.0
+shortcut = SubResource("Shortcut_tu4hv")
+texture_normal = ExtResource("8_vnyq4")
+texture_pressed = ExtResource("9_pw457")
+stretch_mode = 0
+metadata/_edit_lock_ = true
+
+[node name="Price" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/solar_Button_Holder"]
+z_index = 2
+layout_mode = 0
+offset_left = 8.0
+offset_top = 72.0
+offset_right = 48.0
+offset_bottom = 95.0
+text = "200m"
+metadata/_edit_lock_ = true
+
 [node name="Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
 visible = false
 anchors_preset = 0
 offset_right = 651.0
 offset_bottom = 131.0
+script = ExtResource("11_sh5ow")
 metadata/_edit_lock_ = true
 
 [node name="TextBars" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection"]
@@ -244,6 +274,7 @@ anchors_preset = 0
 offset_left = 316.0
 offset_right = 524.0
 offset_bottom = 128.0
+script = ExtResource("11_hj758")
 
 [node name="Label1" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars"]
 layout_mode = 0
@@ -336,6 +367,14 @@ anchors_preset = 0
 offset_right = 772.0
 offset_bottom = 131.0
 
+[node name="solar_Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection"]
+visible = false
+z_index = -1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 772.0
+offset_bottom = 131.0
+
 [node name="Side_Buttons" type="VBoxContainer" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection"]
 layout_mode = 0
 offset_left = 550.0
@@ -359,14 +398,6 @@ text = "Upgrade "
 layout_mode = 2
 theme = SubResource("Theme_jrksv")
 text = "Recycle "
-
-[node name="Solar_Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
-visible = false
-z_index = -1
-layout_mode = 3
-anchors_preset = 0
-offset_right = 772.0
-offset_bottom = 131.0
 
 [node name="ColorRect2" type="ColorRect" parent="HotBar_Layer"]
 z_index = 3
@@ -435,11 +466,8 @@ metadata/_edit_lock_ = true
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="Global_Ticks" method="_on_camera_area_cancel_spawn_tower"]
 [connection signal="input_event" from="Camera_Area" to="Camera_Area" method="_on_input_event"]
 [connection signal="place_tower" from="Camera_Area" to="." method="_on_camera_area_place_tower"]
-[connection signal="cancel_spawn_tower" from="Camera_Area2" to="." method="_on_camera_area_cancel_spawn_tower"]
-[connection signal="cancel_spawn_tower" from="Camera_Area2" to="Global_Ticks" method="_on_camera_area_cancel_spawn_tower"]
-[connection signal="input_event" from="Camera_Area2" to="Camera_Area2" method="_on_input_event"]
-[connection signal="place_tower" from="Camera_Area2" to="." method="_on_camera_area_place_tower"]
-[connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/miner_Button_Holder/Button" to="." method="_on_miner_button_pressed"]
+[connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/miner_Button_Holder/minerButton" to="." method="_on_miner_button_pressed"]
+[connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/solar_Button_Holder/solarButton" to="." method="_on_solar_but_pressed"]
 [connection signal="hide_selection" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" to="." method="_on_side_buttons_hide_selection"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_upgrade_button_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Recycle" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_recycle_pressed"]

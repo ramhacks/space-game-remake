@@ -54,9 +54,6 @@ func _ready() -> void:
 				
 				
 				var s = asteroid.instantiate()
-				s.get_node("Sprite2D").set_random_size()
-				
-				s.get_node("Sprite2D").assign_full_texture()
 				s.position.x = x_pos + jiggle_asteroid
 				s.position.y = y_pos
 				self.add_child(s)

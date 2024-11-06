@@ -39,11 +39,15 @@ func set_random_size():
 			self.asteroid_size = self.asteroid_size - 1
 		else:
 			self.asteroid_size = self.asteroid_size + 1
+	if(self.asteroid_size == 894):
+		self.asteroid_size = 896
+		
 	self.texture_path = "res://Asteroid_Images/" + str(self.asteroid_size) + '.png' # need to fix, it is making the largest the smallest asteroids
 
 
 func assign_full_texture():
 	texture = load(self.texture_path) #assign full texture to self
+	
 
 func assign_empty_texture():
 	self.texture_path = "res://Asteroid_Images/" + str(self.asteroid_size+1) + '.png'

@@ -1,9 +1,9 @@
 extends AnimatedSprite2D
 
 
-
+var tower_colliding_ob_set = false
 var asteroids_in_range = []
-var all_object_collisions = []
+
 var upgrade_level = 1  #same as parent value, miner just needs it so it knows how much it needs to mine
 
 signal draw_line(pos1, pos2)
@@ -21,18 +21,14 @@ var placed = false #required for all towers
 
 var current_drained
 
-signal force_change_collision
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
-		
-
-	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if !closest:
+		self.frame = 0 
 	if placed:
+		self.frame = 1
 		self.play("place")
 		placed = false
 		#when ready run animation only once then stop
@@ -57,22 +53,28 @@ func mine(line_node):
 				closest.assign_empty_texture()
 					#asteroid is empty, move to next available asteroid in range
 				current_drained = true
-				asteroids_in_range.pop_back()
+				asteroids_in_range.pop_front()
 				if(len(asteroids_in_range)):
 					closest = asteroids_in_range[0]
 				else:
-					force_change_collision.emit()
+					self.frame = 0 #set as having no power, in this case having no more asteroids to mine
 					closest = false
 			
 	return 0
 
-func change_collision_list(asteroids):
-	closest = asteroids
-	asteroids_in_range.append(asteroids)
-	all_object_collisions.append(asteroids)
+func change_collision_list(col_list):
+	for asteroid in col_list:
+		if asteroid.cur_name == "asteroid":
+			if asteroid.asteroid_empty == false:
+				asteroids_in_range.append(asteroid)
+				
+	if(len(asteroids_in_range)): 
+		closest = asteroids_in_range[0]
 		
-		
-	
-	
+	tower_colliding_ob_set = true	
+func collision_list():
+	return asteroids_in_range
+
+
 	
 		

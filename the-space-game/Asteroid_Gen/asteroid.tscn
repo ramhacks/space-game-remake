@@ -4,11 +4,12 @@
 [ext_resource type="Script" path="res://Asteroid GD/Asteroid_Script.gd" id="1_ejgq3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fbfk6"]
-radius = 3.0
+radius = 9.05539
 
 [node name="Asteroid" type="StaticBody2D"]
 z_index = 1
-collision_layer = 3
+collision_mask = 3
+input_pickable = true
 script = ExtResource("1_8gv7b")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
