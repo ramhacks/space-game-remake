@@ -268,6 +268,7 @@ func show_selection_ui(tower):
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = false
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").show_selection_nodes(tower)
 
+	assert(tower.cur_name != "tower name", "You didn't name the tower cur_name! We can't find the associated ui elements for this tower")
 	
 	var ui_list = get_tower_ui_node(tower.cur_name)
 	ui_list[0].visible = true
@@ -280,7 +281,6 @@ func show_selection_ui(tower):
 func hide_selection_ui(tower):
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = true
 	
-
 	var ui_list = get_tower_ui_node(tower.cur_name)
 	ui_list[0].visible = true
 	ui_list[1].disabled = false
@@ -299,12 +299,11 @@ func _on_side_buttons_hide_selection() -> void:
 	self.remove_child(selection_node)
 	hide_selection_ui(Globals.tower_selected)
 	Globals.tower_selection_mode = false
-	
-func _on_miner_button_pressed() -> void:
-	if(Globals.resources - initial_tower_prices["miner"] >= 0 and !placing_tower):
-		
-		#miner tower button pressed
-		tower_scene = mining_tower  
+
+
+func tower_button_clicked(price, tower_type):
+	if(Globals.resources - price >= 0 and !placing_tower):
+		tower_scene = tower_type
 		tower_to_place = tower_scene.instantiate() #create a temporary tower object, will be deleted and replaced once placed
 		
 		tower_to_place.draw_hover_line.connect(hover_line)
@@ -313,17 +312,10 @@ func _on_miner_button_pressed() -> void:
 		starting_tower_pos = self.get_node("Camera_Area").get_relative_mouse_pos(false)
 		tower_to_place.set_frame_child(tower_to_place.frame_count())
 		placing_tower = true
+		
+func _on_miner_button_pressed() -> void:
+	tower_button_clicked(initial_tower_prices["miner"], mining_tower)
 
 func _on_solar_but_pressed() -> void:
-	if(Globals.resources - initial_tower_prices["solar"] >= 0 and !placing_tower):
-		
-		#miner tower button pressed
-		tower_scene = solar_tower  
-		tower_to_place = tower_scene.instantiate() #create a temporary tower object, will be deleted and replaced once placed
-		
-		tower_to_place.draw_hover_line.connect(hover_line)
-		#don't run the placed function so nothing will happen
-		self.add_child(tower_to_place)
-		starting_tower_pos = self.get_node("Camera_Area").get_relative_mouse_pos(false)
-		tower_to_place.set_frame_child(tower_to_place.frame_count())
-		placing_tower = true
+	tower_button_clicked(initial_tower_prices["solar"], solar_tower)
+	
