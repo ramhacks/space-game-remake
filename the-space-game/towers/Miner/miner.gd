@@ -49,6 +49,7 @@ func mine(line_node):
 				return upgrade_map[upgrade_level]
 				
 			else:
+				
 				closest.asteroid_empty = true
 				closest.assign_empty_texture()
 					#asteroid is empty, move to next available asteroid in range
@@ -59,6 +60,8 @@ func mine(line_node):
 				else:
 					self.frame = 0 #set as having no power, in this case having no more asteroids to mine
 					closest = false
+					
+				draw_line.emit(to_local(self.global_position), to_local(closest.global_position))
 			
 	return 0
 

@@ -11,6 +11,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Globals.tower_selection_mode:
+		$Side_Buttons/Recycle.text = "Recycle: " + str(tower_data_pull.recycle_price[tower_data_pull.level])
 		$Health/Label.text = "Health " + str(tower_data_pull.health)
 		$Health/ProgressBar.value = 100 % tower_data_pull.health
 	else:

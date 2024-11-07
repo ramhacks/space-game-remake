@@ -261,11 +261,13 @@ func show_selection_ui(tower):
 	vbox.add_child(vbox_children[0])
 	vbox.add_child(vbox_children[1])
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").check_upgrade_available(tower.upgrade_price[tower.level])
-	vbox_children[2].text = "Recycle: " + str(tower.recycle_price[tower.level])
+	vbox_children[2].text = "Recycle: " + str(tower.recycle_price[tower.level]) 
 	vbox.add_child(vbox_children[2])
 	
 
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = false
+	if tower.cur_name == 'miner':
+		print(tower.animated_node.asteroids_in_range)
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").show_selection_nodes(tower)
 
 	assert(tower.cur_name != "tower name", "You didn't name the tower cur_name! We can't find the associated ui elements for this tower")
