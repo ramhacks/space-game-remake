@@ -10,6 +10,7 @@ func _ready() -> void:
 	sprite_node = self.get_node("Sprite")
 	child_area = self.get_node("Collision_Area")
 	animated_node = self.get_node("Sprite2D")
+	
 	inherted_node = self
 	show_colliding_bodies = true
 	
@@ -36,6 +37,7 @@ func _on_timer_timeout() -> void:
 	if(!cooling_down and built):
 		#if powered mine, else on the next 2 sec cycle delete the mining laser graphic
 		if(animated_node):
+			
 			total_mined += animated_node.mine(line_node)
 		
 		cooling_down = true

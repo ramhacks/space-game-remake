@@ -22,3 +22,9 @@ func _process(delta: float) -> void:
 
 func _on_select_button_pressed() -> void:
 	But_pressed.emit(tower_button_target)
+
+func set_disabled():
+	$select_button.disabled = true
+	
+func set_enabled():
+	$select_button.disabled = false

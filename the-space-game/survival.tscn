@@ -184,20 +184,19 @@ anchors_preset = -1
 anchor_bottom = 0.85
 offset_left = 4.0
 offset_top = 9.0
-offset_right = 4.0
-offset_bottom = 15.0
+offset_right = 64.0
+offset_bottom = 91.0
 tower_button_target = "miner"
 Normal_Texture = ExtResource("8_vnyq4")
 Pressed_Texture = ExtResource("9_pw457")
 Display_Price = "45"
-metadata/_edit_lock_ = true
 
 [node name="Solar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
 layout_mode = 1
 offset_left = 112.0
 offset_top = 9.0
-offset_right = 112.0
-offset_bottom = 9.0
+offset_right = 172.0
+offset_bottom = 85.0
 tower_button_target = "solar"
 Normal_Texture = ExtResource("11_7q3wi")
 Pressed_Texture = ExtResource("11_7q3wi")

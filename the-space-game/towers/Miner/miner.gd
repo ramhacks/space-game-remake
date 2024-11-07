@@ -41,7 +41,8 @@ func mine(line_node):
 		#create mining laser graphic
 		if(closest.cur_name == "asteroid"):
 			if(closest.get_resource_amount() > 0):	
-				closest.extract(upgrade_map[upgrade_level])		
+				closest.extract(upgrade_map[upgrade_level])	
+				
 			else:
 				#queue behavior 
 				closest.asteroid_empty = true
@@ -56,10 +57,11 @@ func mine(line_node):
 					closest = false
 					
 					
-					return #don't send laser, stop all mining operations
+					#don't send laser, stop all mining operations
 					
 			draw_line.emit(to_local(self.global_position), to_local(closest.global_position))	
-
+			return upgrade_map[upgrade_level] 
+	return 0
 
 func change_collision_list(col_list):
 	for asteroid in col_list:

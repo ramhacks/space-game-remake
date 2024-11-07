@@ -58,7 +58,9 @@ var sprite_texture #used to get radius and height of sprite to draw selection an
 #node names are not preserved when instantced in a different scene only for nodes in the same scene
 
 # Called when the node enters the scene tree for the first time.
-
+func _ready() -> void:
+	pass
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

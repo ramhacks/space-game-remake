@@ -1,16 +1,12 @@
 extends Tower
 
 var upgrade_level
-
-
 var upgrade_map = {
 	1: 10,
 	2: 20
 }
 
-
 var energy = 0
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

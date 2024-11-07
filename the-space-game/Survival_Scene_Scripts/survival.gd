@@ -255,8 +255,8 @@ func tween_done(create):
 func get_tower_ui_node(tower_type):
 	#you need to name the nodes the same as the cur_name attribute of your tower so we can get the path of their seleciton ui
 	var pathstring = "HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/" + tower_type + "_Selection"
-	var pathstring_button = "HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/" + tower_type + "_Button_Holder/" + tower_type + "Button"
-	
+	var pathstring_button = "HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/" + tower_type
+
 	return [self.get_node(pathstring), self.get_node(pathstring_button)]
 
 
@@ -287,7 +287,7 @@ func show_selection_ui(tower):
 	
 	var ui_list = get_tower_ui_node(tower.cur_name)
 	ui_list[0].visible = true
-	ui_list[1].disabled = true
+
 
 #hide selection and go back to default hotbar
 
@@ -298,7 +298,7 @@ func hide_selection_ui(tower):
 	
 	var ui_list = get_tower_ui_node(tower.cur_name)
 	ui_list[0].visible = true
-	ui_list[1].disabled = false
+
 	
 	var tween = self.get_tree().create_tween() #rotate the drawing 
 	tween.tween_property(selection_node, "rotation", deg_to_rad(0), 0)	
