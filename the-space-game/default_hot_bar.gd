@@ -1,16 +1,13 @@
-extends AnimatedSprite2D
+extends Control
 
-var upgrade_level = 1
-var placed = false #required for all towers
+signal nodes_to_connect(button_nodes)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	var mychildren = Globals.get_all_children(self)
+	nodes_to_connect.emit(mychildren)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if placed:
-		self.play("place")
-		placed = false
-		
+	pass

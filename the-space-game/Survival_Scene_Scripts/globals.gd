@@ -1,5 +1,7 @@
 extends Node
 
+
+
 #This will only ever hold global variables, maybe functions but it is 
 #not recommended unless absolutly necessary
 func get_all_children(in_node,arr:=[]):
@@ -19,3 +21,5 @@ var RPM = 0
 
 var tower_selection_mode = false
 var tower_selected
+
+var NO_SOLAR_TOWER = true 

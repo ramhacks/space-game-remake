@@ -40,16 +40,10 @@ func mine(line_node):
 	#only mine if there is a node nearby and powered
 		#create mining laser graphic
 		if(closest.cur_name == "asteroid"):
-			if(closest.get_resource_amount() > 0):
-				
-				#connect line to as a "laser" to itself and a miner
-				draw_line.emit(to_local(self.global_position), to_local(closest.global_position))
-				
-				closest.extract(upgrade_map[upgrade_level])
-				return upgrade_map[upgrade_level]
-				
+			if(closest.get_resource_amount() > 0):	
+				closest.extract(upgrade_map[upgrade_level])		
 			else:
-				
+				#queue behavior 
 				closest.asteroid_empty = true
 				closest.assign_empty_texture()
 					#asteroid is empty, move to next available asteroid in range
@@ -61,9 +55,11 @@ func mine(line_node):
 					self.frame = 0 #set as having no power, in this case having no more asteroids to mine
 					closest = false
 					
-				draw_line.emit(to_local(self.global_position), to_local(closest.global_position))
-			
-	return 0
+					
+					return #don't send laser, stop all mining operations
+					
+			draw_line.emit(to_local(self.global_position), to_local(closest.global_position))	
+
 
 func change_collision_list(col_list):
 	for asteroid in col_list:

@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://bxom4d8la8da2"]
+
+[ext_resource type="Script" path="res://UI Scenes/tower_button_component.gd" id="1_cujcw"]
+[ext_resource type="Texture2D" uid="uid://boml38qf8ys4i" path="res://images/infobutton_frame1.png" id="1_ibxq2"]
+[ext_resource type="Texture2D" uid="uid://trco7br4nfk5" path="res://images/infobutton_frame2.png" id="2_a7dk1"]
+[ext_resource type="Texture2D" uid="uid://wbukxynxwi2f" path="res://images/miner_button_frame_1.png" id="3_437o5"]
+[ext_resource type="Texture2D" uid="uid://cykts73ldu7ri" path="res://images/miner_button_frame_2.png" id="4_cvi6u"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_eck2x"]
+device = -1
+keycode = 77
+unicode = 109
+
+[sub_resource type="Shortcut" id="Shortcut_07w2y"]
+events = [SubResource("InputEventKey_eck2x")]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cujcw")
+
+[node name="Info" type="TextureButton" parent="."]
+z_index = 3
+offset_top = 92.0
+offset_right = 100.0
+offset_bottom = 115.0
+texture_normal = ExtResource("1_ibxq2")
+texture_pressed = ExtResource("2_a7dk1")
+metadata/_edit_lock_ = true
+
+[node name="select_button" type="TextureButton" parent="."]
+z_index = 2
+offset_right = 100.0
+offset_bottom = 100.0
+shortcut = SubResource("Shortcut_07w2y")
+texture_normal = ExtResource("3_437o5")
+texture_pressed = ExtResource("4_cvi6u")
+stretch_mode = 0
+metadata/_edit_lock_ = true
+
+[node name="Price" type="Label" parent="."]
+z_index = 2
+offset_left = 8.0
+offset_top = 72.0
+offset_right = 48.0
+offset_bottom = 95.0
+text = "45m"
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="select_button" to="." method="_on_select_button_pressed"]

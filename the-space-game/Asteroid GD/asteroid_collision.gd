@@ -36,4 +36,4 @@ func assign_empty_texture():
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
 		if event.is_action("BUTTON_LEFT"):
-			print($CollisionShape2D.shape.radius)
+			print(get_resource_amount())

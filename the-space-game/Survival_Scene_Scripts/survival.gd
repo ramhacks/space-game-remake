@@ -10,6 +10,11 @@ var initial_tower_prices = {
 	"solar": 200
 }
 
+var tower_scene_dict = {
+	"miner": 0,
+	"solar": 0
+}
+
 signal finished_cooldown
 
 signal connect_game_ticks(node)
@@ -53,9 +58,9 @@ func _ready() -> void:
 	self.add_child(instance)
 	#temporary just to test miner tower
 	
-	mining_tower = preload("res://towers/Miner/miner.tscn")
+	tower_scene_dict['miner'] = preload("res://towers/Miner/miner.tscn")
 	
-	solar_tower = preload("res://towers/Solar/solar.tscn")
+	tower_scene_dict['solar'] = preload("res://towers/Solar/solar.tscn")
 	
 	game_tick_timer = get_node("Global_Ticks")
 	
@@ -95,6 +100,8 @@ func _on_camera_area_cancel_spawn_tower() -> void:
 
 func _on_camera_area_place_tower(cur_position: Variant) -> void:
 	if(placing_tower):
+		
+		
 		var is_miner_and_overlapping = (tower_to_place.cur_name == "miner" 
 										and len(tower_to_place.get_overlap()) != 0)
 		var above_hot_bar_AND_not_on_tower = ((starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 30)
@@ -102,8 +109,12 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 		if((is_miner_and_overlapping and above_hot_bar_AND_not_on_tower) or (not is_miner_and_overlapping)):
 			if(tower_to_place.colliding_areas() == 0):
 				clear_hover_lines()
-
+				
+				assert(initial_tower_prices[tower_to_place.cur_name], "You never added your tower name and price to the initial_tower_prices dictionary
+																		Located at line 8 in this file")
+																		
 				Globals.resources = Globals.resources - initial_tower_prices[tower_to_place.cur_name]
+				
 				placing_tower = false
 				var copy = tower_scene.instantiate()
 				copy.position = cur_position
@@ -122,7 +133,9 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				#connect laser_signal to tower so it can call it itself
 				copy.draw_laser.connect(draw_laser)
 				copy.draw_selection_animation.connect(draw_selector)
-			
+				
+				if(copy.cur_name == 'solar'):
+					Globals.NO_SOLAR_TOWER = false
 			
 			
 			
@@ -315,9 +328,16 @@ func tower_button_clicked(price, tower_type):
 		tower_to_place.set_frame_child(tower_to_place.frame_count())
 		placing_tower = true
 		
-func _on_miner_button_pressed() -> void:
-	tower_button_clicked(initial_tower_prices["miner"], mining_tower)
 
-func _on_solar_but_pressed() -> void:
-	tower_button_clicked(initial_tower_prices["solar"], solar_tower)
+
+#connect button nodes to corresponding button_press_signals
+func _on_default_hot_bar_nodes_to_connect(button_nodes: Variant) -> void:
+	for buttons in button_nodes:
+		if buttons is Tower_Button:
+			buttons.But_pressed.connect(tower_button_pressed)
+
+func tower_button_pressed(button_target) -> void:
+	#helper func for tower_button_clicked
+	tower_button_clicked(initial_tower_prices[button_target], tower_scene_dict[button_target])
+
 	

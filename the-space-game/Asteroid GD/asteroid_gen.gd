@@ -53,6 +53,7 @@ func _ready() -> void:
 				var asteroid = preload( "res://Asteroid_Gen/asteroid.tscn")
 				
 				
+				
 				var s = asteroid.instantiate()
 				s.position.x = x_pos + jiggle_asteroid
 				s.position.y = y_pos
