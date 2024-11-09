@@ -1,5 +1,6 @@
 extends Area2D
 
+var correct_area = false
 signal cancel_spawn_tower
 signal place_tower(cur_position)
 signal draw_select(tower_pos, tower_radius, clicked_self)

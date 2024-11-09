@@ -2,16 +2,43 @@ extends Node2D
 
 class_name Tower
 
+
+
+# Add an item to the queue if it has not reached its maximum capacity
+func add_to_queue(queue, item):
+	if len(queue):
+		queue.push_back(item)
+
+# Removes the front item from the queue and returns whether or not the queue was empty
+func finish_queue_front(queue):
+	if(len(queue)):
+		return queue.pop_front()
+	else:
+		return -1
+	
+
 var child_area
 var sprite_node
 var animated_node
 var inherted_node #for methods that require the inhereted node
 var level = 1
 
+#ENERGY VARS
+var connections = []
+var sent_nodes = []
+var sent_ = false
+var powered = false 
+
+
+
+
+var finished_traversing = false
+var finished_traverse_off = false
 var player_ = false #used to check if enemy should attack it or not
 var show_colliding_bodies = false
 
 @export var health = 300
+
 var build_progress = 0 #percantage up to 100
 
 var built = true #we will set this to false when we implement power
@@ -23,6 +50,8 @@ signal draw_laser(tower, pos1, pos2, cooldown_time, tower_origin)
 signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
 signal draw_selection_animation(tower_pos, tower_radius, clicked_self, tower_type)
 
+signal draw_power_line(tower, pos1, pos2)
+
 @export var cur_name = "tower name" #used if we want to identify the type of tower, 
 
 var cooldown_delay = 3  #may need to be adjusted based on upgrade level
@@ -33,7 +62,7 @@ var line_node
 var hovering = false #hovering next to mouse, not placed yet
 #assumed false until told otherwise
 
-var powered = false #is this node powered? once set to true it will mine once
+
 
 var clickable = false #this is so that we don't think the tower is being clicked after we place it down
 
@@ -64,6 +93,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	$Sprite.my_name = cur_name
+	$Sprite.connections = $Collision_Area.get_overlapping_areas()
 	animated_node.upgrade_level = level
 	
 	if(len(sprite_node.get_overlapping_areas()) > 0):
@@ -126,6 +157,9 @@ func get_overlap():
 #overlapping bodies (for asteroid detection)		#overlapping areas to make sure we are not on top of another node
 	return child_area.get_overlapping_bodies()
 	
+func get_areas_overlap():
+	return child_area.get_overlapping_areas()
+	
 func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	cooling_down = true
 
@@ -133,7 +167,7 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	#we can't use tweens because tweens are meant for single animations
 	#we need to animate 2 things at once so we have to use attached line node and can't dynamically create one
 
-	
+
 #upgrade tower (max of 3)
 func upgrade():
 	pass
@@ -154,3 +188,51 @@ func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -
 		if event.is_action("BUTTON_LEFT"):
 			draw_selection_animation.emit(self.global_position, sprite_texture.get_size().x/2, true,  inherted_node)
 			#will change the hot bar or something to let us upgrade the selected tower
+
+
+
+
+
+#traverse graph to turn nodes on, traverses every node recursively until it runs out of available energy in which it stops and exits the loop
+
+func traverse_graph_power(start_node, energy_left,  visted=null):
+	if visted == null:
+		visted = []
+	visted.append(start_node)
+	for next in start_node.connections:
+		if(next not in visted and is_instance_valid(next) and next.correct_area and next.my_name != "solar"):
+			if next.my_name != 'Power_Node':
+				energy_left -= 50
+			if(energy_left > 0):
+				next.powered = true
+				next.set_val()
+				traverse_graph_power(next, energy_left, visted)
+	
+	self.finished_traversing = true
+	return visted
+
+#traverse graph to turn nodes off
+func traverse_graph_off(start_node, visted=null):
+	if visted == null:
+		visted = []
+	visted.append(start_node)
+	for next in start_node.connections:
+		if(next not in visted and is_instance_valid(next) and next.correct_area):
+			next.powered = false
+			next.reset_power()
+			traverse_graph_off(next, visted)
+			
+	
+	self.finished_traverse_off = true
+	return visted
+
+#power off
+func _on_sprite_reset_powers() -> void:
+	self.powered = false
+	animated_node.play("no_power")
+
+#power on
+func _on_sprite_set_powered_val() -> void:
+	inherted_node.do_process()
+	self.powered = true
+	animated_node.play("powered")

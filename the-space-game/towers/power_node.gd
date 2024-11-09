@@ -1,0 +1,50 @@
+extends Tower
+
+var upgrade_level = 1
+
+var upgrade_map = {
+	1: 10,
+	2: -1
+}
+
+
+
+var energy = 0
+
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	sprite_node = self.get_node("Sprite")
+	child_area = self.get_node("Collision_Area")
+	animated_node = self.get_node("Sprite2D")
+	inherted_node = self
+	
+	var current_animation : String = animated_node.animation
+	
+	sprite_texture = animated_node.get_sprite_frames().get_frame_texture(current_animation, 0)
+	
+	place_build_progress_bar()
+	
+func get_overlap():
+	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however
+
+func _process(delta: float) -> void:
+	$Connector.clear_points()
+	for node in $Sprite.connections:
+		if is_instance_valid(node) and node.correct_area:
+			$Connector.add_point(to_local(self.global_position))
+			$Connector.add_point(to_local(node.global_position))
+	#have to invoke super process or it wont call every frame
+	super._process(delta)
+
+func do_process():
+	pass	
+	
+func set_placed(re_animate, current_overlapping_bodies):
+	
+	
+		
+		
+		
+	super.set_placed(re_animate, current_overlapping_bodies)

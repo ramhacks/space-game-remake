@@ -127,14 +127,11 @@ recycle_price = {
 3: -1
 }
 
-[node name="Timer" type="Timer" parent="." index="4"]
-one_shot = true
-
-[node name="Sprite2D" type="AnimatedSprite2D" parent="." index="5"]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." index="4"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_xrw86")
 animation = &"hover"
 script = ExtResource("2_7igyp")
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="draw_line" from="Sprite2D" to="." method="_on_sprite_2d_draw_line"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

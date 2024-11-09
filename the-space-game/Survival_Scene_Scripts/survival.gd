@@ -7,12 +7,15 @@ var solar_tower
 
 var initial_tower_prices = {
 	"miner": 45, #same as cur_name variable
-	"solar": 200
+	"solar": 200,
+	"Power_Node": 20
 }
 
 var tower_scene_dict = {
 	"miner": 0,
-	"solar": 0
+	"solar": 0,
+	"Power_Node": 0
+	
 }
 
 signal finished_cooldown
@@ -62,6 +65,8 @@ func _ready() -> void:
 	
 	tower_scene_dict['solar'] = preload("res://towers/Solar/solar.tscn")
 	
+	tower_scene_dict["Power_Node"] = preload("res://towers/Power_Node.tscn")
+	
 	game_tick_timer = get_node("Global_Ticks")
 	
 	self.get_node("Camera_Area").draw_select.connect(draw_selector)
@@ -69,6 +74,7 @@ func _ready() -> void:
 	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Custom"))
 	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button"))
 	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Recycle"))
+	
 	var vbox = self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons")
 	var children = Globals.get_all_children(vbox)
 	children.pop_front()
@@ -87,9 +93,6 @@ func _process(delta: float) -> void:
 		if(starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 25):
 			tower_to_place.hovering = true
 		
-
-		
-
 
 func _on_camera_area_cancel_spawn_tower() -> void:
 	#if mouse right_clicked and currently placeing_tower cancel it
@@ -124,8 +127,10 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				
 				
 
-				
-				copy.set_placed(true, tower_to_place.get_overlap())
+				if tower_to_place.cur_name == 'Power_Node':
+					copy.set_placed(true, tower_to_place.get_areas_overlap())
+				else:
+					copy.set_placed(true, tower_to_place.get_overlap())
 				
 					
 				copy.get_node("collider").visible = false	
@@ -133,17 +138,17 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				#connect laser_signal to tower so it can call it itself
 				copy.draw_laser.connect(draw_laser)
 				copy.draw_selection_animation.connect(draw_selector)
+				copy.draw_power_line.connect(draw_connection)
 				
 				if(copy.cur_name == 'solar'):
 					Globals.NO_SOLAR_TOWER = false
-			
-			
-			
+
+func draw_connection(tower, pos1, pos2):
+	var line = tower.get_node("Line_Power")
+	line.add_point(pos1)
+	line.add_point(pos2)
+	line.add_point(pos1)
 		
-
-
-	
-	
 func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
 	#create line node 
 	# 3 points, 
@@ -151,7 +156,7 @@ func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
 	#2nd is pos2 position
 	#3rd is self(pos1) position again
 	var line = tower.get_node("Laser")
-	
+
 	line.clear_points()
 	self.add_child(line)
 	line.add_point(pos1)
@@ -160,13 +165,13 @@ func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
 	
 	tower.get_node("AnimationPlayer").play("line_disolve") 
 	
-	
 	#at some point replace below with just a check if animation is finished or not, when finished just set cooldown to false
 	var cooltime = Timer.new()
 	self.add_child(cooltime)
 	cooltime.set_wait_time(cooldown_time)
 	cooltime.timeout.connect(Callable(clear_laser).bind(cooltime, tower_origin))
 	cooltime.start()
+	
 	
 func clear_laser(timer, tower_origin):
 	#this is on a separate branch because I do not know
@@ -279,8 +284,7 @@ func show_selection_ui(tower):
 	
 
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = false
-	if tower.cur_name == 'miner':
-		print(tower.animated_node.asteroids_in_range)
+	
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").show_selection_nodes(tower)
 
 	assert(tower.cur_name != "tower name", "You didn't name the tower cur_name! We can't find the associated ui elements for this tower")

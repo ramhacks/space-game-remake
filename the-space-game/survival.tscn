@@ -1,10 +1,11 @@
-[gd_scene load_steps=38 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=39 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/camera.gd" id="2_fmvyw"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/game_ticks.gd" id="2_yr8rd"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://images/image(1).jpg" id="3_vqmru"]
 [ext_resource type="Theme" uid="uid://chdmu6kfrhoyk" path="res://Themes/hotbar_background1.tres" id="4_ihjta"]
+[ext_resource type="Script" path="res://hotbar.gd" id="5_0oapn"]
 [ext_resource type="Theme" uid="uid://dyhmoabmqtjno" path="res://Themes/hotbar_background2.tres" id="5_85nvo"]
 [ext_resource type="Script" path="res://default_hot_bar.gd" id="7_q05n8"]
 [ext_resource type="PackedScene" uid="uid://bxom4d8la8da2" path="res://UI Scenes/Tower_Button_Component.tscn" id="8_nsbra"]
@@ -148,6 +149,7 @@ metadata/_edit_lock_ = true
 [node name="Hotbar" type="Area2D" parent="HotBar_Layer"]
 collision_layer = 3
 collision_mask = 3
+script = ExtResource("5_0oapn")
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HotBar_Layer/Hotbar"]
@@ -178,6 +180,16 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("7_q05n8")
 
+[node name="Power" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+layout_mode = 1
+offset_left = 220.0
+offset_top = 9.0
+offset_right = 220.0
+offset_bottom = 9.0
+tower_button_target = "Power_Node"
+Normal_Texture = ExtResource("8_vnyq4")
+Pressed_Texture = ExtResource("11_7q3wi")
+
 [node name="Miner" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
 layout_mode = 1
 anchors_preset = -1
@@ -190,6 +202,7 @@ tower_button_target = "miner"
 Normal_Texture = ExtResource("8_vnyq4")
 Pressed_Texture = ExtResource("9_pw457")
 Display_Price = "45"
+metadata/_edit_lock_ = true
 
 [node name="Solar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
 layout_mode = 1
@@ -201,6 +214,7 @@ tower_button_target = "solar"
 Normal_Texture = ExtResource("11_7q3wi")
 Pressed_Texture = ExtResource("11_7q3wi")
 Display_Price = "200"
+metadata/_edit_lock_ = true
 
 [node name="Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
 visible = false
@@ -315,6 +329,12 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 772.0
 offset_bottom = 131.0
+
+[node name="Power_Node_Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="Side_Buttons" type="VBoxContainer" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection"]
 layout_mode = 0

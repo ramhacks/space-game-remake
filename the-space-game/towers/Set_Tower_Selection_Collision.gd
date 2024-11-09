@@ -1,6 +1,14 @@
 extends Area2D
 
+var correct_area = true
+var visited = false
+var powered = false
 
+var my_name
+var connections = []
+
+signal set_powered_val()
+signal reset_powers()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var sprite_texture
@@ -30,3 +38,10 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+	
+
+func set_val():
+	set_powered_val.emit()
+	
+func reset_power():
+	reset_powers.emit()

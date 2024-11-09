@@ -24,6 +24,10 @@ Globals="*res://Survival_Scene_Scripts/globals.gd"
 window/size/mode=2
 window/stretch/mode="canvas_items"
 
+[global_group]
+
+collider=""
+
 [input]
 
 BUTTON_LEFT={

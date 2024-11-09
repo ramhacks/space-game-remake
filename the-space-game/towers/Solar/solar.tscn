@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bftugtnfokgv"]
+[gd_scene load_steps=42 format=3 uid="uid://bftugtnfokgv"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_cmj2o"]
 [ext_resource type="Script" path="res://towers/Solar/solar.gd" id="2_lr4nm"]
@@ -39,6 +39,7 @@
 [ext_resource type="Texture2D" uid="uid://dfyiyrgmdujhs" path="res://images/63.png" id="33_jhvdb"]
 [ext_resource type="Texture2D" uid="uid://b2r4h68ymkcgx" path="res://images/65.png" id="34_knito"]
 [ext_resource type="Script" path="res://towers/Solar/solar_animated.gd" id="36_ytiel"]
+[ext_resource type="Texture2D" uid="uid://brt5yhjlkxkvp" path="res://images/454.png" id="39_v8qh4"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3ggyo"]
 animations = [{
@@ -169,6 +170,14 @@ animations = [{
 "loop": false,
 "name": &"place",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("39_v8qh4")
+}],
+"loop": true,
+"name": &"test",
+"speed": 5.0
 }]
 
 [node name="solar_station" instance=ExtResource("1_cmj2o")]
@@ -188,5 +197,7 @@ recycle_price = {
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." index="4"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_3ggyo")
-animation = &"hover"
+animation = &"test"
 script = ExtResource("36_ytiel")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

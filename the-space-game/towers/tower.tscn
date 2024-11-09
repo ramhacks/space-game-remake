@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://dd0iq32xbef8"]
+[gd_scene load_steps=14 format=3 uid="uid://dd0iq32xbef8"]
 
 [ext_resource type="Script" path="res://towers/tower.gd" id="1_u867d"]
 [ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://images/Green-Circle-PNG-Photo-2603984782.png" id="2_x3dtl"]
 [ext_resource type="Script" path="res://towers/Set_Tower_Selection_Collision.gd" id="3_hmvqe"]
+[ext_resource type="Script" path="res://towers/collision_area.gd" id="4_lhcah"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3lut5"]
 bg_color = Color(0.0156863, 0.0470588, 0.862745, 1)
@@ -99,10 +100,27 @@ metadata/_edit_lock_ = true
 shape = SubResource("CircleShape2D_jta6b")
 metadata/_edit_lock_ = true
 
-[node name="Collision_Area" type="Area2D" parent="."]
+[node name="Collision_Area" type="Area2D" parent="." groups=["collider"]]
 collision_layer = 2
+script = ExtResource("4_lhcah")
 
 [node name="Collider" type="CollisionShape2D" parent="Collision_Area"]
 shape = SubResource("CircleShape2D_emkd0")
 
+[node name="Connector" type="Line2D" parent="."]
+width = 2.0
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Power_Delay" type="Timer" parent="."]
+one_shot = true
+
+[node name="Timer2" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="input_event" from="Sprite" to="." method="_on_sprite_input_event"]
+[connection signal="reset_powers" from="Sprite" to="." method="_on_sprite_reset_powers"]
+[connection signal="set_powered_val" from="Sprite" to="." method="_on_sprite_set_powered_val"]
+[connection signal="timeout" from="Power_Delay" to="." method="_on_power_delay_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]

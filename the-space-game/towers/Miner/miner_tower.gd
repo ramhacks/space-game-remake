@@ -4,6 +4,8 @@ var total_mined = 0
 var mpm = 0
 var timer 
 
+
+
 # Called when the node enters the scene tree for the first time.
 
 func _ready() -> void:
@@ -22,7 +24,9 @@ func _ready() -> void:
 	
 	place_build_progress_bar()
 	
-
+func do_process():
+	if(animated_node):
+		total_mined += animated_node.mine(line_node)
 
 #overwrite set_placed:
 func set_placed(re_animate, current_overlapping_bodies):
@@ -32,20 +36,16 @@ func set_placed(re_animate, current_overlapping_bodies):
 	Globals.RPM += mpm
 	
 	
-	
-func _on_timer_timeout() -> void:	 
-	if(!cooling_down and built):
-		#if powered mine, else on the next 2 sec cycle delete the mining laser graphic
-		if(animated_node):
-			
-			total_mined += animated_node.mine(line_node)
-		
-		cooling_down = true
+
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
 	mpm = animated_node.upgrade_map[level]
+
+		
 	super._process(delta)
 	
 	

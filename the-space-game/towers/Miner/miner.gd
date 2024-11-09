@@ -58,8 +58,10 @@ func mine(line_node):
 					
 					
 					#don't send laser, stop all mining operations
-					
-			draw_line.emit(to_local(self.global_position), to_local(closest.global_position))	
+			if closest:
+				draw_line.emit(to_local(self.global_position), to_local(closest.global_position))	
+			else:
+				draw_line.emit(to_local(self.global_position), to_local(self.global_position))	
 			return upgrade_map[upgrade_level] 
 	return 0
 

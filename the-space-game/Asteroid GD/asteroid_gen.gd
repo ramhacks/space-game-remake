@@ -28,7 +28,7 @@ func _ready() -> void:
 
 	var center = [int(get_viewport_rect().size.x/2), transformy*-1]
    
-	var place_chance = 15 #chance of placing asteroid, right now it is 10%
+	var place_chance = 10 #chance of placing asteroid, right now it is 10%
    #change it so that generates more toward center point 
    #do this by getting distance from center, the closer it is the higher the chance of placing it
 
