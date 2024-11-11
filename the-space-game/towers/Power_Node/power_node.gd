@@ -30,21 +30,11 @@ func get_overlap():
 	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however
 
 func _process(delta: float) -> void:
-	$Connector.clear_points()
-	for node in $Sprite.connections:
-		if is_instance_valid(node) and node.correct_area:
-			$Connector.add_point(to_local(self.global_position))
-			$Connector.add_point(to_local(node.global_position))
-	#have to invoke super process or it wont call every frame
+	if hovering:
+		format_connection_lines()
+		#have to invoke super process or it wont call every frame
 	super._process(delta)
 
-func do_process():
-	pass	
 	
 func set_placed(re_animate, current_overlapping_bodies):
-	
-	
-		
-		
-		
 	super.set_placed(re_animate, current_overlapping_bodies)

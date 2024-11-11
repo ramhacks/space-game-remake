@@ -27,7 +27,6 @@ signal finished
 #these two variables are if we are going to place a tower, press the tower button and show the tower following
 #the mouse and then what type of tower we are placing, the functionality of the towers will be the same for 
 #most towers but has a few exceptions we will implement at a later point
-var placing_tower = false
 var tower_to_place
 var tower_scene
 
@@ -65,7 +64,7 @@ func _ready() -> void:
 	
 	tower_scene_dict['solar'] = preload("res://towers/Solar/solar.tscn")
 	
-	tower_scene_dict["Power_Node"] = preload("res://towers/Power_Node.tscn")
+	tower_scene_dict["Power_Node"] = preload("res://towers/Power_Node/Power_Node.tscn")
 	
 	game_tick_timer = get_node("Global_Ticks")
 	
@@ -85,7 +84,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	self.get_node("HotBar_Layer/ColorRect2/Right Box/Resources").text = str(Globals.resources) + " minerals"
-	if(placing_tower):
+	if(Globals.tower_hovering):
 		tower_to_place.position = self.get_node("Camera_Area").get_relative_mouse_pos(false)
 		
 		#the code below makes it so that we don't try and draw collidiing asteroids until the mouse is not
@@ -96,21 +95,20 @@ func _process(delta: float) -> void:
 
 func _on_camera_area_cancel_spawn_tower() -> void:
 	#if mouse right_clicked and currently placeing_tower cancel it
-	if(placing_tower):
+	if(Globals.tower_hovering):
 		clear_hover_lines()
 		tower_to_place.queue_free()
-		placing_tower = false
+		Globals.tower_hovering = false
 
 func _on_camera_area_place_tower(cur_position: Variant) -> void:
-	if(placing_tower):
-		
-		
+	if(Globals.tower_hovering):
 		var is_miner_and_overlapping = (tower_to_place.cur_name == "miner" 
 										and len(tower_to_place.get_overlap()) != 0)
 		var above_hot_bar_AND_not_on_tower = ((starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 30)
 		 										)	
 		if((is_miner_and_overlapping and above_hot_bar_AND_not_on_tower) or (not is_miner_and_overlapping)):
 			if(tower_to_place.colliding_areas() == 0):
+
 				clear_hover_lines()
 				
 				assert(initial_tower_prices[tower_to_place.cur_name], "You never added your tower name and price to the initial_tower_prices dictionary
@@ -118,7 +116,8 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 																		
 				Globals.resources = Globals.resources - initial_tower_prices[tower_to_place.cur_name]
 				
-				placing_tower = false
+
+				Globals.tower_hovering = false
 				var copy = tower_scene.instantiate()
 				copy.position = cur_position
 				self.add_child(copy)
@@ -139,9 +138,12 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				copy.draw_laser.connect(draw_laser)
 				copy.draw_selection_animation.connect(draw_selector)
 				copy.draw_power_line.connect(draw_connection)
+
+					
+				#Node has been added, call all tower nodes to reformat lines if needed (if they have a new connection available
+				get_tree().call_group("tower_node", "format_connection_lines")
 				
-				if(copy.cur_name == 'solar'):
-					Globals.NO_SOLAR_TOWER = false
+
 
 func draw_connection(tower, pos1, pos2):
 	var line = tower.get_node("Line_Power")
@@ -165,27 +167,7 @@ func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
 	
 	tower.get_node("AnimationPlayer").play("line_disolve") 
 	
-	#at some point replace below with just a check if animation is finished or not, when finished just set cooldown to false
-	var cooltime = Timer.new()
-	self.add_child(cooltime)
-	cooltime.set_wait_time(cooldown_time)
-	cooltime.timeout.connect(Callable(clear_laser).bind(cooltime, tower_origin))
-	cooltime.start()
-	
-	
-func clear_laser(timer, tower_origin):
-	#this is on a separate branch because I do not know
-	#how to attach animations to nodes that are created during runtime
-	
-	#tower origin is so we can tell the tower that called to draw a laser that the cooldown after firing is up and it
-	#can resume normal activities
-	timer.stop()
-	#line.clear_points()
-	timer.queue_free()
-	if(is_instance_valid(tower_origin)):
-		tower_origin.cooling_down = false
 		
-		tower_origin.timer.start() #remove after power is implmeneted
 
 	
 	
@@ -223,7 +205,7 @@ func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
 func draw_selector(tower_pos, tower_radius, clicked_self, tower): #if add, add else play tween then remove
 	#draw the selection animation, we will add a tween after finishing creating the base selection shape
 
-	if(!placing_tower):
+	if(!Globals.tower_hovering):
 		if(tower):
 			Globals.tower_selected = tower
 			
@@ -259,10 +241,10 @@ func tween_done(create):
 #return tower ui node
 func get_tower_ui_node(tower_type):
 	#you need to name the nodes the same as the cur_name attribute of your tower so we can get the path of their seleciton ui
-	var pathstring = "HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/" + tower_type + "_Selection"
+	
 	var pathstring_button = "HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar/" + tower_type
 
-	return [self.get_node(pathstring), self.get_node(pathstring_button)]
+	return self.get_node(pathstring_button)
 
 
 
@@ -290,7 +272,7 @@ func show_selection_ui(tower):
 	assert(tower.cur_name != "tower name", "You didn't name the tower cur_name! We can't find the associated ui elements for this tower")
 	
 	var ui_list = get_tower_ui_node(tower.cur_name)
-	ui_list[0].visible = true
+
 
 
 #hide selection and go back to default hotbar
@@ -301,7 +283,7 @@ func hide_selection_ui(tower):
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = true
 	
 	var ui_list = get_tower_ui_node(tower.cur_name)
-	ui_list[0].visible = true
+
 
 	
 	var tween = self.get_tree().create_tween() #rotate the drawing 
@@ -321,16 +303,17 @@ func _on_side_buttons_hide_selection() -> void:
 
 
 func tower_button_clicked(price, tower_type):
-	if(Globals.resources - price >= 0 and !placing_tower):
+	if(Globals.resources - price >= 0 and !Globals.tower_hovering):
 		tower_scene = tower_type
 		tower_to_place = tower_scene.instantiate() #create a temporary tower object, will be deleted and replaced once placed
 		
 		tower_to_place.draw_hover_line.connect(hover_line)
+		tower_to_place.hovering = true
 		#don't run the placed function so nothing will happen
 		self.add_child(tower_to_place)
 		starting_tower_pos = self.get_node("Camera_Area").get_relative_mouse_pos(false)
 		tower_to_place.set_frame_child(tower_to_place.frame_count())
-		placing_tower = true
+		Globals.tower_hovering = true
 		
 
 

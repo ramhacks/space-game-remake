@@ -5,6 +5,8 @@ signal cancel_spawn_tower
 signal place_tower(cur_position)
 signal draw_select(tower_pos, tower_radius, clicked_self)
 
+signal hide_info_boxes
+
 var cur_name = "camera"
 
 var cam
@@ -60,5 +62,7 @@ func _input(event):
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	
-	if event is InputEventMouseButton:		if event.is_action("BUTTON_LEFT"):
+	if event is InputEventMouseButton:		
+		if event.is_action("BUTTON_LEFT"):
+			hide_info_boxes.emit()
 			draw_select.emit(Vector2(0,0), 1, false, false) 

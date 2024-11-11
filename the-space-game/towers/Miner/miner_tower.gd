@@ -4,6 +4,7 @@ var total_mined = 0
 var mpm = 0
 var timer 
 
+var powered_twice = 0 #in order to mine it needs to have recieved 2 power signals in a row
 
 
 # Called when the node enters the scene tree for the first time.
@@ -15,9 +16,6 @@ func _ready() -> void:
 	
 	inherted_node = self
 	show_colliding_bodies = true
-	
-	timer = self.get_node("Timer") #The timer is in place of a power node, when we implement power, we won't need a timer
-	timer.set_wait_time(2)
 	var current_animation : String = animated_node.animation
 	
 	sprite_texture = animated_node.get_sprite_frames().get_frame_texture(current_animation, 0)
@@ -25,12 +23,18 @@ func _ready() -> void:
 	place_build_progress_bar()
 	
 func do_process():
-	if(animated_node):
-		total_mined += animated_node.mine(line_node)
+	if built:
+		if powered_twice == 2:
+			
+			if(animated_node):
+				total_mined += animated_node.mine(line_node)
+			powered_twice = 0
+		else:
+			powered_twice += 1
+	super.do_process()
 
 #overwrite set_placed:
 func set_placed(re_animate, current_overlapping_bodies):
-	timer.start()
 	animated_node.change_collision_list(current_overlapping_bodies)
 	super.set_placed(re_animate, current_overlapping_bodies)
 	Globals.RPM += mpm

@@ -2,6 +2,7 @@ extends Control
 
 signal nodes_to_connect(button_nodes)
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var mychildren = Globals.get_all_children(self)

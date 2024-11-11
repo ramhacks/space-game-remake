@@ -29,6 +29,7 @@ var sent_nodes = []
 var sent_ = false
 var powered = false 
 
+var power_drain = 15 #amount of power the tower uses
 
 
 
@@ -41,7 +42,7 @@ var show_colliding_bodies = false
 
 var build_progress = 0 #percantage up to 100
 
-var built = true #we will set this to false when we implement power
+var built = false #we will set this to false when we implement power
 
 var hover_line = Line2D.new()  #hover line node pointer
 
@@ -90,11 +91,17 @@ var sprite_texture #used to get radius and height of sprite to draw selection an
 func _ready() -> void:
 	pass
 	
-
+#What to do when powered, this function is called when a powered signal is recieved
+func do_process():
+	if not built and build_progress < 100:
+		build_progress += 20
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	$Sprite.hovering = hovering
 	$Sprite.my_name = cur_name
 	$Sprite.connections = $Collision_Area.get_overlapping_areas()
+	$Sprite.built = built
 	animated_node.upgrade_level = level
 	
 	if(len(sprite_node.get_overlapping_areas()) > 0):
@@ -123,6 +130,7 @@ func send_hover_line():
 	
 	
 func set_placed(re_animate, current_overlapping_bodies):  #required for all towers
+	
 	hovering = false
 	if(re_animate):
 		animated_node.frame = 0
@@ -200,39 +208,33 @@ func traverse_graph_power(start_node, energy_left,  visted=null):
 		visted = []
 	visted.append(start_node)
 	for next in start_node.connections:
-		if(next not in visted and is_instance_valid(next) and next.correct_area and next.my_name != "solar"):
+		if(next not in visted and is_instance_valid(next) and next.correct_area and next.my_name != "solar" and not next.hovering):
 			if next.my_name != 'Power_Node':
 				energy_left -= 50
 			if(energy_left > 0):
 				next.powered = true
 				next.set_val()
-				traverse_graph_power(next, energy_left, visted)
+				if next.built: #if it is built we can move power through the node
+					traverse_graph_power(next, energy_left, visted)
 	
 	self.finished_traversing = true
 	return visted
 
 #traverse graph to turn nodes off
-func traverse_graph_off(start_node, visted=null):
-	if visted == null:
-		visted = []
-	visted.append(start_node)
-	for next in start_node.connections:
-		if(next not in visted and is_instance_valid(next) and next.correct_area):
-			next.powered = false
-			next.reset_power()
-			traverse_graph_off(next, visted)
-			
-	
-	self.finished_traverse_off = true
-	return visted
+
 
 #power off
-func _on_sprite_reset_powers() -> void:
-	self.powered = false
-	animated_node.play("no_power")
+
 
 #power on
 func _on_sprite_set_powered_val() -> void:
 	inherted_node.do_process()
 	self.powered = true
-	animated_node.play("powered")
+
+	
+func format_connection_lines():
+	$Connector.clear_points()
+	for node in $Sprite.connections:
+		if is_instance_valid(node) and node.correct_area:
+			$Connector.add_point(to_local(self.global_position))
+			$Connector.add_point(to_local(node.global_position))

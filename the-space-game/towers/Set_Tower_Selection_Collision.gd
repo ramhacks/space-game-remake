@@ -1,6 +1,10 @@
 extends Area2D
 
+
+#copy of parent variables so that when traversing the graph we can access properties of parent
 var correct_area = true
+var hovering = false
+var built = false
 var visited = false
 var powered = false
 

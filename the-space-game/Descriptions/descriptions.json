@@ -1,0 +1,5 @@
+{
+	"miner": "Test Miner",
+	"solar": "Test Solar",
+	"Power_Node": "[color=ebeb00]Energy Relays[/color][color=white] are used to [/color][color=00dfdf] transport Energy between Solar Stations and Energy Stores to all other structures[/color][color=white]. They do this by reflecting and refracting light. They are cheap to make but are weak. \nShortcut=P"
+}
