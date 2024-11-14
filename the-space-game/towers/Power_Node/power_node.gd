@@ -19,22 +19,14 @@ func _ready() -> void:
 	child_area = self.get_node("Collision_Area")
 	animated_node = self.get_node("Sprite2D")
 	inherted_node = self
-	
-	var current_animation : String = animated_node.animation
-	
-	sprite_texture = animated_node.get_sprite_frames().get_frame_texture(current_animation, 0)
+	sprite_texture = animated_node.get_sprite_frames().get_frame_texture(animated_node.animation, 0)
 	
 	place_build_progress_bar()
+	super._ready()
 	
 func get_overlap():
 	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however
 
 func _process(delta: float) -> void:
-	if hovering:
-		format_connection_lines()
-		#have to invoke super process or it wont call every frame
+	#have to invoke super process or it wont call every frame
 	super._process(delta)
-
-	
-func set_placed(re_animate, current_overlapping_bodies):
-	super.set_placed(re_animate, current_overlapping_bodies)

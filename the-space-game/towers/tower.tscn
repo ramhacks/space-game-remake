@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://dd0iq32xbef8"]
+[gd_scene load_steps=15 format=3 uid="uid://dd0iq32xbef8"]
 
 [ext_resource type="Script" path="res://towers/tower.gd" id="1_u867d"]
 [ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://images/Green-Circle-PNG-Photo-2603984782.png" id="2_x3dtl"]
 [ext_resource type="Script" path="res://towers/Set_Tower_Selection_Collision.gd" id="3_hmvqe"]
 [ext_resource type="Script" path="res://towers/collision_area.gd" id="4_lhcah"]
+[ext_resource type="Script" path="res://towers/connector.gd" id="5_uevkj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3lut5"]
 bg_color = Color(0.0156863, 0.0470588, 0.862745, 1)
@@ -110,13 +111,12 @@ shape = SubResource("CircleShape2D_emkd0")
 [node name="Connector" type="Line2D" parent="."]
 width = 1.0
 default_color = Color(0, 0.6, 0.701961, 0.419608)
-
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
+script = ExtResource("5_uevkj")
 
 [node name="Power_Delay" type="Timer" parent="."]
-one_shot = true
+autostart = true
 
+[connection signal="ask_for_colliding_areas" from="Sprite" to="Connector" method="_on_sprite_ask_for_colliding_areas"]
 [connection signal="input_event" from="Sprite" to="." method="_on_sprite_input_event"]
 [connection signal="reset_powers" from="Sprite" to="." method="_on_sprite_reset_powers"]
 [connection signal="set_powered_val" from="Sprite" to="." method="_on_sprite_set_powered_val"]

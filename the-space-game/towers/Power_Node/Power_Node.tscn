@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://towers/Power_Node/power_node.gd" id="2_g6doy"]
 [ext_resource type="Texture2D" uid="uid://c33jldjnrteju" path="res://images/458.png" id="3_gmdq8"]
 [ext_resource type="Texture2D" uid="uid://bi2rjwgx0u0ui" path="res://images/461.png" id="4_8skdq"]
-[ext_resource type="Script" path="res://towers/powersprite.gd" id="5_15jqe"]
+[ext_resource type="Script" path="res://towers/Power_Node/powersprite.gd" id="5_15jqe"]
 [ext_resource type="Texture2D" uid="uid://cgtp82pb8v11q" path="res://images/463.png" id="5_vddk6"]
 [ext_resource type="Texture2D" uid="uid://dpqmfilj0a8ul" path="res://images/465.png" id="6_3lbpi"]
 [ext_resource type="Texture2D" uid="uid://bwk1ckctabfj8" path="res://images/467.png" id="7_fdta2"]
@@ -31,12 +31,7 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("4_8skdq")
-}],
-"loop": true,
-"name": &"no_power",
-"speed": 5.0
 }, {
-"frames": [{
 "duration": 1.0,
 "texture": ExtResource("5_vddk6")
 }, {
@@ -89,6 +84,12 @@ animations = [{
 [node name="Power_Node" groups=["collider"] instance=ExtResource("1_8ecru")]
 script = ExtResource("2_g6doy")
 cur_name = "Power_Node"
+
+[node name="Collision_Area" parent="." index="5"]
+collision_priority = 2.0
+
+[node name="Collider" parent="Collision_Area" index="0"]
+z_index = 3
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." index="6"]
 sprite_frames = SubResource("SpriteFrames_ws7ev")

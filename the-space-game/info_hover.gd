@@ -15,11 +15,7 @@ var point_xpos_dict = { #dictionary to tell where to move the pointer triangle
 func _ready() -> void:
 	var json_as_text = FileAccess.get_file_as_string(descript_file)
 	info_text_dict = JSON.parse_string(json_as_text)
-	print(info_text_dict)
 	
-
-
-
 func _on_default_hot_bar_nodes_to_connect(button_nodes: Variant) -> void:
 	button_nodes_list = button_nodes
 	for buttons in button_nodes_list:

@@ -12,6 +12,7 @@ var my_name
 var connections = []
 
 signal set_powered_val()
+signal ask_for_colliding_areas(sprite_pointer)
 signal reset_powers()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -29,6 +30,7 @@ func _ready() -> void:
 			
 			radius = tree_node.get_sprite_frames().get_frame_texture('hover', 0).get_size().x/2
 			self.get_child(0).shape.set_radius(radius)
+			
 			
 			
 	
@@ -49,3 +51,7 @@ func set_val():
 	
 func reset_power():
 	reset_powers.emit()
+	
+func get_colliding():
+	ask_for_colliding_areas.emit(self)
+	

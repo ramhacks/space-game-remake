@@ -21,11 +21,11 @@ func _ready() -> void:
 	sprite_texture = animated_node.get_sprite_frames().get_frame_texture(current_animation, 0)
 	
 	place_build_progress_bar()
+	super._ready()
 	
 func do_process():
 	if built:
 		if powered_twice == 2:
-			
 			if(animated_node):
 				total_mined += animated_node.mine(line_node)
 			powered_twice = 0
@@ -39,17 +39,9 @@ func set_placed(re_animate, current_overlapping_bodies):
 	super.set_placed(re_animate, current_overlapping_bodies)
 	Globals.RPM += mpm
 	
-	
-
-
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
 	mpm = animated_node.upgrade_map[level]
-
-		
 	super._process(delta)
 	
 	
@@ -59,8 +51,13 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	draw_laser.emit(self, pos1, pos2, cooldown_delay, self) 
 
 func upgrade():
+	#will need to change this as with implementing power it complicates thigns here
 	if(animated_node.upgrade_level < 3):
 		Globals.RPM -= animated_node.upgrade_resource_drain[animated_node.upgrade_level] * 60/cooldown_delay
 		#have to subtract it so we don't just add more cause then we would double it
 		animated_node.upgrade_level += 1
 		Globals.RPM += animated_node.upgrade_resource_drain[animated_node.upgrade_level] * 60/cooldown_delay
+
+func get_overlap():
+#overlapping bodies (for asteroid detection)		#overlapping areas to make sure we are not on top of another node
+	return child_area.get_overlapping_bodies()

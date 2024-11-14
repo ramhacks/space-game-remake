@@ -62,6 +62,7 @@ func mine(line_node):
 				draw_line.emit(to_local(self.global_position), to_local(closest.global_position))	
 			else:
 				draw_line.emit(to_local(self.global_position), to_local(self.global_position))	
+				
 			return upgrade_map[upgrade_level] 
 	return 0
 
@@ -75,6 +76,7 @@ func change_collision_list(col_list):
 		closest = asteroids_in_range[0]
 		
 	tower_colliding_ob_set = true	
+	
 func collision_list():
 	return asteroids_in_range
 

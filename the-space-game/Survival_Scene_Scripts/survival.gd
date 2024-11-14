@@ -104,11 +104,16 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 	if(Globals.tower_hovering):
 		var is_miner_and_overlapping = (tower_to_place.cur_name == "miner" 
 										and len(tower_to_place.get_overlap()) != 0)
+
+		if(tower_to_place.cur_name != "miner"):
+			is_miner_and_overlapping = true
+			
+			
 		var above_hot_bar_AND_not_on_tower = ((starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 30)
 		 										)	
-		if((is_miner_and_overlapping and above_hot_bar_AND_not_on_tower) or (not is_miner_and_overlapping)):
+		if(is_miner_and_overlapping and above_hot_bar_AND_not_on_tower):
 			if(tower_to_place.colliding_areas() == 0):
-
+				Globals.tower_node_amount += 1
 				clear_hover_lines()
 				
 				assert(initial_tower_prices[tower_to_place.cur_name], "You never added your tower name and price to the initial_tower_prices dictionary
@@ -137,7 +142,7 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				#connect laser_signal to tower so it can call it itself
 				copy.draw_laser.connect(draw_laser)
 				copy.draw_selection_animation.connect(draw_selector)
-				copy.draw_power_line.connect(draw_connection)
+
 
 					
 				#Node has been added, call all tower nodes to reformat lines if needed (if they have a new connection available
@@ -145,11 +150,6 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				
 
 
-func draw_connection(tower, pos1, pos2):
-	var line = tower.get_node("Line_Power")
-	line.add_point(pos1)
-	line.add_point(pos2)
-	line.add_point(pos1)
 		
 func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
 	#create line node 
@@ -200,17 +200,17 @@ func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
 			line_node.add_point(to_local(pos1))
 
 
-
-
+#Function to draw selector when tower is clicked and show hotbar
 func draw_selector(tower_pos, tower_radius, clicked_self, tower): #if add, add else play tween then remove
 	#draw the selection animation, we will add a tween after finishing creating the base selection shape
-
+	
 	if(!Globals.tower_hovering):
-		if(tower):
-			Globals.tower_selected = tower
-			
+
+	
 		if(clicked_self and selection_node not in get_tree().get_nodes_in_group("selection")): #only draw if clicked node
+			Globals.tower_selected = tower
 			#it has been clicked so now if somewhere that is not this node is clicked hide the select drawing
+			Globals.tower_selection_mode = true
 			self.add_child(selection_node)
 			selection_node.add_to_group("selection")
 			selection_node.position = tower_pos
@@ -232,6 +232,7 @@ func draw_selector(tower_pos, tower_radius, clicked_self, tower): #if add, add e
 			hide_selection_ui(Globals.tower_selected)
 			
 			Globals.tower_selection_mode = false
+		
 		
 func tween_done(create):
 	if create:
@@ -294,12 +295,24 @@ func hide_tween_done():
 	#if we need to remove this node say that yes we can
 	finished.emit()
 	
+	
+#recycle tower function
 func _on_side_buttons_hide_selection() -> void:
+	Globals.tower_selection_mode = false
+	Globals.tower_node_amount -= 1
 	waiting_for_clickout = false
 	selection_node.remove_from_group("selection")
 	self.remove_child(selection_node)
+	
+	print(Globals.tower_selected.sprite_var_node_holder)
+	
+	
+	Globals.tower_selected.sprite_var_node_holder.correct_area = false
+	Globals.tower_selected.queue_free()
 	hide_selection_ui(Globals.tower_selected)
 	Globals.tower_selection_mode = false
+	get_tree().call_group("tower_node", "format_connection_lines")
+	get_tree().call_group("tower_node", "format_connection_lines")
 
 
 func tower_button_clicked(price, tower_type):

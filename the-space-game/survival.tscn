@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=47 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/camera.gd" id="2_fmvyw"]
@@ -16,7 +16,10 @@
 [ext_resource type="Script" path="res://text_bars.gd" id="11_hj758"]
 [ext_resource type="Script" path="res://selection.gd" id="11_sh5ow"]
 [ext_resource type="Theme" uid="uid://c31puf50m0oxm" path="res://Themes/Upgrade_Button.tres" id="11_vnck4"]
+[ext_resource type="Texture2D" uid="uid://be52d2ceji3f5" path="res://images/solar_button.png" id="12_qesea"]
+[ext_resource type="Texture2D" uid="uid://bpvdrvbi2a108" path="res://images/node_button_up.png" id="13_atf3j"]
 [ext_resource type="Script" path="res://info_hover.gd" id="13_o1wgd"]
+[ext_resource type="Texture2D" uid="uid://cv5ldw377jsuw" path="res://images/node_button_down.png" id="14_qr4hd"]
 [ext_resource type="Texture2D" uid="uid://c6j7e8g0bdpxi" path="res://images/pointer.png" id="14_xk34w"]
 [ext_resource type="Theme" uid="uid://ga7xqep48vn4" path="res://Themes/info_text.tres" id="17_ymelk"]
 
@@ -214,7 +217,7 @@ offset_top = 9.0
 offset_right = 280.0
 offset_bottom = 85.0
 tower_button_target = "solar"
-Normal_Texture = ExtResource("11_7q3wi")
+Normal_Texture = ExtResource("12_qesea")
 Pressed_Texture = ExtResource("11_7q3wi")
 Display_Price = "200"
 Shortcut_Key = "S"
@@ -227,8 +230,8 @@ offset_top = 9.0
 offset_right = 4.0
 offset_bottom = 9.0
 tower_button_target = "Power_Node"
-Normal_Texture = ExtResource("8_vnyq4")
-Pressed_Texture = ExtResource("11_7q3wi")
+Normal_Texture = ExtResource("13_atf3j")
+Pressed_Texture = ExtResource("14_qr4hd")
 Display_Price = "20"
 Shortcut_Key = "p"
 metadata/_edit_lock_ = true

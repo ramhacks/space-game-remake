@@ -1,5 +1,5 @@
 {
-	"miner": "Test Miner",
-	"solar": "Test Solar",
-	"Power_Node": "[color=ebeb00]Energy Relays[/color][color=white] are used to [/color][color=00dfdf] transport Energy between Solar Stations and Energy Stores to all other structures[/color][color=white]. They do this by reflecting and refracting light. They are cheap to make but are weak. \nShortcut=P"
+	"miner": "[color=ebeb00]Miners[/color][color=white] extract [color=01e700]Minerals[/color][color=white] from any asteroid in range, [/color][color=01e700]Minerals[/color][color=white] are needed to [/color][color=00dfdf]construct structures, ships and missles[/color][color=white]. Miners can be upgraded to increaase their efficiency.[/color]\nShortcut=M",
+	"solar": "[color=ebeb00]Solar Stations[/color][color=white] collect light from the sun and convert it into [/color][color=00dfdf]Energy [/color][color=white]which is needed to [/color][color=00dfdf]construct and power your structures[/color][color=white]. They can be upgraded several times to improve their efficiency.[/color]\nShortcut=S",
+	"Power_Node": "[color=ebeb00]Energy Relays[/color][color=white] are used to[/color][color=00dfdf] transport Energy between Solar Stations and Energy Stores to all other structures[/color][color=white]. They do this by reflecting and refracting light. They are cheap to make but are weak. \nShortcut=P"
 }

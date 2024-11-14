@@ -3,15 +3,28 @@ extends Tower
 var upgrade_level = 1
 var energy_limit = 300
 
+var connect_toggle = false
 
-var upgrade_map = {
-	1: 10,
-	2: 20,
-	3: -1
+var current_energy_usage
+
+#adjacency list of the subgraph that this solar station has influence over and can direct power to
+#will be used to draw better lines to nodes
+var subgraph_of_influence = {
+	
+}
+
+
+
+var upgrade_map = { #this upgrade map corresponds to the timeout rate of each solar station, or rate that it powers on 
+	1: 2, #3 seconds
+	2: 1.75,#2.5 seocnds
+	3: 1.5, #2 seconds
+	4: -1 #make the last item in the dictionary always be -1
 }
 
 var energy = 0
 
+var current_animation : String
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	sprite_node = self.get_node("Sprite")
@@ -19,11 +32,13 @@ func _ready() -> void:
 	animated_node = self.get_node("Sprite2D")
 	inherted_node = self
 	
-	var current_animation : String = animated_node.animation
+	$Power_Delay.wait_time = upgrade_map[upgrade_level]
+	
+	current_animation = animated_node.animation
 	
 	sprite_texture = animated_node.get_sprite_frames().get_frame_texture(current_animation, 0)
+	super._ready()
 	
-	place_build_progress_bar()
 	
 func get_overlap():
 	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however
@@ -33,22 +48,20 @@ func _process(delta: float) -> void:
 		self.get_node("BuildProgress").set_visible(false)
 		built = true
 		build_progress = 100
-		Globals.global_power_timer_on.timeout.connect(turn_on)   #start tower functionality
+
 		Globals.NO_SOLAR_TOWER = false
-	elif built:
-		Globals.global_power_timer_on.timeout.connect(turn_on)  
+		
+	if built and !connect_toggle:
+		$Power_Delay.timeout.connect(turn_on)  
+		$Power_Delay.start()
+		connect_toggle = true #makes it so this command is only ran once we do not need to keep connecting the timeout signal
+	
 	super._process(delta)
-
-
-func do_process():
-	pass
 
 
 #will need to change as I think for upgrades it makes the solar station generate power faster
 
 func set_placed(re_animate, current_overlapping_bodies):
-	
-
 	for node in current_overlapping_bodies:
 		if is_instance_valid(node):
 			$Connector.add_point(to_local(self.global_position))
@@ -58,8 +71,63 @@ func set_placed(re_animate, current_overlapping_bodies):
 		
 	super.set_placed(re_animate, current_overlapping_bodies)
 
+func iterativeDFS(v, discovered, energy_left):
+ 
+	# create a stack used to do iterative DFS
+	var stack = []
+ 
+	# push the source node into the stack
+	stack.push_front(v)
+ 
+	# loop till stack is empty
+	while len(stack) > 0:
+		# Pop a vertex from the stack
+		var s = stack[0] 
+		stack.pop_front()
+ 		
+		if (s not in discovered): 
+			discovered.append(s)
+		# if the vertex is already discovered yet, ignore it
+		
+		var test_statment: bool = (s.my_name != 'solar' and s.built and s.correct_area)
+		
+		if(is_instance_valid(s) and !s.built):
+			s.set_val()
+			break
 
+			
+		for node in s.connections: 
+
+			if (node not in discovered and is_instance_valid(node)): 
+				node.get_colliding()
+				if(is_instance_valid(node) and node.correct_area and not node.hovering):
+				
+					stack.push_front(node) 
+
+					energy_left -= 50 #change to be variable depending on the tower as of now it is just 50 by default
+						
+					if(energy_left > 0):
+						node.powered = true
+						node.set_val()
+						#---------------------------------------------------------
+					else:
+						pass
+						
+	current_energy_usage = energy_left
+		
+		
+ 
+		
 	
 func turn_on():
-	traverse_graph_power($Sprite, energy_limit)
+	$Sprite.connections = $Collision_Area.get_overlapping_areas()
+	#traverse_graph_power($Sprite, energy_limit)
 	
+	var discovered = []
+	iterativeDFS($Sprite, discovered, energy_limit)
+
+
+#called when this tower is upgraded, called once per upgrade, upgrade level is changed by a script in survival, the side button script
+func upgrade():
+	$Power_Delay.wait_time = upgrade_map[upgrade_level]
+	$Power_Delay.start()

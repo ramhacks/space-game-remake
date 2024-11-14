@@ -38,6 +38,5 @@ func _on_recycle_pressed() -> void:
 	
 func _on_survival_finished() -> void:
 	if(recycle_pressed):
-		Globals.tower_selected.queue_free()
 		recycle_pressed = false
 		Globals.tower_selected = false

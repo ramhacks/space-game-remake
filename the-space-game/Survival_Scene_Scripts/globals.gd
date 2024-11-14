@@ -24,7 +24,7 @@ var tower_selected
 
 var tower_hovering = false
 
-
+var tower_node_amount = 0
 var NO_SOLAR_TOWER = true 
 
 var global_power_timer_on = Timer.new() 

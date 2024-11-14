@@ -2,25 +2,14 @@ extends Node2D
 
 class_name Tower
 
-
-
-# Add an item to the queue if it has not reached its maximum capacity
-func add_to_queue(queue, item):
-	if len(queue):
-		queue.push_back(item)
-
-# Removes the front item from the queue and returns whether or not the queue was empty
-func finish_queue_front(queue):
-	if(len(queue)):
-		return queue.pop_front()
-	else:
-		return -1
 	
 
 var child_area
 var sprite_node
 var animated_node
 var inherted_node #for methods that require the inhereted node
+var sprite_var_node_holder
+
 var level = 1
 
 #ENERGY VARS
@@ -28,32 +17,31 @@ var connections = []
 var sent_nodes = []
 var sent_ = false
 var powered = false 
+var overlap_areas = []
 
 var power_drain = 15 #amount of power the tower uses
 
 
-
-var finished_traversing = false
-var finished_traverse_off = false
-var player_ = false #used to check if enemy should attack it or not
 var show_colliding_bodies = false
 
 @export var health = 300
 
 var build_progress = 0 #percantage up to 100
-
 var built = false #we will set this to false when we implement power
+var set_build_frame = false
+
+
 
 var hover_line = Line2D.new()  #hover line node pointer
 
-signal draw_laser(tower, pos1, pos2, cooldown_time, tower_origin)
 
+
+signal draw_laser(tower, pos1, pos2, cooldown_time, tower_origin)
 signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
 signal draw_selection_animation(tower_pos, tower_radius, clicked_self, tower_type)
 
-signal draw_power_line(tower, pos1, pos2)
 
-@export var cur_name = "tower name" #used if we want to identify the type of tower, 
+@export var cur_name = "tower name" #used if we want to identify the type of tower 
 
 var cooldown_delay = 3  #may need to be adjusted based on upgrade level
 var cooling_down = false
@@ -85,39 +73,61 @@ var sprite_texture #used to get radius and height of sprite to draw selection an
 	3: 45
 }
 
+
+
 #node names are not preserved when instantced in a different scene only for nodes in the same scene
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	#set child node static variables
+	sprite_var_node_holder = $Sprite
+	$Sprite.my_name = cur_name
+	place_build_progress_bar()
 	
-#What to do when powered, this function is called when a powered signal is recieved
-func do_process():
-	if not built and build_progress < 100:
-		build_progress += 20
+
+func place_build_progress_bar(): 
+	$BuildProgress.position.y = $BuildProgress.position.y - (sprite_texture.get_size().y/2) - 2
+	
+	
+
+
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	#set child node and self dynamic variables
 	$Sprite.hovering = hovering
-	$Sprite.my_name = cur_name
-	$Sprite.connections = $Collision_Area.get_overlapping_areas()
 	$Sprite.built = built
 	animated_node.upgrade_level = level
+	overlap_areas = $Collision_Area.get_overlapping_areas()
+	#-------------------
 	
 	if(len(sprite_node.get_overlapping_areas()) > 0):
-		
 		on_object = true
 	else:
 		on_object = false
 		
 	if hovering:
 		send_hover_line()
-	if build_progress == 100 and !built:
+		draw_tower_hover_lines()
+		
+	if build_progress == 100 and !built and !set_build_frame:
 		self.get_node("BuildProgress").set_visible(false)
 		built = true
 	else:
 		self.get_node("BuildProgress").value = build_progress
+
+#Build function when upgrading, resets build progress
+func rebuild():
+	print("rebuild")
+	build_progress = 0
+	built = false
+	self.get_node("BuildProgress").set_visible(true)
+	self.get_node("BuildProgress").value = 0 #reset value
 	
+	
+#Hover functionality
+#-----------------------------------------------------------------
+
 func send_hover_line():
 	if(show_colliding_bodies):
 		if(len(sprite_node.get_overlapping_bodies()) > 0):
@@ -127,29 +137,38 @@ func send_hover_line():
 				
 		var overlap = child_area.get_overlapping_bodies()
 		draw_hover_line.emit(self.global_position, overlap, 0.192, 0.988, 0.165, 3, hover_line)
-	
-	
+
+#traw thin blue power lines to overlapping towers
+func draw_tower_hover_lines():
+	$Sprite.connections = []
+	$Sprite.connections = $Collision_Area.get_overlapping_areas()
+	$Connector.clear_points()
+	for node in $Sprite.connections:
+		if is_instance_valid(node) and node.correct_area:
+			$Connector.add_point(to_local(self.global_position))
+			$Connector.add_point(to_local(node.global_position))	
+
+
+
+#Functions that tend to be overloaded by inherted towers
+#-----------------------------------------------------------------
+
 func set_placed(re_animate, current_overlapping_bodies):  #required for all towers
 	
 	hovering = false
 	if(re_animate):
-		animated_node.frame = 0
 	#this function is so when we press the button to place a tower and we just want to show the tower being placed
 	#we won't activate this function so it will not activate the tower, only show it
 		animated_node.placed = true
-		
+	
+
 	animated_node.play("place")
 	
-	var clickable_ = Timer.new() # wait 0.5 seconds until clicking, ensures tower has not just been placed (when placed it would think
-	#it has been clicked
-	self.add_child(clickable_)
-	clickable_.set_wait_time(0.5)
-	clickable_.timeout.connect(Callable(set_clickable).bind(clickable_))
-	clickable_.start()
+	animated_node.animation_finished.connect(Callable(set_clickable))
+
 	
-func set_clickable(clickable_):
+func set_clickable():
 	clickable = true
-	clickable_.queue_free()
 
 func set_frame_child(frame): #required for all towers
 	animated_node.frame = frame
@@ -160,81 +179,46 @@ func frame_count(): #required for all towers
 func colliding_areas():
 	return len(sprite_node.get_overlapping_areas()) + len(sprite_node.get_overlapping_bodies()) #all overlapping objects
 
-#get overlapping bodies and areas, used here to neaten above survival code	
-func get_overlap():
-#overlapping bodies (for asteroid detection)		#overlapping areas to make sure we are not on top of another node
-	return child_area.get_overlapping_bodies()
+func do_process():
+	if not built and build_progress < 100:
+		build_progress += 20
 	
 func get_areas_overlap():
 	return child_area.get_overlapping_areas()
-	
-func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
-	cooling_down = true
 
-	draw_laser.emit(self, pos1, pos2, cooldown_delay, self) 
-	#we can't use tweens because tweens are meant for single animations
-	#we need to animate 2 things at once so we have to use attached line node and can't dynamically create one
-
-
-#upgrade tower (max of 3)
 func upgrade():
 	pass
 	
-func rebuild():
-	build_progress = 0
-	built = false
-	self.get_node("BuildProgress").set_visible(true)
-	self.get_node("BuildProgress").value = 0 #reset value
+func get_overlap():
+	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however
 
 
-func place_build_progress_bar(): 
-	var build_bar = self.get_node("BuildProgress")
-	build_bar.position.y = build_bar.position.y - (sprite_texture.get_size().y/2) - 2
+#-----------------------------------------------------------------
+
 	
+	
+
+#Signals recieved functions 
+#-----------------------------------------------------------------
+
 func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and clickable:
 		if event.is_action("BUTTON_LEFT"):
 			draw_selection_animation.emit(self.global_position, sprite_texture.get_size().x/2, true,  inherted_node)
 			#will change the hot bar or something to let us upgrade the selected tower
 
-
-
-
-
-#traverse graph to turn nodes on, traverses every node recursively until it runs out of available energy in which it stops and exits the loop
-
-func traverse_graph_power(start_node, energy_left,  visted=null):
-	if visted == null:
-		visted = []
-	visted.append(start_node)
-	for next in start_node.connections:
-		if(next not in visted and is_instance_valid(next) and next.correct_area and next.my_name != "solar" and not next.hovering):
-			if next.my_name != 'Power_Node':
-				energy_left -= 50
-			if(energy_left > 0):
-				next.powered = true
-				next.set_val()
-				if next.built: #if it is built we can move power through the node
-					traverse_graph_power(next, energy_left, visted)
-	
-	self.finished_traversing = true
-	return visted
-
-#traverse graph to turn nodes off
-
-
-#power off
-
-
 #power on
 func _on_sprite_set_powered_val() -> void:
 	inherted_node.do_process()
 	self.powered = true
-
 	
-func format_connection_lines():
-	$Connector.clear_points()
-	for node in $Sprite.connections:
-		if is_instance_valid(node) and node.correct_area:
-			$Connector.add_point(to_local(self.global_position))
-			$Connector.add_point(to_local(node.global_position))
+func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
+	cooling_down = true
+	draw_laser.emit(self, pos1, pos2, cooldown_delay, self) 
+	#we can't use tweens because tweens are meant for single animations
+	#we need to animate 2 things at once so we have to use attached line node and can't dynamically create one
+
+
+
+
+ 

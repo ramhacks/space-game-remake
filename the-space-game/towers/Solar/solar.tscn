@@ -188,7 +188,5 @@ recycle_price = {
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." index="4"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_3ggyo")
-animation = &"hover"
+animation = &"place"
 script = ExtResource("36_ytiel")
-
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
