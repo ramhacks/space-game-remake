@@ -13,7 +13,7 @@ var sprite_var_node_holder
 var level = 1
 
 #ENERGY VARS
-
+var closest_solar_station
 var connections = []
 var sent_nodes = []
 var sent_ = false
@@ -228,6 +228,49 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	#we can't use tweens because tweens are meant for single animations
 	#we need to animate 2 things at once so we have to use attached line node and can't dynamically create one
 
+
+func find_closest_solar():
+	iterativeDFS($Sprite)
+	print(closest_solar_station)
+	
+	
+func iterativeDFS(v):
+	var discovered = []
+	# create a stack used to do iterative DFS
+	var stack = []
+ 
+	# push the source node into the stack
+	stack.push_front(v)
+ 
+	# loop till stack is empty
+	while len(stack) > 0:
+		# Pop a vertex from the stack
+		var s = stack[0] 
+		stack.pop_front()
+ 		
+		if (s not in discovered): 
+			discovered.append(s)
+		# if the vertex is already discovered yet, ignore it
+		
+		var test_statment: bool = (s.my_name != 'solar' and s.built and s.correct_area)
+		
+
+
+			
+		for node in s.connections: 
+
+			if (node not in discovered and is_instance_valid(node)): 
+				node.get_colliding()
+				if(is_instance_valid(node) and node.correct_area and not node.hovering):
+					if(node.my_name == 'solar'):
+						closest_solar_station = node
+						stack =[]
+						break
+					stack.push_front(node) 
+						#---------------------------------------------------------
+				else:
+					pass
+						
 
 
 

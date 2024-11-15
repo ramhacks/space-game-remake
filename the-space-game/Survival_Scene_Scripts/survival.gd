@@ -146,6 +146,7 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 					
 				#Node has been added, call all tower nodes to reformat lines if needed (if they have a new connection available
 				get_tree().call_group("tower_node", "format_connection_lines")
+				get_tree().call_group("tower_node", "find_closest_solar")
 				
 
 

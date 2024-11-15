@@ -62,22 +62,13 @@ func format_connection_lines(area_list, redraw=true, no_hover_connect=false):
 				if not added:
 					full_collision_list_with_distances.append([temp_collisions[j], d])
 			
-
-		
-		print(full_collision_list_with_distances)	
 		if get_parent().cur_name != 'solar':
 			full_collision_list_with_distances = limit_lines(full_collision_list_with_distances, collision_name_list)
 
 			if(len(full_collision_list_with_distances) > 3):
 				
 				full_collision_list_with_distances = full_collision_list_with_distances.slice(0, 3)
-				
-
 			
-		print(full_collision_list_with_distances)
-		print(collision_name_list)
-			
-
 				
 		for node in full_collision_list_with_distances:
 			output_nodes.append(node)
