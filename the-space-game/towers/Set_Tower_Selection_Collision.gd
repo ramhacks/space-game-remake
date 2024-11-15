@@ -1,6 +1,6 @@
 extends Area2D
 
-
+class_name sprite_collider
 #copy of parent variables so that when traversing the graph we can access properties of parent
 var correct_area = true
 var hovering = false
@@ -10,6 +10,7 @@ var powered = false
 
 var my_name
 var connections = []
+
 
 signal set_powered_val()
 signal ask_for_colliding_areas(sprite_pointer)
@@ -54,4 +55,3 @@ func reset_power():
 	
 func get_colliding():
 	ask_for_colliding_areas.emit(self)
-	

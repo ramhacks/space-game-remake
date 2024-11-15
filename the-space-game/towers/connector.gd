@@ -24,8 +24,8 @@ func limit_lines(connection_list, name_list):
 
 
 #redraw connection lines in case a new tower is added called every time power is sent to a node 
-func format_connection_lines(sprite_pointer, redraw=true, no_hover_connect=false):
-	sprite_pointer.connections = get_parent().overlap_areas
+func format_connection_lines(area_list, redraw=true, no_hover_connect=false):
+
 	#change a lot of switch cases so that different for each tower
 	#make the array be in order of closest to furtherst node
 	var full_collision_list_with_distances = [] #2d array of node and nodes distance from self
@@ -34,46 +34,55 @@ func format_connection_lines(sprite_pointer, redraw=true, no_hover_connect=false
 	if redraw:
 		clear_points()
 
-	var temp_collisions = get_parent().overlap_areas
+	var temp_collisions = area_list
 	
 	
 	var output_nodes = []
 	#with distance we have to make it so that it is ordered by distance however no limit for normal nodes 
 	if(len(temp_collisions) > 0):
 		for j in range(len(temp_collisions)):
-			if(temp_collisions[j].correct_area and temp_collisions[j] != sprite_pointer):
-				var selfposition = to_local(self.global_position)
-				var nodeposition = to_local(temp_collisions[j].global_position)
+			if(temp_collisions[j] is sprite_collider):
+				var added = false
+				print(temp_collisions[j])
+				var selfposition = get_parent().global_position
+				var nodeposition = temp_collisions[j].global_position
+				print(selfposition, nodeposition)
 				var d = selfposition.distance_to(nodeposition)			
-				
+					
 				if(j == 0):
 					full_collision_list_with_distances.append([temp_collisions[j], d])
-					collision_name_list.append(temp_collisions[j].my_name)
+				collision_name_list.append(temp_collisions[j].my_name)
 
 				for i in range(len(full_collision_list_with_distances)):
 					if(d < full_collision_list_with_distances[i][1]):
 						full_collision_list_with_distances.insert(i, [temp_collisions[j], d])
+
+						added = true
+				 
+				if not added:
+					full_collision_list_with_distances.append([temp_collisions[j], d])
+			
+
 		
-		if get_parent().cur_name != 'Power_Node' or get_parent().cur_name != 'solar':
+		print(full_collision_list_with_distances)	
+		if get_parent().cur_name != 'solar':
 			full_collision_list_with_distances = limit_lines(full_collision_list_with_distances, collision_name_list)
+
 			if(len(full_collision_list_with_distances) > 3):
 				
 				full_collision_list_with_distances = full_collision_list_with_distances.slice(0, 3)
 				
+
+			
+		print(full_collision_list_with_distances)
+		print(collision_name_list)
+			
+
 				
 		for node in full_collision_list_with_distances:
 			output_nodes.append(node)
-			if(redraw and !no_hover_connect):
-				add_point(to_local(self.global_position))
-				add_point(to_local(node[0].global_position))
-			elif(redraw and no_hover_connect):
-				if(!node[0].hovering):
-					add_point(to_local(self.global_position))
-					add_point(to_local(node[0].global_position))
-
+			self.add_point(to_local(self.global_position))
+			self.add_point(to_local(node[0].global_position))
+			
 		
 	return output_nodes
-
-func _on_sprite_ask_for_colliding_areas(sprite_pointer: Variant) -> void:
-	format_connection_lines(sprite_pointer, true, true)
-	sprite_pointer.connections = get_parent().overlap_areas

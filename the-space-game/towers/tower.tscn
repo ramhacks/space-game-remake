@@ -94,6 +94,7 @@ texture = ExtResource("2_x3dtl")
 metadata/_edit_lock_ = true
 
 [node name="Sprite" type="Area2D" parent="."]
+priority = 1
 script = ExtResource("3_hmvqe")
 metadata/_edit_lock_ = true
 
@@ -116,8 +117,5 @@ script = ExtResource("5_uevkj")
 [node name="Power_Delay" type="Timer" parent="."]
 autostart = true
 
-[connection signal="ask_for_colliding_areas" from="Sprite" to="Connector" method="_on_sprite_ask_for_colliding_areas"]
 [connection signal="input_event" from="Sprite" to="." method="_on_sprite_input_event"]
-[connection signal="reset_powers" from="Sprite" to="." method="_on_sprite_reset_powers"]
-[connection signal="set_powered_val" from="Sprite" to="." method="_on_sprite_set_powered_val"]
 [connection signal="timeout" from="Power_Delay" to="." method="_on_power_delay_timeout"]

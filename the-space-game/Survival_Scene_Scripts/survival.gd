@@ -128,10 +128,9 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				self.add_child(copy)
 				
 				tower_to_place.queue_free()
-				
-				
 
-				if tower_to_place.cur_name == 'Power_Node':
+				copy.overlap_areas = tower_to_place.get_areas_overlap()
+				if tower_to_place.cur_name != 'miner':
 					copy.set_placed(true, tower_to_place.get_areas_overlap())
 				else:
 					copy.set_placed(true, tower_to_place.get_overlap())

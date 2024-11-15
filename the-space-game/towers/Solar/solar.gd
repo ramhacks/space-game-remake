@@ -71,51 +71,6 @@ func set_placed(re_animate, current_overlapping_bodies):
 		
 	super.set_placed(re_animate, current_overlapping_bodies)
 
-func iterativeDFS(v, discovered, energy_left):
- 
-	# create a stack used to do iterative DFS
-	var stack = []
- 
-	# push the source node into the stack
-	stack.push_front(v)
- 
-	# loop till stack is empty
-	while len(stack) > 0:
-		# Pop a vertex from the stack
-		var s = stack[0] 
-		stack.pop_front()
- 		
-		if (s not in discovered): 
-			discovered.append(s)
-		# if the vertex is already discovered yet, ignore it
-		
-		var test_statment: bool = (s.my_name != 'solar' and s.built and s.correct_area)
-		
-		if(is_instance_valid(s) and !s.built):
-			s.set_val()
-			break
-
-			
-		for node in s.connections: 
-
-			if (node not in discovered and is_instance_valid(node)): 
-				node.get_colliding()
-				if(is_instance_valid(node) and node.correct_area and not node.hovering):
-				
-					stack.push_front(node) 
-
-					energy_left -= 50 #change to be variable depending on the tower as of now it is just 50 by default
-						
-					if(energy_left > 0):
-						node.powered = true
-						node.set_val()
-						#---------------------------------------------------------
-					else:
-						pass
-						
-	current_energy_usage = energy_left
-		
-		
  
 		
 	
@@ -123,8 +78,7 @@ func turn_on():
 	$Sprite.connections = $Collision_Area.get_overlapping_areas()
 	#traverse_graph_power($Sprite, energy_limit)
 	
-	var discovered = []
-	iterativeDFS($Sprite, discovered, energy_limit)
+	
 
 
 #called when this tower is upgraded, called once per upgrade, upgrade level is changed by a script in survival, the side button script

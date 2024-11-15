@@ -13,6 +13,7 @@ var sprite_var_node_holder
 var level = 1
 
 #ENERGY VARS
+
 var connections = []
 var sent_nodes = []
 var sent_ = false
@@ -98,7 +99,7 @@ func _process(delta: float) -> void:
 	$Sprite.hovering = hovering
 	$Sprite.built = built
 	animated_node.upgrade_level = level
-	overlap_areas = $Collision_Area.get_overlapping_areas()
+	overlap_areas = $Sprite.get_overlapping_areas()
 	#-------------------
 	
 	if(len(sprite_node.get_overlapping_areas()) > 0):
@@ -154,6 +155,12 @@ func draw_tower_hover_lines():
 #-----------------------------------------------------------------
 
 func set_placed(re_animate, current_overlapping_bodies):  #required for all towers
+
+	$Sprite.connections = overlap_areas
+	for node in overlap_areas:
+		print(node.my_name)
+	$Connector.clear_points()
+	$Connector.format_connection_lines(overlap_areas)
 	
 	hovering = false
 	if(re_animate):
@@ -186,6 +193,9 @@ func do_process():
 func get_areas_overlap():
 	return child_area.get_overlapping_areas()
 
+func get_sprite_overlap():
+	return $Sprite.get_overlapping_areas()
+	
 func upgrade():
 	pass
 	
