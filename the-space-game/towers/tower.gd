@@ -230,23 +230,24 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 
 
 func find_closest_solar():
-	iterativeDFS($Sprite)
-	print(closest_solar_station)
+	#Use BFS to find closest solar station 
+	iterativeBFS($Sprite)
+
 	
 	
-func iterativeDFS(v):
+func iterativeBFS(v):
 	var discovered = []
 	# create a stack used to do iterative DFS
-	var stack = []
+	var queue = []
  
 	# push the source node into the stack
-	stack.push_front(v)
+	queue.append(v)
  
 	# loop till stack is empty
-	while len(stack) > 0:
+	while len(queue) > 0:
 		# Pop a vertex from the stack
-		var s = stack[0] 
-		stack.pop_front()
+		var s = queue[0] 
+		queue.pop_front()
  		
 		if (s not in discovered): 
 			discovered.append(s)
@@ -264,9 +265,9 @@ func iterativeDFS(v):
 				if(is_instance_valid(node) and node.correct_area and not node.hovering):
 					if(node.my_name == 'solar'):
 						closest_solar_station = node
-						stack =[]
+						queue =[]
 						break
-					stack.push_front(node) 
+					queue.append(node) 
 						#---------------------------------------------------------
 				else:
 					pass
