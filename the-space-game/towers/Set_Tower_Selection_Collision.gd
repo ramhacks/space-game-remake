@@ -46,7 +46,7 @@ func _process(delta: float) -> void:
 	pass
 	
 
-func set_val():
+func set_power():
 	set_powered_val.emit()
 	
 func reset_power():

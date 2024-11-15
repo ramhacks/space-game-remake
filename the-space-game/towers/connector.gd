@@ -41,24 +41,23 @@ func format_connection_lines(sprite_pointer, redraw=true, no_hover_connect=false
 	#with distance we have to make it so that it is ordered by distance however no limit for normal nodes 
 	if(len(temp_collisions) > 0):
 		for j in range(len(temp_collisions)):
-			if(temp_collisions[j].correct_area and temp_collisions[j] != sprite_pointer):
-				var selfposition = to_local(self.global_position)
-				var nodeposition = to_local(temp_collisions[j].global_position)
-				var d = selfposition.distance_to(nodeposition)			
-				
-				if(j == 0):
-					full_collision_list_with_distances.append([temp_collisions[j], d])
-					collision_name_list.append(temp_collisions[j].my_name)
+			if(is_instance_valid(temp_collisions[j])):
+				if(temp_collisions[j].correct_area and temp_collisions[j] != sprite_pointer):
+					var selfposition = to_local(self.global_position)
+					var nodeposition = to_local(temp_collisions[j].global_position)
+					var d = selfposition.distance_to(nodeposition)			
+					
+					if(j == 0):
+						full_collision_list_with_distances.append([temp_collisions[j], d])
+						collision_name_list.append(temp_collisions[j].my_name)
 
-				for i in range(len(full_collision_list_with_distances)):
-					if(d < full_collision_list_with_distances[i][1]):
-						full_collision_list_with_distances.insert(i, [temp_collisions[j], d])
+					for i in range(len(full_collision_list_with_distances)):
+						if(d < full_collision_list_with_distances[i][1]):
+							full_collision_list_with_distances.insert(i, [temp_collisions[j], d])
 		
 		if get_parent().cur_name != 'Power_Node' or get_parent().cur_name != 'solar':
 			full_collision_list_with_distances = limit_lines(full_collision_list_with_distances, collision_name_list)
-			if(len(full_collision_list_with_distances) > 3):
-				
-				full_collision_list_with_distances = full_collision_list_with_distances.slice(0, 3)
+			
 				
 				
 		for node in full_collision_list_with_distances:

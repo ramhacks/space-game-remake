@@ -14,7 +14,6 @@ var subgraph_of_influence = {
 }
 
 
-
 var upgrade_map = { #this upgrade map corresponds to the timeout rate of each solar station, or rate that it powers on 
 	1: 2, #3 seconds
 	2: 1.75,#2.5 seocnds
@@ -91,27 +90,36 @@ func iterativeDFS(v, discovered, energy_left):
 		
 		var test_statment: bool = (s.my_name != 'solar' and s.built and s.correct_area)
 		
-		if(is_instance_valid(s) and !s.built):
-			s.set_val()
+		if(is_instance_valid(s) and test_statment):
+			s.set_power()
 			break
 
 			
 		for node in s.connections: 
-
-			if (node not in discovered and is_instance_valid(node)): 
+			if (node not in discovered 
+				and is_instance_valid(node) 
+				and node.correct_area 
+				and not node.hovering): 
+					
 				node.get_colliding()
-				if(is_instance_valid(node) and node.correct_area and not node.hovering):
 				
-					stack.push_front(node) 
+				
+				stack.push_front(node) 
 
-					energy_left -= 50 #change to be variable depending on the tower as of now it is just 50 by default
+				energy_left -= 50 #change to be variable depending on the tower as of now it is just 50 by default
 						
-					if(energy_left > 0):
-						node.powered = true
-						node.set_val()
+				if(energy_left > 0):
+					if(is_instance_valid(s) and test_statment):
+						s.set_power()
+						break
+					
+					node.powered = true
+					node.set_power()
 						#---------------------------------------------------------
-					else:
-						pass
+				
+				else:
+					stack = []
+					break
 						
 	current_energy_usage = energy_left
 		

@@ -23,6 +23,7 @@ func _ready() -> void:
 	place_build_progress_bar()
 	super._ready()
 	
+	
 func do_process():
 	if built:
 		if powered_twice == 2:
