@@ -157,11 +157,7 @@ func draw_tower_hover_lines():
 func set_placed(re_animate, current_overlapping_bodies):  #required for all towers
 
 	$Sprite.connections = overlap_areas
-	for node in overlap_areas:
-		print(node.my_name)
-	$Connector.clear_points()
-	$Connector.format_connection_lines(overlap_areas)
-	
+
 	hovering = false
 	if(re_animate):
 	#this function is so when we press the button to place a tower and we just want to show the tower being placed
@@ -173,6 +169,12 @@ func set_placed(re_animate, current_overlapping_bodies):  #required for all towe
 	
 	animated_node.animation_finished.connect(Callable(set_clickable))
 
+
+#still need to fix line drawing, can be done another time
+
+#Set group according to group of first colliding node
+func set_group():
+	pass
 	
 func set_clickable():
 	clickable = true
@@ -260,7 +262,7 @@ func iterativeBFS(v):
 			
 		for node in s.connections: 
 
-			if (node not in discovered and is_instance_valid(node)): 
+			if (node not in discovered and is_instance_valid(node) and node.correct_area): 
 				node.get_colliding()
 				if(is_instance_valid(node) and node.correct_area and not node.hovering):
 					if(node.my_name == 'solar'):

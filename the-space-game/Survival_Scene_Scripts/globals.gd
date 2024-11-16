@@ -1,6 +1,6 @@
 extends Node
 
-
+var power_groups = {} # 'group_name': [current_power, max_power]
 
 #This will only ever hold global variables, maybe functions but it is 
 #not recommended unless absolutly necessary

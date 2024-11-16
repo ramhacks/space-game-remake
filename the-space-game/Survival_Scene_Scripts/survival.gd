@@ -145,7 +145,7 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 
 					
 				#Node has been added, call all tower nodes to reformat lines if needed (if they have a new connection available
-				get_tree().call_group("tower_node", "format_connection_lines")
+				#get_tree().call_group("tower_node", "reformat_lines")
 				get_tree().call_group("tower_node", "find_closest_solar")
 				
 
@@ -311,8 +311,8 @@ func _on_side_buttons_hide_selection() -> void:
 	Globals.tower_selected.queue_free()
 	hide_selection_ui(Globals.tower_selected)
 	Globals.tower_selection_mode = false
-	get_tree().call_group("tower_node", "format_connection_lines")
-	get_tree().call_group("tower_node", "format_connection_lines")
+	get_tree().call_group("tower_node", "reformat_lines")
+
 
 
 func tower_button_clicked(price, tower_type):
