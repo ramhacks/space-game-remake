@@ -16,7 +16,9 @@ var level = 1
 
 #ENERGY VARS
 var connection_points = [] 
+var connector_global_points = [] #global points so we dont have to convert this nodes connection line target points back to global
 #list of connections to other nodes via global position, will be used by each groups line connector to connect
+var connected_to_node_freed = false
 # each node to eachother
 var group_
 var power_capacity = 1
@@ -25,6 +27,7 @@ var connections = []
 var sent_nodes = []
 var sent_ = false
 var powered = false 
+
 var overlap_areas = []
 
 var power_drain = 15 #amount of power the tower uses
@@ -85,6 +88,9 @@ var sprite_texture #used to get radius and height of sprite to draw selection an
 func reset_line():
 	$Connector.clear_points()
 	line_node_connections = []
+	
+
+		
 #node names are not preserved when instantced in a different scene only for nodes in the same scene
 
 # Called when the node enters the scene tree for the first time.
@@ -202,13 +208,11 @@ func get_segments():
 		if is_instance_valid(node) and node is sprite_collider and node.get_parent().hovering == false:
 			connection_points.append(self.global_position)
 			connection_points.append(node.global_position)
-		#	$Connector.add_point(to_local(self.global_position))
-			#$Connector.add_point(to_local(node.global_position))	
+			$Connector.add_point(to_local(self.global_position))
+			$Connector.add_point(to_local(node.global_position))	
 
 func add_local_point(point):
-	if point not in $Connector.points:
-		#Only draw line if line not already drawn
-		$Connector.add_point(to_local(point))
+	$Connector.add_point(to_local(point))
 
 #still need to fix line drawing, can be done another time
 
@@ -219,7 +223,7 @@ func set_clickable():
 	get_segments()
 	
 	set_group($Collision_Area.get_overlapping_areas())
-	Globals.connect_group_lines()
+
 
 #Set group according to group of first colliding node
 

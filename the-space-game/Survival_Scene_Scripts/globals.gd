@@ -66,17 +66,16 @@ func start_on():
 	
 	
 #IMPORTANT, connects them based on group only, if not in group wont connect line between a group at all
-func connect_group_lines():
+func connect_group_lines(self_node):
 	for power in power_groups:
 		get_tree().call_group(power, "reset_line")
 		for node in get_tree().get_nodes_in_group(power):
 			for target in get_tree().get_nodes_in_group(power):
 				if(node.global_position.distance_to(target.global_position) <= 58 and target != node and target not in node.line_node_connections and 
 					node not in target.line_node_connections):
-
 					node.line_node_connections.append(target)
 					target.line_node_connections.append(node)
-					
+						
 					node.add_local_point(node.global_position)
 					node.add_local_point(target.global_position)
 

@@ -299,12 +299,14 @@ func _on_side_buttons_hide_selection() -> void:
 	Globals.tower_selected.remove_from_group(Globals.tower_selected.group_)
 	Globals.tower_selected.sprite_var_node_holder.correct_area = false
 
+	Globals.connect_group_lines(Globals.tower_selected)
 	Globals.tower_selected.queue_free()
 	
+
 	
 	hide_selection_ui(Globals.tower_selected)
 	Globals.tower_selection_mode = false
-	Globals.connect_group_lines()
+	
 	
 
 
