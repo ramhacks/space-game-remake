@@ -1,7 +1,9 @@
 extends Area2D
 class_name collider
-var correct_area = false
 
+
+var correct_area = false
+var my_group_name = "NAN"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

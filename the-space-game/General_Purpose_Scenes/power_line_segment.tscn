@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcmgojaqjkuie"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_2mcig"]
+
+[node name="Power_Line_Segment" type="CollisionShape2D"]
+shape = SubResource("SegmentShape2D_2mcig")

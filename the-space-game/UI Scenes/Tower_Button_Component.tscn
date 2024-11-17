@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://bxom4d8la8da2"]
 
 [ext_resource type="Script" path="res://UI Scenes/tower_button_component.gd" id="1_cujcw"]
-[ext_resource type="Texture2D" uid="uid://boml38qf8ys4i" path="res://images/infobutton_frame1.png" id="1_ibxq2"]
-[ext_resource type="Texture2D" uid="uid://trco7br4nfk5" path="res://images/infobutton_frame2.png" id="2_a7dk1"]
-[ext_resource type="Texture2D" uid="uid://bx7rohojjycow" path="res://images/miner_button_frame_1.png" id="3_437o5"]
-[ext_resource type="Texture2D" uid="uid://cljqr2udohd4m" path="res://images/miner_button_frame_2.png" id="4_cvi6u"]
+[ext_resource type="Texture2D" uid="uid://boml38qf8ys4i" path="res://Asteroid_Images/images/infobutton_frame1.png" id="1_ibxq2"]
+[ext_resource type="Texture2D" uid="uid://trco7br4nfk5" path="res://Asteroid_Images/images/infobutton_frame2.png" id="2_a7dk1"]
+[ext_resource type="Texture2D" uid="uid://bx7rohojjycow" path="res://Asteroid_Images/images/miner_button_frame_1.png" id="3_437o5"]
+[ext_resource type="Texture2D" uid="uid://cljqr2udohd4m" path="res://Asteroid_Images/images/miner_button_frame_2.png" id="4_cvi6u"]
 
 [node name="Control" type="Control"]
 layout_mode = 3

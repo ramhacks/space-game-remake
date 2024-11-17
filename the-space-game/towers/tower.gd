@@ -2,17 +2,24 @@ extends Node2D
 
 class_name Tower
 
-	
+var line_node_connections = []
+ #what group this node belongs to
 
 var child_area
 var sprite_node
 var animated_node
 var inherted_node #for methods that require the inhereted node
 var sprite_var_node_holder
+var my_collding_radius #so we don't have to call deeper into the node to check this towers collider 
 
 var level = 1
 
 #ENERGY VARS
+var connection_points = [] 
+#list of connections to other nodes via global position, will be used by each groups line connector to connect
+# each node to eachother
+var group_
+var power_capacity = 1
 var closest_solar_station
 var connections = []
 var sent_nodes = []
@@ -75,22 +82,22 @@ var sprite_texture #used to get radius and height of sprite to draw selection an
 }
 
 
-
+func reset_line():
+	$Connector.clear_points()
+	line_node_connections = []
 #node names are not preserved when instantced in a different scene only for nodes in the same scene
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#set child node static variables
 	sprite_var_node_holder = $Sprite
+	my_collding_radius = $Collision_Area
 	$Sprite.my_name = cur_name
 	place_build_progress_bar()
 	
 
 func place_build_progress_bar(): 
 	$BuildProgress.position.y = $BuildProgress.position.y - (sprite_texture.get_size().y/2) - 2
-	
-	
-
 
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -99,7 +106,7 @@ func _process(delta: float) -> void:
 	$Sprite.hovering = hovering
 	$Sprite.built = built
 	animated_node.upgrade_level = level
-	overlap_areas = $Sprite.get_overlapping_areas()
+	overlap_areas = $Collision_Area.get_overlapping_areas()
 	#-------------------
 	
 	if(len(sprite_node.get_overlapping_areas()) > 0):
@@ -119,7 +126,6 @@ func _process(delta: float) -> void:
 
 #Build function when upgrading, resets build progress
 func rebuild():
-	print("rebuild")
 	build_progress = 0
 	built = false
 	self.get_node("BuildProgress").set_visible(true)
@@ -140,24 +146,42 @@ func send_hover_line():
 		draw_hover_line.emit(self.global_position, overlap, 0.192, 0.988, 0.165, 3, hover_line)
 
 #traw thin blue power lines to overlapping towers
-func draw_tower_hover_lines():
+func draw_tower_hover_lines(input_array=false):
 	$Sprite.connections = []
 	$Sprite.connections = $Collision_Area.get_overlapping_areas()
+	connections = $Collision_Area.get_overlapping_areas()
 	$Connector.clear_points()
-	for node in $Sprite.connections:
+	
+	var loop_array
+	if input_array:
+		connection_points.append(self.global_position)
+		loop_array = input_array
+	else:
+		loop_array = $Sprite.connections
+		
+	for node in loop_array:
 		if is_instance_valid(node) and node.correct_area:
 			$Connector.add_point(to_local(self.global_position))
 			$Connector.add_point(to_local(node.global_position))	
+			if input_array:
+				connection_points.append(node.global_position)
 
-
-
+				
+				
 #Functions that tend to be overloaded by inherted towers
 #-----------------------------------------------------------------
 
 func set_placed(re_animate, current_overlapping_bodies):  #required for all towers
 
 	$Sprite.connections = overlap_areas
-
+	$Connector.clear_points()
+	#Temporary until we implement working line drawing 
+	#======================================================
+	
+	
+	
+	#======================================================
+	
 	hovering = false
 	if(re_animate):
 	#this function is so when we press the button to place a tower and we just want to show the tower being placed
@@ -168,16 +192,65 @@ func set_placed(re_animate, current_overlapping_bodies):  #required for all towe
 	animated_node.play("place")
 	
 	animated_node.animation_finished.connect(Callable(set_clickable))
+	
+	
 
+#Draw power node lines to direct power through
+func get_segments():
+	$Connector.clear_points()
+	for node in overlap_areas:
+		if is_instance_valid(node) and node is sprite_collider and node.get_parent().hovering == false:
+			connection_points.append(self.global_position)
+			connection_points.append(node.global_position)
+		#	$Connector.add_point(to_local(self.global_position))
+			#$Connector.add_point(to_local(node.global_position))	
+
+func add_local_point(point):
+	if point not in $Connector.points:
+		#Only draw line if line not already drawn
+		$Connector.add_point(to_local(point))
 
 #still need to fix line drawing, can be done another time
 
-#Set group according to group of first colliding node
-func set_group():
-	pass
-	
 func set_clickable():
 	clickable = true
+	overlap_areas = $Collision_Area.get_overlapping_areas()
+
+	get_segments()
+	
+	set_group($Collision_Area.get_overlapping_areas())
+	Globals.connect_group_lines()
+
+#Set group according to group of first colliding node
+
+func set_group(overlaps):
+	var found_valid = false
+	if(len(overlaps)):
+		for node in overlaps:
+			if(node is sprite_collider):
+				if (node.my_group_name != 'NAN'):
+					self.add_to_group(node.my_group_name)
+					$Sprite.my_group_name = node.my_group_name
+					Globals.power_groups[$Sprite.my_group_name][1]+= power_capacity
+					Globals.power_groups[$Sprite.my_group_name][3]+= connection_points
+					group_ = node.my_group_name
+					found_valid = true
+					break
+					
+	if not found_valid:
+		var connector_line = Globals.power_lines.instantiate()
+
+		$Sprite.my_group_name = str(Globals.power_groups.size() + 1)
+		group_ = $Sprite.my_group_name
+		#if tower does not have any towers near by create a new group and a new group line to connect the nodes in this group together
+		self.get_parent().add_child(connector_line)
+
+		Globals.power_groups[$Sprite.my_group_name] = [0, power_capacity, connector_line, connection_points]
+		 #Will change based on power specifications
+		self.add_to_group($Sprite.my_group_name)
+	
+
+
 
 func set_frame_child(frame): #required for all towers
 	animated_node.frame = frame
@@ -186,7 +259,11 @@ func frame_count(): #required for all towers
 	return animated_node.sprite_frames.get_frame_count("place")
 
 func colliding_areas():
-	return len(sprite_node.get_overlapping_areas()) + len(sprite_node.get_overlapping_bodies()) #all overlapping objects
+	var real_overlaps = []
+	for node in sprite_node.get_overlapping_areas():
+		if node is sprite_collider:
+			real_overlaps.append(node)
+	return len(real_overlaps) + len(sprite_node.get_overlapping_bodies()) #all overlapping objects
 
 func do_process():
 	if not built and build_progress < 100:
@@ -233,7 +310,8 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 
 func find_closest_solar():
 	#Use BFS to find closest solar station 
-	iterativeBFS($Sprite)
+	var output = iterativeBFS($Sprite)
+	return output
 
 	
 	
@@ -252,29 +330,54 @@ func iterativeBFS(v):
 		queue.pop_front()
  		
 		if (s not in discovered): 
-			discovered.append(s)
+			discovered.append(s.get_parent())
 		# if the vertex is already discovered yet, ignore it
 		
 		var test_statment: bool = (s.my_name != 'solar' and s.built and s.correct_area)
 		
 
-
-			
 		for node in s.connections: 
 
-			if (node not in discovered and is_instance_valid(node) and node.correct_area): 
+			if (node.get_parent() not in discovered and is_instance_valid(node) and node.correct_area and not node.hovering): 
 				node.get_colliding()
-				if(is_instance_valid(node) and node.correct_area and not node.hovering):
-					if(node.my_name == 'solar'):
-						closest_solar_station = node
-						queue =[]
-						break
-					queue.append(node) 
+
+				if(node.my_name == 'solar'):
+					closest_solar_station = node
+					queue =[]
+					break
+					
+				queue.append(node) 
 						#---------------------------------------------------------
-				else:
-					pass
-						
+	return discovered
 
-
+func iterativeDFS(v):
+	var discovered = []
+	# create a stack used to do iterative DFS
+	var stack = []
+ 
+	# push the source node into the stack
+	stack.push_front(v)
+ 
+	# loop till stack is empty
+	while len(stack) > 0:
+		# Pop a vertex from the stack
+		var s = stack[0] 
+		stack.pop_front()
+ 		
+		if (s.get_parent() not in discovered): 
+			discovered.append(s.get_parent())
+		# if the vertex is already discovered yet, ignore it
+	
+			
+		for node in s.connections: 
+			if (is_instance_valid(node) and node.correct_area and not node.hovering and node.get_parent() not in discovered):
+					#if(node.my_name == 'solar'):
+						#closest_solar_station = node
+						#queue =[]
+						#break
+				node.get_parent().animated_node.frame = 5
+				stack.push_front(node) 
+						#---------------------------------------------------------
+	return discovered
 
  

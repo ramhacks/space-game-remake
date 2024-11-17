@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://dd0iq32xbef8"]
 
 [ext_resource type="Script" path="res://towers/tower.gd" id="1_u867d"]
-[ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://images/Green-Circle-PNG-Photo-2603984782.png" id="2_x3dtl"]
+[ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://Asteroid_Images/images/Green-Circle-PNG-Photo-2603984782.png" id="2_x3dtl"]
 [ext_resource type="Script" path="res://towers/Set_Tower_Selection_Collision.gd" id="3_hmvqe"]
 [ext_resource type="Script" path="res://towers/collision_area.gd" id="4_lhcah"]
 [ext_resource type="Script" path="res://towers/connector.gd" id="5_uevkj"]
@@ -93,7 +93,8 @@ scale = Vector2(0.185, 0.183333)
 texture = ExtResource("2_x3dtl")
 metadata/_edit_lock_ = true
 
-[node name="Sprite" type="Area2D" parent="."]
+[node name="Sprite" type="Area2D" parent="." groups=["sprite_node"]]
+collision_mask = 3
 priority = 1
 script = ExtResource("3_hmvqe")
 metadata/_edit_lock_ = true

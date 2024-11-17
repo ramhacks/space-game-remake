@@ -108,9 +108,8 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 		if(tower_to_place.cur_name != "miner"):
 			is_miner_and_overlapping = true
 			
-			
-		var above_hot_bar_AND_not_on_tower = ((starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 30)
-		 										)	
+		var above_hot_bar_AND_not_on_tower = ((starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 30))	
+		
 		if(is_miner_and_overlapping and above_hot_bar_AND_not_on_tower):
 			if(tower_to_place.colliding_areas() == 0):
 				Globals.tower_node_amount += 1
@@ -146,7 +145,7 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 					
 				#Node has been added, call all tower nodes to reformat lines if needed (if they have a new connection available
 				#get_tree().call_group("tower_node", "reformat_lines")
-				get_tree().call_group("tower_node", "find_closest_solar")
+	
 				
 
 
@@ -187,13 +186,7 @@ func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
 			else:
 				draw = true
 		
-			#only draw line (only applies to miner class) if asteroid is not empty of resources
-		if(nodes.cur_name == "asteroid"):
-			if(nodes.asteroid_empty):
-				draw = false
-			else:
-				draw = true
-		
+			#only draw line (only applies to miner class) if asteroid is not empty of resources	
 		if draw:
 			line_node.add_point(to_local(pos1))
 			line_node.add_point(to_local(nodes.global_position))
@@ -303,15 +296,17 @@ func _on_side_buttons_hide_selection() -> void:
 	waiting_for_clickout = false
 	selection_node.remove_from_group("selection")
 	self.remove_child(selection_node)
-	
-	print(Globals.tower_selected.sprite_var_node_holder)
-	
-	
+	Globals.tower_selected.remove_from_group(Globals.tower_selected.group_)
 	Globals.tower_selected.sprite_var_node_holder.correct_area = false
+
 	Globals.tower_selected.queue_free()
+	
+	
 	hide_selection_ui(Globals.tower_selected)
 	Globals.tower_selection_mode = false
-	get_tree().call_group("tower_node", "reformat_lines")
+	Globals.connect_group_lines()
+	
+
 
 
 

@@ -1,6 +1,9 @@
 extends Area2D
 
 class_name sprite_collider
+
+
+var my_group_name = "NAN"
 #copy of parent variables so that when traversing the graph we can access properties of parent
 var correct_area = true
 var hovering = false
