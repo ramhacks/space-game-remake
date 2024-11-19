@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bftugtnfokgv"]
+[gd_scene load_steps=42 format=3 uid="uid://bftugtnfokgv"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_cmj2o"]
 [ext_resource type="Script" path="res://towers/Solar/solar.gd" id="2_lr4nm"]
@@ -171,8 +171,13 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_o7vyt"]
+radius = 13.0
+
 [node name="solar_station" instance=ExtResource("1_cmj2o")]
 script = ExtResource("2_lr4nm")
+power_needed = 1
+power_time_seconds = 1
 cur_name = "solar"
 upgrade_price = {
 1: 200,
@@ -190,3 +195,6 @@ z_index = 2
 sprite_frames = SubResource("SpriteFrames_3ggyo")
 animation = &"place"
 script = ExtResource("36_ytiel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
+shape = SubResource("CircleShape2D_o7vyt")

@@ -22,7 +22,7 @@ func GetAllTreeNodes(node , listOfAllNodesInTree): #recursive
 
 var resources = 2500 # amount of resources the current player has
 var RPM = 0
-
+var sprite_collider_instance
 var tower_selection_mode = false
 var tower_selected
 
@@ -57,6 +57,7 @@ func _ready():
 	#Will do this by checking 
 	power_lines = preload("res://General_Purpose_Scenes/Power_Group_Line.tscn")
 	power_line_segment = preload("res://General_Purpose_Scenes/power_line_segment.tscn")
+	sprite_collider_instance = preload("res://towers/sprite_collision_shape_setter.tscn")
 
 func start_off(): 
 	global_power_timer_off.start()
@@ -64,22 +65,37 @@ func start_off():
 func start_on():
 	global_power_timer_on.start()  
 	
-	
+
+
 #IMPORTANT, connects them based on group only, if not in group wont connect line between a group at all
 func connect_group_lines(self_node):
+	power_groups[self_node.group_][1] -= self_node.power_capacity
+	
 	for power in power_groups:
 		get_tree().call_group(power, "reset_line")
 		for node in get_tree().get_nodes_in_group(power):
 			for target in get_tree().get_nodes_in_group(power):
+				#58 is the size radius of towers, the radius of the circle that outside of its edges we can't connect lines, only towers
+				#within it are allwed to connect to eachother
 				if(node.global_position.distance_to(target.global_position) <= 58 and target != node and target not in node.line_node_connections and 
 					node not in target.line_node_connections):
 					node.line_node_connections.append(target)
 					target.line_node_connections.append(node)
-						
+					
 					node.add_local_point(node.global_position)
 					node.add_local_point(target.global_position)
+					
+					
+#Group Power Manegment
 
-
+func group_changed_adjust_max_power(group_target):
+	power_groups[group_target][1] = 0
+	for node in get_tree().get_nodes_in_group(group_target):
+		power_groups[group_target][1] += node.power_capacity
+	print("new_power", power_groups)
+func power_requested(tower, group, power_needed):
+	if(group in power_groups):
+		if(power_groups[group][0]-power_needed > 0):
+			tower.do_process()
+			power_groups[group][0] -= power_needed
 	
-	
-#Draw power node lines to direct power through

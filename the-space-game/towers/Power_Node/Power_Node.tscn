@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ms1nm4qyo62h"]
+[gd_scene load_steps=20 format=3 uid="uid://ms1nm4qyo62h"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_8ecru"]
 [ext_resource type="Script" path="res://towers/Power_Node/power_node.gd" id="2_g6doy"]
@@ -17,6 +17,9 @@
 [ext_resource type="Texture2D" uid="uid://dy5mg0wjraqro" path="res://Asteroid_Images/images/481.png" id="14_6tau5"]
 [ext_resource type="Texture2D" uid="uid://b086n73fbtqr6" path="res://Asteroid_Images/images/483.png" id="15_bls05"]
 [ext_resource type="Texture2D" uid="uid://de8qe5cponxdy" path="res://Asteroid_Images/images/485.png" id="16_qrksn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t335d"]
+radius = 4.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ws7ev"]
 animations = [{
@@ -83,7 +86,12 @@ animations = [{
 
 [node name="Power_Node" groups=["collider"] instance=ExtResource("1_8ecru")]
 script = ExtResource("2_g6doy")
+power_needed = 1
+power_time_seconds = 1
 cur_name = "Power_Node"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
+shape = SubResource("CircleShape2D_t335d")
 
 [node name="Collision_Area" parent="." index="5"]
 collision_priority = 2.0

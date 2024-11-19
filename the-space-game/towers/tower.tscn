@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dd0iq32xbef8"]
+[gd_scene load_steps=14 format=3 uid="uid://dd0iq32xbef8"]
 
 [ext_resource type="Script" path="res://towers/tower.gd" id="1_u867d"]
 [ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://Asteroid_Images/images/Green-Circle-PNG-Photo-2603984782.png" id="2_x3dtl"]
@@ -58,9 +58,6 @@ offsets = PackedFloat32Array(0, 0.458333, 1)
 colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699, 0, 1, 0.0183086, 0.319085, 0.184432, 1)
 metadata/_snap_count = 12
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_jta6b"]
-radius = 8.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
 radius = 58.0
 
@@ -99,15 +96,13 @@ priority = 1
 script = ExtResource("3_hmvqe")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite"]
-shape = SubResource("CircleShape2D_jta6b")
-metadata/_edit_lock_ = true
-
 [node name="Collision_Area" type="Area2D" parent="."]
 collision_layer = 2
 script = ExtResource("4_lhcah")
 
 [node name="Collider" type="CollisionShape2D" parent="Collision_Area"]
+modulate = Color(0.776493, 0.149151, 7.70092e-07, 1)
+self_modulate = Color(1, 0.567861, 0.907826, 1)
 shape = SubResource("CircleShape2D_emkd0")
 
 [node name="Connector" type="Line2D" parent="."]
@@ -116,7 +111,6 @@ default_color = Color(0, 0.6, 0.701961, 0.419608)
 script = ExtResource("5_uevkj")
 
 [node name="Power_Delay" type="Timer" parent="."]
-autostart = true
 
 [connection signal="input_event" from="Sprite" to="." method="_on_sprite_input_event"]
 [connection signal="timeout" from="Power_Delay" to="." method="_on_power_delay_timeout"]

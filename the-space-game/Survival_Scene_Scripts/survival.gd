@@ -79,6 +79,8 @@ func _ready() -> void:
 	children.pop_front()
 	for i in range(1, 3):
 		vbox.remove_child(children[i])
+	
+	
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -137,10 +139,10 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 					
 				copy.get_node("collider").visible = false	
 				
-				#connect laser_signal to tower so it can call it itself
+				#connect tower signals global functions
 				copy.draw_laser.connect(draw_laser)
 				copy.draw_selection_animation.connect(draw_selector)
-
+				copy.request_power.connect(Globals.power_requested)
 
 					
 				#Node has been added, call all tower nodes to reformat lines if needed (if they have a new connection available
@@ -198,8 +200,6 @@ func draw_selector(tower_pos, tower_radius, clicked_self, tower): #if add, add e
 	#draw the selection animation, we will add a tween after finishing creating the base selection shape
 	
 	if(!Globals.tower_hovering):
-
-	
 		if(clicked_self and selection_node not in get_tree().get_nodes_in_group("selection")): #only draw if clicked node
 			Globals.tower_selected = tower
 			#it has been clicked so now if somewhere that is not this node is clicked hide the select drawing
@@ -244,6 +244,7 @@ func get_tower_ui_node(tower_type):
 
 #show selection ui	
 func show_selection_ui(tower):
+	print(tower.group_)
 	#re-add all button nodes just in case they were removed in another tower seleciton menu
 	var vbox = self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons")
 		

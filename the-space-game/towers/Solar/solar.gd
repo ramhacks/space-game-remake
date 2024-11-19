@@ -1,23 +1,22 @@
 extends Tower
 
 var upgrade_level = 1
-var energy_limit = 300
 
-var connect_toggle = false
+#How much energy it is producing every tick/pulse
+var energy_produced = 300
+
+var connect_toggle = true
 
 var current_energy_usage
 
 #adjacency list of the subgraph that this solar station has influence over and can direct power to
 #will be used to draw better lines to nodes
-var subgraph_of_influence = {
-	
-}
 
 
 
 var upgrade_map = { #this upgrade map corresponds to the timeout rate of each solar station, or rate that it powers on 
-	1: 2, #3 seconds
-	2: 1.75,#2.5 seocnds
+	1: 3, #3 seconds
+	2: 2,#2.5 seocnds
 	3: 1.5, #2 seconds
 	4: -1 #make the last item in the dictionary always be -1
 }
@@ -31,13 +30,15 @@ func _ready() -> void:
 	child_area = self.get_node("Collision_Area")
 	animated_node = self.get_node("Sprite2D")
 	inherted_node = self
+	power_capacity = 300
 	
-	$Power_Delay.wait_time = upgrade_map[upgrade_level]
 	
 	current_animation = animated_node.animation
 	
-	sprite_texture = animated_node.get_sprite_frames().get_frame_texture(current_animation, 0)
+	sprite_texture = animated_node.get_sprite_frames().get_frame_texture("hover", 0)
+	
 	super._ready()
+	
 	
 	
 func get_overlap():
@@ -50,12 +51,13 @@ func _process(delta: float) -> void:
 		build_progress = 100
 
 		Globals.NO_SOLAR_TOWER = false
-		
-	if built and !connect_toggle:
-		$Power_Delay.timeout.connect(turn_on)  
-		$Power_Delay.start()
-		connect_toggle = true #makes it so this command is only ran once we do not need to keep connecting the timeout signal
 	
+	if built and connect_toggle:
+		$Power_Delay.wait_time = upgrade_map[upgrade_level]
+		power_time_seconds = upgrade_map[upgrade_level]
+		$Power_Delay.timeout.connect(turn_on)  
+		connect_toggle = false
+		
 	super._process(delta)
 
 
@@ -71,14 +73,10 @@ func set_placed(re_animate, current_overlapping_bodies):
 		
 	super.set_placed(re_animate, current_overlapping_bodies)
 
-
-
- 
-		
-	
 func turn_on():
-	$Sprite.connections = $Collision_Area.get_overlapping_areas()
-	#traverse_graph_power($Sprite, energy_limit)
+	print(Globals.power_groups)
+	if(Globals.power_groups[group_][0]+energy_produced <= Globals.power_groups[group_][1]):
+		Globals.power_groups[group_][0] += energy_produced
 	
 	
 

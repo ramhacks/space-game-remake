@@ -15,31 +15,36 @@ var my_collding_radius #so we don't have to call deeper into the node to check t
 var level = 1
 
 #ENERGY VARS
-var connection_points = [] 
-var connector_global_points = [] #global points so we dont have to convert this nodes connection line target points back to global
+var connection_points: Array = [] 
 #list of connections to other nodes via global position, will be used by each groups line connector to connect
 var connected_to_node_freed = false
 # each node to eachother
-var group_
-var power_capacity = 1
-var closest_solar_station
-var connections = []
-var sent_nodes = []
-var sent_ = false
-var powered = false 
+var group_: String = 'NAN'
 
-var overlap_areas = []
+var power_capacity: int = 1
 
-var power_drain = 15 #amount of power the tower uses
+#amount that this tower needs to function
+#We can modify this to be customized when implementing missles/lasers
+@export var power_needed: int
+@export var power_time_seconds: int
+
+var connections: Array = []
+var sent_: bool = false
+
+#Self so globals when it recieves the request can trigger the do_process function in the tower
+#power needed is the amount of power we are requesting from the group
+signal request_power(sender, group, power_needed)
+
+var overlap_areas: Array = []
 
 
-var show_colliding_bodies = false
+var show_colliding_bodies: bool = false
 
-@export var health = 300
+@export var health: int = 300
 
-var build_progress = 0 #percantage up to 100
-var built = false #we will set this to false when we implement power
-var set_build_frame = false
+var build_progress: int = 0 #percantage up to 100
+var built: bool = false #we will set this to false when we implement power
+var set_build_frame: bool = false
 
 
 
@@ -52,21 +57,21 @@ signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
 signal draw_selection_animation(tower_pos, tower_radius, clicked_self, tower_type)
 
 
-@export var cur_name = "tower name" #used if we want to identify the type of tower 
+@export var cur_name: String = "tower name" #used if we want to identify the type of tower 
 
-var cooldown_delay = 3  #may need to be adjusted based on upgrade level
-var cooling_down = false
+var cooldown_delay: bool = 3  #may need to be adjusted based on upgrade level
+var cooling_down: bool = false
 
 var line_node
 
-var hovering = false #hovering next to mouse, not placed yet
+var hovering: bool = false #hovering next to mouse, not placed yet
 #assumed false until told otherwise
 
 
 
-var clickable = false #this is so that we don't think the tower is being clicked after we place it down
+var clickable: bool = false #this is so that we don't think the tower is being clicked after we place it down
 
-var on_object = false #if sprite itself is on asteroid don't let the player place the tower
+var on_object: bool = false #if sprite itself is on asteroid don't let the player place the tower
 
 var sprite_texture #used to get radius and height of sprite to draw selection animation and place build_progress_bar
 
@@ -95,11 +100,14 @@ func reset_line():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
 	#set child node static variables
 	sprite_var_node_holder = $Sprite
 	my_collding_radius = $Collision_Area
+
 	$Sprite.my_name = cur_name
 	place_build_progress_bar()
+	$Power_Delay.wait_time = power_time_seconds
 	
 
 func place_build_progress_bar(): 
@@ -108,11 +116,13 @@ func place_build_progress_bar():
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+
 	#set child node and self dynamic variables
 	$Sprite.hovering = hovering
 	$Sprite.built = built
 	animated_node.upgrade_level = level
 	overlap_areas = $Collision_Area.get_overlapping_areas()
+	
 	#-------------------
 	
 	if(len(sprite_node.get_overlapping_areas()) > 0):
@@ -129,7 +139,10 @@ func _process(delta: float) -> void:
 		built = true
 	else:
 		self.get_node("BuildProgress").value = build_progress
+	
+	
 
+	
 #Build function when upgrading, resets build progress
 func rebuild():
 	build_progress = 0
@@ -158,7 +171,7 @@ func draw_tower_hover_lines(input_array=false):
 	connections = $Collision_Area.get_overlapping_areas()
 	$Connector.clear_points()
 	
-	var loop_array
+	var loop_array: Array
 	if input_array:
 		connection_points.append(self.global_position)
 		loop_array = input_array
@@ -204,56 +217,89 @@ func set_placed(re_animate, current_overlapping_bodies):  #required for all towe
 #Draw power node lines to direct power through
 func get_segments():
 	$Connector.clear_points()
-	for node in overlap_areas:
-		if is_instance_valid(node) and node is sprite_collider and node.get_parent().hovering == false:
-			connection_points.append(self.global_position)
-			connection_points.append(node.global_position)
-			$Connector.add_point(to_local(self.global_position))
-			$Connector.add_point(to_local(node.global_position))	
+	
+	$Connector.priority_lines(overlap_areas)
 
 func add_local_point(point):
 	$Connector.add_point(to_local(point))
 
-#still need to fix line drawing, can be done another time
-
+#POWER FUNCTIONS AND FUNCITONALITY
+#=====================================================================================
 func set_clickable():
 	clickable = true
 	overlap_areas = $Collision_Area.get_overlapping_areas()
-
 	get_segments()
-	
 	set_group($Collision_Area.get_overlapping_areas())
+	if(power_time_seconds > 0):
+		
+		$Power_Delay.start() #Start power_timer cycle
 
+func _on_power_delay_timeout() -> void:
+	#don't emit if it doesn't need power to work
+	if(power_needed) > 0:
+		request_power.emit(self, group_, power_needed)
 
-#Set group according to group of first colliding node
+#Convert group to any group we want
+func convert_group(group_target):
+	self.remove_from_group(group_)
+	group_ = group_target
+	self.add_to_group(group_target)
 
+	
 func set_group(overlaps):
-	var found_valid = false
+	var found_valid: bool = false
+	var found_groups = []
+	
 	if(len(overlaps)):
 		for node in overlaps:
 			if(node is sprite_collider):
-				if (node.my_group_name != 'NAN'):
-					self.add_to_group(node.my_group_name)
-					$Sprite.my_group_name = node.my_group_name
-					Globals.power_groups[$Sprite.my_group_name][1]+= power_capacity
-					Globals.power_groups[$Sprite.my_group_name][3]+= connection_points
-					group_ = node.my_group_name
-					found_valid = true
-					break
-					
+				if (node.get_parent().group_ != 'NAN'):
+					found_groups.append(node.get_parent().group_)
+					if(not found_valid):
+						
+						self.add_to_group(node.get_parent().group_)
+						
+						Globals.power_groups[node.get_parent().group_][1]+= power_capacity
+						group_ = node.my_group_name
+						found_valid = true
+	
+	#2 types of groups, convert all nodes in every other group to myself, delete all other groups except group 
+	#I belong to 
+	
+		
+		
+	#Can't find any groups, create a new one
 	if not found_valid:
 		var connector_line = Globals.power_lines.instantiate()
-
-		$Sprite.my_group_name = str(Globals.power_groups.size() + 1)
-		group_ = $Sprite.my_group_name
+		if(Globals.power_groups.size() - 1 >= 0):
+			if(len(get_tree().get_nodes_in_group(str(Globals.power_groups.size() - 1)))) == 0:
+				group_ = str(Globals.power_groups.size() - 1)		
+			else:
+				group_ = str(Globals.power_groups.size() + 1)
+		else:
+			group_ = str(Globals.power_groups.size() + 1)
 		#if tower does not have any towers near by create a new group and a new group line to connect the nodes in this group together
 		self.get_parent().add_child(connector_line)
 
-		Globals.power_groups[$Sprite.my_group_name] = [0, power_capacity, connector_line, connection_points]
+		Globals.power_groups[group_] = [0, power_capacity]
+		
 		 #Will change based on power specifications
-		self.add_to_group($Sprite.my_group_name)
-	
+		self.add_to_group(group_)
 
+	if(group_ == 'NAN'): #EDGE CASE
+		group_ = found_groups[0]
+		
+	if(len(found_groups) > 1):
+		for g in found_groups:
+			get_tree().call_group(g, "convert_group", group_)
+		Globals.group_changed_adjust_max_power(group_)
+
+func do_process():
+	if not built and build_progress < 100:
+		build_progress += 20
+	$Power_Delay.start()
+	
+#===============================================================================================
 
 
 func set_frame_child(frame): #required for all towers
@@ -263,15 +309,13 @@ func frame_count(): #required for all towers
 	return animated_node.sprite_frames.get_frame_count("place")
 
 func colliding_areas():
-	var real_overlaps = []
+	var real_overlaps: Array = []
 	for node in sprite_node.get_overlapping_areas():
 		if node is sprite_collider:
 			real_overlaps.append(node)
 	return len(real_overlaps) + len(sprite_node.get_overlapping_bodies()) #all overlapping objects
 
-func do_process():
-	if not built and build_progress < 100:
-		build_progress += 20
+
 	
 func get_areas_overlap():
 	return child_area.get_overlapping_areas()
@@ -301,87 +345,8 @@ func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -
 			#will change the hot bar or something to let us upgrade the selected tower
 
 #power on
-func _on_sprite_set_powered_val() -> void:
-	inherted_node.do_process()
-	self.powered = true
-	
 func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	cooling_down = true
 	draw_laser.emit(self, pos1, pos2, cooldown_delay, self) 
 	#we can't use tweens because tweens are meant for single animations
 	#we need to animate 2 things at once so we have to use attached line node and can't dynamically create one
-
-
-func find_closest_solar():
-	#Use BFS to find closest solar station 
-	var output = iterativeBFS($Sprite)
-	return output
-
-	
-	
-func iterativeBFS(v):
-	var discovered = []
-	# create a stack used to do iterative DFS
-	var queue = []
- 
-	# push the source node into the stack
-	queue.append(v)
- 
-	# loop till stack is empty
-	while len(queue) > 0:
-		# Pop a vertex from the stack
-		var s = queue[0] 
-		queue.pop_front()
- 		
-		if (s not in discovered): 
-			discovered.append(s.get_parent())
-		# if the vertex is already discovered yet, ignore it
-		
-		var test_statment: bool = (s.my_name != 'solar' and s.built and s.correct_area)
-		
-
-		for node in s.connections: 
-
-			if (node.get_parent() not in discovered and is_instance_valid(node) and node.correct_area and not node.hovering): 
-				node.get_colliding()
-
-				if(node.my_name == 'solar'):
-					closest_solar_station = node
-					queue =[]
-					break
-					
-				queue.append(node) 
-						#---------------------------------------------------------
-	return discovered
-
-func iterativeDFS(v):
-	var discovered = []
-	# create a stack used to do iterative DFS
-	var stack = []
- 
-	# push the source node into the stack
-	stack.push_front(v)
- 
-	# loop till stack is empty
-	while len(stack) > 0:
-		# Pop a vertex from the stack
-		var s = stack[0] 
-		stack.pop_front()
- 		
-		if (s.get_parent() not in discovered): 
-			discovered.append(s.get_parent())
-		# if the vertex is already discovered yet, ignore it
-	
-			
-		for node in s.connections: 
-			if (is_instance_valid(node) and node.correct_area and not node.hovering and node.get_parent() not in discovered):
-					#if(node.my_name == 'solar'):
-						#closest_solar_station = node
-						#queue =[]
-						#break
-				node.get_parent().animated_node.frame = 5
-				stack.push_front(node) 
-						#---------------------------------------------------------
-	return discovered
-
- 

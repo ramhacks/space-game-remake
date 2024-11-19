@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://h7ufimf2d2l"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5jjv8"]
+
+[node name="Sprite_Collision_Shape_Setter" type="CollisionShape2D"]
+shape = SubResource("CircleShape2D_5jjv8")

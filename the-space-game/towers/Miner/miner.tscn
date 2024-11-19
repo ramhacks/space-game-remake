@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://c6np11nexofah"]
+[gd_scene load_steps=30 format=3 uid="uid://c6np11nexofah"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_x10fq"]
 [ext_resource type="Script" path="res://towers/Miner/miner_tower.gd" id="2_3ciky"]
@@ -123,8 +123,13 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_m6ypq"]
+radius = 8.06226
+
 [node name="miner" instance=ExtResource("1_x10fq")]
 script = ExtResource("2_3ciky")
+power_needed = 10
+power_time_seconds = 2
 cur_name = "miner"
 recycle_price = {
 1: 45,
@@ -137,5 +142,8 @@ z_index = 2
 sprite_frames = SubResource("SpriteFrames_xrw86")
 animation = &"hover"
 script = ExtResource("2_7igyp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
+shape = SubResource("CircleShape2D_m6ypq")
 
 [connection signal="draw_line" from="Sprite2D" to="." method="_on_sprite_2d_draw_line"]

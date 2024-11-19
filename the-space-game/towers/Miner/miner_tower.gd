@@ -4,8 +4,6 @@ var total_mined = 0
 var mpm = 0
 var timer 
 
-var powered_twice = 0 #in order to mine it needs to have recieved 2 power signals in a row
-
 
 # Called when the node enters the scene tree for the first time.
 
@@ -23,14 +21,11 @@ func _ready() -> void:
 	place_build_progress_bar()
 	super._ready()
 	
+	
 func do_process():
 	if built:
-		if powered_twice == 2:
-			if(animated_node):
-				total_mined += animated_node.mine(line_node)
-			powered_twice = 0
-		else:
-			powered_twice += 1
+		if(animated_node):
+			total_mined += animated_node.mine(line_node)
 	super.do_process()
 
 #overwrite set_placed:
