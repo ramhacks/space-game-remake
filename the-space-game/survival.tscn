@@ -1,27 +1,35 @@
-[gd_scene load_steps=47 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=56 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/camera.gd" id="2_fmvyw"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/game_ticks.gd" id="2_yr8rd"]
-[ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://Asteroid_Images/images/image(1).jpg" id="3_vqmru"]
-[ext_resource type="Theme" uid="uid://chdmu6kfrhoyk" path="res://Themes/hotbar_background1.tres" id="4_ihjta"]
+[ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://Visuals/Sprite_Frames/image(1).jpg" id="3_vqmru"]
+[ext_resource type="Theme" uid="uid://chdmu6kfrhoyk" path="res://Visuals/Themes/hotbar_background1.tres" id="4_ihjta"]
 [ext_resource type="Script" path="res://UI Scenes/hotbar.gd" id="5_0oapn"]
-[ext_resource type="Theme" uid="uid://dyhmoabmqtjno" path="res://Themes/hotbar_background2.tres" id="5_85nvo"]
+[ext_resource type="Theme" uid="uid://dyhmoabmqtjno" path="res://Visuals/Themes/hotbar_background2.tres" id="5_85nvo"]
 [ext_resource type="Script" path="res://UI Scenes/default_hot_bar.gd" id="7_q05n8"]
 [ext_resource type="PackedScene" uid="uid://bxom4d8la8da2" path="res://UI Scenes/Tower_Button_Component.tscn" id="8_nsbra"]
-[ext_resource type="Texture2D" uid="uid://bx7rohojjycow" path="res://Asteroid_Images/images/miner_button_frame_1.png" id="8_vnyq4"]
-[ext_resource type="Texture2D" uid="uid://cljqr2udohd4m" path="res://Asteroid_Images/images/miner_button_frame_2.png" id="9_pw457"]
-[ext_resource type="Texture2D" uid="uid://cqfwf2n3u3so2" path="res://Asteroid_Images/images/pixil-frame-0.png" id="11_7q3wi"]
+[ext_resource type="Texture2D" uid="uid://igeheoey3ig6" path="res://Visuals/Button_Textures/Miner/1.png" id="10_aq32r"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/side_buttons.gd" id="11_26wvg"]
+[ext_resource type="Texture2D" uid="uid://ddnnqrnv4uq6" path="res://Visuals/Button_Textures/Miner/2.png" id="11_33rgq"]
 [ext_resource type="Script" path="res://UI Scenes/text_bars.gd" id="11_hj758"]
 [ext_resource type="Script" path="res://UI Scenes/selection.gd" id="11_sh5ow"]
-[ext_resource type="Theme" uid="uid://c31puf50m0oxm" path="res://Themes/Upgrade_Button.tres" id="11_vnck4"]
-[ext_resource type="Texture2D" uid="uid://be52d2ceji3f5" path="res://Asteroid_Images/images/solar_button.png" id="12_qesea"]
-[ext_resource type="Texture2D" uid="uid://bpvdrvbi2a108" path="res://Asteroid_Images/images/node_button_up.png" id="13_atf3j"]
+[ext_resource type="Theme" uid="uid://c31puf50m0oxm" path="res://Visuals/Themes/Upgrade_Button.tres" id="11_vnck4"]
+[ext_resource type="Texture2D" uid="uid://b44c0ocnpdod5" path="res://Visuals/Button_Textures/Solar/1.png" id="12_naysr"]
 [ext_resource type="Script" path="res://UI Scenes/info_hover.gd" id="13_o1wgd"]
-[ext_resource type="Texture2D" uid="uid://cv5ldw377jsuw" path="res://Asteroid_Images/images/node_button_down.png" id="14_qr4hd"]
-[ext_resource type="Texture2D" uid="uid://c6j7e8g0bdpxi" path="res://Asteroid_Images/images/pointer.png" id="14_xk34w"]
-[ext_resource type="Theme" uid="uid://ga7xqep48vn4" path="res://Themes/info_text.tres" id="17_ymelk"]
+[ext_resource type="Texture2D" uid="uid://d372x8ynscjkt" path="res://Visuals/Button_Textures/Solar/2.png" id="13_ocm2g"]
+[ext_resource type="Texture2D" uid="uid://b7fh7v2w2j3fo" path="res://Visuals/Button_Textures/Power_Node/1.png" id="14_ojn1w"]
+[ext_resource type="Texture2D" uid="uid://c6j7e8g0bdpxi" path="res://Visuals/Sprite_Frames/pointer.png" id="14_xk34w"]
+[ext_resource type="Texture2D" uid="uid://bi0pq77451ata" path="res://Visuals/Button_Textures/Power_Node/2.png" id="15_4d662"]
+[ext_resource type="Texture2D" uid="uid://ukcnbv1dprvt" path="res://Visuals/Button_Textures/Repair_Station/1.png" id="16_41fxr"]
+[ext_resource type="Texture2D" uid="uid://b7vbcwps01pq0" path="res://Visuals/Button_Textures/Repair_Station/2.png" id="17_uck3r"]
+[ext_resource type="Theme" uid="uid://ga7xqep48vn4" path="res://Visuals/Themes/info_text.tres" id="17_ymelk"]
+[ext_resource type="Texture2D" uid="uid://bujtl418tsuai" path="res://Visuals/Button_Textures/Missile_Launcher/1.png" id="18_lo4so"]
+[ext_resource type="Texture2D" uid="uid://5ucry3rwpivb" path="res://Visuals/Button_Textures/Missile_Launcher/2.png" id="19_aroka"]
+[ext_resource type="FontFile" uid="uid://cv8a6vbc8ntaf" path="res://Visuals/Fonts/633_Trebuchet MS.ttf" id="25_n6jvr"]
+[ext_resource type="Theme" uid="uid://cnfje2s4oho51" path="res://Visuals/Themes/Side_Buttons.tres" id="27_tripf"]
+[ext_resource type="FontFile" uid="uid://baf5yckugqi1b" path="res://Visuals/Fonts/663_Trebuchet MS.ttf" id="29_l8l0o"]
+[ext_resource type="Script" path="res://right_box.gd" id="29_syjw4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
 size = Vector2(1152, 519)
@@ -36,12 +44,18 @@ bg_color = Color(0, 0, 0, 1)
 Panel/styles/panel = SubResource("StyleBoxFlat_8rshf")
 
 [sub_resource type="LabelSettings" id="LabelSettings_7cw3v"]
+font = ExtResource("25_n6jvr")
 font_color = Color(0.265795, 0.715548, 0.288878, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_kf2bw"]
+font = ExtResource("25_n6jvr")
 font_color = Color(0.266667, 0.713726, 0.290196, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_mw3dt"]
+font = ExtResource("25_n6jvr")
+
 [sub_resource type="LabelSettings" id="LabelSettings_eyg4b"]
+font = ExtResource("25_n6jvr")
 font_color = Color(0.14902, 0.658824, 0.811765, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fig11"]
@@ -51,6 +65,7 @@ bg_color = Color(0.14902, 0.658824, 0.811765, 1)
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_fig11")
 
 [sub_resource type="LabelSettings" id="LabelSettings_btepq"]
+font = ExtResource("25_n6jvr")
 font_color = Color(0.979485, 0.389826, 0.758559, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_045y0"]
@@ -98,6 +113,7 @@ Button/colors/font_focus_color = Color(0, 0.803922, 0.803922, 1)
 Button/colors/font_hover_color = Color(0, 0.803922, 0.803922, 1)
 Button/colors/font_hover_pressed_color = Color(0, 0.803922, 0.803922, 1)
 Button/colors/font_pressed_color = Color(0, 0.803922, 0.803922, 1)
+Button/fonts/font = ExtResource("25_n6jvr")
 Button/styles/focus = SubResource("StyleBoxEmpty_m8gmu")
 Button/styles/hover = SubResource("StyleBoxFlat_kdhhr")
 Button/styles/normal = SubResource("StyleBoxFlat_c81f4")
@@ -108,14 +124,17 @@ Panel/styles/panel = null
 
 [sub_resource type="LabelSettings" id="LabelSettings_a1qks"]
 line_spacing = 1.0
+font = ExtResource("29_l8l0o")
 font_color = Color(0.292819, 0.991776, 0, 1)
 outline_color = Color(0, 1, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qefu7"]
+font = ExtResource("25_n6jvr")
 font_size = 10
 font_color = Color(0.294118, 0.992157, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_jdsif"]
+font = ExtResource("29_l8l0o")
 font_size = 17
 font_color = Color(0, 0.803922, 0.803922, 1)
 
@@ -204,9 +223,8 @@ offset_top = 9.0
 offset_right = 172.0
 offset_bottom = 91.0
 tower_button_target = "miner"
-Normal_Texture = ExtResource("8_vnyq4")
-Pressed_Texture = ExtResource("9_pw457")
-Display_Price = "45"
+Normal_Texture = ExtResource("10_aq32r")
+Pressed_Texture = ExtResource("11_33rgq")
 Shortcut_Key = "M"
 metadata/_edit_lock_ = true
 
@@ -217,9 +235,8 @@ offset_top = 9.0
 offset_right = 280.0
 offset_bottom = 85.0
 tower_button_target = "solar"
-Normal_Texture = ExtResource("12_qesea")
-Pressed_Texture = ExtResource("11_7q3wi")
-Display_Price = "200"
+Normal_Texture = ExtResource("12_naysr")
+Pressed_Texture = ExtResource("13_ocm2g")
 Shortcut_Key = "S"
 metadata/_edit_lock_ = true
 
@@ -230,11 +247,30 @@ offset_top = 9.0
 offset_right = 4.0
 offset_bottom = 9.0
 tower_button_target = "Power_Node"
-Normal_Texture = ExtResource("13_atf3j")
-Pressed_Texture = ExtResource("14_qr4hd")
-Display_Price = "20"
+Normal_Texture = ExtResource("14_ojn1w")
+Pressed_Texture = ExtResource("15_4d662")
 Shortcut_Key = "p"
 metadata/_edit_lock_ = true
+
+[node name="Repair_Station" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+layout_mode = 1
+offset_left = 328.0
+offset_top = 9.0
+offset_right = 328.0
+offset_bottom = 9.0
+tower_button_target = "Repair_Station"
+Normal_Texture = ExtResource("16_41fxr")
+Pressed_Texture = ExtResource("17_uck3r")
+
+[node name="Missile" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+layout_mode = 1
+offset_left = 436.0
+offset_top = 9.0
+offset_right = 436.0
+offset_bottom = 9.0
+tower_button_target = "Missile"
+Normal_Texture = ExtResource("18_lo4so")
+Pressed_Texture = ExtResource("19_aroka")
 
 [node name="Info_Hover" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
 visible = false
@@ -258,17 +294,17 @@ theme = SubResource("Theme_4hadf")
 z_index = 5
 z_as_relative = false
 layout_mode = 0
-offset_left = 216.0
-offset_right = 260.0
+offset_left = 432.0
+offset_right = 476.0
 offset_bottom = 28.0
 texture = ExtResource("14_xk34w")
 
 [node name="Info_Text" type="RichTextLabel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover"]
 z_index = 1
 layout_mode = 0
-offset_left = -16.0
-offset_top = -72.0
-offset_right = 712.0
+offset_left = -12.0
+offset_top = -68.0
+offset_right = 708.0
 theme = ExtResource("17_ymelk")
 bbcode_enabled = true
 
@@ -310,6 +346,7 @@ offset_left = -1.0
 offset_top = 51.0
 offset_right = 39.0
 offset_bottom = 74.0
+label_settings = SubResource("LabelSettings_mw3dt")
 
 [node name="Energy" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection"]
 anchors_preset = 0
@@ -375,6 +412,7 @@ metadata/_edit_lock_ = true
 
 [node name="Custom" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons"]
 layout_mode = 2
+theme = ExtResource("27_tripf")
 text = "All Miners ON"
 
 [node name="Upgrade_Button" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons"]
@@ -402,6 +440,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 124.0
 offset_bottom = 62.0
+script = ExtResource("29_syjw4")
 metadata/_edit_lock_ = true
 
 [node name="Resources" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]

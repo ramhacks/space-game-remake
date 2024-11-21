@@ -1,0 +1,16 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://ga7xqep48vn4"]
+
+[ext_resource type="FontFile" uid="uid://cv8a6vbc8ntaf" path="res://Visuals/Fonts/633_Trebuchet MS.ttf" id="1_ren6d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xtfyu"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6c08m"]
+bg_color = Color(0, 0, 0, 1)
+
+[resource]
+default_font = ExtResource("1_ren6d")
+RichTextLabel/font_sizes/normal_font_size = 14
+RichTextLabel/styles/background = SubResource("StyleBoxFlat_xtfyu")
+RichTextLabel/styles/focus = null
+RichTextLabel/styles/normal = SubResource("StyleBoxFlat_6c08m")

@@ -85,7 +85,7 @@ func _ready() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	self.get_node("HotBar_Layer/ColorRect2/Right Box/Resources").text = str(Globals.resources) + " minerals"
+	
 	if(Globals.tower_hovering):
 		tower_to_place.position = self.get_node("Camera_Area").get_relative_mouse_pos(false)
 		
@@ -252,8 +252,12 @@ func show_selection_ui(tower):
 	children.pop_front()
 	for i in children:
 		vbox.remove_child(i)
-
-	vbox.add_child(vbox_children[0])
+		
+	#V[0] is the custom button, we only need to add it if this tower has a custom button option
+	if(tower.cur_name == 'miner' or tower.cur_name == 'laser'):
+		vbox.add_child(vbox_children[0])
+	
+	
 	vbox.add_child(vbox_children[1])
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").check_upgrade_available(tower.upgrade_price[tower.level])
 	vbox_children[2].text = "Recycle: " + str(tower.recycle_price[tower.level]) 

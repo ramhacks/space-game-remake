@@ -21,7 +21,8 @@ var connected_to_node_freed = false
 # each node to eachother
 var group_: String = 'NAN'
 
-var power_capacity: int = 1
+@export_category("Power")
+@export var power_capacity: int = 1
 
 #amount that this tower needs to function
 #We can modify this to be customized when implementing missles/lasers
@@ -39,7 +40,7 @@ var overlap_areas: Array = []
 
 
 var show_colliding_bodies: bool = false
-
+@export_category("Statistics")
 @export var health: int = 300
 
 var build_progress: int = 0 #percantage up to 100
@@ -56,7 +57,7 @@ signal draw_laser(tower, pos1, pos2, cooldown_time, tower_origin)
 signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
 signal draw_selection_animation(tower_pos, tower_radius, clicked_self, tower_type)
 
-
+@export_category("ID_Name")
 @export var cur_name: String = "tower name" #used if we want to identify the type of tower 
 
 var cooldown_delay: bool = 3  #may need to be adjusted based on upgrade level
@@ -75,7 +76,7 @@ var on_object: bool = false #if sprite itself is on asteroid don't let the playe
 
 var sprite_texture #used to get radius and height of sprite to draw selection animation and place build_progress_bar
 
-
+@export_category("Prices")
 
 @export var upgrade_price = {
 	1: 100,
@@ -105,7 +106,6 @@ func _ready() -> void:
 	sprite_var_node_holder = $Sprite
 	my_collding_radius = $Collision_Area
 
-	$Sprite.my_name = cur_name
 	place_build_progress_bar()
 	$Power_Delay.wait_time = power_time_seconds
 	
@@ -118,8 +118,6 @@ func place_build_progress_bar():
 func _process(delta: float) -> void:
 
 	#set child node and self dynamic variables
-	$Sprite.hovering = hovering
-	$Sprite.built = built
 	animated_node.upgrade_level = level
 	overlap_areas = $Collision_Area.get_overlapping_areas()
 	
@@ -260,7 +258,8 @@ func set_group(overlaps):
 						self.add_to_group(node.get_parent().group_)
 						
 						Globals.power_groups[node.get_parent().group_][1]+= power_capacity
-						group_ = node.my_group_name
+						Globals.total_capacity += power_capacity
+						group_ = node.get_parent().group_
 						found_valid = true
 	
 	#2 types of groups, convert all nodes in every other group to myself, delete all other groups except group 
@@ -282,6 +281,8 @@ func set_group(overlaps):
 		self.get_parent().add_child(connector_line)
 
 		Globals.power_groups[group_] = [0, power_capacity]
+		Globals.total_capacity += power_capacity
+		Globals.total_current += 0
 		
 		 #Will change based on power specifications
 		self.add_to_group(group_)

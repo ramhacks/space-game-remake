@@ -3,7 +3,8 @@ extends Tower
 var upgrade_level = 1
 
 #How much energy it is producing every tick/pulse
-var energy_produced = 300
+var energy_produced = 100
+
 
 var connect_toggle = true
 
@@ -13,13 +14,14 @@ var current_energy_usage
 #will be used to draw better lines to nodes
 
 
-
+#IF we want we can change the upgrade map to increase power capacity
 var upgrade_map = { #this upgrade map corresponds to the timeout rate of each solar station, or rate that it powers on 
 	1: 3, #3 seconds
 	2: 2,#2.5 seocnds
 	3: 1.5, #2 seconds
 	4: -1 #make the last item in the dictionary always be -1
 }
+
 
 var energy = 0
 
@@ -30,8 +32,8 @@ func _ready() -> void:
 	child_area = self.get_node("Collision_Area")
 	animated_node = self.get_node("Sprite2D")
 	inherted_node = self
-	power_capacity = 300
 	
+
 	
 	current_animation = animated_node.animation
 	
@@ -56,6 +58,7 @@ func _process(delta: float) -> void:
 		$Power_Delay.wait_time = upgrade_map[upgrade_level]
 		power_time_seconds = upgrade_map[upgrade_level]
 		$Power_Delay.timeout.connect(turn_on)  
+		$Power_Delay.timeout.disconnect(_on_power_delay_timeout)
 		connect_toggle = false
 		
 	super._process(delta)
@@ -74,9 +77,9 @@ func set_placed(re_animate, current_overlapping_bodies):
 	super.set_placed(re_animate, current_overlapping_bodies)
 
 func turn_on():
-	print(Globals.power_groups)
 	if(Globals.power_groups[group_][0]+energy_produced <= Globals.power_groups[group_][1]):
 		Globals.power_groups[group_][0] += energy_produced
+		Globals.total_current += energy_produced
 	
 	
 

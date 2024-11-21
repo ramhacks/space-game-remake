@@ -9,7 +9,9 @@ var point_xpos_dict = { #dictionary to tell where to move the pointer triangle
 						#according to which tower info button is being hovered over
 	"Power_Node": 0,
 	"miner": 108,
-	"solar": 216
+	"solar": 216,
+	"Repair_Station": 324,
+	"Missile": 432
 }
 
 func _ready() -> void:

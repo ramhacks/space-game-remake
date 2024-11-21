@@ -27,7 +27,10 @@ func _ready() -> void:
 	shortcut_event = InputEventKey.new()
 	$select_button.texture_normal = Normal_Texture
 	$select_button.texture_pressed = Pressed_Texture
-	$Price.text = Display_Price + 'm'
+	if(Display_Price != ''):
+		$Price.text = Display_Price + 'm'
+	else:
+		$Price.text = ''
 
 	
 

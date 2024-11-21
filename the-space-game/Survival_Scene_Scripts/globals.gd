@@ -6,6 +6,10 @@ var power_groups = {} # 'group_name': [current_power, max_power, line_connecting
 #together they are a line however when making the line they may not be in order and if you follow the order with a pen down,
 #you will end up with a different line all together
 
+var total_current = 0
+var total_capacity = 0
+#so we don't have to loop over the dictionaries to get the totals to display to the player
+
 #This will only ever hold global variables, maybe functions but it is 
 #not recommended unless absolutly necessary
 func get_all_children(in_node,arr:=[]):
@@ -70,7 +74,7 @@ func start_on():
 #IMPORTANT, connects them based on group only, if not in group wont connect line between a group at all
 func connect_group_lines(self_node):
 	power_groups[self_node.group_][1] -= self_node.power_capacity
-	
+	total_capacity -= self_node.power_capacity
 	for power in power_groups:
 		get_tree().call_group(power, "reset_line")
 		for node in get_tree().get_nodes_in_group(power):
@@ -92,10 +96,14 @@ func group_changed_adjust_max_power(group_target):
 	power_groups[group_target][1] = 0
 	for node in get_tree().get_nodes_in_group(group_target):
 		power_groups[group_target][1] += node.power_capacity
-	print("new_power", power_groups)
+	#print("new_power", power_groups)
+	
 func power_requested(tower, group, power_needed):
 	if(group in power_groups):
 		if(power_groups[group][0]-power_needed > 0):
 			tower.do_process()
 			power_groups[group][0] -= power_needed
+			total_current -= power_needed
+		
+	
 	

@@ -1,0 +1,34 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://cv8a6vbc8ntaf"
+path="res://.godot/imported/633_Trebuchet MS.ttf-f17cfc01020de96085aac7afb90a1b8c.fontdata"
+
+[deps]
+
+source_file="res://Visuals/Fonts/633_Trebuchet MS.ttf"
+dest_files=["res://.godot/imported/633_Trebuchet MS.ttf-f17cfc01020de96085aac7afb90a1b8c.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=1
+generate_mipmaps=false
+disable_embedded_bitmaps=true
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=true
+force_autohinter=false
+hinting=1
+subpixel_positioning=1
+oversampling=0.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=true
+preload=[]
+language_support={}
+script_support={}
+opentype_features={}
