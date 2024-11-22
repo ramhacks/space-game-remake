@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://1mv3b8eei53w"]
+
+[ext_resource type="FontFile" uid="uid://cv8a6vbc8ntaf" path="res://Visuals/Fonts/633_Trebuchet MS.ttf" id="1_hkg02"]
+
+[resource]
+default_font = ExtResource("1_hkg02")
+Button/fonts/font = ExtResource("1_hkg02")

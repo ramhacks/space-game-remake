@@ -55,7 +55,7 @@ func _process(delta: float) -> void:
 		Globals.NO_SOLAR_TOWER = false
 	
 	if built and connect_toggle:
-		$Power_Delay.wait_time = upgrade_map[upgrade_level]
+		$Power_Delay.wait_time = 0.5
 		power_time_seconds = upgrade_map[upgrade_level]
 		$Power_Delay.timeout.connect(turn_on)  
 		$Power_Delay.timeout.disconnect(_on_power_delay_timeout)
@@ -77,6 +77,8 @@ func set_placed(re_animate, current_overlapping_bodies):
 	super.set_placed(re_animate, current_overlapping_bodies)
 
 func turn_on():
+	#health = 0 For testing explosion animation
+
 	if(Globals.power_groups[group_][0]+energy_produced <= Globals.power_groups[group_][1]):
 		Globals.power_groups[group_][0] += energy_produced
 		Globals.total_current += energy_produced

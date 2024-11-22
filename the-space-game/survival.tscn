@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=59 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/camera.gd" id="2_fmvyw"]
@@ -27,12 +27,13 @@
 [ext_resource type="Texture2D" uid="uid://bujtl418tsuai" path="res://Visuals/Button_Textures/Missile_Launcher/1.png" id="18_lo4so"]
 [ext_resource type="Texture2D" uid="uid://5ucry3rwpivb" path="res://Visuals/Button_Textures/Missile_Launcher/2.png" id="19_aroka"]
 [ext_resource type="FontFile" uid="uid://cv8a6vbc8ntaf" path="res://Visuals/Fonts/633_Trebuchet MS.ttf" id="25_n6jvr"]
-[ext_resource type="Theme" uid="uid://cnfje2s4oho51" path="res://Visuals/Themes/Side_Buttons.tres" id="27_tripf"]
+[ext_resource type="Theme" uid="uid://bvpc0uoiyflce" path="res://Visuals/Themes/minimap.tres" id="28_ud85u"]
 [ext_resource type="FontFile" uid="uid://baf5yckugqi1b" path="res://Visuals/Fonts/663_Trebuchet MS.ttf" id="29_l8l0o"]
 [ext_resource type="Script" path="res://right_box.gd" id="29_syjw4"]
+[ext_resource type="Script" path="res://forground.gd" id="29_u08bu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
-size = Vector2(1152, 519)
+size = Vector2(1139, 519)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_otb3a"]
 size = Vector2(1152, 196)
@@ -88,6 +89,8 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0, 0.803922, 0.803922, 1)
 corner_radius_bottom_right = 2
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c81f4"]
 bg_color = Color(0, 0.803922, 0.803922, 1)
@@ -98,6 +101,8 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0, 0.803922, 0.803922, 1)
 corner_radius_bottom_right = 2
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hrhu1"]
 draw_center = false
@@ -118,6 +123,12 @@ Button/styles/focus = SubResource("StyleBoxEmpty_m8gmu")
 Button/styles/hover = SubResource("StyleBoxFlat_kdhhr")
 Button/styles/normal = SubResource("StyleBoxFlat_c81f4")
 Button/styles/pressed = SubResource("StyleBoxFlat_hrhu1")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m070p"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_q3g37"]
+Panel/styles/panel = SubResource("StyleBoxFlat_m070p")
 
 [sub_resource type="Theme" id="Theme_tklwr"]
 Panel/styles/panel = null
@@ -162,7 +173,7 @@ script = ExtResource("2_fmvyw")
 position = Vector2(575, 325)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera_Area"]
-position = Vector2(576, 259.5)
+position = Vector2(571.5, 260)
 shape = SubResource("RectangleShape2D_fy202")
 
 [node name="Background_Layer" type="CanvasLayer" parent="."]
@@ -309,7 +320,6 @@ theme = ExtResource("17_ymelk")
 bbcode_enabled = true
 
 [node name="Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
-visible = false
 anchors_preset = 0
 offset_right = 651.0
 offset_bottom = 131.0
@@ -412,18 +422,44 @@ metadata/_edit_lock_ = true
 
 [node name="Custom" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons"]
 layout_mode = 2
-theme = ExtResource("27_tripf")
 text = "All Miners ON"
+metadata/_edit_lock_ = true
 
 [node name="Upgrade_Button" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons"]
 layout_mode = 2
 theme = ExtResource("11_vnck4")
 text = "Upgrade "
+metadata/_edit_lock_ = true
 
 [node name="Recycle" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons"]
 layout_mode = 2
 theme = SubResource("Theme_jrksv")
 text = "Recycle "
+metadata/_edit_lock_ = true
+
+[node name="MiniMapBackground" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.334
+anchor_top = -0.805
+anchor_bottom = 0.945
+offset_left = -2.15599
+offset_top = 1.04001
+offset_bottom = 8.03999
+theme = ExtResource("28_ud85u")
+
+[node name="Forground" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.004
+anchor_right = 0.977
+anchor_bottom = 0.983
+offset_left = 0.968
+offset_top = 2.0
+offset_right = 3.93399
+offset_bottom = 1.92699
+theme = SubResource("Theme_q3g37")
+script = ExtResource("29_u08bu")
 
 [node name="ColorRect2" type="ColorRect" parent="HotBar_Layer"]
 z_index = 3
@@ -487,7 +523,9 @@ value = 50.0
 show_percentage = false
 metadata/_edit_lock_ = true
 
+[connection signal="create_radar_node" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground" method="_on_survival_create_radar_node"]
 [connection signal="finished" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_survival_finished"]
+[connection signal="remove_radar_node" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground" method="_on_survival_remove_radar_node"]
 [connection signal="timeout" from="Global_Ticks" to="Global_Ticks" method="_on_timeout"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="." method="_on_camera_area_cancel_spawn_tower"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="Global_Ticks" method="_on_camera_area_cancel_spawn_tower"]

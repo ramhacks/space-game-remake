@@ -1,10 +1,9 @@
-[gd_scene load_steps=42 format=3 uid="uid://bftugtnfokgv"]
+[gd_scene load_steps=39 format=3 uid="uid://bftugtnfokgv"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_cmj2o"]
 [ext_resource type="Script" path="res://towers/Solar/solar.gd" id="2_lr4nm"]
 [ext_resource type="Texture2D" uid="uid://d07u7pah6ppym" path="res://Visuals/Sprite_Frames/29.png" id="2_m4vuw"]
 [ext_resource type="Texture2D" uid="uid://b7inrwfjq44wa" path="res://Visuals/Sprite_Frames/71.png" id="3_2kyp7"]
-[ext_resource type="Texture2D" uid="uid://c73h6lrpfwqb1" path="res://Visuals/Sprite_Frames/92.png" id="4_alaq6"]
 [ext_resource type="Texture2D" uid="uid://hc8fg33g4154" path="res://Visuals/Sprite_Frames/73.png" id="4_p3cc5"]
 [ext_resource type="Texture2D" uid="uid://c6rbhib0tkcc7" path="res://Visuals/Sprite_Frames/75.png" id="5_57i7e"]
 [ext_resource type="Texture2D" uid="uid://cub21e0g4j7vw" path="res://Visuals/Sprite_Frames/77.png" id="6_ufj80"]
@@ -16,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://ddhqvhsa7uvrk" path="res://Visuals/Sprite_Frames/89.png" id="12_5ohx6"]
 [ext_resource type="Texture2D" uid="uid://dvftcm44a01g5" path="res://Visuals/Sprite_Frames/95.png" id="13_piehh"]
 [ext_resource type="Texture2D" uid="uid://5t3wxmtyhq7j" path="res://Visuals/Sprite_Frames/97.png" id="14_gkepf"]
-[ext_resource type="Texture2D" uid="uid://bdoosp1rdvdfd" path="res://Visuals/Sprite_Frames/116.png" id="14_jgxmy"]
 [ext_resource type="Texture2D" uid="uid://bs6dxvmfg6gp6" path="res://Visuals/Sprite_Frames/99.png" id="15_k073u"]
 [ext_resource type="Texture2D" uid="uid://djhxupjn270bb" path="res://Visuals/Sprite_Frames/101.png" id="16_qserg"]
 [ext_resource type="Texture2D" uid="uid://c3o8dgku6dmut" path="res://Visuals/Sprite_Frames/103.png" id="17_2ng4a"]
@@ -29,7 +27,6 @@
 [ext_resource type="Texture2D" uid="uid://djpkfncfs846p" path="res://Visuals/Sprite_Frames/45.png" id="24_h85cb"]
 [ext_resource type="Texture2D" uid="uid://b280ttovu0nw3" path="res://Visuals/Sprite_Frames/47.png" id="25_ktoo7"]
 [ext_resource type="Texture2D" uid="uid://dusvhek3rmktc" path="res://Visuals/Sprite_Frames/49.png" id="26_7opiw"]
-[ext_resource type="Texture2D" uid="uid://xc4gw5onqj6s" path="res://Visuals/Sprite_Frames/68.png" id="26_owqli"]
 [ext_resource type="Texture2D" uid="uid://cndvj03e5hi60" path="res://Visuals/Sprite_Frames/51.png" id="27_v6nla"]
 [ext_resource type="Texture2D" uid="uid://wsajvdxxihfa" path="res://Visuals/Sprite_Frames/53.png" id="28_euksq"]
 [ext_resource type="Texture2D" uid="uid://manep310y62c" path="res://Visuals/Sprite_Frames/55.png" id="29_iipea"]
@@ -51,9 +48,6 @@ animations = [{
 "speed": 10.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_alaq6")
-}, {
 "duration": 1.0,
 "texture": ExtResource("3_2kyp7")
 }, {
@@ -90,9 +84,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("14_jgxmy")
-}, {
-"duration": 1.0,
 "texture": ExtResource("13_piehh")
 }, {
 "duration": 1.0,
@@ -127,9 +118,6 @@ animations = [{
 "speed": 10.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": ExtResource("26_owqli")
-}, {
 "duration": 1.0,
 "texture": ExtResource("23_nt2jf")
 }, {
@@ -194,7 +182,7 @@ recycle_price = {
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." index="4"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_3ggyo")
-animation = &"place"
+animation = &"hover"
 script = ExtResource("36_ytiel")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]

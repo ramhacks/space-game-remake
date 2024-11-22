@@ -73,8 +73,16 @@ func start_on():
 
 #IMPORTANT, connects them based on group only, if not in group wont connect line between a group at all
 func connect_group_lines(self_node):
+	
 	power_groups[self_node.group_][1] -= self_node.power_capacity
 	total_capacity -= self_node.power_capacity
+	if(self_node.cur_name == 'solar'):
+		power_groups[self_node.group_][0] -= self_node.energy_produced % self_node.power_capacity
+	if(total_capacity > 0):
+		total_current = total_current % total_capacity
+	else:
+		total_capacity = 0
+		total_current = 0
 	for power in power_groups:
 		get_tree().call_group(power, "reset_line")
 		for node in get_tree().get_nodes_in_group(power):

@@ -5,6 +5,8 @@ class_name Tower
 var line_node_connections = []
  #what group this node belongs to
 
+var radar_node #node containing pointer to node on minimap representing tower
+
 var child_area
 var sprite_node
 var animated_node
@@ -56,6 +58,7 @@ var hover_line = Line2D.new()  #hover line node pointer
 signal draw_laser(tower, pos1, pos2, cooldown_time, tower_origin)
 signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
 signal draw_selection_animation(tower_pos, tower_radius, clicked_self, tower_type)
+signal update_location(loc)
 
 @export_category("ID_Name")
 @export var cur_name: String = "tower name" #used if we want to identify the type of tower 
@@ -116,7 +119,8 @@ func place_build_progress_bar():
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-
+	if(health <= 0):
+		died()
 	#set child node and self dynamic variables
 	animated_node.upgrade_level = level
 	overlap_areas = $Collision_Area.get_overlapping_areas()
@@ -137,6 +141,9 @@ func _process(delta: float) -> void:
 		built = true
 	else:
 		self.get_node("BuildProgress").value = build_progress
+	
+	
+
 	
 	
 
@@ -231,7 +238,9 @@ func set_clickable():
 	if(power_time_seconds > 0):
 		
 		$Power_Delay.start() #Start power_timer cycle
-
+		
+	#put on minimap:
+	update_location.emit(self.global_position)
 func _on_power_delay_timeout() -> void:
 	#don't emit if it doesn't need power to work
 	if(power_needed) > 0:
@@ -351,3 +360,29 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	draw_laser.emit(self, pos1, pos2, cooldown_delay, self) 
 	#we can't use tweens because tweens are meant for single animations
 	#we need to animate 2 things at once so we have to use attached line node and can't dynamically create one
+	
+	
+#This tower has no more health, recycle it
+func died():
+	animated_node.visible = false
+	$Explosion.play("tower_explosion")
+	$Explosion.visible = true
+	
+	
+	
+
+func _on_explosion_animation_finished() -> void:
+	if(Globals.tower_selection_mode):
+		get_parent().waiting_for_clickout = false
+		get_parent().selection_node.remove_from_group("selection")
+		get_parent().remove_child(get_parent().selection_node)
+		get_parent().hide_selection_ui(Globals.tower_selected)
+		
+	Globals.tower_selection_mode = false
+	
+	Globals.tower_node_amount -= 1
+	remove_from_group(self.group_)
+	sprite_var_node_holder.correct_area = false
+
+	Globals.connect_group_lines(self)
+	self.queue_free()

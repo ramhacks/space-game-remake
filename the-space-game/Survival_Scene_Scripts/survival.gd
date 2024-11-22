@@ -23,12 +23,17 @@ signal finished_cooldown
 signal connect_game_ticks(node)
 
 signal finished
+signal create_radar_node(node)
+signal remove_radar_node(node)
 
 #these two variables are if we are going to place a tower, press the tower button and show the tower following
 #the mouse and then what type of tower we are placing, the functionality of the towers will be the same for 
 #most towers but has a few exceptions we will implement at a later point
 var tower_to_place
 var tower_scene
+
+var radar_node
+var radar_level
 
 var game_tick_timer
 var selection_node
@@ -53,7 +58,11 @@ func clear_hover_lines():
 func _ready() -> void:
 	
 	var asteroid_scene = preload("res://Asteroid_Gen/asteroid_field.tscn")
+	
 	selection_node = preload("res://Selection_Draw_Node/Selection_Draw.tscn").instantiate()
+	
+	radar_node = preload("res://Visuals/Minimap_textures/radar_marker.tscn")
+	radar_level = get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground/Minimap")
 	var tween = self.get_tree().create_tween() #rotate the drawing 
 	tween.tween_property(selection_node, "rotation", deg_to_rad(0), 0.5)
 	var instance = asteroid_scene.instantiate()
@@ -102,6 +111,7 @@ func _on_camera_area_cancel_spawn_tower() -> void:
 		tower_to_place.queue_free()
 		Globals.tower_hovering = false
 
+
 func _on_camera_area_place_tower(cur_position: Variant) -> void:
 	if(Globals.tower_hovering):
 		var is_miner_and_overlapping = (tower_to_place.cur_name == "miner" 
@@ -143,6 +153,12 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				copy.draw_laser.connect(draw_laser)
 				copy.draw_selection_animation.connect(draw_selector)
 				copy.request_power.connect(Globals.power_requested)
+				
+				
+				var marker_instance = radar_node.instantiate()
+				copy.radar_node = marker_instance
+				copy.update_location.connect(marker_instance.on_update_location)
+				create_radar_node.emit(marker_instance)
 
 					
 				#Node has been added, call all tower nodes to reformat lines if needed (if they have a new connection available
@@ -166,6 +182,7 @@ func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
 	line.add_point(pos2)
 	line.add_point(pos1)
 	
+	print("CALLED")
 	tower.get_node("AnimationPlayer").play("line_disolve") 
 	
 		
@@ -244,7 +261,6 @@ func get_tower_ui_node(tower_type):
 
 #show selection ui	
 func show_selection_ui(tower):
-	print(tower.group_)
 	#re-add all button nodes just in case they were removed in another tower seleciton menu
 	var vbox = self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons")
 		

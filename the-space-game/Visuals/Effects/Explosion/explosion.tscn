@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://b4w64irrnkwse"]
+
+[ext_resource type="Texture2D" uid="uid://bemi0futfol55" path="res://Visuals/Effects/Explosion/2.png" id="1_e0jwv"]
+[ext_resource type="Texture2D" uid="uid://cg5xh8ggybyex" path="res://Visuals/Effects/Explosion/7.png" id="2_4pll8"]
+[ext_resource type="Texture2D" uid="uid://cf7ao24yqb5ev" path="res://Visuals/Effects/Explosion/6.png" id="3_msxlm"]
+[ext_resource type="Texture2D" uid="uid://b6armdykftyu5" path="res://Visuals/Effects/Explosion/1.png" id="4_nl623"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r3vyk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_e0jwv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_4pll8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_msxlm")
+}],
+"loop": false,
+"name": &"enemy_explosion",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_nl623")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_e0jwv")
+}],
+"loop": false,
+"name": &"tower_explosion",
+"speed": 5.0
+}]
+
+[node name="Explosion" type="AnimatedSprite2D"]
+visible = false
+sprite_frames = SubResource("SpriteFrames_r3vyk")
+animation = &"tower_explosion"
