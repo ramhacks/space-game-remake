@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=60 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/camera.gd" id="2_fmvyw"]
@@ -155,6 +155,11 @@ corner_detail = 19
 
 [sub_resource type="Theme" id="Theme_f3iv3"]
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_tu7kn")
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ywhqf"]
+vertices = PackedVector2Array(-239.039, 630.18, -630.172, -362.789, 19.9063, -347.406, 269.102, 658.508, 1223.71, 626.383, 1320.72, -355.68, 1346.93, -2.4375)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 3, 2, 5, 6)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(20, -357.407, 1330, -365.741, 1357, -1.85185, 1232, 636.111, 269, 668.518, -246, 639.815, -645, -373.148)])
 
 [node name="Survival" type="Node2D"]
 script = ExtResource("1_e2foe")
@@ -320,6 +325,7 @@ theme = ExtResource("17_ymelk")
 bbcode_enabled = true
 
 [node name="Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
+visible = false
 anchors_preset = 0
 offset_right = 651.0
 offset_bottom = 131.0
@@ -522,6 +528,10 @@ theme = SubResource("Theme_f3iv3")
 value = 50.0
 show_percentage = false
 metadata/_edit_lock_ = true
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+scale = Vector2(1, 1.08)
+navigation_polygon = SubResource("NavigationPolygon_ywhqf")
 
 [connection signal="create_radar_node" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground" method="_on_survival_create_radar_node"]
 [connection signal="finished" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_survival_finished"]

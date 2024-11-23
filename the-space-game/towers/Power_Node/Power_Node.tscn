@@ -81,17 +81,17 @@ cur_name = "Power_Node"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
 shape = SubResource("CircleShape2D_t335d")
 
-[node name="Collision_Area" parent="." index="4"]
+[node name="Collision_Area" parent="." index="5"]
 collision_priority = 2.0
 
 [node name="Collider" parent="Collision_Area" index="0"]
 z_index = 3
 
-[node name="Connector" parent="." index="5"]
-z_index = -2
-default_color = Color(0, 0.580392, 0.741176, 0.658824)
-
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." index="6"]
 sprite_frames = SubResource("SpriteFrames_ws7ev")
 animation = &"hover"
 script = ExtResource("5_15jqe")
+
+[node name="Connector" parent="." index="7"]
+z_index = -2
+default_color = Color(0, 0.580392, 0.741176, 0.658824)

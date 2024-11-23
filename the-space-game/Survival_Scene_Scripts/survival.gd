@@ -8,13 +8,15 @@ var solar_tower
 var initial_tower_prices = {
 	"miner": 45, #same as cur_name variable
 	"solar": 200,
-	"Power_Node": 20
+	"Power_Node": 20,
+	"Repair_Station": 300
 }
 
 var tower_scene_dict = {
 	"miner": 0,
 	"solar": 0,
-	"Power_Node": 0
+	"Power_Node": 0,
+	"Repair_Station": 0
 	
 }
 
@@ -44,6 +46,16 @@ var activate_nearby_node_showing = false
 var waiting_for_clickout = false
 
 
+
+
+
+
+var enemy_node
+
+
+
+
+var enemy
 var vbox_children = []#list of children in buttons (upgrade level so on) so if they are removed we can add them back in
 
 func clear_hover_lines():
@@ -67,11 +79,14 @@ func _ready() -> void:
 	tween.tween_property(selection_node, "rotation", deg_to_rad(0), 0.5)
 	var instance = asteroid_scene.instantiate()
 	self.add_child(instance)
-	#temporary just to test miner tower
+	
+	#REMEBER TO ADD YOU TOWER TO THE LOAD ORDER
 	
 	tower_scene_dict['miner'] = preload("res://towers/Miner/miner.tscn")
 	
 	tower_scene_dict['solar'] = preload("res://towers/Solar/solar.tscn")
+	
+	tower_scene_dict['Repair_Station'] = preload("res://towers/Repair_Station/Repair_Station.tscn")
 	
 	tower_scene_dict["Power_Node"] = preload("res://towers/Power_Node/Power_Node.tscn")
 	
@@ -88,6 +103,15 @@ func _ready() -> void:
 	children.pop_front()
 	for i in range(1, 3):
 		vbox.remove_child(children[i])
+		
+		
+		
+		
+		
+		
+	enemy = preload("res://Enemy/Enemy_AI.tscn")
+	enemy_node = enemy.instantiate()
+	
 	
 	
 
@@ -159,6 +183,15 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				copy.radar_node = marker_instance
 				copy.update_location.connect(marker_instance.on_update_location)
 				create_radar_node.emit(marker_instance)
+				
+				marker_instance.get_relative.connect($Camera_Area.call_rel)
+				$Camera_Area.send_rel.connect(marker_instance.receive_relative)
+				
+				enemy_node = enemy.instantiate()
+				self.add_child(enemy_node)
+	
+				
+
 
 					
 				#Node has been added, call all tower nodes to reformat lines if needed (if they have a new connection available
@@ -181,8 +214,6 @@ func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
 	line.add_point(pos1)
 	line.add_point(pos2)
 	line.add_point(pos1)
-	
-	print("CALLED")
 	tower.get_node("AnimationPlayer").play("line_disolve") 
 	
 		
@@ -199,14 +230,14 @@ func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
 	var draw = true
 	for nodes in pos2_list:
 		#only draw line (only applies to miner class) if asteroid is not empty of resources
-		if(nodes.cur_name == "asteroid"):
+		if(nodes is Asteroid):
 			if(nodes.asteroid_empty):
 				draw = false
 			else:
 				draw = true
 		
 			#only draw line (only applies to miner class) if asteroid is not empty of resources	
-		if draw:
+		if draw and nodes is Asteroid:
 			line_node.add_point(to_local(pos1))
 			line_node.add_point(to_local(nodes.global_position))
 			line_node.add_point(to_local(pos1))
@@ -261,6 +292,8 @@ func get_tower_ui_node(tower_type):
 
 #show selection ui	
 func show_selection_ui(tower):
+	print(tower.group_)
+	
 	#re-add all button nodes just in case they were removed in another tower seleciton menu
 	var vbox = self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons")
 		
@@ -317,11 +350,16 @@ func _on_side_buttons_hide_selection() -> void:
 	waiting_for_clickout = false
 	selection_node.remove_from_group("selection")
 	self.remove_child(selection_node)
+	
 	Globals.tower_selected.remove_from_group(Globals.tower_selected.group_)
 	Globals.tower_selected.sprite_var_node_holder.correct_area = false
-
+	
+	Globals.remove_node_from_group(Globals.tower_selected)
+	
 	Globals.connect_group_lines(Globals.tower_selected)
-	Globals.tower_selected.queue_free()
+
+	
+	
 	
 
 	

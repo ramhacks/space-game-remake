@@ -1,5 +1,6 @@
 extends StaticBody2D
 
+class_name Asteroid
 
 var cur_name = "asteroid"
 var asteroid_empty = false

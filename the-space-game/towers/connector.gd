@@ -4,10 +4,17 @@ extends Line2D
 @export var priority_dict: Dictionary = {
 	'miner': 1,
 	'solar': 2,
-	'Power_Node': 1
+	'Power_Node': 1,
+	'Repair_Station':1
 	#add more towers here
 }
 
+func redraw_no_priority(nodes):
+	self.clear_points()
+	for target in nodes:
+		add_point(to_local(self.get_parent().global_position))
+		add_point(to_local(target.global_position))
+		
 #Sort based on priority in above dictionary
 func insertionSort(arr):
 	var key
@@ -30,6 +37,7 @@ func insertionSort(arr):
 #--------------------------
 #Draw lines based on prioritys and if they are not intersecting
 func priority_lines(overlap_areas):
+	self.get_parent().connections = []
 	var connect_with_priority = []
 	for node in overlap_areas:
 		if (is_instance_valid(node) and node is sprite_collider and node.get_parent().hovering == false and node != self.get_parent().get_node("Sprite") 
@@ -51,7 +59,14 @@ func priority_lines(overlap_areas):
 		self.get_parent().connection_points.append(self.get_parent().global_position)
 		self.get_parent().connection_points.append(node.global_position)
 		
+		if(self not in node.get_parent().connections):
+			node.get_parent().connections.append(self.get_parent())
+			node.get_parent().connection_points.append(self.get_parent().global_position)
+			
+			
+		self.get_parent().connections.append(node.get_parent())
 		#Creating Collision Object to add to scene to detect line interescts
 		
 		max+=1
+	
 	

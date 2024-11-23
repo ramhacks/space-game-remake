@@ -2,10 +2,17 @@ extends Node2D
 
 class_name Tower
 
+
+
+#Enemy Collision (For laser enemies):
+var sprite_radius = 1
+
+
 var line_node_connections = []
  #what group this node belongs to
 
 var radar_node #node containing pointer to node on minimap representing tower
+
 
 var child_area
 var sprite_node
@@ -95,8 +102,10 @@ var sprite_texture #used to get radius and height of sprite to draw selection an
 
 
 func reset_line():
-	$Connector.clear_points()
-	line_node_connections = []
+	connections.erase(-1)
+	$Connector.redraw_no_priority(connections)
+
+
 	
 
 		
@@ -104,7 +113,7 @@ func reset_line():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
+
 	#set child node static variables
 	sprite_var_node_holder = $Sprite
 	my_collding_radius = $Collision_Area
@@ -135,6 +144,7 @@ func _process(delta: float) -> void:
 	if hovering:
 		send_hover_line()
 		draw_tower_hover_lines()
+	
 		
 	if build_progress == 100 and !built and !set_build_frame:
 		self.get_node("BuildProgress").set_visible(false)
@@ -142,6 +152,9 @@ func _process(delta: float) -> void:
 	else:
 		self.get_node("BuildProgress").value = build_progress
 	
+func move_minimap_icon():
+	if(not hovering):
+		update_location.emit(self.global_position)	
 	
 
 	
@@ -189,7 +202,8 @@ func draw_tower_hover_lines(input_array=false):
 			$Connector.add_point(to_local(node.global_position))	
 			if input_array:
 				connection_points.append(node.global_position)
-
+				
+	
 				
 				
 #Functions that tend to be overloaded by inherted towers
@@ -199,13 +213,7 @@ func set_placed(re_animate, current_overlapping_bodies):  #required for all towe
 
 	$Sprite.connections = overlap_areas
 	$Connector.clear_points()
-	#Temporary until we implement working line drawing 
-	#======================================================
-	
-	
-	
-	#======================================================
-	
+
 	hovering = false
 	if(re_animate):
 	#this function is so when we press the button to place a tower and we just want to show the tower being placed
@@ -223,7 +231,7 @@ func set_placed(re_animate, current_overlapping_bodies):  #required for all towe
 func get_segments():
 	$Connector.clear_points()
 	
-	$Connector.priority_lines(overlap_areas)
+	$Connector.priority_lines(connections)
 
 func add_local_point(point):
 	$Connector.add_point(to_local(point))
@@ -232,15 +240,16 @@ func add_local_point(point):
 #=====================================================================================
 func set_clickable():
 	clickable = true
-	overlap_areas = $Collision_Area.get_overlapping_areas()
+	connections = $Collision_Area.get_overlapping_areas()
 	get_segments()
 	set_group($Collision_Area.get_overlapping_areas())
 	if(power_time_seconds > 0):
 		
 		$Power_Delay.start() #Start power_timer cycle
 		
+	self.add_to_group("Placed_Towers")
 	#put on minimap:
-	update_location.emit(self.global_position)
+	
 func _on_power_delay_timeout() -> void:
 	#don't emit if it doesn't need power to work
 	if(power_needed) > 0:
@@ -369,7 +378,7 @@ func died():
 	$Explosion.visible = true
 	
 	
-	
+
 
 func _on_explosion_animation_finished() -> void:
 	if(Globals.tower_selection_mode):

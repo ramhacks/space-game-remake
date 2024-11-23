@@ -12,9 +12,10 @@ var connections = []
 # Called when the node enters the scene tree for the first time.
 
 func set_size(obj) -> void:
-	var radius = self.get_parent().animated_node.get_sprite_frames().get_frame_texture('hover', 0).get_size().x/2
-	obj.shape.set_radius(radius)
+	self.get_parent().radius = self.get_parent().animated_node.get_sprite_frames().get_frame_texture('hover', 0).get_size().x/2
+	obj.shape.set_radius(self.get_parent().radius)
 	self.add_child(obj)
+	
 		
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.

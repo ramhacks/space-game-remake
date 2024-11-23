@@ -25,8 +25,6 @@ var current_drained
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if !closest:
-		self.frame = 0 
 	if placed:
 		self.frame = 1
 		self.play("place")
@@ -39,31 +37,30 @@ func mine(line_node):
 	if closest:
 	#only mine if there is a node nearby and powered
 		#create mining laser graphic
-		if(closest.cur_name == "asteroid"):
-			if(closest.get_resource_amount() > 0):	
-				closest.extract(upgrade_map[upgrade_level])	
-				
+		if(closest.get_resource_amount() > 0):	
+			closest.extract(upgrade_map[upgrade_level])	
+			
+		else:
+			#queue behavior 
+			closest.asteroid_empty = true
+			closest.assign_empty_texture()
+				#asteroid is empty, move to next available asteroid in range
+			current_drained = true
+			asteroids_in_range.pop_front()
+			if(len(asteroids_in_range)):
+				closest = asteroids_in_range[0]
 			else:
-				#queue behavior 
-				closest.asteroid_empty = true
-				closest.assign_empty_texture()
-					#asteroid is empty, move to next available asteroid in range
-				current_drained = true
-				asteroids_in_range.pop_front()
-				if(len(asteroids_in_range)):
-					closest = asteroids_in_range[0]
-				else:
-					self.frame = 0 #set as having no power, in this case having no more asteroids to mine
-					closest = false
-					
-					
-					#don't send laser, stop all mining operations
-			if closest:
-				draw_line.emit(to_local(self.global_position), to_local(closest.global_position))	
-			else:
-				draw_line.emit(to_local(self.global_position), to_local(self.global_position))	
+				self.frame = 0 #set as having no power, in this case having no more asteroids to mine
+				closest = false
 				
-			return upgrade_map[upgrade_level] 
+				
+				#don't send laser, stop all mining operations
+		if closest:
+			draw_line.emit(to_local(self.global_position), to_local(closest.global_position))	
+		else:
+			draw_line.emit(to_local(self.global_position), to_local(self.global_position))	
+			
+		return upgrade_map[upgrade_level] 
 	return 0
 
 func change_collision_list(col_list):

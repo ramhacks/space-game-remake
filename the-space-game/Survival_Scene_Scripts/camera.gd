@@ -4,7 +4,7 @@ var correct_area = false
 signal cancel_spawn_tower
 signal place_tower(cur_position)
 signal draw_select(tower_pos, tower_radius, clicked_self)
-
+signal send_rel(loc)
 signal hide_info_boxes
 
 var cur_name = "camera"
@@ -37,9 +37,11 @@ func get_relative_mouse_pos(event_pos):
 	pos_to_send = (mouse_start_pos - event_pos) + screen_start_position #equation that manages everything, add zoom here by modifying equation 
 	return pos_to_send
 	
-
+func call_rel(loc):
+	send_rel.emit(loc + screen_start_position)
 	
 func _input(event):
+	get_tree().call_group("tower_node", "move_minimap_icon")
 	if (event is InputEventMouseButton) or event.is_action("Middle_Button"):
 		if event.is_pressed():
 			mouse_start_pos = get_viewport().get_mouse_position()
@@ -61,7 +63,6 @@ func _input(event):
 
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
-	
 	if event is InputEventMouseButton:		
 		if event.is_action("BUTTON_LEFT"):
 			hide_info_boxes.emit()

@@ -16,7 +16,7 @@ var shortcut_event: InputEventKey
 
 func to_ascii(input_string: String) -> int:
 	var output: int
-	assert(len(input_string) == 1, "Can only set shortcut keybinds to lettered/numbered keys")
+	
 	output = input_string.unicode_at(0)
 	if(output >= 97):
 		input_string = input_string.to_upper()

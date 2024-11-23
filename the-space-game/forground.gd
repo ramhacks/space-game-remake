@@ -11,7 +11,6 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_survival_create_radar_node(node: Variant) -> void:
-	print(node)
 	self.add_child(node)
 
 

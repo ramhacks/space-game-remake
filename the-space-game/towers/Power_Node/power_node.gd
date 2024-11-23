@@ -7,12 +7,6 @@ var upgrade_map = {
 	2: -1
 }
 
-
-
-var energy = 0
-
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	sprite_node = self.get_node("Sprite")

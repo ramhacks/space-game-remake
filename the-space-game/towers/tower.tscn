@@ -61,7 +61,7 @@ metadata/_snap_count = 12
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
 radius = 58.0
 
-[node name="tower" type="Node2D" groups=["tower_node"]]
+[node name="tower" type="Node2D" groups=["Placed_Towers", "tower_node"]]
 script = ExtResource("1_u867d")
 
 [node name="BuildProgress" type="ProgressBar" parent="."]
