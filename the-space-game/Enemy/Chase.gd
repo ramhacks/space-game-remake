@@ -20,7 +20,7 @@ func Update(delta: float):
 	if(is_instance_valid(self.get_parent().target_node) and self.get_parent().target_node.health > 0):
 		nav.target_position = self.get_parent().target_node.global_position
 	else:
-		print("new_target")
+
 		self.get_parent().target_node = enemy.get_new_target()
 	
 
@@ -43,6 +43,8 @@ func Physics_Update(delta: float):
 		enemy.move_and_slide()
 				
 		enemy.look_at(nav.target_position)
+	else:
+		self.get_parent().target_node = enemy.get_new_target()
 
 			
 

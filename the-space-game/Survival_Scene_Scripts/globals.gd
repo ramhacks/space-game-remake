@@ -24,7 +24,7 @@ func GetAllTreeNodes(node , listOfAllNodesInTree): #recursive
 		GetAllTreeNodes(childNode, listOfAllNodesInTree)
 	return listOfAllNodesInTree
 
-var resources = 2500 # amount of resources the current player has
+var resources = 250 # amount of resources the current player has
 var RPM = 0
 var sprite_collider_instance
 var tower_selection_mode = false
@@ -69,7 +69,7 @@ func start_off():
 func start_on():
 	global_power_timer_on.start()  
 	
-	
+
 
 #IMPORTANT, connects them based on group only, if not in group wont connect line between a group at all
 func connect_group_lines(self_node):
@@ -85,6 +85,7 @@ func connect_group_lines(self_node):
 		total_current = 0
 		
 	get_tree().call_group('tower_node', "reset_line")
+	
 	var group_to_erase = []
 	for power in power_groups:
 		if(get_tree().get_node_count_in_group(power) == 0):
@@ -210,6 +211,7 @@ func iterativeDFS(v, delete_target):
 	while len(stack) > 0:
 		
 		# Pop a vertex from the stack
+		
 		var s = stack[0] 
 		stack.pop_front()
  		
@@ -220,6 +222,7 @@ func iterativeDFS(v, delete_target):
 
 		# if the vertex is already discovered yet, ignore it
 		var iters = 0
+		
 		for node in s.connections: 
 			if (is_instance_valid(node) and node not in discovered and not node.hovering): 	
 				if(node == delete_target):

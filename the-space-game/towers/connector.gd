@@ -12,8 +12,10 @@ extends Line2D
 func redraw_no_priority(nodes):
 	self.clear_points()
 	for target in nodes:
-		add_point(to_local(self.get_parent().global_position))
-		add_point(to_local(target.global_position))
+		if(type_string(typeof(target)) != 'int'):
+			add_point(to_local(self.get_parent().global_position))
+			
+			add_point(to_local(target.global_position))
 		
 #Sort based on priority in above dictionary
 func insertionSort(arr):

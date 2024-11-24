@@ -36,4 +36,4 @@ animations = [{
 [node name="Explosion" type="AnimatedSprite2D"]
 visible = false
 sprite_frames = SubResource("SpriteFrames_r3vyk")
-animation = &"tower_explosion"
+animation = &"enemy_explosion"

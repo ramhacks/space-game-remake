@@ -1,10 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://dd0iq32xbef8"]
+[gd_scene load_steps=17 format=3 uid="uid://dd0iq32xbef8"]
 
 [ext_resource type="Script" path="res://towers/tower.gd" id="1_u867d"]
 [ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://Visuals/Sprite_Frames/Green-Circle-PNG-Photo-2603984782.png" id="2_x3dtl"]
 [ext_resource type="Script" path="res://towers/Set_Tower_Selection_Collision.gd" id="3_hmvqe"]
 [ext_resource type="Script" path="res://towers/collision_area.gd" id="4_lhcah"]
 [ext_resource type="Script" path="res://towers/connector.gd" id="5_uevkj"]
+[ext_resource type="Texture2D" uid="uid://b6armdykftyu5" path="res://Visuals/Effects/Explosion/1.png" id="6_sra6u"]
+[ext_resource type="Texture2D" uid="uid://bemi0futfol55" path="res://Visuals/Effects/Explosion/2.png" id="7_ph56o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3lut5"]
 bg_color = Color(0.0156863, 0.0470588, 0.862745, 1)
@@ -61,6 +63,20 @@ metadata/_snap_count = 12
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
 radius = 58.0
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_wry6m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_sra6u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ph56o")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="tower" type="Node2D" groups=["Placed_Towers", "tower_node"]]
 script = ExtResource("1_u867d")
 
@@ -91,7 +107,7 @@ texture = ExtResource("2_x3dtl")
 metadata/_edit_lock_ = true
 
 [node name="Sprite" type="Area2D" parent="." groups=["sprite_node"]]
-collision_mask = 3
+collision_mask = 19
 priority = 1
 script = ExtResource("3_hmvqe")
 metadata/_edit_lock_ = true
@@ -112,5 +128,11 @@ script = ExtResource("5_uevkj")
 
 [node name="Power_Delay" type="Timer" parent="."]
 
+[node name="Explosion" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_wry6m")
+
+[connection signal="area_entered" from="Sprite" to="Sprite" method="_on_area_entered"]
 [connection signal="input_event" from="Sprite" to="." method="_on_sprite_input_event"]
 [connection signal="timeout" from="Power_Delay" to="." method="_on_power_delay_timeout"]
+[connection signal="animation_finished" from="Explosion" to="." method="_on_explosion_animation_finished"]

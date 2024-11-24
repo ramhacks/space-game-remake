@@ -187,7 +187,13 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				marker_instance.get_relative.connect($Camera_Area.call_rel)
 				$Camera_Area.send_rel.connect(marker_instance.receive_relative)
 				
+				
+				
+				
+				
+				
 				enemy_node = enemy.instantiate()
+				enemy_node.target_strat = "Random"
 				self.add_child(enemy_node)
 	
 				

@@ -22,3 +22,9 @@ func set_size(obj) -> void:
 func _process(delta: float) -> void:
 	pass
 	
+
+
+func _on_area_entered(area: Area2D) -> void:
+	if area.get_parent() is Enemy_Missile:
+
+		self.get_parent().health -= area.get_parent().damage

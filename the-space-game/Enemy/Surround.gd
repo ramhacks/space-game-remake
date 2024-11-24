@@ -6,11 +6,11 @@ class_name Surround
 @export var enemy: CharacterBody2D
 @export var nav: NavigationAgent2D
 
-var pathfollower
+
 var distance_size = 30
 var surround_points: Array = []
 var move_direction
-var path2dnode
+
 
 var current_angle = 0
 
@@ -26,7 +26,8 @@ var circling = false
 
 var cur_progress_ratio: float
 
-signal add_path(path_node)
+
+
 func Enter():
 	target_node = self.get_parent().target_node
 	nav.target_position = next_point(target_node.global_position, enemy.global_position, current_angle)

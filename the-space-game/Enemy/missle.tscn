@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6bg1ch8ewi2d"]
+
+[ext_resource type="Script" path="res://Enemy/missle.gd" id="1_4ie62"]
+[ext_resource type="Texture2D" uid="uid://hw1u0m2tma1u" path="res://Visuals/Sprite_Frames/394.png" id="2_6i4yo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_63oep"]
+radius = 2.23607
+
+[node name="Missle" type="Node2D"]
+script = ExtResource("1_4ie62")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.204545, 0.227273)
+texture = ExtResource("2_6i4yo")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_63oep")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

@@ -7,7 +7,7 @@ class_name Tower
 #Enemy Collision (For laser enemies):
 var sprite_radius = 1
 
-
+var killed = false
 var line_node_connections = []
  #what group this node belongs to
 
@@ -129,7 +129,9 @@ func place_build_progress_bar():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if(health <= 0):
-		died()
+		if not killed:
+			died()
+			killed = true
 	#set child node and self dynamic variables
 	animated_node.upgrade_level = level
 	overlap_areas = $Collision_Area.get_overlapping_areas()
@@ -373,14 +375,16 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	
 #This tower has no more health, recycle it
 func died():
+	print(self)
 	animated_node.visible = false
-	$Explosion.play("tower_explosion")
+	$Explosion.play("default")
 	$Explosion.visible = true
 	
 	
 
 
 func _on_explosion_animation_finished() -> void:
+	print("end")
 	if(Globals.tower_selection_mode):
 		get_parent().waiting_for_clickout = false
 		get_parent().selection_node.remove_from_group("selection")
@@ -390,8 +394,10 @@ func _on_explosion_animation_finished() -> void:
 	Globals.tower_selection_mode = false
 	
 	Globals.tower_node_amount -= 1
+	
 	remove_from_group(self.group_)
+	Globals.remove_node_from_group(self)
 	sprite_var_node_holder.correct_area = false
-
+	
 	Globals.connect_group_lines(self)
 	self.queue_free()
