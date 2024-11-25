@@ -72,7 +72,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Power_Node" groups=["collider"] instance=ExtResource("1_8ecru")]
+[node name="Power_Node" groups=["collider", "power"] instance=ExtResource("1_8ecru")]
 script = ExtResource("2_g6doy")
 power_needed = 1
 power_time_seconds = 1

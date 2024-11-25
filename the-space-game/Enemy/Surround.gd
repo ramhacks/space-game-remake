@@ -29,21 +29,13 @@ var cur_progress_ratio: float
 
 
 func Enter():
-	target_node = self.get_parent().target_node
-	nav.target_position = next_point(target_node.global_position, enemy.global_position, current_angle)
+	nav.target_position = next_point(self.get_parent().target_node.global_position, enemy.global_position, current_angle)
 	#nav.target_position = target_node.global_position + Vector2.RIGHT.rotated((current_angle + 20) % 360)*30
 
 func Update(delta:float):
-	if(!is_instance_valid(self.get_parent().target_node)):
-		enemy.get_new_target()
 	if get_parent().current_state == self:
-		send_laser.emit(target_node)
-	
-	
-
-func _on_timer_timeout() -> void:
-	pass
-
+		
+		send_laser.emit(self.get_parent().target_node)
 
 func _on_enemy_tower_removed() -> void:
 	Transitioned.emit(self, 'Chase')
@@ -67,18 +59,19 @@ func next_point(tower_point, p, angle):
 
 func Physics_Update(delta: float):
 	if(!is_instance_valid(self.get_parent().target_node)):
-		enemy.get_new_target()
+		self.get_parent().target_node = enemy.get_new_target()
 		
 	if(!(enemy.global_position.distance_to(nav.target_position) > 30)):
 		
-		nav.target_position = next_point(target_node.global_position, enemy.global_position, 5)
+		nav.target_position = next_point(self.get_parent().target_node.global_position, enemy.global_position, 5)
 	
 	if(!is_instance_valid(self.get_parent().target_node)):
-		enemy.get_new_target()
+		self.get_parent().target_node = enemy.get_new_target()
 	
 		
-	if(is_instance_valid(self.get_parent().target_node) and enemy.global_position.distance_to(target_node.global_position) > anchor_distance):
-		Transitioned.emit(self, 'Chase')	
+	if(is_instance_valid(self.get_parent().target_node)):
+		if(enemy.global_position.distance_to(self.get_parent().target_node.global_position) > anchor_distance):
+			Transitioned.emit(self, 'Chase')	
 
 	if is_instance_valid(self.get_parent().target_node):
 
@@ -92,4 +85,4 @@ func Physics_Update(delta: float):
 
 		enemy.move_and_slide()
 				
-		enemy.look_at(target_node.global_position)
+		enemy.look_at(self.get_parent().target_node.global_position)

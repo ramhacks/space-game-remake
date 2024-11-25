@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgbq2qbqnmjgm"]
+
+[ext_resource type="PackedScene" uid="uid://bmxxcel2t4fhe" path="res://Enemy/Enemy_AI.tscn" id="1_gfnhf"]
+[ext_resource type="Script" path="res://Enemy/Chase.gd" id="2_uv6ic"]
+[ext_resource type="Script" path="res://Enemy/Surround.gd" id="3_pqc73"]
+
+[node name="Enemy" instance=ExtResource("1_gfnhf")]
+
+[node name="StateMachine" parent="." index="1" node_paths=PackedStringArray("initial_state")]
+initial_state = NodePath("Chase")
+
+[node name="Chase" type="Node" parent="StateMachine" index="0" node_paths=PackedStringArray("enemy", "nav")]
+script = ExtResource("2_uv6ic")
+enemy = NodePath("../..")
+nav = NodePath("../../NavigationAgent2D")
+
+[node name="Surround" type="Node" parent="StateMachine" index="1" node_paths=PackedStringArray("enemy", "nav")]
+script = ExtResource("3_pqc73")
+enemy = NodePath("../..")
+nav = NodePath("../../NavigationAgent2D")
+
+[connection signal="send_laser" from="StateMachine/Surround" to="." method="_on_surround_send_laser"]

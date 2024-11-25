@@ -1,0 +1,107 @@
+[gd_scene load_steps=13 format=3 uid="uid://bmxxcel2t4fhe"]
+
+[ext_resource type="Script" path="res://Enemy/Enemy_Driver.gd" id="1_0loln"]
+[ext_resource type="Texture2D" uid="uid://dw2l5h6awcntu" path="res://Visuals/Sprite_Frames/Enemy/1.png" id="2_ogkn4"]
+[ext_resource type="Texture2D" uid="uid://dq174jfqnv2go" path="res://Visuals/Sprite_Frames/Enemy/2.png" id="3_pxso4"]
+[ext_resource type="Texture2D" uid="uid://c3oe7crqbmkpn" path="res://Visuals/Sprite_Frames/Enemy/3.png" id="4_ck3r1"]
+[ext_resource type="Script" path="res://Enemy/state_machine.gd" id="5_p2js5"]
+[ext_resource type="Script" path="res://Enemy/Chase.gd" id="6_6y3wg"]
+[ext_resource type="Script" path="res://Enemy/Surround.gd" id="7_w1231"]
+[ext_resource type="Script" path="res://Enemy/random_target.gd" id="8_fhg0n"]
+[ext_resource type="Script" path="res://Enemy/power_target.gd" id="9_5odof"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hb4hy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ogkn4")
+}],
+"loop": true,
+"name": &"Enemy_1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_pxso4")
+}],
+"loop": true,
+"name": &"Enemy_2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ck3r1")
+}],
+"loop": true,
+"name": &"Enemy_3",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0fc7o"]
+radius = 2.0
+height = 4.0
+
+[sub_resource type="Gradient" id="Gradient_n22jk"]
+offsets = PackedFloat32Array(0, 0.458333, 1)
+colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699, 0, 1, 0.0183086, 0.319085, 0.184432, 1)
+metadata/_snap_count = 12
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 0
+motion_mode = 1
+platform_floor_layers = 4294967040
+script = ExtResource("1_0loln")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 2.98023e-08)
+scale = Vector2(0.2132, 0.217738)
+sprite_frames = SubResource("SpriteFrames_hb4hy")
+animation = &"Enemy_1"
+
+[node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_p2js5")
+initial_state = NodePath("Chase")
+
+[node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "nav")]
+script = ExtResource("6_6y3wg")
+enemy = NodePath("../..")
+nav = NodePath("../../NavigationAgent2D")
+
+[node name="Surround" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "nav")]
+script = ExtResource("7_w1231")
+enemy = NodePath("../..")
+nav = NodePath("../../NavigationAgent2D")
+
+[node name="Body_Collider" type="CollisionShape2D" parent="."]
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_0fc7o")
+
+[node name="Laser" type="Line2D" parent="."]
+width = 0.0
+default_color = Color(0.184314, 0.976471, 0.160784, 1)
+gradient = SubResource("Gradient_n22jk")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 30.0
+navigation_layers = 9
+simplify_epsilon = 1.0
+
+[node name="Targeting" type="Node" parent="."]
+
+[node name="Random_Target" type="Node" parent="Targeting"]
+script = ExtResource("8_fhg0n")
+
+[node name="Power_Target" type="Node" parent="Targeting"]
+script = ExtResource("9_5odof")
+
+[connection signal="tower_removed" from="." to="StateMachine/Surround" method="_on_enemy_tower_removed"]
+[connection signal="send_laser" from="StateMachine/Surround" to="." method="_on_surround_send_laser"]
+[connection signal="timeout" from="Timer" to="StateMachine/Surround" method="_on_timer_timeout"]
+[connection signal="link_reached" from="NavigationAgent2D" to="StateMachine/Surround" method="_on_navigation_agent_2d_link_reached"]
+[connection signal="navigation_finished" from="NavigationAgent2D" to="StateMachine/Chase" method="_on_navigation_agent_2d_navigation_finished"]
+[connection signal="navigation_finished" from="NavigationAgent2D" to="StateMachine/Surround" method="_on_navigation_agent_2d_navigation_finished"]
+[connection signal="target_reached" from="NavigationAgent2D" to="StateMachine/Surround" method="_on_navigation_agent_2d_target_reached"]

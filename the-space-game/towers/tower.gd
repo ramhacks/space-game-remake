@@ -375,7 +375,6 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	
 #This tower has no more health, recycle it
 func died():
-	print(self)
 	animated_node.visible = false
 	$Explosion.play("default")
 	$Explosion.visible = true
@@ -384,7 +383,6 @@ func died():
 
 
 func _on_explosion_animation_finished() -> void:
-	print("end")
 	if(Globals.tower_selection_mode):
 		get_parent().waiting_for_clickout = false
 		get_parent().selection_node.remove_from_group("selection")
@@ -392,7 +390,7 @@ func _on_explosion_animation_finished() -> void:
 		get_parent().hide_selection_ui(Globals.tower_selected)
 		
 	Globals.tower_selection_mode = false
-	
+	radar_node.queue_free()
 	Globals.tower_node_amount -= 1
 	
 	remove_from_group(self.group_)

@@ -1,4 +1,6 @@
 extends Sprite2D
+
+class_name Radar
 signal get_relative(location)
 
 @export var minimap_x_size: int

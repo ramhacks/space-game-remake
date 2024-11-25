@@ -109,7 +109,7 @@ func _ready() -> void:
 		
 		
 		
-	enemy = preload("res://Enemy/Enemy_AI.tscn")
+	enemy = preload("res://Enemy/Enemy_Types/Power_Targeter.tscn")
 	enemy_node = enemy.instantiate()
 	
 	
@@ -180,6 +180,7 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				
 				
 				var marker_instance = radar_node.instantiate()
+				
 				copy.radar_node = marker_instance
 				copy.update_location.connect(marker_instance.on_update_location)
 				create_radar_node.emit(marker_instance)
@@ -188,21 +189,24 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				$Camera_Area.send_rel.connect(marker_instance.receive_relative)
 				
 				
+				#Enemy Loading code, will be moved here temporarily, when moved, you need to call everything below,
+				#below we add the radar node, initialize the enemy and connect necessary signals so that the radar node can move
+				#with the enemy, when moved you will have to bring a preloaded radar node as well and a preloaded enemy_node
+				var enemy_marker_texture = load("res://Visuals/Minimap_textures/enemy.png")
+				var enemy_marker = radar_node.instantiate()
+				enemy_marker.texture = enemy_marker_texture
+				enemy_marker.get_relative.connect($Camera_Area.call_rel)
 				
+				$Camera_Area.send_rel.connect(enemy_marker.receive_relative)
 				
+				create_radar_node.emit(enemy_marker)
 				
 				
 				enemy_node = enemy.instantiate()
-				enemy_node.target_strat = "Random"
 				self.add_child(enemy_node)
+				enemy_node.initialize("Power", enemy_marker, Vector2(0,0))
 	
-				
-
-
-					
-				#Node has been added, call all tower nodes to reformat lines if needed (if they have a new connection available
-				#get_tree().call_group("tower_node", "reformat_lines")
-	
+			
 				
 
 
@@ -351,6 +355,8 @@ func hide_tween_done():
 	
 #recycle tower function
 func _on_side_buttons_hide_selection() -> void:
+	Globals.tower_selected.radar_node.queue_free()
+	
 	Globals.tower_selection_mode = false
 	Globals.tower_node_amount -= 1
 	waiting_for_clickout = false
@@ -363,10 +369,6 @@ func _on_side_buttons_hide_selection() -> void:
 	Globals.remove_node_from_group(Globals.tower_selected)
 	
 	Globals.connect_group_lines(Globals.tower_selected)
-
-	
-	
-	
 
 	
 	hide_selection_ui(Globals.tower_selected)

@@ -29,6 +29,7 @@ window/stretch/mode="canvas_items"
 tower_node=""
 sprite_node=""
 Placed_Towers=""
+power=""
 
 [input]
 

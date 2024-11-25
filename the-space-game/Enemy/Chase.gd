@@ -2,8 +2,11 @@ extends State
 class_name Chase
 
 
+
 @export var enemy: CharacterBody2D
 @export var nav: NavigationAgent2D
+
+
 
 var current_target: Tower
 var target_acquired = false
@@ -24,9 +27,9 @@ func Update(delta: float):
 		self.get_parent().target_node = enemy.get_new_target()
 	
 
-			
-	if(!(enemy.global_position.distance_to(nav.target_position) > self.get_parent().target_node.get_node("Sprite/CollisionShape2D").shape.radius + 60)):
-		Transitioned.emit(self, 'Surround')
+	if(is_instance_valid(self.get_parent().target_node)):
+		if(!(enemy.global_position.distance_to(nav.target_position) > self.get_parent().target_node.get_node("Sprite/CollisionShape2D").shape.radius + 60)):
+			Transitioned.emit(self, 'Surround')
 
 
 func Physics_Update(delta: float):

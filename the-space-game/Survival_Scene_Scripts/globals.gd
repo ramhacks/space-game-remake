@@ -63,6 +63,7 @@ func _ready():
 	power_line_segment = preload("res://General_Purpose_Scenes/power_line_segment.tscn")
 	sprite_collider_instance = preload("res://towers/sprite_collision_shape_setter.tscn")
 
+
 func start_off(): 
 	global_power_timer_off.start()
 	

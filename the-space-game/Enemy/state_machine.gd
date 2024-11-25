@@ -22,6 +22,7 @@ func _ready() -> void:
 
 	
 func _process(delta) -> void:
+
 	if current_state:
 		current_state.Update(delta)
 	
@@ -47,3 +48,11 @@ func on_child_transition(state, new_state_name):
 	new_state.Enter()
 	
 	current_state = new_state
+
+
+func _on_chase_transitioned(state: Variant, new_state_name: Variant) -> void:
+	pass # Replace with function body.
+
+
+func _on_surround_transitioned(state: Variant, new_state_name: Variant) -> void:
+	pass # Replace with function body.
