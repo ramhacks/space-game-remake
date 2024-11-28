@@ -2,33 +2,35 @@ extends State
 class_name Chase
 
 
-
+#Surround anchor distance must be larger than distance_size
 @export var enemy: CharacterBody2D
 @export var nav: NavigationAgent2D
 
-
+var pos_set = false
 
 var current_target: Tower
 var target_acquired = false
 
 var move_direction: Vector2
 
-var backtracking = false
-
-func Update(delta: float):
+func Enter():
+	pos_set = false
 	
+func Update(delta: float):
+	if not pos_set and is_instance_valid(self.get_parent().target_node):
+		randomize()
+		var angle = randf_range(-90, 90)
+		nav.target_position = enemy.point_circle(self.get_parent().target_node.global_position, angle)
+		pos_set = true
 	#Change so its not just the first tower in a group, make it actively target things
 	
 
-	if(is_instance_valid(self.get_parent().target_node) and self.get_parent().target_node.health > 0):
-		nav.target_position = self.get_parent().target_node.global_position
-	else:
-
+	if(!(is_instance_valid(self.get_parent().target_node) and self.get_parent().target_node.get_node("Health").health_amount > 0)):
 		self.get_parent().target_node = enemy.get_new_target()
-	
 
 	if(is_instance_valid(self.get_parent().target_node)):
-		if(!(enemy.global_position.distance_to(nav.target_position) > self.get_parent().target_node.get_node("Sprite/CollisionShape2D").shape.radius + 60)):
+		#self.get_parent().target_node.get_node("Sprite/CollisionShape2D").shape.radius + 60
+		if(enemy.global_position.distance_to(nav.target_position) < enemy.distance_size):
 			Transitioned.emit(self, 'Surround')
 
 
@@ -50,8 +52,3 @@ func Physics_Update(delta: float):
 		self.get_parent().target_node = enemy.get_new_target()
 
 			
-
-
-func _on_navigation_agent_2d_navigation_finished() -> void:
-	
-	Transitioned.emit(self, 'Surround')

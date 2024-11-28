@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c64wseebqwiyk" path="res://Visuals/Minimap_textures/tower.png" id="1_r2omd"]
 [ext_resource type="Script" path="res://Visuals/Minimap_textures/radar_marker.gd" id="2_ej4yc"]
 
-[node name="RadarMarker" type="Sprite2D"]
+[node name="RadarMarker" type="Sprite2D" groups=["Radar_Markers"]]
 position = Vector2(2, 2)
 scale = Vector2(0.105263, 0.105263)
 texture = ExtResource("1_r2omd")

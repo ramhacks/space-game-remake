@@ -2,6 +2,8 @@ extends Node2D
 
 @export var initial_state: State
 
+
+var reset_ = false
 var current_state : State
 var states : Dictionary = {}
 var target_node: Tower

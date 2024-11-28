@@ -18,17 +18,22 @@ func get_all_children(in_node,arr:=[]):
 		arr = get_all_children(child,arr)
 	return arr
 	
-func GetAllTreeNodes(node , listOfAllNodesInTree): #recursive
-	listOfAllNodesInTree.append(node)
+func GetAllTreeNodes(node , listOfAllNodesInTree, type_string): #recursive
+	if(node.get_class() == type_string):
+		listOfAllNodesInTree.append(node)
 	for childNode in node.get_children():
-		GetAllTreeNodes(childNode, listOfAllNodesInTree)
+		GetAllTreeNodes(childNode, listOfAllNodesInTree, type_string)
 	return listOfAllNodesInTree
 
-var resources = 250 # amount of resources the current player has
+var main_scene
+var resources = 2500 # amount of resources the current player has
 var RPM = 0
 var sprite_collider_instance
 var tower_selection_mode = false
 var tower_selected
+
+
+var selection_node
 
 var tower_hovering = false
 
@@ -287,3 +292,10 @@ func kthSmallest(a: Array, left, right, k) :
 	 
 	return -1
  
+
+func hide_selection_node():
+	main_scene.waiting_for_clickout = false
+	selection_node.remove_from_group("selection")
+	main_scene.remove_child(selection_node)
+	main_scene.hide_selection_ui(tower_selected)
+	tower_selection_mode = false

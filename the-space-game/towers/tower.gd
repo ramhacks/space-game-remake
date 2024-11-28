@@ -2,7 +2,11 @@ extends Node2D
 
 class_name Tower
 
+#We need to define a custom class because godot does not support grabbing the class_name of a tower
+#you can only grab the default class, for instance this would not be tower but would return Node2D instead
+@export var custom_class: String
 
+var health_connected = false
 
 #Enemy Collision (For laser enemies):
 var sprite_radius = 1
@@ -11,7 +15,7 @@ var killed = false
 var line_node_connections = []
  #what group this node belongs to
 
-var radar_node #node containing pointer to node on minimap representing tower
+var radar_marker: Radar #node containing pointer to node on minimap representing tower
 
 
 var child_area
@@ -49,8 +53,6 @@ var overlap_areas: Array = []
 
 
 var show_colliding_bodies: bool = false
-@export_category("Statistics")
-@export var health: int = 300
 
 var build_progress: int = 0 #percantage up to 100
 var built: bool = false #we will set this to false when we implement power
@@ -67,8 +69,7 @@ signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
 signal draw_selection_animation(tower_pos, tower_radius, clicked_self, tower_type)
 signal update_location(loc)
 
-@export_category("ID_Name")
-@export var cur_name: String = "tower name" #used if we want to identify the type of tower 
+var cur_name: String = "tower name" #used if we want to identify the type of tower 
 
 var cooldown_delay: bool = 3  #may need to be adjusted based on upgrade level
 var cooling_down: bool = false
@@ -113,7 +114,7 @@ func reset_line():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	#set child node static variables
 	sprite_var_node_holder = $Sprite
 	my_collding_radius = $Collision_Area
@@ -128,10 +129,6 @@ func place_build_progress_bar():
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if(health <= 0):
-		if not killed:
-			died()
-			killed = true
 	#set child node and self dynamic variables
 	animated_node.upgrade_level = level
 	overlap_areas = $Collision_Area.get_overlapping_areas()
@@ -199,7 +196,7 @@ func draw_tower_hover_lines(input_array=false):
 		loop_array = $Sprite.connections
 		
 	for node in loop_array:
-		if is_instance_valid(node) and node.correct_area:
+		if node is sprite_collider and is_instance_valid(node) and node.correct_area:
 			$Connector.add_point(to_local(self.global_position))
 			$Connector.add_point(to_local(node.global_position))	
 			if input_array:
@@ -318,6 +315,7 @@ func set_group(overlaps):
 func do_process():
 	if not built and build_progress < 100:
 		build_progress += 20
+
 	$Power_Delay.start()
 	
 #===============================================================================================
@@ -374,28 +372,3 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	
 	
 #This tower has no more health, recycle it
-func died():
-	animated_node.visible = false
-	$Explosion.play("default")
-	$Explosion.visible = true
-	
-	
-
-
-func _on_explosion_animation_finished() -> void:
-	if(Globals.tower_selection_mode):
-		get_parent().waiting_for_clickout = false
-		get_parent().selection_node.remove_from_group("selection")
-		get_parent().remove_child(get_parent().selection_node)
-		get_parent().hide_selection_ui(Globals.tower_selected)
-		
-	Globals.tower_selection_mode = false
-	radar_node.queue_free()
-	Globals.tower_node_amount -= 1
-	
-	remove_from_group(self.group_)
-	Globals.remove_node_from_group(self)
-	sprite_var_node_holder.correct_area = false
-	
-	Globals.connect_group_lines(self)
-	self.queue_free()

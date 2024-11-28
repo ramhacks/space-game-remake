@@ -1,8 +1,9 @@
-[gd_scene load_steps=39 format=3 uid="uid://bftugtnfokgv"]
+[gd_scene load_steps=40 format=3 uid="uid://bftugtnfokgv"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_cmj2o"]
 [ext_resource type="Script" path="res://towers/Solar/solar.gd" id="2_lr4nm"]
 [ext_resource type="Texture2D" uid="uid://d07u7pah6ppym" path="res://Visuals/Sprite_Frames/29.png" id="2_m4vuw"]
+[ext_resource type="PackedScene" uid="uid://c11uhwml84phf" path="res://Components/health.tscn" id="3_0ep3i"]
 [ext_resource type="Texture2D" uid="uid://b7inrwfjq44wa" path="res://Visuals/Sprite_Frames/71.png" id="3_2kyp7"]
 [ext_resource type="Texture2D" uid="uid://hc8fg33g4154" path="res://Visuals/Sprite_Frames/73.png" id="4_p3cc5"]
 [ext_resource type="Texture2D" uid="uid://c6rbhib0tkcc7" path="res://Visuals/Sprite_Frames/75.png" id="5_57i7e"]
@@ -164,10 +165,10 @@ radius = 13.0
 
 [node name="solar_station" instance=ExtResource("1_cmj2o")]
 script = ExtResource("2_lr4nm")
+custom_class = "Solar"
 power_capacity = 200
 power_needed = 1
 power_time_seconds = 1
-cur_name = "solar"
 upgrade_price = {
 1: 200,
 2: 200,
@@ -179,7 +180,14 @@ recycle_price = {
 3: 400
 }
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="." index="4"]
+[node name="Health" parent="." index="0" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_0ep3i")]
+health_amount = 1000
+death_animation = NodePath("../Explosion")
+death_animation_name = "default"
+parent = NodePath("..")
+Animated_Target = NodePath("../Sprite_Node")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_3ggyo")
 animation = &"hover"

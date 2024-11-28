@@ -1,5 +1,14 @@
 extends Tower
 
+#Until laser is added this will be a laser tower
+class_name Repair_Station
+
+
+
+var projectile_type = "Laser"
+var mis
+
+
 var upgrade_level = 1
 
 var upgrade_map = {
@@ -11,7 +20,7 @@ var upgrade_map = {
 func _ready() -> void:
 	sprite_node = self.get_node("Sprite")
 	child_area = self.get_node("Collision_Area")
-	animated_node = self.get_node("Sprite2D")
+	animated_node = self.get_node("Sprite_Node/Sprite2D")
 	
 	inherted_node = self
 	show_colliding_bodies = true
@@ -30,9 +39,34 @@ func _process(delta: float) -> void:
 
 func do_process():
 	if built:
-		pass
+		laser_enemy() #temporary for testing purposes
 	super.do_process()
+
+
+#Transfer to laser node when implemented
+func laser_enemy():
+	var target = change_collision_list($Collision_Area.get_overlapping_bodies())
+	if is_instance_valid(target):
+		draw_laser_attack(to_local(self.global_position), to_local(target.global_position))
+		target.get_node("Hitbox").register_hit(self, 20) 
+
+
+
+func change_collision_list(col_list):
+	for enemy in col_list:
+		if enemy is Enemy:
+			return enemy
 	
+	return null
+	
+func draw_laser_attack(pos1, pos2):
+	var line = $Laser
+
+	line.clear_points()
+	line.add_point(pos1)
+	line.add_point(pos2)
+	line.add_point(pos1)
+	self.get_node("AnimationPlayer").play("laser") 
 	
 func get_overlap():
 	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however

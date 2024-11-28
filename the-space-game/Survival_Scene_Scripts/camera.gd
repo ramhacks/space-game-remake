@@ -20,6 +20,7 @@ var dragging = false
 var button_move_amount = 10 #amount camera will move when moved by arrow keys
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	cam = get_node("Camera2D")
 
 func get_relative_mouse_pos(event_pos):
@@ -60,6 +61,10 @@ func _input(event):
 	if event.is_action("BUTTON_LEFT"):
 		place_tower.emit(get_relative_mouse_pos(false))
 	
+	
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_SPACE:
+			get_tree().paused = !get_tree().paused
 
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:

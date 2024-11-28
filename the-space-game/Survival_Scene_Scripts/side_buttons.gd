@@ -23,11 +23,14 @@ func _on_upgrade_button_pressed() -> void:
 		else:
 			$Upgrade_Button.text = "Upgrade: " + str(Globals.tower_selected.upgrade_price[Globals.tower_selected.level])
 			
-		Globals.tower_selected.built = true #change to false when power is implmented
+		Globals.tower_selected.built = false #change to false when power is implmented
+		
+		Globals.tower_selected.get_node("BuildProgress").visible = true
 		
 		Globals.tower_selected.build_progress = 0
 		Globals.tower_selected.animated_node.frame = 1
 		Globals.tower_selected.animated_node.play("level" + str(Globals.tower_selected.level))
+		Globals.tower_selected.upgrade()
 		
 
 

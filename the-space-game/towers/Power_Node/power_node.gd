@@ -1,5 +1,9 @@
 extends Tower
 
+class_name Relay
+
+
+
 var upgrade_level = 1
 
 var upgrade_map = {
@@ -9,9 +13,10 @@ var upgrade_map = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
 	sprite_node = self.get_node("Sprite")
 	child_area = self.get_node("Collision_Area")
-	animated_node = self.get_node("Sprite2D")
+	animated_node = self.get_node("Sprite_Node/Sprite2D")
 	inherted_node = self
 	sprite_texture = animated_node.get_sprite_frames().get_frame_texture(animated_node.animation, 0)
 	

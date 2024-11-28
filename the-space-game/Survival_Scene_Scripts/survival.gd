@@ -5,17 +5,20 @@ var mining_tower
 var solar_tower
 
 
+
 var initial_tower_prices = {
-	"miner": 45, #same as cur_name variable
-	"solar": 200,
-	"Power_Node": 20,
+	"Miner": 45, #same as cur_name variable
+	"Solar": 200,
+	"Relay": 20,
 	"Repair_Station": 300
 }
 
+var e_count = 2
+
 var tower_scene_dict = {
-	"miner": 0,
-	"solar": 0,
-	"Power_Node": 0,
+	"Miner": 0,
+	"Solar": 0,
+	"Relay": 0,
 	"Repair_Station": 0
 	
 }
@@ -28,6 +31,7 @@ signal finished
 signal create_radar_node(node)
 signal remove_radar_node(node)
 
+signal rebake_mesh(node_added)
 #these two variables are if we are going to place a tower, press the tower button and show the tower following
 #the mouse and then what type of tower we are placing, the functionality of the towers will be the same for 
 #most towers but has a few exceptions we will implement at a later point
@@ -38,7 +42,7 @@ var radar_node
 var radar_level
 
 var game_tick_timer
-var selection_node
+
 
 var starting_tower_pos
 var activate_nearby_node_showing = false
@@ -68,27 +72,28 @@ func clear_hover_lines():
 		hover_line_node.queue_free()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
+	Globals.main_scene = self
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	var asteroid_scene = preload("res://Asteroid_Gen/asteroid_field.tscn")
 	
-	selection_node = preload("res://Selection_Draw_Node/Selection_Draw.tscn").instantiate()
+	Globals.selection_node = preload("res://Selection_Draw_Node/Selection_Draw.tscn").instantiate()
 	
 	radar_node = preload("res://Visuals/Minimap_textures/radar_marker.tscn")
 	radar_level = get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground/Minimap")
 	var tween = self.get_tree().create_tween() #rotate the drawing 
-	tween.tween_property(selection_node, "rotation", deg_to_rad(0), 0.5)
+	tween.tween_property(Globals.selection_node, "rotation", deg_to_rad(0), 0.5)
 	var instance = asteroid_scene.instantiate()
 	self.add_child(instance)
 	
 	#REMEBER TO ADD YOU TOWER TO THE LOAD ORDER
 	
-	tower_scene_dict['miner'] = preload("res://towers/Miner/miner.tscn")
+	tower_scene_dict['Miner'] = preload("res://towers/Miner/miner.tscn")
 	
-	tower_scene_dict['solar'] = preload("res://towers/Solar/solar.tscn")
+	tower_scene_dict['Solar'] = preload("res://towers/Solar/solar.tscn")
 	
 	tower_scene_dict['Repair_Station'] = preload("res://towers/Repair_Station/Repair_Station.tscn")
 	
-	tower_scene_dict["Power_Node"] = preload("res://towers/Power_Node/Power_Node.tscn")
+	tower_scene_dict["Relay"] = preload("res://towers/Power_Node/Power_Node.tscn")
 	
 	game_tick_timer = get_node("Global_Ticks")
 	
@@ -138,10 +143,10 @@ func _on_camera_area_cancel_spawn_tower() -> void:
 
 func _on_camera_area_place_tower(cur_position: Variant) -> void:
 	if(Globals.tower_hovering):
-		var is_miner_and_overlapping = (tower_to_place.cur_name == "miner" 
+		var is_miner_and_overlapping = (tower_to_place is Miner
 										and len(tower_to_place.get_overlap()) != 0)
 
-		if(tower_to_place.cur_name != "miner"):
+		if((!tower_to_place is Miner)):
 			is_miner_and_overlapping = true
 			
 		var above_hot_bar_AND_not_on_tower = ((starting_tower_pos.y - self.get_node("Camera_Area").get_relative_mouse_pos(false).y > 30))	
@@ -150,12 +155,9 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 			if(tower_to_place.colliding_areas() == 0):
 				Globals.tower_node_amount += 1
 				clear_hover_lines()
-				
-				assert(initial_tower_prices[tower_to_place.cur_name], "You never added your tower name and price to the initial_tower_prices dictionary
-																		Located at line 8 in this file")
-																		
-				Globals.resources = Globals.resources - initial_tower_prices[tower_to_place.cur_name]
-				
+									
+				Globals.resources = Globals.resources - initial_tower_prices[tower_to_place.custom_class]
+
 
 				Globals.tower_hovering = false
 				var copy = tower_scene.instantiate()
@@ -165,7 +167,7 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				tower_to_place.queue_free()
 
 				copy.overlap_areas = tower_to_place.get_areas_overlap()
-				if tower_to_place.cur_name != 'miner':
+				if tower_to_place is Miner:
 					copy.set_placed(true, tower_to_place.get_areas_overlap())
 				else:
 					copy.set_placed(true, tower_to_place.get_overlap())
@@ -181,30 +183,16 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				
 				var marker_instance = radar_node.instantiate()
 				
-				copy.radar_node = marker_instance
+				copy.radar_marker = marker_instance
 				copy.update_location.connect(marker_instance.on_update_location)
 				create_radar_node.emit(marker_instance)
 				
 				marker_instance.get_relative.connect($Camera_Area.call_rel)
 				$Camera_Area.send_rel.connect(marker_instance.receive_relative)
+	
 				
 				
-				#Enemy Loading code, will be moved here temporarily, when moved, you need to call everything below,
-				#below we add the radar node, initialize the enemy and connect necessary signals so that the radar node can move
-				#with the enemy, when moved you will have to bring a preloaded radar node as well and a preloaded enemy_node
-				var enemy_marker_texture = load("res://Visuals/Minimap_textures/enemy.png")
-				var enemy_marker = radar_node.instantiate()
-				enemy_marker.texture = enemy_marker_texture
-				enemy_marker.get_relative.connect($Camera_Area.call_rel)
 				
-				$Camera_Area.send_rel.connect(enemy_marker.receive_relative)
-				
-				create_radar_node.emit(enemy_marker)
-				
-				
-				enemy_node = enemy.instantiate()
-				self.add_child(enemy_node)
-				enemy_node.initialize("Power", enemy_marker, Vector2(0,0))
 	
 			
 				
@@ -220,7 +208,6 @@ func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
 	var line = tower.get_node("Laser")
 
 	line.clear_points()
-	self.add_child(line)
 	line.add_point(pos1)
 	line.add_point(pos2)
 	line.add_point(pos1)
@@ -258,27 +245,27 @@ func draw_selector(tower_pos, tower_radius, clicked_self, tower): #if add, add e
 	#draw the selection animation, we will add a tween after finishing creating the base selection shape
 	
 	if(!Globals.tower_hovering):
-		if(clicked_self and selection_node not in get_tree().get_nodes_in_group("selection")): #only draw if clicked node
+		if(clicked_self and Globals.selection_node not in get_tree().get_nodes_in_group("selection")): #only draw if clicked node
 			Globals.tower_selected = tower
 			#it has been clicked so now if somewhere that is not this node is clicked hide the select drawing
 			Globals.tower_selection_mode = true
-			self.add_child(selection_node)
-			selection_node.add_to_group("selection")
-			selection_node.position = tower_pos
-			selection_node.redraw_self(tower_radius)
+			self.add_child(Globals.selection_node)
+			Globals.selection_node.add_to_group("selection")
+			Globals.selection_node.position = tower_pos
+			Globals.selection_node.redraw_self(tower_radius)
 			#create tween to animate
 			var tween = self.get_tree().create_tween() #rotate the drawing 
-			tween.tween_property(selection_node, "rotation", deg_to_rad(-90), 0.2)	
+			tween.tween_property(Globals.selection_node, "rotation", deg_to_rad(-90), 0.2)	
 			tween.finished.connect(tween_done.bind(true))
 			
 			show_selection_ui(tower)
 
 			
 			
-		elif(waiting_for_clickout and selection_node in get_tree().get_nodes_in_group("selection")):
+		elif(waiting_for_clickout and Globals.selection_node in get_tree().get_nodes_in_group("selection")):
 			waiting_for_clickout = false
-			selection_node.remove_from_group("selection")
-			self.remove_child(selection_node)
+			Globals.selection_node.remove_from_group("selection")
+			self.remove_child(Globals.selection_node)
 			
 			hide_selection_ui(Globals.tower_selected)
 			
@@ -302,7 +289,6 @@ func get_tower_ui_node(tower_type):
 
 #show selection ui	
 func show_selection_ui(tower):
-	print(tower.group_)
 	
 	#re-add all button nodes just in case they were removed in another tower seleciton menu
 	var vbox = self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons")
@@ -313,7 +299,7 @@ func show_selection_ui(tower):
 		vbox.remove_child(i)
 		
 	#V[0] is the custom button, we only need to add it if this tower has a custom button option
-	if(tower.cur_name == 'miner' or tower.cur_name == 'laser'):
+	if(tower is Miner):
 		vbox.add_child(vbox_children[0])
 	
 	
@@ -327,9 +313,9 @@ func show_selection_ui(tower):
 	
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").show_selection_nodes(tower)
 
-	assert(tower.cur_name != "tower name", "You didn't name the tower cur_name! We can't find the associated ui elements for this tower")
 	
-	var ui_list = get_tower_ui_node(tower.cur_name)
+	
+	var ui_list = get_tower_ui_node(tower.custom_class)
 
 
 
@@ -340,12 +326,12 @@ func show_selection_ui(tower):
 func hide_selection_ui(tower):
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = true
 	
-	var ui_list = get_tower_ui_node(tower.cur_name)
+	var ui_list = get_tower_ui_node(tower.custom_class)
 
 
 	
 	var tween = self.get_tree().create_tween() #rotate the drawing 
-	tween.tween_property(selection_node, "rotation", deg_to_rad(0), 0)	
+	tween.tween_property(Globals.selection_node, "rotation", deg_to_rad(0), 0)	
 	tween.finished.connect(hide_tween_done)
 	
 func hide_tween_done():
@@ -355,13 +341,13 @@ func hide_tween_done():
 	
 #recycle tower function
 func _on_side_buttons_hide_selection() -> void:
-	Globals.tower_selected.radar_node.queue_free()
+	Globals.tower_selected.radar_marker.queue_free()
 	
 	Globals.tower_selection_mode = false
 	Globals.tower_node_amount -= 1
 	waiting_for_clickout = false
-	selection_node.remove_from_group("selection")
-	self.remove_child(selection_node)
+	Globals.selection_node.remove_from_group("selection")
+	self.remove_child(Globals.selection_node)
 	
 	Globals.tower_selected.remove_from_group(Globals.tower_selected.group_)
 	Globals.tower_selected.sprite_var_node_holder.correct_area = false
@@ -404,4 +390,6 @@ func tower_button_pressed(button_target) -> void:
 	#helper func for tower_button_clicked
 	tower_button_clicked(initial_tower_prices[button_target], tower_scene_dict[button_target])
 
+func remove_selection():
+	pass
 	

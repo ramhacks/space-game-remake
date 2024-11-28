@@ -2,9 +2,9 @@ extends Line2D
 
 #in charge of drawing lines connection each node and managing graph connections between nodes
 @export var priority_dict: Dictionary = {
-	'miner': 1,
-	'solar': 2,
-	'Power_Node': 1,
+	'Miner': 1,
+	'Solar': 2,
+	'Relay': 1,
 	'Repair_Station':1
 	#add more towers here
 }
@@ -12,10 +12,11 @@ extends Line2D
 func redraw_no_priority(nodes):
 	self.clear_points()
 	for target in nodes:
-		if(type_string(typeof(target)) != 'int'):
-			add_point(to_local(self.get_parent().global_position))
-			
-			add_point(to_local(target.global_position))
+		if is_instance_valid(target):
+			if(type_string(typeof(target)) != 'int'):
+				add_point(to_local(self.get_parent().global_position))
+				
+				add_point(to_local(target.global_position))
 		
 #Sort based on priority in above dictionary
 func insertionSort(arr):
@@ -28,7 +29,7 @@ func insertionSort(arr):
 		# Move elements of arr[0..i-1], that are
 		# greater than key, to one position ahead
 		# of their current position
-		while j >= 0 and priority_dict[key.get_parent().cur_name] > priority_dict[arr[j].get_parent().cur_name]:
+		while j >= 0 and priority_dict[key.get_parent().custom_class] > priority_dict[arr[j].get_parent().custom_class]:
 			arr[j + 1] = arr[j]
 			j -= 1
 			

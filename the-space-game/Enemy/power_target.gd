@@ -14,9 +14,7 @@ func get_target():
 	if(get_tree().get_nodes_in_group("power").size() == 0):
 		get_parent().get_parent().queue_free()
 		return null
-		
-		
-		
+
 	var targ = get_tree().get_nodes_in_group("power")[randi() % get_tree().get_nodes_in_group("power").size()]
 	
 	return targ

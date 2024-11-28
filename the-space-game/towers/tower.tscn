@@ -1,6 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://dd0iq32xbef8"]
+[gd_scene load_steps=20 format=3 uid="uid://dd0iq32xbef8"]
 
 [ext_resource type="Script" path="res://towers/tower.gd" id="1_u867d"]
+[ext_resource type="PackedScene" uid="uid://c208gk4yto1e0" path="res://Components/hitbox.tscn" id="2_65kso"]
+[ext_resource type="Script" path="res://towers/sprite_node.gd" id="2_k56kl"]
 [ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://Visuals/Sprite_Frames/Green-Circle-PNG-Photo-2603984782.png" id="2_x3dtl"]
 [ext_resource type="Script" path="res://towers/Set_Tower_Selection_Collision.gd" id="3_hmvqe"]
 [ext_resource type="Script" path="res://towers/collision_area.gd" id="4_lhcah"]
@@ -20,6 +22,33 @@ ProgressBar/styles/fill = SubResource("StyleBoxFlat_ttvds")
 
 [sub_resource type="Animation" id="Animation_b7t7o"]
 length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:width")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+
+[sub_resource type="Animation" id="Animation_nqa2o"]
+resource_name = "laser"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:width")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.933333),
+"transitions": PackedFloat32Array(1, 3.4822),
+"update": 0,
+"values": [2.0, 0.0]
+}
 
 [sub_resource type="Animation" id="Animation_v036w"]
 resource_name = "line_disolve"
@@ -52,6 +81,7 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_w34gp"]
 _data = {
 "RESET": SubResource("Animation_b7t7o"),
+"laser": SubResource("Animation_nqa2o"),
 "line_disolve": SubResource("Animation_v036w")
 }
 
@@ -80,6 +110,15 @@ animations = [{
 [node name="tower" type="Node2D" groups=["Placed_Towers", "tower_node"]]
 script = ExtResource("1_u867d")
 
+[node name="Hitbox" parent="." node_paths=PackedStringArray("parent", "radius_inherit") instance=ExtResource("2_65kso")]
+parent = NodePath("..")
+radius_inherit = NodePath("../Sprite")
+dynamic_Area = true
+hit_types = ["Enemy_Missile"]
+
+[node name="Sprite_Node" type="Node2D" parent="."]
+script = ExtResource("2_k56kl")
+
 [node name="BuildProgress" type="ProgressBar" parent="."]
 offset_left = -7.0
 offset_top = -1.0
@@ -95,8 +134,8 @@ libraries = {
 }
 
 [node name="Laser" type="Line2D" parent="."]
-width = 0.0
-default_color = Color(0.186, 0.977, 0.16, 0.646)
+width = 2.0
+default_color = Color(0.52227, 0.952408, 3.85046e-07, 1)
 gradient = SubResource("Gradient_gpy6k")
 
 [node name="collider" type="Sprite2D" parent="."]
@@ -107,13 +146,14 @@ texture = ExtResource("2_x3dtl")
 metadata/_edit_lock_ = true
 
 [node name="Sprite" type="Area2D" parent="." groups=["sprite_node"]]
-collision_mask = 19
+collision_mask = 3
 priority = 1
 script = ExtResource("3_hmvqe")
 metadata/_edit_lock_ = true
 
 [node name="Collision_Area" type="Area2D" parent="."]
 collision_layer = 2
+collision_mask = 5
 script = ExtResource("4_lhcah")
 
 [node name="Collider" type="CollisionShape2D" parent="Collision_Area"]

@@ -1,5 +1,8 @@
 extends Tower
 
+class_name Solar
+
+
 var upgrade_level = 1
 
 #How much energy it is producing every tick/pulse
@@ -30,7 +33,7 @@ var current_animation : String
 func _ready() -> void:
 	sprite_node = self.get_node("Sprite")
 	child_area = self.get_node("Collision_Area")
-	animated_node = self.get_node("Sprite2D")
+	animated_node = self.get_node("Sprite_Node/Sprite2D")
 	inherted_node = self
 	
 
@@ -78,7 +81,6 @@ func set_placed(re_animate, current_overlapping_bodies):
 
 func turn_on():
 	#health = 0 For testing explosion animation
-
 	if(Globals.power_groups[group_][0]+energy_produced <= Globals.power_groups[group_][1]):
 		Globals.power_groups[group_][0] += energy_produced
 		Globals.total_current += energy_produced
@@ -88,5 +90,10 @@ func turn_on():
 
 #called when this tower is upgraded, called once per upgrade, upgrade level is changed by a script in survival, the side button script
 func upgrade():
+	self.build_progress = 0
+	self.built = false
 	$Power_Delay.wait_time = upgrade_map[upgrade_level]
-	$Power_Delay.start()
+	$Power_Delay.timeout.disconnect(turn_on)
+	$Power_Delay.timeout.connect(_on_power_delay_timeout)
+	connect_toggle = true
+	

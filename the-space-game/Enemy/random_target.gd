@@ -11,12 +11,10 @@ func _process(delta: float) -> void:
 	pass
 
 func get_target():
-	randomize()
-	
-	
-	
-	
+	if(get_tree().get_nodes_in_group("tower_node").size() == 0):
+		get_parent().get_parent().queue_free()
+		return null
+
 	var targ = get_tree().get_nodes_in_group("tower_node")[randi() % get_tree().get_nodes_in_group("tower_node").size()]
-	
-	
+
 	return targ

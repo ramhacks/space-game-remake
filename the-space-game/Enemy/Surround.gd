@@ -11,60 +11,59 @@ var distance_size = 30
 var surround_points: Array = []
 var move_direction
 
+var target_pos: Vector2
 
 var current_angle = 0
 
+var first_shot = false
 var closest: Vector2
 signal send_laser(target)
 var current_point_iter = 0
 
-var anchor_distance = 50
-#Rotate around target node
-var target_node: Tower
+var anchor_distance = 65
+
 
 var circling = false
 
 var cur_progress_ratio: float
 
-
+var stand_still_time = 10 #10 frames until enemy target reset
 
 func Enter():
-	nav.target_position = next_point(self.get_parent().target_node.global_position, enemy.global_position, current_angle)
+	target_pos = self.get_parent().target_node.global_position
+	nav.target_position = enemy.next_point(self.get_parent().target_node.global_position, enemy.global_position, current_angle)
+
 	#nav.target_position = target_node.global_position + Vector2.RIGHT.rotated((current_angle + 20) % 360)*30
 
 func Update(delta:float):
-	if get_parent().current_state == self:
+	pass
 		
-		send_laser.emit(self.get_parent().target_node)
 
 func _on_enemy_tower_removed() -> void:
 	Transitioned.emit(self, 'Chase')
 
 
-func next_point(tower_point, p, angle):
-	var s = sin(angle)
-	var c = cos(angle)
-	p.x -= tower_point.x
-	
-	p.y -= tower_point.y
-	
-	var xnew = p.x * c - p.y * s;
-	var ynew = p.x * s + p.y * c;
-	p.x = xnew + tower_point.x;
-	p.y = ynew + tower_point.y;
-	
-	
-	return p;
+
 
 
 func Physics_Update(delta: float):
+	randomize()
 	if(!is_instance_valid(self.get_parent().target_node)):
 		self.get_parent().target_node = enemy.get_new_target()
-		
-	if(!(enemy.global_position.distance_to(nav.target_position) > 30)):
-		
-		nav.target_position = next_point(self.get_parent().target_node.global_position, enemy.global_position, 5)
 	
+	if(enemy.global_position.distance_to(nav.target_position) < 40 and enemy.global_position.distance_to(nav.target_position) > 30 and is_instance_valid(self.get_parent().target_node) and not first_shot):
+		send_laser.emit(self.get_parent().target_node)
+		first_shot = true
+	
+	if(enemy.global_position.distance_to(nav.target_position) < 20 and is_instance_valid(self.get_parent().target_node)):
+		var angle = randf_range(-10, 10)
+		
+		current_angle = angle
+		nav.target_position = enemy.point_circle(self.get_parent().target_node.global_position, angle)
+		#nav.target_position = enemy.next_point(self.get_parent().target_node.global_position, enemy.global_position, angle)
+		send_laser.emit(self.get_parent().target_node)
+		first_shot = false
+		
 	if(!is_instance_valid(self.get_parent().target_node)):
 		self.get_parent().target_node = enemy.get_new_target()
 	
@@ -72,7 +71,7 @@ func Physics_Update(delta: float):
 	if(is_instance_valid(self.get_parent().target_node)):
 		if(enemy.global_position.distance_to(self.get_parent().target_node.global_position) > anchor_distance):
 			Transitioned.emit(self, 'Chase')	
-
+	
 	if is_instance_valid(self.get_parent().target_node):
 
 		move_direction = Vector2()

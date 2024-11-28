@@ -2,7 +2,7 @@ extends StaticBody2D
 
 class_name Asteroid
 
-var cur_name = "asteroid"
+var custom_class_name = "Asteroid"
 var asteroid_empty = false
 
 # Called when the node enters the scene tree for the first time.

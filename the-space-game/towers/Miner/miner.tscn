@@ -1,8 +1,9 @@
-[gd_scene load_steps=30 format=3 uid="uid://c6np11nexofah"]
+[gd_scene load_steps=31 format=3 uid="uid://c6np11nexofah"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_x10fq"]
 [ext_resource type="Script" path="res://towers/Miner/miner_tower.gd" id="2_3ciky"]
 [ext_resource type="Script" path="res://towers/Miner/miner.gd" id="2_7igyp"]
+[ext_resource type="PackedScene" uid="uid://c11uhwml84phf" path="res://Components/health.tscn" id="3_84so6"]
 [ext_resource type="Texture2D" uid="uid://cgs7ld2xn3gnc" path="res://Visuals/Sprite_Frames/494.png" id="3_jupu6"]
 [ext_resource type="Texture2D" uid="uid://beq1a1rqkgpe5" path="res://Visuals/Sprite_Frames/514.png" id="3_yabks"]
 [ext_resource type="Texture2D" uid="uid://b6exsv0vss8qr" path="res://Visuals/Sprite_Frames/490.png" id="4_ewh2d"]
@@ -128,16 +129,22 @@ radius = 8.06226
 
 [node name="miner" instance=ExtResource("1_x10fq")]
 script = ExtResource("2_3ciky")
+custom_class = "Miner"
 power_needed = 10
 power_time_seconds = 2
-cur_name = "miner"
 recycle_price = {
 1: 45,
 2: 45,
 3: -1
 }
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="." index="4"]
+[node name="Health" parent="." index="0" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_84so6")]
+death_animation = NodePath("../Explosion")
+death_animation_name = "default"
+parent = NodePath("..")
+Animated_Target = NodePath("../Sprite_Node")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_xrw86")
 animation = &"hover"
@@ -146,4 +153,4 @@ script = ExtResource("2_7igyp")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
 shape = SubResource("CircleShape2D_m6ypq")
 
-[connection signal="draw_line" from="Sprite2D" to="." method="_on_sprite_2d_draw_line"]
+[connection signal="draw_line" from="Sprite_Node/Sprite2D" to="." method="_on_sprite_2d_draw_line"]

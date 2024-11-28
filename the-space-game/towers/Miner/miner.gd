@@ -34,6 +34,7 @@ func _process(delta: float) -> void:
 	
 
 func mine(line_node):
+	
 	if closest:
 	#only mine if there is a node nearby and powered
 		#create mining laser graphic
@@ -65,14 +66,16 @@ func mine(line_node):
 
 func change_collision_list(col_list):
 	for asteroid in col_list:
-		if asteroid.cur_name == "asteroid":
+		if asteroid is Asteroid:
 			if asteroid.asteroid_empty == false:
 				asteroids_in_range.append(asteroid)
-				
+	
+
 	if(len(asteroids_in_range)): 
 		closest = asteroids_in_range[0]
 		
 	tower_colliding_ob_set = true	
+	
 	
 func collision_list():
 	return asteroids_in_range

@@ -7,9 +7,9 @@ var button_nodes_list
 
 var point_xpos_dict = { #dictionary to tell where to move the pointer triangle 
 						#according to which tower info button is being hovered over
-	"Power_Node": 0,
-	"miner": 108,
-	"solar": 216,
+	"Relay": 0,
+	"Miner": 108,
+	"Solar": 216,
 	"Repair_Station": 324,
 	"Missile": 432
 }

@@ -1,6 +1,7 @@
-[gd_scene load_steps=60 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=62 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
+[ext_resource type="Script" path="res://enemy_wave_spawner.gd" id="2_eaa06"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/camera.gd" id="2_fmvyw"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/game_ticks.gd" id="2_yr8rd"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://Visuals/Sprite_Frames/image(1).jpg" id="3_vqmru"]
@@ -31,9 +32,10 @@
 [ext_resource type="FontFile" uid="uid://baf5yckugqi1b" path="res://Visuals/Fonts/663_Trebuchet MS.ttf" id="29_l8l0o"]
 [ext_resource type="Script" path="res://right_box.gd" id="29_syjw4"]
 [ext_resource type="Script" path="res://forground.gd" id="29_u08bu"]
+[ext_resource type="Script" path="res://navigation_region_2d.gd" id="33_yibx6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
-size = Vector2(1139, 519)
+size = Vector2(1148, 519)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_otb3a"]
 size = Vector2(1152, 196)
@@ -164,8 +166,12 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(20, -357.407, 1330, -36
 [node name="Survival" type="Node2D"]
 script = ExtResource("1_e2foe")
 
+[node name="Enemy_Wave_Spawner" type="Node" parent="."]
+script = ExtResource("2_eaa06")
+mob_cap = 10
+
 [node name="Global_Ticks" type="Timer" parent="."]
-wait_time = 1.5
+wait_time = 10.0
 autostart = true
 script = ExtResource("2_yr8rd")
 
@@ -178,7 +184,7 @@ script = ExtResource("2_fmvyw")
 position = Vector2(575, 325)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera_Area"]
-position = Vector2(571.5, 260)
+position = Vector2(576, 260)
 shape = SubResource("RectangleShape2D_fy202")
 
 [node name="Background_Layer" type="CanvasLayer" parent="."]
@@ -238,7 +244,7 @@ offset_left = 112.0
 offset_top = 9.0
 offset_right = 172.0
 offset_bottom = 91.0
-tower_button_target = "miner"
+tower_button_target = "Miner"
 Normal_Texture = ExtResource("10_aq32r")
 Pressed_Texture = ExtResource("11_33rgq")
 Shortcut_Key = "M"
@@ -250,7 +256,7 @@ offset_left = 220.0
 offset_top = 9.0
 offset_right = 280.0
 offset_bottom = 85.0
-tower_button_target = "solar"
+tower_button_target = "Solar"
 Normal_Texture = ExtResource("12_naysr")
 Pressed_Texture = ExtResource("13_ocm2g")
 Shortcut_Key = "S"
@@ -262,7 +268,7 @@ offset_left = 4.0
 offset_top = 9.0
 offset_right = 4.0
 offset_bottom = 9.0
-tower_button_target = "Power_Node"
+tower_button_target = "Relay"
 Normal_Texture = ExtResource("14_ojn1w")
 Pressed_Texture = ExtResource("15_4d662")
 Shortcut_Key = "p"
@@ -284,7 +290,7 @@ offset_left = 436.0
 offset_top = 9.0
 offset_right = 436.0
 offset_bottom = 9.0
-tower_button_target = "Missile"
+tower_button_target = "Missile_Launcher"
 Normal_Texture = ExtResource("18_lo4so")
 Pressed_Texture = ExtResource("19_aroka")
 
@@ -533,11 +539,14 @@ metadata/_edit_lock_ = true
 visible = false
 scale = Vector2(1, 1.08)
 navigation_polygon = SubResource("NavigationPolygon_ywhqf")
+script = ExtResource("33_yibx6")
 metadata/_edit_lock_ = true
 
 [connection signal="create_radar_node" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground" method="_on_survival_create_radar_node"]
 [connection signal="finished" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_survival_finished"]
+[connection signal="rebake_mesh" from="." to="NavigationRegion2D" method="_on_survival_rebake_mesh"]
 [connection signal="remove_radar_node" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground" method="_on_survival_remove_radar_node"]
+[connection signal="timeout" from="Global_Ticks" to="Enemy_Wave_Spawner" method="_on_global_ticks_timeout"]
 [connection signal="timeout" from="Global_Ticks" to="Global_Ticks" method="_on_timeout"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="." method="_on_camera_area_cancel_spawn_tower"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="Global_Ticks" method="_on_camera_area_cancel_spawn_tower"]
