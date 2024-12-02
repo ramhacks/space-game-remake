@@ -1,0 +1,141 @@
+[gd_scene load_steps=30 format=3 uid="uid://dhjccf647xsye"]
+
+[ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_t8boh"]
+[ext_resource type="Script" path="res://towers/Battery/battery.gd" id="2_kv32f"]
+[ext_resource type="PackedScene" uid="uid://c11uhwml84phf" path="res://Components/health.tscn" id="3_fbgp1"]
+[ext_resource type="Texture2D" uid="uid://b2gppu5rjcwl5" path="res://Visuals/Sprite_Frames/120.png" id="4_7hrxu"]
+[ext_resource type="Texture2D" uid="uid://gahnm0vmbvlv" path="res://Visuals/Sprite_Frames/151.png" id="5_oyft5"]
+[ext_resource type="Texture2D" uid="uid://cfudjs3bxwhgc" path="res://Visuals/Sprite_Frames/153.png" id="6_vtp21"]
+[ext_resource type="Texture2D" uid="uid://csvurlvh7mvin" path="res://Visuals/Sprite_Frames/155.png" id="7_fj62v"]
+[ext_resource type="Texture2D" uid="uid://bs3wvvm06jmmx" path="res://Visuals/Sprite_Frames/157.png" id="8_6g8p4"]
+[ext_resource type="Texture2D" uid="uid://cdwh0134ac6im" path="res://Visuals/Sprite_Frames/159.png" id="9_c55t2"]
+[ext_resource type="Texture2D" uid="uid://0nvhk8iyy8ng" path="res://Visuals/Sprite_Frames/161.png" id="10_oghoo"]
+[ext_resource type="Texture2D" uid="uid://cbhqry3rmutb1" path="res://Visuals/Sprite_Frames/163.png" id="11_4goal"]
+[ext_resource type="Texture2D" uid="uid://rob6fi80o42i" path="res://Visuals/Sprite_Frames/165.png" id="12_bblhi"]
+[ext_resource type="Texture2D" uid="uid://ce2mf5d2ifywe" path="res://Visuals/Sprite_Frames/167.png" id="13_jkuc6"]
+[ext_resource type="Texture2D" uid="uid://ccqjk3ylahygo" path="res://Visuals/Sprite_Frames/169.png" id="14_vhxqc"]
+[ext_resource type="Texture2D" uid="uid://c1suewdpubdp7" path="res://Visuals/Sprite_Frames/124.png" id="16_3oydp"]
+[ext_resource type="Texture2D" uid="uid://bqs3jhu1in4g2" path="res://Visuals/Sprite_Frames/126.png" id="17_bkwuv"]
+[ext_resource type="Texture2D" uid="uid://byt6tngf0chbb" path="res://Visuals/Sprite_Frames/128.png" id="18_sttbl"]
+[ext_resource type="Texture2D" uid="uid://bmm5kch8qk8um" path="res://Visuals/Sprite_Frames/130.png" id="19_1m5mw"]
+[ext_resource type="Texture2D" uid="uid://dx53iprtbgjnx" path="res://Visuals/Sprite_Frames/132.png" id="20_61gln"]
+[ext_resource type="Texture2D" uid="uid://v0u4sikvpp2h" path="res://Visuals/Sprite_Frames/134.png" id="21_hi2q0"]
+[ext_resource type="Texture2D" uid="uid://dv5kennyrkawq" path="res://Visuals/Sprite_Frames/136.png" id="22_w1ex4"]
+[ext_resource type="Texture2D" uid="uid://dtpvxrhvgu4a4" path="res://Visuals/Sprite_Frames/138.png" id="23_dyb26"]
+[ext_resource type="Texture2D" uid="uid://n5qmca8e5u5d" path="res://Visuals/Sprite_Frames/140.png" id="24_0dslx"]
+[ext_resource type="Texture2D" uid="uid://bclylxf3ikuu3" path="res://Visuals/Sprite_Frames/142.png" id="25_v3fly"]
+[ext_resource type="Texture2D" uid="uid://nf2gxmk4iw2g" path="res://Visuals/Sprite_Frames/144.png" id="26_mq20q"]
+[ext_resource type="Texture2D" uid="uid://c47juocmun6o5" path="res://Visuals/Sprite_Frames/146.png" id="27_2d1v8"]
+[ext_resource type="Script" path="res://towers/Battery/battery_sprite.gd" id="36_dno7p"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3ggyo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_7hrxu")
+}],
+"loop": false,
+"name": &"hover",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_oyft5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_vtp21")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_fj62v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6g8p4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_c55t2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_oghoo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_4goal")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_bblhi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_jkuc6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_vhxqc")
+}],
+"loop": false,
+"name": &"level2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_3oydp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_bkwuv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_sttbl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_1m5mw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_61gln")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_hi2q0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_w1ex4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_dyb26")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_0dslx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_v3fly")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_mq20q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_2d1v8")
+}],
+"loop": false,
+"name": &"place",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o7vyt"]
+radius = 13.0
+
+[node name="battery" instance=ExtResource("1_t8boh")]
+script = ExtResource("2_kv32f")
+custom_class = "Battery"
+power_capacity = 50
+power_needed = 1
+power_time_seconds = 1
+
+[node name="Health" parent="." index="0" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_fbgp1")]
+death_animation = NodePath("../Explosion")
+death_animation_name = "default"
+parent = NodePath("..")
+Animated_Target = NodePath("../Sprite_Node")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0"]
+z_index = 2
+sprite_frames = SubResource("SpriteFrames_3ggyo")
+animation = &"hover"
+script = ExtResource("36_dno7p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
+shape = SubResource("CircleShape2D_o7vyt")

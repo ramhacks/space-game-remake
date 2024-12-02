@@ -1,7 +1,7 @@
-[gd_scene load_steps=62 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=64 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
-[ext_resource type="Script" path="res://enemy_wave_spawner.gd" id="2_eaa06"]
+[ext_resource type="Script" path="res://Survival_Scene_Scripts/enemy_wave_spawner.gd" id="2_eaa06"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/camera.gd" id="2_fmvyw"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/game_ticks.gd" id="2_yr8rd"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://Visuals/Sprite_Frames/image(1).jpg" id="3_vqmru"]
@@ -27,12 +27,14 @@
 [ext_resource type="Theme" uid="uid://ga7xqep48vn4" path="res://Visuals/Themes/info_text.tres" id="17_ymelk"]
 [ext_resource type="Texture2D" uid="uid://bujtl418tsuai" path="res://Visuals/Button_Textures/Missile_Launcher/1.png" id="18_lo4so"]
 [ext_resource type="Texture2D" uid="uid://5ucry3rwpivb" path="res://Visuals/Button_Textures/Missile_Launcher/2.png" id="19_aroka"]
+[ext_resource type="Texture2D" uid="uid://ckyi66prmbqju" path="res://Visuals/Button_Textures/Energy_Store/1.png" id="19_j5hdb"]
+[ext_resource type="Texture2D" uid="uid://cbxbpfd8y1gmu" path="res://Visuals/Button_Textures/Energy_Store/2.png" id="20_iscds"]
 [ext_resource type="FontFile" uid="uid://cv8a6vbc8ntaf" path="res://Visuals/Fonts/633_Trebuchet MS.ttf" id="25_n6jvr"]
 [ext_resource type="Theme" uid="uid://bvpc0uoiyflce" path="res://Visuals/Themes/minimap.tres" id="28_ud85u"]
 [ext_resource type="FontFile" uid="uid://baf5yckugqi1b" path="res://Visuals/Fonts/663_Trebuchet MS.ttf" id="29_l8l0o"]
-[ext_resource type="Script" path="res://right_box.gd" id="29_syjw4"]
-[ext_resource type="Script" path="res://forground.gd" id="29_u08bu"]
-[ext_resource type="Script" path="res://navigation_region_2d.gd" id="33_yibx6"]
+[ext_resource type="Script" path="res://Survival_Scene_Scripts/right_box.gd" id="29_syjw4"]
+[ext_resource type="Script" path="res://Survival_Scene_Scripts/forground.gd" id="29_u08bu"]
+[ext_resource type="Script" path="res://Survival_Scene_Scripts/navigation_region_2d.gd" id="33_yibx6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
 size = Vector2(1148, 519)
@@ -247,7 +249,6 @@ offset_bottom = 91.0
 tower_button_target = "Miner"
 Normal_Texture = ExtResource("10_aq32r")
 Pressed_Texture = ExtResource("11_33rgq")
-Shortcut_Key = "M"
 metadata/_edit_lock_ = true
 
 [node name="Solar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
@@ -259,7 +260,6 @@ offset_bottom = 85.0
 tower_button_target = "Solar"
 Normal_Texture = ExtResource("12_naysr")
 Pressed_Texture = ExtResource("13_ocm2g")
-Shortcut_Key = "S"
 metadata/_edit_lock_ = true
 
 [node name="Power Node" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
@@ -271,7 +271,6 @@ offset_bottom = 9.0
 tower_button_target = "Relay"
 Normal_Texture = ExtResource("14_ojn1w")
 Pressed_Texture = ExtResource("15_4d662")
-Shortcut_Key = "p"
 metadata/_edit_lock_ = true
 
 [node name="Repair_Station" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
@@ -283,6 +282,16 @@ offset_bottom = 9.0
 tower_button_target = "Repair_Station"
 Normal_Texture = ExtResource("16_41fxr")
 Pressed_Texture = ExtResource("17_uck3r")
+
+[node name="Battery" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+layout_mode = 1
+offset_left = 544.0
+offset_top = 9.0
+offset_right = 544.0
+offset_bottom = 9.0
+tower_button_target = "Battery"
+Normal_Texture = ExtResource("19_j5hdb")
+Pressed_Texture = ExtResource("20_iscds")
 
 [node name="Missile" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
 layout_mode = 1

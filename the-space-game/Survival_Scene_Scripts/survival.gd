@@ -10,16 +10,18 @@ var initial_tower_prices = {
 	"Miner": 45, #same as cur_name variable
 	"Solar": 200,
 	"Relay": 20,
-	"Repair_Station": 300
+	"Repair_Station": 300,
+	"Battery": 300
 }
 
-var e_count = 2
+
 
 var tower_scene_dict = {
 	"Miner": 0,
 	"Solar": 0,
 	"Relay": 0,
-	"Repair_Station": 0
+	"Repair_Station": 0,
+	"Battery":0
 	
 }
 
@@ -74,18 +76,10 @@ func clear_hover_lines():
 func _ready() -> void:
 	Globals.main_scene = self
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	var asteroid_scene = preload("res://Asteroid_Gen/asteroid_field.tscn")
-	
-	Globals.selection_node = preload("res://Selection_Draw_Node/Selection_Draw.tscn").instantiate()
-	
-	radar_node = preload("res://Visuals/Minimap_textures/radar_marker.tscn")
-	radar_level = get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground/Minimap")
-	var tween = self.get_tree().create_tween() #rotate the drawing 
-	tween.tween_property(Globals.selection_node, "rotation", deg_to_rad(0), 0.5)
-	var instance = asteroid_scene.instantiate()
-	self.add_child(instance)
 	
 	#REMEBER TO ADD YOU TOWER TO THE LOAD ORDER
+	
+	radar_node = preload("res://Visuals/Minimap_textures/radar_marker.tscn")
 	
 	tower_scene_dict['Miner'] = preload("res://towers/Miner/miner.tscn")
 	
@@ -94,6 +88,22 @@ func _ready() -> void:
 	tower_scene_dict['Repair_Station'] = preload("res://towers/Repair_Station/Repair_Station.tscn")
 	
 	tower_scene_dict["Relay"] = preload("res://towers/Power_Node/Power_Node.tscn")
+	
+	tower_scene_dict["Battery"] = preload("res://towers/Battery/battery.tscn")
+	
+	var asteroid_scene = preload("res://Asteroid_Gen/asteroid_field.tscn")
+	
+	Globals.selection_node = preload("res://Selection_Draw_Node/Selection_Draw.tscn").instantiate()
+	
+	enemy = preload("res://Enemy/Enemy_Types/Power_Targeter.tscn")
+	
+	radar_level = get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground/Minimap")
+	var tween = self.get_tree().create_tween() #rotate the drawing 
+	tween.tween_property(Globals.selection_node, "rotation", deg_to_rad(0), 0.5)
+	var instance = asteroid_scene.instantiate()
+	self.add_child(instance)
+	
+	
 	
 	game_tick_timer = get_node("Global_Ticks")
 	
@@ -108,13 +118,7 @@ func _ready() -> void:
 	children.pop_front()
 	for i in range(1, 3):
 		vbox.remove_child(children[i])
-		
-		
-		
-		
-		
-		
-	enemy = preload("res://Enemy/Enemy_Types/Power_Targeter.tscn")
+
 	enemy_node = enemy.instantiate()
 	
 	

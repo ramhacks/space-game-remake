@@ -13,9 +13,6 @@ var connect_toggle = true
 
 var current_energy_usage
 
-#adjacency list of the subgraph that this solar station has influence over and can direct power to
-#will be used to draw better lines to nodes
-
 
 #IF we want we can change the upgrade map to increase power capacity
 var upgrade_map = { #this upgrade map corresponds to the timeout rate of each solar station, or rate that it powers on 
@@ -82,7 +79,6 @@ func set_placed(re_animate, current_overlapping_bodies):
 	super.set_placed(re_animate, current_overlapping_bodies)
 
 func turn_on():
-	print("Send out power")
 	#health = 0 For testing explosion animation
 	if(Globals.power_groups[group_][0]+energy_produced <= Globals.power_groups[group_][1]):
 		Globals.power_groups[group_][0] += energy_produced

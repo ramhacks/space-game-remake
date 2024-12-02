@@ -5,8 +5,7 @@ class_name Tower_Button
 @export var tower_button_target: String
 @export var Normal_Texture: Texture2D
 @export var Pressed_Texture: Texture2D
-@export var Display_Price: String
-@export var Shortcut_Key: String
+
 
 signal But_pressed(type)
 signal Info_Hovering(type)
@@ -27,12 +26,7 @@ func _ready() -> void:
 	shortcut_event = InputEventKey.new()
 	$select_button.texture_normal = Normal_Texture
 	$select_button.texture_pressed = Pressed_Texture
-	if(Display_Price != ''):
-		$Price.text = Display_Price + 'm'
-	else:
-		$Price.text = ''
 
-	
 
 
 
@@ -62,9 +56,3 @@ func _on_info_toggled(toggled_on: bool) -> void:
 		Info_Hovering.emit(tower_button_target)
 	else:
 		Info_Hover_off.emit()
-
-
-func _input(event):
-	if event is InputEventKey and event.pressed:
-		if event.keycode == to_ascii(Shortcut_Key):
-			But_pressed.emit(tower_button_target)

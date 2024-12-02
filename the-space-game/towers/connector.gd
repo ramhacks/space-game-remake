@@ -5,7 +5,10 @@ extends Line2D
 	'Miner': 1,
 	'Solar': 2,
 	'Relay': 1,
-	'Repair_Station':1
+	'Repair_Station': 1,
+	'Battery': 2,
+	'Missile': 1,
+	'Laser': 1
 	#add more towers here
 }
 
