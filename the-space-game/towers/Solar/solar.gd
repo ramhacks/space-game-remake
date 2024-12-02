@@ -31,6 +31,7 @@ var energy = 0
 var current_animation : String
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	connect_toggle = true
 	sprite_node = self.get_node("Sprite")
 	child_area = self.get_node("Collision_Area")
 	animated_node = self.get_node("Sprite_Node/Sprite2D")
@@ -58,6 +59,7 @@ func _process(delta: float) -> void:
 		Globals.NO_SOLAR_TOWER = false
 	
 	if built and connect_toggle:
+
 		$Power_Delay.wait_time = 0.5
 		power_time_seconds = upgrade_map[upgrade_level]
 		$Power_Delay.timeout.connect(turn_on)  
@@ -80,6 +82,7 @@ func set_placed(re_animate, current_overlapping_bodies):
 	super.set_placed(re_animate, current_overlapping_bodies)
 
 func turn_on():
+	print("Send out power")
 	#health = 0 For testing explosion animation
 	if(Globals.power_groups[group_][0]+energy_produced <= Globals.power_groups[group_][1]):
 		Globals.power_groups[group_][0] += energy_produced

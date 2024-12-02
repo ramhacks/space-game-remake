@@ -311,6 +311,8 @@ func set_group(overlaps):
 		for g in found_groups:
 			get_tree().call_group(g, "convert_group", group_)
 		Globals.group_changed_adjust_max_power(group_)
+	
+	$Power_Delay.start()
 
 func do_process():
 	if not built and build_progress < 100:

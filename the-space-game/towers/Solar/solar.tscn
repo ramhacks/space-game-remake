@@ -181,7 +181,6 @@ recycle_price = {
 }
 
 [node name="Health" parent="." index="0" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_0ep3i")]
-health_amount = 1000
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")
