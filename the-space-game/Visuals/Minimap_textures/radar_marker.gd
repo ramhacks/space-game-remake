@@ -51,12 +51,12 @@ func move_radar_marker():
 		
 func on_update_location(loc):
 
-	get_relative.emit(loc)
-	loc = rel
+	#get_relative.emit(loc)
+	#loc = rel
 	loc.x *= (254.0/1152.0) 
 	loc.y *= (227.0/648.0)
 	
-	loc = reflect_over_line(loc.x, loc.y)
+	#loc = reflect_over_line(loc.x, loc.y)
 	
 
 	new_target_pos = loc #We are storing this so that when we can update the position we update it to the most recent

@@ -91,6 +91,7 @@ parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0"]
+z_index = 2
 sprite_frames = SubResource("SpriteFrames_nlb16")
 animation = &"place"
 script = ExtResource("3_fkvy4")
