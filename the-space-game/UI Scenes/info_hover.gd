@@ -11,7 +11,10 @@ var point_xpos_dict = { #dictionary to tell where to move the pointer triangle
 	"Miner": 108,
 	"Solar": 216,
 	"Repair_Station": 324,
-	"Missile": 432
+	"Missile_Launcher": 432,
+	"Laser": 648,
+	"Battery":540
+	
 }
 
 func _ready() -> void:

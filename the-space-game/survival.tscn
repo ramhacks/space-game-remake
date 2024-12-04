@@ -291,8 +291,8 @@ theme = SubResource("Theme_4hadf")
 z_index = 5
 z_as_relative = false
 layout_mode = 0
-offset_left = 432.0
-offset_right = 476.0
+offset_left = 540.0
+offset_right = 584.0
 offset_bottom = 28.0
 texture = ExtResource("14_xk34w")
 
