@@ -18,6 +18,8 @@ var line_node_connections = []
 var radar_marker: Radar #node containing pointer to node on minimap representing tower
 
 
+var no_power_animation_on = false
+
 var child_area
 var sprite_node
 var animated_node
@@ -314,7 +316,30 @@ func set_group(overlaps):
 	
 	$Power_Delay.start()
 
+
+
+func no_power_available(sender):
+	#only act if we are the ones who's power was not able to be recieved
+	if sender == self and built: #only change if tower is built, if it isn't user can just see that the build meter is not going up
+			#Play no power_animation
+		if inherted_node is Laser:
+			#thel_level_2_dead
+			
+			animated_node.play(inherted_node.laser_upgrade_type + "_level_" + str(level) + "_dead")
+		else:
+			pass
+		
+		no_power_animation_on = true
+
+	
+	
 func do_process():
+	if no_power_animation_on and built:
+		if inherted_node is not Laser:
+			animated_node.animation = "level" + str(level)
+			var temp = animated_node.get_sprite_frames().get_frame_count()
+			animated_node.frame = temp
+			
 	if not built and build_progress < 100:
 		build_progress += 20
 
@@ -344,7 +369,7 @@ func get_areas_overlap():
 func get_sprite_overlap():
 	return $Sprite.get_overlapping_areas()
 	
-func upgrade():
+func upgrade(upgrade_type):
 	pass
 	
 func get_overlap():
@@ -353,7 +378,6 @@ func get_overlap():
 
 #-----------------------------------------------------------------
 
-	
 	
 
 #Signals recieved functions 

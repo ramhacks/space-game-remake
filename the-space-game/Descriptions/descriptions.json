@@ -3,5 +3,6 @@
 	"Solar": "[color=ebeb00]Solar Stations[/color][color=white] collect light from the sun and convert it into [/color][color=00dfdf]Energy [/color][color=white]which is needed to [/color][color=00dfdf]construct and power your structures[/color][color=white]. They can be upgraded several times to improve their efficiency.[/color]",
 	"Relay": "[color=ebeb00]Energy Relays[/color][color=white] are used to[/color][color=00dfdf] transport Energy between Solar Stations and Energy Stores to all other structures[/color][color=white]. They do this by reflecting and refracting light. They are cheap to make but are weak.",
 	"Repair_Station":"BLANK",
-	"Battery":"BLANK"
+	"Battery":"BLANK",
+	"Laser":"Blank"
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene load_steps=61 format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/enemy_wave_spawner.gd" id="2_eaa06"]
@@ -34,6 +34,8 @@
 [ext_resource type="FontFile" uid="uid://baf5yckugqi1b" path="res://Visuals/Fonts/663_Trebuchet MS.ttf" id="29_l8l0o"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/right_box.gd" id="29_syjw4"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/forground.gd" id="29_u08bu"]
+[ext_resource type="Theme" uid="uid://sd7rw18v7x7p" path="res://Visuals/Themes/Custom_Button.tres" id="30_u5ipt"]
+[ext_resource type="Theme" uid="uid://cavwcn7qaxlkh" path="res://Visuals/Themes/Recycle_Button.tres" id="32_cpwxv"]
 [ext_resource type="Script" path="res://Survival_Scene_Scripts/navigation_region_2d.gd" id="33_yibx6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
@@ -81,52 +83,6 @@ ProgressBar/styles/fill = SubResource("StyleBoxFlat_045y0")
 
 [sub_resource type="Theme" id="Theme_e4hhl"]
 BoxContainer/constants/separation = 10
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m8gmu"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kdhhr"]
-bg_color = Color(0, 0.803922, 0.803922, 1)
-draw_center = false
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0, 0.803922, 0.803922, 1)
-corner_radius_bottom_right = 2
-expand_margin_top = 2.0
-expand_margin_bottom = 2.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c81f4"]
-bg_color = Color(0, 0.803922, 0.803922, 1)
-draw_center = false
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0, 0.803922, 0.803922, 1)
-corner_radius_bottom_right = 2
-expand_margin_top = 2.0
-expand_margin_bottom = 2.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hrhu1"]
-draw_center = false
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.709138, 0.999999, 0.995456, 1)
-
-[sub_resource type="Theme" id="Theme_jrksv"]
-Button/colors/font_color = Color(0, 0.803922, 0.803922, 1)
-Button/colors/font_focus_color = Color(0, 0.803922, 0.803922, 1)
-Button/colors/font_hover_color = Color(0, 0.803922, 0.803922, 1)
-Button/colors/font_hover_pressed_color = Color(0, 0.803922, 0.803922, 1)
-Button/colors/font_pressed_color = Color(0, 0.803922, 0.803922, 1)
-Button/fonts/font = ExtResource("25_n6jvr")
-Button/styles/focus = SubResource("StyleBoxEmpty_m8gmu")
-Button/styles/hover = SubResource("StyleBoxFlat_kdhhr")
-Button/styles/normal = SubResource("StyleBoxFlat_c81f4")
-Button/styles/pressed = SubResource("StyleBoxFlat_hrhu1")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m070p"]
 bg_color = Color(0, 0, 0, 1)
@@ -293,6 +249,16 @@ tower_button_target = "Battery"
 Normal_Texture = ExtResource("19_j5hdb")
 Pressed_Texture = ExtResource("20_iscds")
 
+[node name="Laser" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+layout_mode = 1
+offset_left = 651.0
+offset_top = 9.0
+offset_right = 651.0
+offset_bottom = 9.0
+tower_button_target = "Laser"
+Normal_Texture = ExtResource("18_lo4so")
+Pressed_Texture = ExtResource("19_aroka")
+
 [node name="Missile" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
 layout_mode = 1
 offset_left = 436.0
@@ -443,8 +409,8 @@ metadata/_edit_lock_ = true
 
 [node name="Custom" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons"]
 layout_mode = 2
+theme = ExtResource("30_u5ipt")
 text = "All Miners ON"
-metadata/_edit_lock_ = true
 
 [node name="Upgrade_Button" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons"]
 layout_mode = 2
@@ -454,7 +420,7 @@ metadata/_edit_lock_ = true
 
 [node name="Recycle" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons"]
 layout_mode = 2
-theme = SubResource("Theme_jrksv")
+theme = ExtResource("32_cpwxv")
 text = "Recycle "
 metadata/_edit_lock_ = true
 
@@ -565,5 +531,6 @@ metadata/_edit_lock_ = true
 [connection signal="nodes_to_connect" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" to="." method="_on_default_hot_bar_nodes_to_connect"]
 [connection signal="nodes_to_connect" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" method="_on_default_hot_bar_nodes_to_connect"]
 [connection signal="hide_selection" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" to="." method="_on_side_buttons_hide_selection"]
+[connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Custom" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_custom_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_upgrade_button_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Recycle" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_recycle_pressed"]

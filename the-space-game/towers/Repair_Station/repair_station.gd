@@ -5,10 +5,6 @@ class_name Repair_Station
 
 
 
-var projectile_type = "Laser"
-var mis
-
-
 var upgrade_level = 1
 
 var upgrade_map = {
@@ -39,34 +35,10 @@ func _process(delta: float) -> void:
 
 func do_process():
 	if built:
-		laser_enemy() #temporary for testing purposes
+		pass
 	super.do_process()
 
 
-#Transfer to laser node when implemented
-func laser_enemy():
-	var target = change_collision_list($Collision_Area.get_overlapping_bodies())
-	if is_instance_valid(target):
-		draw_laser_attack(to_local(self.global_position), to_local(target.global_position))
-		target.get_node("Hitbox").register_hit(self, 20) 
 
-
-
-func change_collision_list(col_list):
-	for enemy in col_list:
-		if enemy is Enemy:
-			return enemy
-	
-	return null
-	
-func draw_laser_attack(pos1, pos2):
-	var line = $Laser
-
-	line.clear_points()
-	line.add_point(pos1)
-	line.add_point(pos2)
-	line.add_point(pos1)
-	self.get_node("AnimationPlayer").play("laser") 
-	
 func get_overlap():
 	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however

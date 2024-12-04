@@ -1,0 +1,49 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://cavwcn7qaxlkh"]
+
+[ext_resource type="FontFile" uid="uid://cv8a6vbc8ntaf" path="res://Visuals/Fonts/633_Trebuchet MS.ttf" id="1_jas36"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m8gmu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kdhhr"]
+bg_color = Color(0, 0.803922, 0.803922, 1)
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0.803922, 0.803922, 1)
+corner_radius_bottom_right = 2
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c81f4"]
+bg_color = Color(0, 0.803922, 0.803922, 1)
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0.803922, 0.803922, 1)
+corner_radius_bottom_right = 2
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hrhu1"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.709138, 0.999999, 0.995456, 1)
+
+[resource]
+Button/colors/font_color = Color(0, 0.803922, 0.803922, 1)
+Button/colors/font_focus_color = Color(0, 0.803922, 0.803922, 1)
+Button/colors/font_hover_color = Color(0, 0.803922, 0.803922, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0.803922, 0.803922, 1)
+Button/colors/font_pressed_color = Color(0, 0.803922, 0.803922, 1)
+Button/fonts/font = ExtResource("1_jas36")
+Button/styles/focus = SubResource("StyleBoxEmpty_m8gmu")
+Button/styles/hover = SubResource("StyleBoxFlat_kdhhr")
+Button/styles/normal = SubResource("StyleBoxFlat_c81f4")
+Button/styles/pressed = SubResource("StyleBoxFlat_hrhu1")

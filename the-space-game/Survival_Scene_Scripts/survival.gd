@@ -11,7 +11,8 @@ var initial_tower_prices = {
 	"Solar": 200,
 	"Relay": 20,
 	"Repair_Station": 300,
-	"Battery": 300
+	"Battery": 300,
+	"Laser": 100
 }
 
 
@@ -21,7 +22,8 @@ var tower_scene_dict = {
 	"Solar": 0,
 	"Relay": 0,
 	"Repair_Station": 0,
-	"Battery":0
+	"Battery":0,
+	"Laser":0
 	
 }
 
@@ -52,7 +54,10 @@ var activate_nearby_node_showing = false
 var waiting_for_clickout = false
 
 
-
+var button_themes = {
+	"Custom_Button": 0,
+	"Upgrade_Button": 0
+}
 
 
 
@@ -90,6 +95,12 @@ func _ready() -> void:
 	tower_scene_dict["Relay"] = preload("res://towers/Power_Node/Power_Node.tscn")
 	
 	tower_scene_dict["Battery"] = preload("res://towers/Battery/battery.tscn")
+	
+	tower_scene_dict["Laser"] = preload("res://towers/Laser/Laser.tscn")
+	
+	button_themes["Custom_Button"] = preload("res://Visuals/Themes/Custom_Button.tres")
+	
+	button_themes["Upgrade_Button"] = preload("res://Visuals/Themes/Upgrade_Button.tres")
 	
 	var asteroid_scene = preload("res://Asteroid_Gen/asteroid_field.tscn")
 	
@@ -193,6 +204,8 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				
 				marker_instance.get_relative.connect($Camera_Area.call_rel)
 				$Camera_Area.send_rel.connect(marker_instance.receive_relative)
+				
+				Globals.no_power_available.connect(copy.no_power_available)
 	
 				
 				
@@ -304,8 +317,14 @@ func show_selection_ui(tower):
 		
 	#V[0] is the custom button, we only need to add it if this tower has a custom button option
 	if(tower is Miner):
+		vbox_children[0].theme = button_themes["Custom_Button"]
+		vbox_children[0].text = "Placeholder"
 		vbox.add_child(vbox_children[0])
 	
+	if tower is Laser:
+		vbox_children[0].theme = button_themes["Upgrade_Button"]
+		vbox_children[0].text = "Upgrade Thel"
+		vbox.add_child(vbox_children[0])
 	
 	vbox.add_child(vbox_children[1])
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").check_upgrade_available(tower.upgrade_price[tower.level])
@@ -328,6 +347,7 @@ func show_selection_ui(tower):
 
 
 func hide_selection_ui(tower):
+	print("hide selection")
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = true
 	
 	var ui_list = get_tower_ui_node(tower.custom_class)

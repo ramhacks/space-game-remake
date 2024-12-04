@@ -11,10 +11,13 @@ var target_changed = false
 
 
 
+
+
 func start_ai():
 	target_node = self.get_parent().get_new_target()
 	initial_state.Enter()
 	current_state = initial_state
+	
 	
 func _ready() -> void:
 	for child in get_children():

@@ -44,7 +44,7 @@ func _process(delta: float) -> void:
 	super._process(delta)
 	
 	
-func upgrade():
+func upgrade(upgrade_type):
 	self.build_progress = 0
 	self.built = false
 	

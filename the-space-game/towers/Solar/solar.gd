@@ -88,7 +88,7 @@ func turn_on():
 
 
 #called when this tower is upgraded, called once per upgrade, upgrade level is changed by a script in survival, the side button script
-func upgrade():
+func upgrade(upgrade_type):
 	self.build_progress = 0
 	self.built = false
 	$Power_Delay.wait_time = upgrade_map[upgrade_level]

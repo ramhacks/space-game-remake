@@ -49,6 +49,12 @@ var power_off_delay = 0.5
 var power_lines
 
 var power_line_segment
+
+
+
+
+signal no_power_available(sender) #sent when a tower requests power but there is not enough power available to give it any
+
 #manage power timers so solar stations are all synced
 func _ready():  
 	global_power_timer_on.one_shot = true
@@ -79,13 +85,20 @@ func start_on():
 
 #IMPORTANT, connects them based on group only, if not in group wont connect line between a group at all
 func connect_group_lines(self_node):
+
+	var news = power_groups[self_node.group_][1] - self_node.power_capacity
+	power_groups[self_node.group_][1] = news
+
 	
-	power_groups[self_node.group_][1] -= self_node.power_capacity
+	
 	total_capacity -= self_node.power_capacity
-	if(self_node.cur_name == 'solar'):
-		power_groups[self_node.group_][0] -= self_node.energy_produced % self_node.power_capacity
-	if(total_capacity > 0):
+	#if(self_node.cur_name == 'solar'):
+		#power_groups[self_node.group_][0] -= self_node.energy_produced % self_node.power_capacity
+
+	if(total_capacity > 0 and total_capacity >= total_current):
 		total_current = total_current % total_capacity
+	elif(total_capacity > 0 and total_capacity < total_current):
+		total_current = total_current
 	else:
 		total_capacity = 0
 		total_current = 0
@@ -115,6 +128,8 @@ func power_requested(tower, group, power_needed):
 			tower.do_process()
 			power_groups[group][0] -= power_needed
 			total_current -= power_needed
+		else:
+			no_power_available.emit(tower)
 
 func all_in(connection_input, target_connections):
 	var check = []
@@ -136,26 +151,13 @@ func remove_node_from_group(tower):
 	var check_true = false
 	var dfs_node_list = []
 	for connect in tower.connections:
-		
 		var out = iterativeDFS(connect, tower)
 		if(all_in(out, tower.connections)):
 			check_true = true
 			break
 		else:
 			dfs_node_list.append(out)
-		#if !out[0]:
-			
-			#var new_group_name = str(power_groups.size()+1)
-			#power_groups[new_group_name] = [0, 0]
-#
-			#for node in out[1]:
-				#node.remove_from_group(node.group_)
-				#node.group_ = new_group_name
-				#node.add_to_group(new_group_name)
-				#power_groups[new_group_name][1] += node.power_capacity
-				#total_capacity += node.power_capacity
-			#
-		#
+
 	if(!check_true):
 		for g in dfs_node_list:
 			var new_group_name = str(power_groups.size()+1)

@@ -14,13 +14,16 @@ func _process(delta: float) -> void:
 		
 		$Side_Buttons/Recycle.text = "Recycle: " + str(tower_data_pull.recycle_price[tower_data_pull.level])
 		
-
-		$Health/Label.text = "Health " + str(tower_data_pull.get_node("Health").health_amount)
+		var healthnode = tower_data_pull.get_node("Health")
+		$Health/Label.text = "Health " + str(healthnode.health_amount)
 		
-		if(tower_data_pull.get_node("Health").health_amount <= 0):
+		#var to_ratio = ((healthnode.health_amount) / (healthnode.max_health) ) * 100
+		#print(to_ratio, "  ", healthnode.health_amount)
+		var to_ratio = healthnode.health_amount
+		if(to_ratio <= 0):
 			$Health/ProgressBar.value = 0
 		else:
-			if(tower_data_pull.get_node("Health").health_amount == 100):
+			if(to_ratio == 100):
 				$Health/ProgressBar.value = 100
 			else:
 				$Health/ProgressBar.value = tower_data_pull.get_node("Health").health_amount % 100
