@@ -15,12 +15,7 @@ var current_energy_usage
 
 
 #IF we want we can change the upgrade map to increase power capacity
-var upgrade_map = { #this upgrade map corresponds to the timeout rate of each solar station, or rate that it powers on 
-	1: 3, #3 seconds
-	2: 2,#2.5 seocnds
-	3: 1.5, #2 seconds
-	4: -1 #make the last item in the dictionary always be -1
-}
+
 
 
 var energy = 0
@@ -35,11 +30,11 @@ func _ready() -> void:
 	inherted_node = self
 	
 
-	
+	energy_produced = self.current_upgrade_node.custom_var_2
 	current_animation = animated_node.animation
 	
 	sprite_texture = animated_node.get_sprite_frames().get_frame_texture("hover", 0)
-	
+	place_build_progress_bar()
 	super._ready()
 	
 	
@@ -58,7 +53,7 @@ func _process(delta: float) -> void:
 	if built and connect_toggle:
 
 		$Power_Delay.wait_time = 0.5
-		power_time_seconds = upgrade_map[upgrade_level]
+		power_time_seconds = self.current_upgrade_node.custom_var
 		$Power_Delay.timeout.connect(turn_on)  
 		$Power_Delay.timeout.disconnect(_on_power_delay_timeout)
 		connect_toggle = false
@@ -91,7 +86,8 @@ func turn_on():
 func upgrade(upgrade_type):
 	self.build_progress = 0
 	self.built = false
-	$Power_Delay.wait_time = upgrade_map[upgrade_level]
+	energy_produced = self.current_upgrade_node.custom_var_2
+	$Power_Delay.wait_time = self.current_upgrade_node.custom_var
 	$Power_Delay.timeout.disconnect(turn_on)
 	$Power_Delay.timeout.connect(_on_power_delay_timeout)
 	connect_toggle = true

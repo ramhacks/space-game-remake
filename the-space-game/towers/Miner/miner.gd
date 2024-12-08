@@ -9,11 +9,6 @@ var upgrade_level = 1  #same as parent value, miner just needs it so it knows ho
 signal draw_line(pos1, pos2)
 
 
-var upgrade_map = {
-	1: 10,
-	2: 20
-}
-
 var closest = false
 var valid = false
 
@@ -39,7 +34,7 @@ func mine(line_node):
 	#only mine if there is a node nearby and powered
 		#create mining laser graphic
 		if(closest.get_resource_amount() > 0):	
-			closest.extract(upgrade_map[upgrade_level])	
+			closest.extract(self.get_parent().get_parent().current_upgrade_node.custom_var)	
 			
 		else:
 			#queue behavior 
@@ -61,7 +56,7 @@ func mine(line_node):
 		else:
 			draw_line.emit(to_local(self.global_position), to_local(self.global_position))	
 			
-		return upgrade_map[upgrade_level] 
+		return self.get_parent().get_parent().current_upgrade_node.custom_var
 	return 0
 
 func change_collision_list(col_list):

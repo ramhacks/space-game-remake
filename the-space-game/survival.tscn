@@ -144,6 +144,7 @@ position = Vector2(575, 325)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera_Area"]
 position = Vector2(576, 260)
 shape = SubResource("RectangleShape2D_fy202")
+debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="Background_Layer" type="CanvasLayer" parent="."]
 layer = -1
@@ -166,6 +167,7 @@ metadata/_edit_lock_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HotBar_Layer/Hotbar"]
 position = Vector2(576, 617)
 shape = SubResource("RectangleShape2D_otb3a")
+debug_color = Color(0, 0.6, 0.701961, 0)
 metadata/_edit_lock_ = true
 
 [node name="Hotbar_Background" type="Panel" parent="HotBar_Layer"]

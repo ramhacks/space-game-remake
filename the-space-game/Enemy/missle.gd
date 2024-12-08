@@ -4,14 +4,17 @@ class_name Enemy_Missile
 var move_direction
 
 var projectile_type = "Missile"
-@onready var nav = $NavigationAgent2D
+
 var enemy = false
 
 var custom_class = "Enemy_Missile"
 
 var speed = 200
 var accel = 2
+
 @export var damage = 5
+
+var hit_sender = self
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -35,6 +38,6 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area is Hitbox:
-		area.register_hit(self, damage)
+	if area is Hitbox and Hitbox != hit_sender.get_node("Hitbox"):
+		area.register_hit(hit_sender, damage, self)
 		

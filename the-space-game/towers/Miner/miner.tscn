@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c6np11nexofah"]
+[gd_scene load_steps=32 format=3 uid="uid://c6np11nexofah"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_x10fq"]
 [ext_resource type="Script" path="res://towers/Miner/miner_tower.gd" id="2_3ciky"]
@@ -28,63 +28,10 @@
 [ext_resource type="Texture2D" uid="uid://w80eefylrpvj" path="res://Visuals/Sprite_Frames/534.png" id="23_8eotj"]
 [ext_resource type="Texture2D" uid="uid://bp3lql4l1n5pn" path="res://Visuals/Sprite_Frames/536.png" id="24_sgic6"]
 [ext_resource type="Texture2D" uid="uid://crau3vdk0vtxi" path="res://Visuals/Sprite_Frames/538.png" id="25_nnu05"]
+[ext_resource type="Script" path="res://towers/Miner/upgrades.gd" id="29_8b11p"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xrw86"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_ewh2d")
-}],
-"loop": false,
-"name": &"hover",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("16_4ky0b")
-}, {
-"duration": 1.0,
-"texture": ExtResource("17_f7yyx")
-}, {
-"duration": 1.0,
-"texture": ExtResource("18_m4yhk")
-}, {
-"duration": 1.0,
-"texture": ExtResource("19_eaxig")
-}, {
-"duration": 1.0,
-"texture": ExtResource("20_hs62a")
-}, {
-"duration": 1.0,
-"texture": ExtResource("21_m4vmq")
-}, {
-"duration": 1.0,
-"texture": ExtResource("22_51iba")
-}, {
-"duration": 1.0,
-"texture": ExtResource("23_8eotj")
-}, {
-"duration": 1.0,
-"texture": ExtResource("24_sgic6")
-}, {
-"duration": 1.0,
-"texture": ExtResource("25_nnu05")
-}],
-"loop": false,
-"name": &"level2",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("14_kb7ms")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_u6ypk")
-}],
-"loop": true,
-"name": &"no_power",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_jupu6")
@@ -120,8 +67,62 @@ animations = [{
 "texture": ExtResource("3_yabks")
 }],
 "loop": false,
-"name": &"place",
+"name": &"Level 1",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_4ky0b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_f7yyx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_m4yhk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_eaxig")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_hs62a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_m4vmq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_51iba")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_8eotj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_sgic6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_nnu05")
+}],
+"loop": false,
+"name": &"Level 2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ewh2d")
+}],
+"loop": false,
+"name": &"hover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_kb7ms")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_u6ypk")
+}],
+"loop": true,
+"name": &"no_power",
+"speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m6ypq"]
@@ -132,11 +133,6 @@ script = ExtResource("2_3ciky")
 custom_class = "Miner"
 power_needed = 10
 power_time_seconds = 2
-recycle_price = {
-1: 45,
-2: 45,
-3: -1
-}
 
 [node name="Health" parent="." index="0" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_84so6")]
 death_animation = NodePath("../Explosion")
@@ -147,10 +143,13 @@ Animated_Target = NodePath("../Sprite_Node")
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_xrw86")
-animation = &"hover"
+animation = &"Level 1"
 script = ExtResource("2_7igyp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
 shape = SubResource("CircleShape2D_m6ypq")
+
+[node name="Upgrades" type="Node" parent="." index="12"]
+script = ExtResource("29_8b11p")
 
 [connection signal="draw_line" from="Sprite_Node/Sprite2D" to="." method="_on_sprite_2d_draw_line"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dhjccf647xsye"]
+[gd_scene load_steps=32 format=3 uid="uid://dhjccf647xsye"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_t8boh"]
 [ext_resource type="Script" path="res://towers/Battery/battery.gd" id="2_kv32f"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://ce2mf5d2ifywe" path="res://Visuals/Sprite_Frames/167.png" id="13_jkuc6"]
 [ext_resource type="Texture2D" uid="uid://ccqjk3ylahygo" path="res://Visuals/Sprite_Frames/169.png" id="14_vhxqc"]
 [ext_resource type="Texture2D" uid="uid://c1suewdpubdp7" path="res://Visuals/Sprite_Frames/124.png" id="16_3oydp"]
+[ext_resource type="Texture2D" uid="uid://ccw4uics1n4wr" path="res://Visuals/Sprite_Frames/122.png" id="16_krpu6"]
 [ext_resource type="Texture2D" uid="uid://bqs3jhu1in4g2" path="res://Visuals/Sprite_Frames/126.png" id="17_bkwuv"]
 [ext_resource type="Texture2D" uid="uid://byt6tngf0chbb" path="res://Visuals/Sprite_Frames/128.png" id="18_sttbl"]
 [ext_resource type="Texture2D" uid="uid://bmm5kch8qk8um" path="res://Visuals/Sprite_Frames/130.png" id="19_1m5mw"]
@@ -26,53 +27,11 @@
 [ext_resource type="Texture2D" uid="uid://bclylxf3ikuu3" path="res://Visuals/Sprite_Frames/142.png" id="25_v3fly"]
 [ext_resource type="Texture2D" uid="uid://nf2gxmk4iw2g" path="res://Visuals/Sprite_Frames/144.png" id="26_mq20q"]
 [ext_resource type="Texture2D" uid="uid://c47juocmun6o5" path="res://Visuals/Sprite_Frames/146.png" id="27_2d1v8"]
+[ext_resource type="Script" path="res://towers/Battery/upgrades.gd" id="28_ds10r"]
 [ext_resource type="Script" path="res://towers/Battery/battery_sprite.gd" id="36_dno7p"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3ggyo"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_7hrxu")
-}],
-"loop": false,
-"name": &"hover",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("5_oyft5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_vtp21")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_fj62v")
-}, {
-"duration": 1.0,
-"texture": ExtResource("8_6g8p4")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_c55t2")
-}, {
-"duration": 1.0,
-"texture": ExtResource("10_oghoo")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_4goal")
-}, {
-"duration": 1.0,
-"texture": ExtResource("12_bblhi")
-}, {
-"duration": 1.0,
-"texture": ExtResource("13_jkuc6")
-}, {
-"duration": 1.0,
-"texture": ExtResource("14_vhxqc")
-}],
-"loop": false,
-"name": &"level2",
-"speed": 10.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("16_3oydp")
@@ -111,7 +70,66 @@ animations = [{
 "texture": ExtResource("27_2d1v8")
 }],
 "loop": false,
-"name": &"place",
+"name": &"Level 1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_krpu6")
+}],
+"loop": false,
+"name": &"Level 1 dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_oyft5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_vtp21")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_fj62v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6g8p4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_c55t2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_oghoo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_4goal")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_bblhi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_jkuc6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_vhxqc")
+}],
+"loop": false,
+"name": &"Level 2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_krpu6")
+}],
+"loop": false,
+"name": &"Level 2 dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_7hrxu")
+}],
+"loop": false,
+"name": &"hover",
 "speed": 10.0
 }]
 
@@ -139,3 +157,6 @@ script = ExtResource("36_dno7p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
 shape = SubResource("CircleShape2D_o7vyt")
+
+[node name="Upgrades" type="Node" parent="." index="12"]
+script = ExtResource("28_ds10r")

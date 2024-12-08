@@ -5,17 +5,16 @@ var mining_tower
 var solar_tower
 
 
-
-var initial_tower_prices = {
-	"Miner": 45, #same as cur_name variable
+var tower_price_dict = {
+	"Miner": 45,
 	"Solar": 200,
 	"Relay": 20,
 	"Repair_Station": 300,
-	"Battery": 300,
-	"Laser": 100
+	"Battery":300,
+	"Laser":100,
+	"Missile_Launcher":400
+	
 }
-
-
 
 var tower_scene_dict = {
 	"Miner": 0,
@@ -23,7 +22,8 @@ var tower_scene_dict = {
 	"Relay": 0,
 	"Repair_Station": 0,
 	"Battery":0,
-	"Laser":0
+	"Laser":0,
+	"Missile_Launcher":0
 	
 }
 
@@ -98,6 +98,10 @@ func _ready() -> void:
 	
 	tower_scene_dict["Laser"] = preload("res://towers/Laser/Laser.tscn")
 	
+	tower_scene_dict["Missile_Launcher"] = preload("res://towers/Missle_Launcher/Missile_Launcher.tscn")
+	
+	#Put Missile Launcher Here
+	
 	button_themes["Custom_Button"] = preload("res://Visuals/Themes/Custom_Button.tres")
 	
 	button_themes["Upgrade_Button"] = preload("res://Visuals/Themes/Upgrade_Button.tres")
@@ -113,6 +117,8 @@ func _ready() -> void:
 	tween.tween_property(Globals.selection_node, "rotation", deg_to_rad(0), 0.5)
 	var instance = asteroid_scene.instantiate()
 	self.add_child(instance)
+	
+	
 	
 	
 	
@@ -134,7 +140,54 @@ func _ready() -> void:
 	
 	
 	
+	
+	#Add solar node to center:
+	tower_to_place = tower_scene_dict['Solar'].instantiate() #create a temporary tower object, will be deleted and replaced once placed
+		
+	
+		#don't run the placed function so nothing will happen
+	self.add_child(tower_to_place)
+	
+	tower_to_place.global_position = Vector2(1152/2, 648/2)
+	place_first_solar_node()
 
+	
+	
+
+
+func place_first_solar_node():
+	
+	var copy = tower_scene_dict['Solar'].instantiate()
+	copy.position = Vector2(1152/2, 648/2)
+	self.add_child(copy)
+	
+	tower_to_place.queue_free()
+
+	copy.overlap_areas = tower_to_place.get_areas_overlap()
+	if tower_to_place is Miner:
+		copy.set_placed(true, tower_to_place.get_areas_overlap())
+	else:
+		copy.set_placed(true, tower_to_place.get_overlap())
+	
+		
+	copy.get_node("collider").visible = false	
+	
+	#connect tower signals global functions
+	copy.draw_laser.connect(draw_laser)
+	copy.draw_selection_animation.connect(draw_selector)
+	copy.request_power.connect(Globals.power_requested)
+	
+	
+	var marker_instance = radar_node.instantiate()
+	
+	copy.radar_marker = marker_instance
+	copy.update_location.connect(marker_instance.on_update_location)
+	create_radar_node.emit(marker_instance)
+	
+	marker_instance.get_relative.connect($Camera_Area.call_rel)
+	$Camera_Area.send_rel.connect(marker_instance.receive_relative)
+	
+	Globals.no_power_available.connect(copy.no_power_available)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -171,7 +224,7 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 				Globals.tower_node_amount += 1
 				clear_hover_lines()
 									
-				Globals.resources = Globals.resources - initial_tower_prices[tower_to_place.custom_class]
+				Globals.resources = Globals.resources - tower_to_place.current_upgrade_node.price
 
 
 				Globals.tower_hovering = false
@@ -269,7 +322,7 @@ func draw_selector(tower_pos, tower_radius, clicked_self, tower): #if add, add e
 			self.add_child(Globals.selection_node)
 			Globals.selection_node.add_to_group("selection")
 			Globals.selection_node.position = tower_pos
-			Globals.selection_node.redraw_self(tower_radius)
+			Globals.selection_node.redraw_self(tower_radius, tower.get_node("Sprite_Node/Sprite2D").scale.x)
 			#create tween to animate
 			var tween = self.get_tree().create_tween() #rotate the drawing 
 			tween.tween_property(Globals.selection_node, "rotation", deg_to_rad(-90), 0.2)	
@@ -314,21 +367,20 @@ func show_selection_ui(tower):
 	children.pop_front()
 	for i in children:
 		vbox.remove_child(i)
-		
-	#V[0] is the custom button, we only need to add it if this tower has a custom button option
-	if(tower is Miner):
-		vbox_children[0].theme = button_themes["Custom_Button"]
-		vbox_children[0].text = "Placeholder"
-		vbox.add_child(vbox_children[0])
 	
-	if tower is Laser:
-		vbox_children[0].theme = button_themes["Upgrade_Button"]
-		vbox_children[0].text = "Upgrade Thel"
-		vbox.add_child(vbox_children[0])
+	#Only display upgrade buttons if upgrade is available in the tree (are there children or is it a leaf node)
 	
-	vbox.add_child(vbox_children[1])
-	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").check_upgrade_available(tower.upgrade_price[tower.level])
-	vbox_children[2].text = "Recycle: " + str(tower.recycle_price[tower.level]) 
+	if len(tower.current_upgrade_node.children) > 0:
+		if len(tower.current_upgrade_node.children) > 1:
+			vbox_children[0].theme = button_themes["Custom_Button"]
+			vbox_children[0].text = tower.current_upgrade_node.children[1].label
+			vbox.add_child(vbox_children[0])
+			
+		vbox_children[1].text = tower.current_upgrade_node.children[0].label
+		vbox.add_child(vbox_children[1])
+	
+	
+	vbox_children[2].text = "Recycle: " + str(tower.current_upgrade_node.recycle_price) 
 	vbox.add_child(vbox_children[2])
 	
 
@@ -347,7 +399,6 @@ func show_selection_ui(tower):
 
 
 func hide_selection_ui(tower):
-	print("hide selection")
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = true
 	
 	var ui_list = get_tower_ui_node(tower.custom_class)
@@ -412,7 +463,8 @@ func _on_default_hot_bar_nodes_to_connect(button_nodes: Variant) -> void:
 
 func tower_button_pressed(button_target) -> void:
 	#helper func for tower_button_clicked
-	tower_button_clicked(initial_tower_prices[button_target], tower_scene_dict[button_target])
+	tower_button_clicked(tower_price_dict[button_target], tower_scene_dict[button_target])
+
 
 func remove_selection():
 	pass

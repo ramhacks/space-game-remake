@@ -7,7 +7,7 @@ extends Line2D
 	'Relay': 1,
 	'Repair_Station': 1,
 	'Battery': 2,
-	'Missile': 1,
+	'Missile_Launcher': 1,
 	'Laser': 1
 	#add more towers here
 }

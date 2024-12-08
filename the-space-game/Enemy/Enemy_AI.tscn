@@ -88,7 +88,7 @@ script = ExtResource("1_0loln")
 health_component = NodePath("../Health")
 parent = NodePath("..")
 shape_ = NodePath("../Body_Collider")
-hit_types = ["Player_Missile"]
+hit_types = ["Player_", "Laser"]
 
 [node name="Health" parent="." node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("2_ju8pu")]
 health_amount = 50

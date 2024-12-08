@@ -36,9 +36,12 @@ func died():
 	
 
 func _on_explosion_animation_finished() -> void:
-	if Globals.tower_selected == parent:
-		if(Globals.tower_selection_mode):
-			Globals.hide_selection_node()
+	#Check to make sure tower selected is valid and the correct object (Prevents memory leaks)
+	if is_instance_valid(Globals.tower_selected):
+		if Globals.tower_selected is Object:
+			if Globals.tower_selected == parent:
+				if(Globals.tower_selection_mode):
+					Globals.hide_selection_node()
 		
 	
 	parent.radar_marker.queue_free()

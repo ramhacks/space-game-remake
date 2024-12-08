@@ -45,7 +45,7 @@ func set_placed(re_animate, current_overlapping_bodies):
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	mpm = animated_node.upgrade_map[level]
+	mpm = self.current_upgrade_node.custom_var
 	super._process(delta)
 	
 	
@@ -57,10 +57,10 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 func upgrade(upgrade_type):
 	#Change how RPM is calculated with new energy system
 	if(animated_node.upgrade_level < 3):
-		Globals.RPM -= animated_node.upgrade_map[animated_node.upgrade_level] * 60
+		Globals.RPM -= self.current_upgrade_node.custom_var * 60
 		#have to subtract it so we don't just add more cause then we would double it
 		animated_node.upgrade_level += 1
-		Globals.RPM += animated_node.upgrade_map[animated_node.upgrade_level] * 60
+		Globals.RPM += self.current_upgrade_node.custom_var * 60
 
 func get_overlap():
 #overlapping bodies (for asteroid detection)		#overlapping areas to make sure we are not on top of another node

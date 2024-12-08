@@ -48,9 +48,8 @@ func upgrade(upgrade_type):
 	self.build_progress = 0
 	self.built = false
 	
-	
 	Globals.power_groups[self.group_][1] -= power_capacity
-	self.power_capacity = upgrade_map[upgrade_level]
+	self.power_capacity = self.current_upgrade_node.custom_var #Power capacity for current level
 	Globals.power_groups[self.group_][1] += power_capacity
 	
 	

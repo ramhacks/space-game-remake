@@ -7,14 +7,15 @@ var width = 0.8
 var white : Color = Color.WHITE
 var line_change
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
-func redraw_self(r):
+func redraw_self(r, s):
 	self.size = Vector2(r*2,r*2) #set size and scale so that the node is not stretched
 	self.scale = Vector2(1,1)
-
+	r *= s
 	radius = r
 	
 	var r2 = radius/3 #length of corner lines
@@ -36,11 +37,13 @@ func float_array_to_Vector2Array(coords : Array) -> PackedVector2Array:
 
 	
 func _draw():
+	
 	#draw a circle around itself, will edit lines that go on it later
 	self.draw_circle(draw_position, radius, white, false, width)
 	for angle in line_change:
 		#4 marks
 		#get angle_positions on line(will be center of line)
+		
 		var circle_point = Vector2(radius*cos(deg_to_rad(angle)), radius*sin(deg_to_rad(angle)))
 		var plotpoints = []
 		for pos in line_change[angle]:

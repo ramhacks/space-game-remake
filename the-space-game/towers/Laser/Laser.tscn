@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=3 uid="uid://bwgv8meys4msc"]
+[gd_scene load_steps=95 format=3 uid="uid://bwgv8meys4msc"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_ktcgg"]
 [ext_resource type="Script" path="res://towers/Laser/laser.gd" id="2_4d8m5"]
@@ -90,25 +90,10 @@
 [ext_resource type="Texture2D" uid="uid://dmh6tclinco0w" path="res://Visuals/Sprite_Frames/334.png" id="63_xa8uf"]
 [ext_resource type="Texture2D" uid="uid://3vaeio88y4fe" path="res://Visuals/Sprite_Frames/358.png" id="74_ulcn0"]
 [ext_resource type="Texture2D" uid="uid://ytlue1emoc68" path="res://Visuals/Sprite_Frames/382.png" id="85_ykd13"]
+[ext_resource type="Script" path="res://towers/Laser/upgrades.gd" id="91_p061p"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nlb16"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_aia41")
-}],
-"loop": false,
-"name": &"basic_level_1_dead",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_nb7qc")
-}],
-"loop": false,
-"name": &"hover",
-"speed": 10.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("5_iti0v")
@@ -147,7 +132,15 @@ animations = [{
 "texture": ExtResource("16_clqy0")
 }],
 "loop": false,
-"name": &"place",
+"name": &"Laser",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_aia41")
+}],
+"loop": false,
+"name": &"Laser dead",
 "speed": 10.0
 }, {
 "frames": [{
@@ -185,16 +178,8 @@ animations = [{
 "texture": ExtResource("27_mb5cc")
 }],
 "loop": false,
-"name": &"pulsar_level_2",
+"name": &"Pulsar",
 "speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("29_u0jbv")
-}],
-"loop": false,
-"name": &"pulsar_level_2_dead",
-"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -228,7 +213,7 @@ animations = [{
 "texture": ExtResource("37_qh2w5")
 }],
 "loop": false,
-"name": &"pulsar_level_3",
+"name": &"Pulsar 2 ",
 "speed": 10.0
 }, {
 "frames": [{
@@ -236,7 +221,7 @@ animations = [{
 "texture": ExtResource("40_afxqx")
 }],
 "loop": false,
-"name": &"pulsar_level_3_dead",
+"name": &"Pulsar 2 dead",
 "speed": 5.0
 }, {
 "frames": [{
@@ -271,7 +256,7 @@ animations = [{
 "texture": ExtResource("47_1gaqy")
 }],
 "loop": true,
-"name": &"pulsar_level_4",
+"name": &"Pulsar 3",
 "speed": 10.0
 }, {
 "frames": [{
@@ -279,7 +264,15 @@ animations = [{
 "texture": ExtResource("51_pnqeq")
 }],
 "loop": false,
-"name": &"pulsar_level_4_dead",
+"name": &"Pulsar 3 dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("29_u0jbv")
+}],
+"loop": false,
+"name": &"Pulsar dead",
 "speed": 5.0
 }, {
 "frames": [{
@@ -316,17 +309,9 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("27_qorvr")
 }],
-"loop": true,
-"name": &"thel_level_2",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("63_xa8uf")
-}],
 "loop": false,
-"name": &"thel_level_2_dead",
-"speed": 5.0
+"name": &"Thel",
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -360,7 +345,7 @@ animations = [{
 "texture": ExtResource("37_25b3d")
 }],
 "loop": false,
-"name": &"thel_level_3",
+"name": &"Thel 2",
 "speed": 10.0
 }, {
 "frames": [{
@@ -368,7 +353,7 @@ animations = [{
 "texture": ExtResource("74_ulcn0")
 }],
 "loop": false,
-"name": &"thel_level_3_dead",
+"name": &"Thel 2 dead",
 "speed": 5.0
 }, {
 "frames": [{
@@ -403,7 +388,7 @@ animations = [{
 "texture": ExtResource("47_hwr1n")
 }],
 "loop": false,
-"name": &"thel_level_4",
+"name": &"Thel 3",
 "speed": 10.0
 }, {
 "frames": [{
@@ -411,36 +396,68 @@ animations = [{
 "texture": ExtResource("85_ykd13")
 }],
 "loop": false,
-"name": &"thel_level_4_dead",
+"name": &"Thel 3 dead",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("63_xa8uf")
+}],
+"loop": false,
+"name": &"Thel dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_nb7qc")
+}],
+"loop": false,
+"name": &"hover",
+"speed": 10.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qfnyt"]
 radius = 16.0
 
-[node name="Laser" instance=ExtResource("1_ktcgg")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
+radius = 58.0
+
+[node name="Laser" groups=["laser"] instance=ExtResource("1_ktcgg")]
 script = ExtResource("2_4d8m5")
 custom_class = "Laser"
 power_needed = 1
 power_time_seconds = 1
 
-[node name="Health" parent="." index="0" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_j2n2b")]
+[node name="Upgrades" type="Node" parent="." index="0"]
+script = ExtResource("91_p061p")
+
+[node name="Health" parent="." index="1" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_j2n2b")]
 health_amount = 200
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
 
+[node name="Hitbox" parent="." index="2" node_paths=PackedStringArray("health_component")]
+health_component = NodePath("../Health")
+
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_nlb16")
-animation = &"hover"
+animation = &"Laser"
 script = ExtResource("17_g20wn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
 shape = SubResource("CircleShape2D_qfnyt")
 
-[node name="StateMachine" type="Node2D" parent="." index="12" node_paths=PackedStringArray("initial_state")]
+[node name="Collision_Area" parent="." index="9"]
+collision_layer = 10
+
+[node name="Collider" parent="Collision_Area" index="0"]
+shape = SubResource("CircleShape2D_emkd0")
+debug_color = Color(1, 1, 1, 0)
+
+[node name="StateMachine" type="Node2D" parent="." index="13" node_paths=PackedStringArray("initial_state")]
 script = ExtResource("18_qvvyy")
 initial_state = NodePath("Basic_Laser")
 

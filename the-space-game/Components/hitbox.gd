@@ -35,11 +35,11 @@ func _process(delta: float) -> void:
 	pass
 
 
-func register_hit(sender, damage):
-	if sender.custom_class in hit_types or (sender is Tower and get_parent() is Enemy):
+func register_hit(sender, damage, missile):
+	if sender.custom_class in hit_types:
 		health_component.health_amount -= damage
 		if sender.projectile_type == 'Missile':
-			sender.queue_free()
+			missile.queue_free()
 
 		
 

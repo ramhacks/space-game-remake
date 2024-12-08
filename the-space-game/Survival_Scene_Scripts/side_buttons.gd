@@ -15,41 +15,66 @@ func _process(delta: float) -> void:
 
 
 func _on_upgrade_button_pressed() -> void:
+	process_upgrade($Custom)
+
+func process_upgrade(upgrade_label):
 	var can_upgrade: bool
-	if(Globals.tower_selected is not Laser):
-		can_upgrade = Globals.tower_selection_mode and (Globals.resources >= Globals.tower_selected.upgrade_price[Globals.tower_selected.level])
-		
-	else:
-		#Thel Upgrade Price is 100
-		can_upgrade = Globals.tower_selection_mode and (Globals.tower_selected.pulsar_upgrade_price_map[Globals.tower_selected.level])
+	
+	var tower_targ = Globals.tower_selected
+	var child_target_index = tower_targ.current_upgrade_node.children_names.find(tower_targ.current_upgrade_node.label)
+	var price = tower_targ.current_upgrade_node.children[child_target_index].price
+	
+	can_upgrade = Globals.tower_selection_mode and (Globals.resources >= price)
+	#
+	#if(Globals.tower_selected is not Laser):
+		#can_upgrade = Globals.tower_selection_mode and (Globals.resources >= Globals.tower_selected.upgrade_price[Globals.tower_selected.level])
+		#
+	#else:
+		##Thel Upgrade Price is 100
+		#can_upgrade = Globals.tower_selection_mode and (Globals.tower_selected.pulsar_upgrade_price_map[Globals.tower_selected.level])
 		
 	if(can_upgrade):
-		Globals.resources -= Globals.tower_selected.upgrade_price[Globals.tower_selected.level]
-		Globals.tower_selected.level += 1
-		if(Globals.tower_selected.upgrade_price[Globals.tower_selected.level] == -1):
-			self.remove_child($Upgrade_Button)
-		else:
-			$Upgrade_Button.text = "Upgrade: " + str(Globals.tower_selected.upgrade_price[Globals.tower_selected.level])
+		
+		Globals.resources -= price
+		tower_targ.level += 1
+		
+		tower_targ.current_upgrade_node = tower_targ.current_upgrade_node.children[child_target_index]
+		
+		if len(tower_targ.current_upgrade_node.children) > 0:
+			self.remove_child($Custom)
+			$Upgrade_Button.text = tower_targ.current_upgrade_node.children[0].label
+			$Recycle.text = "Recycle: " + str(tower_targ.current_upgrade_node.recycle_price)
 			
-		Globals.tower_selected.built = false #change to false when power is implmented
+		else:
+			self.remove_child($Custom)
+			self.remove_child($Upgrade_Button)
 		
-		Globals.tower_selected.get_node("BuildProgress").visible = true
 		
-		Globals.tower_selected.build_progress = 0
-		Globals.tower_selected.animated_node.frame = 1
-		if Globals.tower_selected is not Laser:
-			Globals.tower_selected.animated_node.play("level" + str(Globals.tower_selected.level))
-			Globals.tower_selected.upgrade(null)
+
+		tower_targ.built = false #change to false when power is implmented
+		
+		tower_targ.get_node("BuildProgress").visible = true
+		
+		tower_targ.build_progress = 0
+		
+		tower_targ.animated_node.play(tower_targ.current_upgrade_node.label)
+		print(tower_targ.current_upgrade_node.label)
+		
+		
+		if tower_targ is not Laser:
+			tower_targ.upgrade(null)
 		else:
 			#Make an exception on what upgrade button they pressed as there would be 2 options
-			Globals.tower_selected.upgrade("Pulsar") #Change parameter to type, either thel or pulsar
+			tower_targ.upgrade(tower_targ.current_upgrade_node.label) #Change parameter to type, either thel or pulsar
 		
-		
+		tower_targ.get_node("Health").health_amount = tower_targ.current_upgrade_node.health
+		tower_targ.get_node("Health").max_health = tower_targ.current_upgrade_node.health
+
 
 
 func _on_recycle_pressed() -> void:
 	recycle_pressed = true
-	Globals.resources += Globals.tower_selected.recycle_price[Globals.tower_selected.level]
+	Globals.resources += Globals.tower_selected.current_upgrade_node.recycle_price
 	hide_selection.emit()
 	
 func _on_survival_finished() -> void:
@@ -59,20 +84,4 @@ func _on_survival_finished() -> void:
 
 
 func _on_custom_pressed() -> void:
-	if Globals.tower_selected is Laser:
-		if(Globals.tower_selection_mode and (Globals.resources >= Globals.tower_selected.thel_upgrade_price_map[Globals.tower_selected.level])):
-			#This button is to upgrade to Thel
-			Globals.resources -= Globals.tower_selected.upgrade_price[Globals.tower_selected.level]
-			Globals.tower_selected.level += 1
-			if(Globals.tower_selected.upgrade_price[Globals.tower_selected.level] == -1):
-				self.remove_child($Upgrade_Button)
-			else:
-				$Upgrade_Button.text = "Upgrade: " + str(Globals.tower_selected.upgrade_price[Globals.tower_selected.level])
-				
-			Globals.tower_selected.built = false #change to false when power is implmented
-			
-			Globals.tower_selected.get_node("BuildProgress").visible = true
-			
-			Globals.tower_selected.build_progress = 0
-			Globals.tower_selected.animated_node.frame = 1
-			Globals.tower_selected.upgrade("Thel")
+	process_upgrade($Upgrade_Button)

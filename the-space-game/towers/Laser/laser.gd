@@ -11,46 +11,30 @@ var mis
 var laser_upgrade_type = 'basic'
 
 
-var upgrade_level = 1
 
-var upgrade_map = {
-	1: 10,
-	2: -1
-}
-
-var thel_upgrade_price_map = {
-	1: 500,
-	2: 800,
-	3: 1000,
-	4:-1
-}
-
-var pulsar_upgrade_price_map = {
-	1: 100,
-	2: 150,
-	3: 300,
-	4:-1
-}
+var my_range_base_shape
+var my_range_shape
+var my_range_area
 
 
-var Thel_health_upgrade = {
-	2:400,
-	3:600,
-	4:960
-}
-
-var Pulsar_health_upgrade = {
-	2:300,
-	3:500,
-	4:900
-}
-
-
-
-
+#For creating the range area it is allowed to interact with, has to be dynamically added so it doesn't change
+#the range of all nodes, this is used to see what nodes we can attack
+func set_range_area():
+	my_range_base_shape = CircleShape2D.new()
+	my_range_shape = CollisionShape2D.new()
+	my_range_base_shape.radius = self.current_upgrade_node.custom_var_2
+	my_range_shape.shape = my_range_base_shape
+	
+	my_range_area = Area2D.new()
+	my_range_area.collision_layer = pow(2, 2-1) + pow(2, 4-1)
+	my_range_area.collision_mask = pow(2, 1-1) + pow(2, 3-1)
+	self.add_child(my_range_area)
+	my_range_area.add_child(my_range_shape)
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
 	sprite_node = self.get_node("Sprite")
 	child_area = self.get_node("Collision_Area")
 	animated_node = self.get_node("Sprite_Node/Sprite2D")
@@ -60,9 +44,15 @@ func _ready() -> void:
 	show_colliding_bodies = true
 	var current_animation : String = animated_node.animation
 	
+	set_range_area()
+	
 	sprite_texture = animated_node.get_sprite_frames().get_frame_texture(current_animation, 0)
 	
 	place_build_progress_bar()
+	
+	
+	
+	
 	super._ready()
 
 
@@ -88,39 +78,19 @@ func upgrade(upgrade_type):
 	if upgrade_type == "Pulsar":
 		laser_upgrade_type = 'pulsar'
 		#Change the upgrade maps
-		upgrade_price = {
-			2: -1,
-			3: -1,
-			4:0,
-			5:-1
-		}
 
-		recycle_price = {
-			2: 45,
-			3: 45,
-			4:0,
-			5:0
-		}
-		$Health.health_amount = Pulsar_health_upgrade[level]
-		$Health.max_health = Pulsar_health_upgrade[level]
+
 	else:
 		laser_upgrade_type = 'thel'
-		upgrade_price = {
-			2: 500,
-			3: 800,
-			4:1000,
-			5:-1
-		}
-
-		upgrade_price = {
-			2: -1,
-			3: -1,
-			4:0,
-			5:-1
-		}
-		$Health.health_amount = Thel_health_upgrade[level]
-		$Health.max_health = Thel_health_upgrade[level]
 	
-		
+	
+	my_range_shape.queue_free()
+	my_range_area.queue_free()
+	
+	
+	set_range_area()
+	#$Range_Area/Collider.shape.radius = self.current_upgrade_node.custom_var_2
+	
 	$StateMachine.current_state.Transitioned.emit($StateMachine.current_state, upgrade_type)
-	animated_node.play(upgrade_type+ "_level_" + str(level))
+	
+	

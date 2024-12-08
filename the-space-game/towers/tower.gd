@@ -2,6 +2,10 @@ extends Node2D
 
 class_name Tower
 
+
+var current_upgrade_node #Node we are currently on in the upgrade tree
+
+
 #We need to define a custom class because godot does not support grabbing the class_name of a tower
 #you can only grab the default class, for instance this would not be tower but would return Node2D instead
 @export var custom_class: String
@@ -35,6 +39,8 @@ var connection_points: Array = []
 var connected_to_node_freed = false
 # each node to eachother
 var group_: String = 'NAN'
+
+
 
 @export_category("Power")
 @export var power_capacity: int = 1
@@ -89,19 +95,6 @@ var on_object: bool = false #if sprite itself is on asteroid don't let the playe
 
 var sprite_texture #used to get radius and height of sprite to draw selection animation and place build_progress_bar
 
-@export_category("Prices")
-
-@export var upgrade_price = {
-	1: 100,
-	2: -1,
-	3: -1
-}
-
-@export var recycle_price = {
-	1: 45,
-	2: 45,
-	3: 45
-}
 
 
 func reset_line():
@@ -126,13 +119,13 @@ func _ready() -> void:
 	
 
 func place_build_progress_bar(): 
-	$BuildProgress.position.y = $BuildProgress.position.y - (sprite_texture.get_size().y/2) - 2
+	$BuildProgress.position.y = $BuildProgress.position.y - (sprite_texture.get_size().y/2.5) 
 
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	#set child node and self dynamic variables
-	animated_node.upgrade_level = level
+
 	overlap_areas = $Collision_Area.get_overlapping_areas()
 	
 	#-------------------
@@ -216,13 +209,11 @@ func set_placed(re_animate, current_overlapping_bodies):  #required for all towe
 	$Connector.clear_points()
 
 	hovering = false
-	if(re_animate):
-	#this function is so when we press the button to place a tower and we just want to show the tower being placed
-	#we won't activate this function so it will not activate the tower, only show it
-		animated_node.placed = true
+
 	
 
-	animated_node.play("place")
+	animated_node.play(current_upgrade_node.label)
+	
 	
 	animated_node.animation_finished.connect(Callable(set_clickable))
 	
@@ -253,8 +244,8 @@ func set_clickable():
 	
 func _on_power_delay_timeout() -> void:
 	#don't emit if it doesn't need power to work
-	if(power_needed) > 0:
-		request_power.emit(self, group_, power_needed)
+	if(current_upgrade_node.energy_needs) > 0:
+		request_power.emit(self, group_, current_upgrade_node.energy_needs)
 
 #Convert group to any group we want
 func convert_group(group_target):
@@ -323,9 +314,7 @@ func no_power_available(sender):
 	if sender == self and built: #only change if tower is built, if it isn't user can just see that the build meter is not going up
 			#Play no power_animation
 		if inherted_node is Laser:
-			#thel_level_2_dead
-			
-			animated_node.play(inherted_node.laser_upgrade_type + "_level_" + str(level) + "_dead")
+			animated_node.play(current_upgrade_node.label + " dead")
 		else:
 			pass
 		
@@ -334,12 +323,17 @@ func no_power_available(sender):
 	
 	
 func do_process():
+	
+	#This if statment is for if there previously was no power available but we got power back
 	if no_power_animation_on and built:
-		if inherted_node is not Laser:
-			animated_node.animation = "level" + str(level)
-			var temp = animated_node.get_sprite_frames().get_frame_count()
-			animated_node.frame = temp
-			
+
+		animated_node.animation = current_upgrade_node.label
+		
+		#After changing the animation to the respective thing (if it is a laser we have to pick the 
+		#correct path animation to do, change the frame to the last frame
+		#in the animation, this would be the same as the node when it is powered normally)	
+		animated_node.frame = animated_node.get_sprite_frames().get_frame_count(animated_node.animation)
+	
 	if not built and build_progress < 100:
 		build_progress += 20
 
