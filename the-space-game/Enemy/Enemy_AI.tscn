@@ -1,16 +1,17 @@
-[gd_scene load_steps=19 format=3 uid="uid://bmxxcel2t4fhe"]
+[gd_scene format=3 uid="uid://bmxxcel2t4fhe"]
 
-[ext_resource type="Script" path="res://Enemy/Enemy_Driver.gd" id="1_0loln"]
+[ext_resource type="Script" uid="uid://d3onuowuftped" path="res://Enemy/Enemy_Driver.gd" id="1_0loln"]
 [ext_resource type="PackedScene" uid="uid://c11uhwml84phf" path="res://Components/health.tscn" id="2_ju8pu"]
 [ext_resource type="Texture2D" uid="uid://dw2l5h6awcntu" path="res://Visuals/Sprite_Frames/Enemy/1.png" id="2_ogkn4"]
 [ext_resource type="Texture2D" uid="uid://dq174jfqnv2go" path="res://Visuals/Sprite_Frames/Enemy/2.png" id="3_pxso4"]
 [ext_resource type="PackedScene" uid="uid://c208gk4yto1e0" path="res://Components/hitbox.tscn" id="3_vfdq4"]
 [ext_resource type="Texture2D" uid="uid://c3oe7crqbmkpn" path="res://Visuals/Sprite_Frames/Enemy/3.png" id="4_ck3r1"]
-[ext_resource type="Script" path="res://Enemy/state_machine.gd" id="4_eq2ct"]
-[ext_resource type="Script" path="res://Enemy/random_target.gd" id="8_fhg0n"]
-[ext_resource type="Script" path="res://Enemy/power_target.gd" id="9_5odof"]
+[ext_resource type="Script" uid="uid://cn5p102gby640" path="res://Enemy/state_machine.gd" id="4_eq2ct"]
+[ext_resource type="Script" uid="uid://d164rprjpewch" path="res://Enemy/Enemy_Types/random_target.gd" id="5_q62d7"]
+[ext_resource type="Script" uid="uid://bkc765jr6ix8t" path="res://Enemy/Enemy_Types/power_target.gd" id="6_mh5em"]
+[ext_resource type="Script" uid="uid://1vcjintxflwf" path="res://Enemy/Enemy_Types/defense_target.gd" id="7_mh5em"]
 [ext_resource type="Texture2D" uid="uid://cg5xh8ggybyex" path="res://Visuals/Effects/Explosion/7.png" id="9_neqc8"]
-[ext_resource type="Script" path="res://towers/sprite_node.gd" id="9_oba48"]
+[ext_resource type="Script" uid="uid://cr3m42ii5qpk7" path="res://towers/sprite_node.gd" id="9_oba48"]
 [ext_resource type="Texture2D" uid="uid://cf7ao24yqb5ev" path="res://Visuals/Effects/Explosion/6.png" id="10_drcas"]
 [ext_resource type="Texture2D" uid="uid://b6armdykftyu5" path="res://Visuals/Effects/Explosion/1.png" id="10_whau4"]
 [ext_resource type="Texture2D" uid="uid://bemi0futfol55" path="res://Visuals/Effects/Explosion/2.png" id="11_5am3m"]
@@ -76,7 +77,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Enemy" type="CharacterBody2D" groups=["Enemies"]]
+[node name="Enemy" type="CharacterBody2D" unique_id=15834399 groups=["Enemies"]]
 z_index = 5
 collision_layer = 4
 collision_mask = 8
@@ -84,35 +85,35 @@ motion_mode = 1
 platform_floor_layers = 4294967040
 script = ExtResource("1_0loln")
 
-[node name="Hitbox" parent="." node_paths=PackedStringArray("health_component", "parent", "shape_") instance=ExtResource("3_vfdq4")]
+[node name="Hitbox" parent="." unique_id=1683052566 node_paths=PackedStringArray("health_component", "parent", "shape_") instance=ExtResource("3_vfdq4")]
 health_component = NodePath("../Health")
 parent = NodePath("..")
 shape_ = NodePath("../Body_Collider")
 hit_types = ["Player_", "Laser"]
 
-[node name="Health" parent="." node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("2_ju8pu")]
+[node name="Health" parent="." unique_id=94786658 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("2_ju8pu")]
 health_amount = 50
 death_animation = NodePath("../Explosion")
 death_animation_name = "enemy"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
 
-[node name="StateMachine" type="Node2D" parent="."]
+[node name="StateMachine" type="Node2D" parent="." unique_id=2044658030]
 script = ExtResource("4_eq2ct")
 
-[node name="Body_Collider" type="CollisionShape2D" parent="."]
+[node name="Body_Collider" type="CollisionShape2D" parent="." unique_id=570353278]
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_0fc7o")
 
-[node name="Laser" type="Line2D" parent="."]
+[node name="Laser" type="Line2D" parent="." unique_id=1411275488]
 width = 0.0
 default_color = Color(0.184314, 0.976471, 0.160784, 1)
 gradient = SubResource("Gradient_n22jk")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1171018403]
 autostart = true
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=787759956]
 target_desired_distance = 30.0
 navigation_layers = 9
 path_postprocessing = 1
@@ -120,23 +121,26 @@ simplify_epsilon = 1.0
 neighbor_distance = 20.0
 debug_path_custom_color = Color(0.682353, 0.137255, 0.560784, 0.815686)
 
-[node name="Targeting" type="Node" parent="."]
+[node name="Targeting" type="Node" parent="." unique_id=1112196203]
 
-[node name="Random_Target" type="Node" parent="Targeting"]
-script = ExtResource("8_fhg0n")
+[node name="Random_Target" type="Node" parent="Targeting" unique_id=2037526721]
+script = ExtResource("5_q62d7")
 
-[node name="Power_Target" type="Node" parent="Targeting"]
-script = ExtResource("9_5odof")
+[node name="Power_Target" type="Node" parent="Targeting" unique_id=262069164]
+script = ExtResource("6_mh5em")
 
-[node name="Explosion" type="AnimatedSprite2D" parent="."]
+[node name="Defense_Target" type="Node" parent="Targeting" unique_id=731733052]
+script = ExtResource("7_mh5em")
+
+[node name="Explosion" type="AnimatedSprite2D" parent="." unique_id=889576243]
 visible = false
 sprite_frames = SubResource("SpriteFrames_namxv")
 animation = &"enemy"
 
-[node name="Sprite_Node" type="Node2D" parent="."]
+[node name="Sprite_Node" type="Node2D" parent="." unique_id=1392989262]
 script = ExtResource("9_oba48")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node"]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" unique_id=1189680900]
 position = Vector2(0, 2.98023e-08)
 scale = Vector2(0.2132, 0.217738)
 sprite_frames = SubResource("SpriteFrames_hb4hy")

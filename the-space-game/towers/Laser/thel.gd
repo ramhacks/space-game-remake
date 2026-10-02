@@ -2,6 +2,8 @@ extends State
 
 var custom_class
 
+
+# Fires slower but does significantly more damage
 var damage_map = {
 	2: 50,
 	3: 80,
@@ -9,7 +11,7 @@ var damage_map = {
 }
 
 var health_map = {
-	
+
 }
 
 
@@ -22,7 +24,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-	
-	
+
+
 func do_process(parent_node):
 	print("Thel now")

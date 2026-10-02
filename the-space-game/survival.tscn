@@ -1,23 +1,23 @@
-[gd_scene load_steps=61 format=3 uid="uid://cf5pqleati37r"]
+[gd_scene format=3 uid="uid://cf5pqleati37r"]
 
-[ext_resource type="Script" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
-[ext_resource type="Script" path="res://Survival_Scene_Scripts/enemy_wave_spawner.gd" id="2_eaa06"]
-[ext_resource type="Script" path="res://Survival_Scene_Scripts/camera.gd" id="2_fmvyw"]
-[ext_resource type="Script" path="res://Survival_Scene_Scripts/game_ticks.gd" id="2_yr8rd"]
+[ext_resource type="Script" uid="uid://bgo6pfx2odm6w" path="res://Survival_Scene_Scripts/survival.gd" id="1_e2foe"]
+[ext_resource type="Script" uid="uid://cffyfv15aq2tg" path="res://Survival_Scene_Scripts/enemy_wave_spawner.gd" id="2_eaa06"]
+[ext_resource type="Script" uid="uid://0u342yatpkw4" path="res://Survival_Scene_Scripts/camera.gd" id="2_fmvyw"]
+[ext_resource type="Script" uid="uid://u8fk7xpa6mkw" path="res://Survival_Scene_Scripts/game_ticks.gd" id="2_yr8rd"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://Visuals/Sprite_Frames/image(1).jpg" id="3_vqmru"]
 [ext_resource type="Theme" uid="uid://chdmu6kfrhoyk" path="res://Visuals/Themes/hotbar_background1.tres" id="4_ihjta"]
-[ext_resource type="Script" path="res://UI Scenes/hotbar.gd" id="5_0oapn"]
+[ext_resource type="Script" uid="uid://bcxo1l0b0wedc" path="res://UI Scenes/hotbar.gd" id="5_0oapn"]
 [ext_resource type="Theme" uid="uid://dyhmoabmqtjno" path="res://Visuals/Themes/hotbar_background2.tres" id="5_85nvo"]
-[ext_resource type="Script" path="res://UI Scenes/default_hot_bar.gd" id="7_q05n8"]
+[ext_resource type="Script" uid="uid://cip2bil7coi4o" path="res://UI Scenes/default_hot_bar.gd" id="7_q05n8"]
 [ext_resource type="PackedScene" uid="uid://bxom4d8la8da2" path="res://UI Scenes/Tower_Button_Component.tscn" id="8_nsbra"]
 [ext_resource type="Texture2D" uid="uid://igeheoey3ig6" path="res://Visuals/Button_Textures/Miner/1.png" id="10_aq32r"]
-[ext_resource type="Script" path="res://Survival_Scene_Scripts/side_buttons.gd" id="11_26wvg"]
+[ext_resource type="Script" uid="uid://cam8cf4ve0uip" path="res://Survival_Scene_Scripts/side_buttons.gd" id="11_26wvg"]
 [ext_resource type="Texture2D" uid="uid://ddnnqrnv4uq6" path="res://Visuals/Button_Textures/Miner/2.png" id="11_33rgq"]
-[ext_resource type="Script" path="res://UI Scenes/text_bars.gd" id="11_hj758"]
-[ext_resource type="Script" path="res://UI Scenes/selection.gd" id="11_sh5ow"]
+[ext_resource type="Script" uid="uid://b2jcnw76agxu8" path="res://UI Scenes/text_bars.gd" id="11_hj758"]
+[ext_resource type="Script" uid="uid://dkfsn6ofm5lmi" path="res://UI Scenes/selection.gd" id="11_sh5ow"]
 [ext_resource type="Theme" uid="uid://c31puf50m0oxm" path="res://Visuals/Themes/Upgrade_Button.tres" id="11_vnck4"]
 [ext_resource type="Texture2D" uid="uid://b44c0ocnpdod5" path="res://Visuals/Button_Textures/Solar/1.png" id="12_naysr"]
-[ext_resource type="Script" path="res://UI Scenes/info_hover.gd" id="13_o1wgd"]
+[ext_resource type="Script" uid="uid://cy8w3nxo75um5" path="res://UI Scenes/info_hover.gd" id="13_o1wgd"]
 [ext_resource type="Texture2D" uid="uid://d372x8ynscjkt" path="res://Visuals/Button_Textures/Solar/2.png" id="13_ocm2g"]
 [ext_resource type="Texture2D" uid="uid://b7fh7v2w2j3fo" path="res://Visuals/Button_Textures/Power_Node/1.png" id="14_ojn1w"]
 [ext_resource type="Texture2D" uid="uid://c6j7e8g0bdpxi" path="res://Visuals/Sprite_Frames/pointer.png" id="14_xk34w"]
@@ -29,14 +29,16 @@
 [ext_resource type="Texture2D" uid="uid://5ucry3rwpivb" path="res://Visuals/Button_Textures/Missile_Launcher/2.png" id="19_aroka"]
 [ext_resource type="Texture2D" uid="uid://ckyi66prmbqju" path="res://Visuals/Button_Textures/Energy_Store/1.png" id="19_j5hdb"]
 [ext_resource type="Texture2D" uid="uid://cbxbpfd8y1gmu" path="res://Visuals/Button_Textures/Energy_Store/2.png" id="20_iscds"]
+[ext_resource type="Texture2D" uid="uid://dfai5t86s5p1r" path="res://Visuals/Button_Textures/Laser/1.png" id="21_w3n6b"]
+[ext_resource type="Texture2D" uid="uid://dmqug6wtwshen" path="res://Visuals/Button_Textures/Laser/2.png" id="22_kvbak"]
 [ext_resource type="FontFile" uid="uid://cv8a6vbc8ntaf" path="res://Visuals/Fonts/633_Trebuchet MS.ttf" id="25_n6jvr"]
 [ext_resource type="Theme" uid="uid://bvpc0uoiyflce" path="res://Visuals/Themes/minimap.tres" id="28_ud85u"]
 [ext_resource type="FontFile" uid="uid://baf5yckugqi1b" path="res://Visuals/Fonts/663_Trebuchet MS.ttf" id="29_l8l0o"]
-[ext_resource type="Script" path="res://Survival_Scene_Scripts/right_box.gd" id="29_syjw4"]
-[ext_resource type="Script" path="res://Survival_Scene_Scripts/forground.gd" id="29_u08bu"]
+[ext_resource type="Script" uid="uid://cfatewa8dkjlt" path="res://Survival_Scene_Scripts/right_box.gd" id="29_syjw4"]
+[ext_resource type="Script" uid="uid://b41h523sh5xhn" path="res://Survival_Scene_Scripts/forground.gd" id="29_u08bu"]
 [ext_resource type="Theme" uid="uid://sd7rw18v7x7p" path="res://Visuals/Themes/Custom_Button.tres" id="30_u5ipt"]
 [ext_resource type="Theme" uid="uid://cavwcn7qaxlkh" path="res://Visuals/Themes/Recycle_Button.tres" id="32_cpwxv"]
-[ext_resource type="Script" path="res://Survival_Scene_Scripts/navigation_region_2d.gd" id="33_yibx6"]
+[ext_resource type="Script" uid="uid://d2rkn134m7sds" path="res://Survival_Scene_Scripts/navigation_region_2d.gd" id="33_yibx6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
 size = Vector2(1148, 519)
@@ -121,56 +123,56 @@ vertices = PackedVector2Array(-465.25, 812.719, -633.422, -362.867, 19.9063, -34
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 2, 4, 5), PackedInt32Array(3, 5, 6)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(20, -357.407, 1330, -365.741, 1357, -1.85185, 1536, 761.111, 281, 867.593, -474, 822.222, -645, -373.148)])
 
-[node name="Survival" type="Node2D"]
+[node name="Survival" type="Node2D" unique_id=1976739406]
 script = ExtResource("1_e2foe")
 
-[node name="Enemy_Wave_Spawner" type="Node" parent="."]
+[node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035]
 script = ExtResource("2_eaa06")
 mob_cap = 10
 
-[node name="Global_Ticks" type="Timer" parent="."]
+[node name="Global_Ticks" type="Timer" parent="." unique_id=289095970]
 wait_time = 10.0
 autostart = true
 script = ExtResource("2_yr8rd")
 
-[node name="Camera_Area" type="Area2D" parent="."]
+[node name="Camera_Area" type="Area2D" parent="." unique_id=1288831259]
 monitoring = false
 monitorable = false
 script = ExtResource("2_fmvyw")
 
-[node name="Camera2D" type="Camera2D" parent="Camera_Area"]
+[node name="Camera2D" type="Camera2D" parent="Camera_Area" unique_id=1102788041]
 position = Vector2(575, 325)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera_Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera_Area" unique_id=709875250]
 position = Vector2(576, 260)
 shape = SubResource("RectangleShape2D_fy202")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
-[node name="Background_Layer" type="CanvasLayer" parent="."]
+[node name="Background_Layer" type="CanvasLayer" parent="." unique_id=995397901]
 layer = -1
 
-[node name="Background" type="TextureRect" parent="Background_Layer"]
+[node name="Background" type="TextureRect" parent="Background_Layer" unique_id=958018639]
 z_index = 4
 offset_right = 1152.0
 offset_bottom = 710.0
 texture = ExtResource("3_vqmru")
 metadata/_edit_lock_ = true
 
-[node name="HotBar_Layer" type="CanvasLayer" parent="."]
+[node name="HotBar_Layer" type="CanvasLayer" parent="." unique_id=1476328451]
 
-[node name="Hotbar" type="Area2D" parent="HotBar_Layer"]
+[node name="Hotbar" type="Area2D" parent="HotBar_Layer" unique_id=423399476]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("5_0oapn")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HotBar_Layer/Hotbar"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HotBar_Layer/Hotbar" unique_id=1311398093]
 position = Vector2(576, 617)
 shape = SubResource("RectangleShape2D_otb3a")
 debug_color = Color(0, 0.6, 0.701961, 0)
 metadata/_edit_lock_ = true
 
-[node name="Hotbar_Background" type="Panel" parent="HotBar_Layer"]
+[node name="Hotbar_Background" type="Panel" parent="HotBar_Layer" unique_id=96282803]
 offset_left = 258.0
 offset_top = 521.0
 offset_right = 1154.0
@@ -179,7 +181,7 @@ mouse_filter = 2
 theme = ExtResource("4_ihjta")
 metadata/_edit_lock_ = true
 
-[node name="Hotbar_Forground" type="Panel" parent="HotBar_Layer/Hotbar_Background"]
+[node name="Hotbar_Forground" type="Panel" parent="HotBar_Layer/Hotbar_Background" unique_id=1771399197]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
@@ -189,14 +191,14 @@ mouse_filter = 2
 theme = ExtResource("5_85nvo")
 metadata/_edit_lock_ = true
 
-[node name="Default_Hot Bar" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
+[node name="Default_Hot Bar" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=404659308]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 script = ExtResource("7_q05n8")
 
-[node name="Miner" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+[node name="Miner" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=405330126 instance=ExtResource("8_nsbra")]
 layout_mode = 1
 anchors_preset = -1
 anchor_bottom = 0.85
@@ -209,7 +211,7 @@ Normal_Texture = ExtResource("10_aq32r")
 Pressed_Texture = ExtResource("11_33rgq")
 metadata/_edit_lock_ = true
 
-[node name="Solar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+[node name="Solar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=1752326957 instance=ExtResource("8_nsbra")]
 layout_mode = 1
 offset_left = 220.0
 offset_top = 9.0
@@ -220,7 +222,7 @@ Normal_Texture = ExtResource("12_naysr")
 Pressed_Texture = ExtResource("13_ocm2g")
 metadata/_edit_lock_ = true
 
-[node name="Power Node" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+[node name="Power Node" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=942494025 instance=ExtResource("8_nsbra")]
 layout_mode = 1
 offset_left = 4.0
 offset_top = 9.0
@@ -231,7 +233,7 @@ Normal_Texture = ExtResource("14_ojn1w")
 Pressed_Texture = ExtResource("15_4d662")
 metadata/_edit_lock_ = true
 
-[node name="Repair_Station" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+[node name="Repair_Station" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=1335251784 instance=ExtResource("8_nsbra")]
 layout_mode = 1
 offset_left = 328.0
 offset_top = 9.0
@@ -240,8 +242,9 @@ offset_bottom = 9.0
 tower_button_target = "Repair_Station"
 Normal_Texture = ExtResource("16_41fxr")
 Pressed_Texture = ExtResource("17_uck3r")
+metadata/_edit_lock_ = true
 
-[node name="Battery" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+[node name="Battery" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=525753158 instance=ExtResource("8_nsbra")]
 layout_mode = 1
 offset_left = 544.0
 offset_top = 9.0
@@ -250,18 +253,20 @@ offset_bottom = 9.0
 tower_button_target = "Battery"
 Normal_Texture = ExtResource("19_j5hdb")
 Pressed_Texture = ExtResource("20_iscds")
+metadata/_edit_lock_ = true
 
-[node name="Laser" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+[node name="Laser" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=1904312843 instance=ExtResource("8_nsbra")]
 layout_mode = 1
 offset_left = 651.0
 offset_top = 9.0
 offset_right = 651.0
 offset_bottom = 9.0
 tower_button_target = "Laser"
-Normal_Texture = ExtResource("18_lo4so")
-Pressed_Texture = ExtResource("19_aroka")
+Normal_Texture = ExtResource("21_w3n6b")
+Pressed_Texture = ExtResource("22_kvbak")
+metadata/_edit_lock_ = true
 
-[node name="Missile" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" instance=ExtResource("8_nsbra")]
+[node name="Missile" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=342253895 instance=ExtResource("8_nsbra")]
 layout_mode = 1
 offset_left = 436.0
 offset_top = 9.0
@@ -270,8 +275,9 @@ offset_bottom = 9.0
 tower_button_target = "Missile_Launcher"
 Normal_Texture = ExtResource("18_lo4so")
 Pressed_Texture = ExtResource("19_aroka")
+metadata/_edit_lock_ = true
 
-[node name="Info_Hover" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
+[node name="Info_Hover" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=1879432484]
 visible = false
 anchors_preset = 0
 offset_left = 32.0
@@ -281,7 +287,7 @@ offset_bottom = 21.0
 script = ExtResource("13_o1wgd")
 metadata/_edit_lock_ = true
 
-[node name="Panel" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover"]
+[node name="Panel" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" unique_id=674346256]
 layout_mode = 0
 offset_left = -24.0
 offset_top = -76.0
@@ -289,7 +295,7 @@ offset_right = 720.0
 offset_bottom = 8.0
 theme = SubResource("Theme_4hadf")
 
-[node name="Pointer" type="TextureRect" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover"]
+[node name="Pointer" type="TextureRect" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" unique_id=142360746]
 z_index = 5
 z_as_relative = false
 layout_mode = 0
@@ -298,7 +304,7 @@ offset_right = 584.0
 offset_bottom = 28.0
 texture = ExtResource("14_xk34w")
 
-[node name="Info_Text" type="RichTextLabel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover"]
+[node name="Info_Text" type="RichTextLabel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" unique_id=1048050030]
 z_index = 1
 layout_mode = 0
 offset_left = -12.0
@@ -307,7 +313,7 @@ offset_right = 708.0
 theme = ExtResource("17_ymelk")
 bbcode_enabled = true
 
-[node name="Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
+[node name="Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=1347951975]
 visible = false
 anchors_preset = 0
 offset_right = 651.0
@@ -315,14 +321,14 @@ offset_bottom = 131.0
 script = ExtResource("11_sh5ow")
 metadata/_edit_lock_ = true
 
-[node name="TextBars" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection"]
+[node name="TextBars" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection" unique_id=1776783262]
 anchors_preset = 0
 offset_left = 316.0
 offset_right = 524.0
 offset_bottom = 128.0
 script = ExtResource("11_hj758")
 
-[node name="Label1" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars"]
+[node name="Label1" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars" unique_id=911859321]
 layout_mode = 0
 offset_left = -1.0
 offset_top = 9.0
@@ -331,7 +337,7 @@ offset_bottom = 32.0
 text = "Mine Rate"
 label_settings = SubResource("LabelSettings_7cw3v")
 
-[node name="Label2" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars"]
+[node name="Label2" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars" unique_id=259508172]
 layout_mode = 0
 offset_top = 34.0
 offset_right = 156.0
@@ -339,7 +345,7 @@ offset_bottom = 57.0
 text = "Total Mined"
 label_settings = SubResource("LabelSettings_kf2bw")
 
-[node name="Label3" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars"]
+[node name="Label3" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars" unique_id=622940709]
 layout_mode = 0
 offset_left = -1.0
 offset_top = 51.0
@@ -347,14 +353,14 @@ offset_right = 39.0
 offset_bottom = 74.0
 label_settings = SubResource("LabelSettings_mw3dt")
 
-[node name="Energy" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection"]
+[node name="Energy" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection" unique_id=242912867]
 anchors_preset = 0
 offset_left = 12.0
 offset_top = 97.0
 offset_right = 208.0
 offset_bottom = 137.0
 
-[node name="Label" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Energy"]
+[node name="Label" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Energy" unique_id=1133399935]
 layout_mode = 0
 offset_top = -16.0
 offset_right = 76.0
@@ -363,7 +369,7 @@ text = "Energy"
 label_settings = SubResource("LabelSettings_eyg4b")
 metadata/_edit_lock_ = true
 
-[node name="ProgressBar" type="ProgressBar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Energy"]
+[node name="ProgressBar" type="ProgressBar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Energy" unique_id=2044739802]
 layout_mode = 0
 offset_top = 8.0
 offset_right = 246.0
@@ -372,15 +378,15 @@ theme = SubResource("Theme_1nq1a")
 show_percentage = false
 metadata/_edit_lock_ = true
 
-[node name="Health" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection"]
+[node name="Health" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection" unique_id=1475688911]
 anchors_preset = 0
 offset_top = 60.0
 offset_right = 132.0
 offset_bottom = 88.0
 
-[node name="Label" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Health"]
+[node name="Label" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Health" unique_id=952004479]
 z_index = 1
-layout_mode = 2
+layout_mode = 0
 offset_left = 12.0
 offset_top = -26.0
 offset_right = 168.0
@@ -389,8 +395,8 @@ text = "Health"
 label_settings = SubResource("LabelSettings_btepq")
 metadata/_edit_lock_ = true
 
-[node name="ProgressBar" type="ProgressBar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Health"]
-layout_mode = 2
+[node name="ProgressBar" type="ProgressBar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Health" unique_id=1871783462]
+layout_mode = 0
 offset_left = 12.0
 offset_top = -3.0
 offset_right = 258.0
@@ -399,7 +405,7 @@ theme = SubResource("Theme_drhj7")
 show_percentage = false
 metadata/_edit_lock_ = true
 
-[node name="Side_Buttons" type="VBoxContainer" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection"]
+[node name="Side_Buttons" type="VBoxContainer" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection" unique_id=193126229]
 layout_mode = 0
 offset_left = 550.0
 offset_right = 761.0
@@ -409,24 +415,24 @@ alignment = 1
 script = ExtResource("11_26wvg")
 metadata/_edit_lock_ = true
 
-[node name="Custom" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons"]
+[node name="Custom" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" unique_id=484876465]
 layout_mode = 2
 theme = ExtResource("30_u5ipt")
 text = "All Miners ON"
 
-[node name="Upgrade_Button" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons"]
+[node name="Upgrade_Button" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" unique_id=292602458]
 layout_mode = 2
 theme = ExtResource("11_vnck4")
 text = "Upgrade "
 metadata/_edit_lock_ = true
 
-[node name="Recycle" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons"]
+[node name="Recycle" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" unique_id=1094174297]
 layout_mode = 2
 theme = ExtResource("32_cpwxv")
 text = "Recycle "
 metadata/_edit_lock_ = true
 
-[node name="MiniMapBackground" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground"]
+[node name="MiniMapBackground" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=629173753]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.334
@@ -437,7 +443,7 @@ offset_top = 1.04001
 offset_bottom = 8.03999
 theme = ExtResource("28_ud85u")
 
-[node name="Forground" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground"]
+[node name="Forground" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground" unique_id=577700639]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.004
@@ -450,7 +456,7 @@ offset_bottom = 1.92699
 theme = SubResource("Theme_q3g37")
 script = ExtResource("29_u08bu")
 
-[node name="ColorRect2" type="ColorRect" parent="HotBar_Layer"]
+[node name="ColorRect2" type="ColorRect" parent="HotBar_Layer" unique_id=2041071801]
 z_index = 3
 offset_left = 1028.0
 offset_top = 523.0
@@ -460,15 +466,14 @@ theme = SubResource("Theme_tklwr")
 color = Color(0, 0, 0, 0.768627)
 metadata/_edit_lock_ = true
 
-[node name="Right Box" type="Control" parent="HotBar_Layer/ColorRect2"]
-layout_mode = 3
+[node name="Right Box" type="Control" parent="HotBar_Layer/ColorRect2" unique_id=1503900427]
 anchors_preset = 0
 offset_right = 124.0
 offset_bottom = 62.0
 script = ExtResource("29_syjw4")
 metadata/_edit_lock_ = true
 
-[node name="Resources" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]
+[node name="Resources" type="Label" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=866234510]
 z_index = 4
 layout_mode = 0
 offset_left = 4.0
@@ -479,7 +484,7 @@ text = "50 minerals"
 label_settings = SubResource("LabelSettings_a1qks")
 metadata/_edit_lock_ = true
 
-[node name="RPM" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]
+[node name="RPM" type="Label" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=276158642]
 z_index = 4
 layout_mode = 0
 offset_left = 4.0
@@ -490,7 +495,7 @@ text = "0 minerals per minute"
 label_settings = SubResource("LabelSettings_qefu7")
 metadata/_edit_lock_ = true
 
-[node name="Energy" type="Label" parent="HotBar_Layer/ColorRect2/Right Box"]
+[node name="Energy" type="Label" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=1755560519]
 z_index = 4
 layout_mode = 0
 offset_left = 4.0
@@ -501,7 +506,7 @@ text = "0 energy"
 label_settings = SubResource("LabelSettings_jdsif")
 metadata/_edit_lock_ = true
 
-[node name="Energy_Amount_Bar" type="ProgressBar" parent="HotBar_Layer/ColorRect2/Right Box"]
+[node name="Energy_Amount_Bar" type="ProgressBar" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=2111685262]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 97.0
@@ -512,7 +517,7 @@ value = 50.0
 show_percentage = false
 metadata/_edit_lock_ = true
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=951547882]
 visible = false
 scale = Vector2(1, 1.08)
 navigation_polygon = SubResource("NavigationPolygon_ywhqf")
@@ -523,6 +528,7 @@ metadata/_edit_lock_ = true
 [connection signal="finished" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_survival_finished"]
 [connection signal="rebake_mesh" from="." to="NavigationRegion2D" method="_on_survival_rebake_mesh"]
 [connection signal="remove_radar_node" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground" method="_on_survival_remove_radar_node"]
+[connection signal="child_exiting_tree" from="Enemy_Wave_Spawner" to="Enemy_Wave_Spawner" method="_on_child_exiting_tree"]
 [connection signal="timeout" from="Global_Ticks" to="Enemy_Wave_Spawner" method="_on_global_ticks_timeout"]
 [connection signal="timeout" from="Global_Ticks" to="Global_Ticks" method="_on_timeout"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="." method="_on_camera_area_cancel_spawn_tower"]

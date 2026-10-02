@@ -1,7 +1,7 @@
-[gd_scene load_steps=95 format=3 uid="uid://bwgv8meys4msc"]
+[gd_scene format=3 uid="uid://bwgv8meys4msc"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_ktcgg"]
-[ext_resource type="Script" path="res://towers/Laser/laser.gd" id="2_4d8m5"]
+[ext_resource type="Script" uid="uid://b66g7r6b3ob84" path="res://towers/Laser/laser.gd" id="2_4d8m5"]
 [ext_resource type="PackedScene" uid="uid://c11uhwml84phf" path="res://Components/health.tscn" id="3_j2n2b"]
 [ext_resource type="Texture2D" uid="uid://dyqx0g25c4fem" path="res://Visuals/Sprite_Frames/234.png" id="4_aia41"]
 [ext_resource type="Texture2D" uid="uid://cey1x5g88wnuy" path="res://Visuals/Sprite_Frames/205.png" id="4_nb7qc"]
@@ -17,21 +17,21 @@
 [ext_resource type="Texture2D" uid="uid://brityndijl5fs" path="res://Visuals/Sprite_Frames/227.png" id="14_6yjg0"]
 [ext_resource type="Texture2D" uid="uid://dpvemptm8o1ui" path="res://Visuals/Sprite_Frames/229.png" id="15_6lhpm"]
 [ext_resource type="Texture2D" uid="uid://t6cwxbe40n05" path="res://Visuals/Sprite_Frames/231.png" id="16_clqy0"]
-[ext_resource type="Script" path="res://towers/Laser/sprite_2d.gd" id="17_g20wn"]
+[ext_resource type="Script" uid="uid://c58n3g86xe4tk" path="res://towers/Laser/sprite_2d.gd" id="17_g20wn"]
 [ext_resource type="Texture2D" uid="uid://3s5d68k2oyth" path="res://Visuals/Sprite_Frames/237.png" id="17_m5ph6"]
 [ext_resource type="Texture2D" uid="uid://dp1kficryqtq6" path="res://Visuals/Sprite_Frames/311.png" id="17_xaw4h"]
 [ext_resource type="Texture2D" uid="uid://ddtgylqcybgxn" path="res://Visuals/Sprite_Frames/239.png" id="18_cl507"]
 [ext_resource type="Texture2D" uid="uid://d1j5a3nriiwg0" path="res://Visuals/Sprite_Frames/313.png" id="18_h4e0j"]
-[ext_resource type="Script" path="res://towers/Laser/laser_states_machine.gd" id="18_qvvyy"]
+[ext_resource type="Script" uid="uid://cunyfc16svqm" path="res://towers/Laser/laser_states_machine.gd" id="18_qvvyy"]
 [ext_resource type="Texture2D" uid="uid://b4vaq8f8bkm5v" path="res://Visuals/Sprite_Frames/315.png" id="19_58p52"]
-[ext_resource type="Script" path="res://towers/Laser/thel.gd" id="19_gvtru"]
+[ext_resource type="Script" uid="uid://crnhdbewfhrfx" path="res://towers/Laser/thel.gd" id="19_gvtru"]
 [ext_resource type="Texture2D" uid="uid://c0p7ljb8mrl8r" path="res://Visuals/Sprite_Frames/241.png" id="19_kai4x"]
-[ext_resource type="Script" path="res://towers/Laser/basic_laser.gd" id="20_80jae"]
+[ext_resource type="Script" uid="uid://da7thnnurv5c8" path="res://towers/Laser/basic_laser.gd" id="20_80jae"]
 [ext_resource type="Texture2D" uid="uid://bb58qua5vdl5x" path="res://Visuals/Sprite_Frames/243.png" id="20_mhsmd"]
 [ext_resource type="Texture2D" uid="uid://drucmng0a58vc" path="res://Visuals/Sprite_Frames/317.png" id="20_uojqo"]
 [ext_resource type="Texture2D" uid="uid://d2mqlhkkdy66h" path="res://Visuals/Sprite_Frames/319.png" id="21_au8oh"]
 [ext_resource type="Texture2D" uid="uid://bv0gxtai265wr" path="res://Visuals/Sprite_Frames/245.png" id="21_sdqjq"]
-[ext_resource type="Script" path="res://towers/Laser/pulsar.gd" id="21_ys1hr"]
+[ext_resource type="Script" uid="uid://dwws3ch8xn83t" path="res://towers/Laser/pulsar.gd" id="21_ys1hr"]
 [ext_resource type="Texture2D" uid="uid://be8c3atffi003" path="res://Visuals/Sprite_Frames/247.png" id="22_pmsdm"]
 [ext_resource type="Texture2D" uid="uid://cuav13pxyjsoq" path="res://Visuals/Sprite_Frames/321.png" id="22_pxqdq"]
 [ext_resource type="Texture2D" uid="uid://dmkk5jb3kdi4u" path="res://Visuals/Sprite_Frames/249.png" id="23_pkci1"]
@@ -90,7 +90,7 @@
 [ext_resource type="Texture2D" uid="uid://dmh6tclinco0w" path="res://Visuals/Sprite_Frames/334.png" id="63_xa8uf"]
 [ext_resource type="Texture2D" uid="uid://3vaeio88y4fe" path="res://Visuals/Sprite_Frames/358.png" id="74_ulcn0"]
 [ext_resource type="Texture2D" uid="uid://ytlue1emoc68" path="res://Visuals/Sprite_Frames/382.png" id="85_ykd13"]
-[ext_resource type="Script" path="res://towers/Laser/upgrades.gd" id="91_p061p"]
+[ext_resource type="Script" uid="uid://bgk2x60kj80tu" path="res://towers/Laser/upgrades.gd" id="91_p061p"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nlb16"]
 animations = [{
@@ -422,16 +422,16 @@ radius = 16.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
 radius = 58.0
 
-[node name="Laser" groups=["laser"] instance=ExtResource("1_ktcgg")]
+[node name="Laser" unique_id=127248683 groups=["laser"] instance=ExtResource("1_ktcgg")]
 script = ExtResource("2_4d8m5")
 custom_class = "Laser"
 power_needed = 1
 power_time_seconds = 1
 
-[node name="Upgrades" type="Node" parent="." index="0"]
+[node name="Upgrades" type="Node" parent="." index="0" unique_id=1943170888]
 script = ExtResource("91_p061p")
 
-[node name="Health" parent="." index="1" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_j2n2b")]
+[node name="Health" parent="." index="1" unique_id=319312796 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_j2n2b")]
 health_amount = 200
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
@@ -441,13 +441,17 @@ Animated_Target = NodePath("../Sprite_Node")
 [node name="Hitbox" parent="." index="2" node_paths=PackedStringArray("health_component")]
 health_component = NodePath("../Health")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0"]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0" unique_id=1928199256]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_nlb16")
 animation = &"Laser"
 script = ExtResource("17_g20wn")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
+[node name="Laser" parent="." index="6"]
+points = PackedVector2Array(644, 199)
+default_color = Color(0.9254902, 0.87058824, 0.10980392, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0" unique_id=2100627061]
 shape = SubResource("CircleShape2D_qfnyt")
 
 [node name="Collision_Area" parent="." index="9"]
@@ -457,17 +461,17 @@ collision_layer = 10
 shape = SubResource("CircleShape2D_emkd0")
 debug_color = Color(1, 1, 1, 0)
 
-[node name="StateMachine" type="Node2D" parent="." index="13" node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node2D" parent="." index="13" unique_id=599999205 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("18_qvvyy")
 initial_state = NodePath("Basic_Laser")
 
-[node name="Thel" type="Node" parent="StateMachine" index="0"]
+[node name="Thel" type="Node" parent="StateMachine" index="0" unique_id=398864837]
 script = ExtResource("19_gvtru")
 
-[node name="Basic_Laser" type="Node" parent="StateMachine" index="1"]
+[node name="Basic_Laser" type="Node" parent="StateMachine" index="1" unique_id=1336750801]
 script = ExtResource("20_80jae")
 
-[node name="Pulsar" type="Node" parent="StateMachine" index="2"]
+[node name="Pulsar" type="Node" parent="StateMachine" index="2" unique_id=698462853]
 script = ExtResource("21_ys1hr")
 
 [connection signal="tower_built" from="." to="StateMachine" method="_on_laser_tower_built"]
