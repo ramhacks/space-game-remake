@@ -3,7 +3,7 @@ const EnemyEnums = preload("res://enums/enemy_enums.gd")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	get_parent().send_change("Power")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

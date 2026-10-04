@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c208gk4yto1e0" path="res://Components/hitbox.tscn" id="3_vfdq4"]
 [ext_resource type="Texture2D" uid="uid://c3oe7crqbmkpn" path="res://Visuals/Sprite_Frames/Enemy/3.png" id="4_ck3r1"]
 [ext_resource type="Script" uid="uid://cn5p102gby640" path="res://Enemy/state_machine.gd" id="4_eq2ct"]
+[ext_resource type="Script" uid="uid://d0tbjovv0mmy4" path="res://Enemy/targeting.gd" id="5_a277p"]
 [ext_resource type="Script" uid="uid://d164rprjpewch" path="res://Enemy/Enemy_Types/random_target.gd" id="5_q62d7"]
 [ext_resource type="Script" uid="uid://bkc765jr6ix8t" path="res://Enemy/Enemy_Types/power_target.gd" id="6_mh5em"]
 [ext_resource type="Script" uid="uid://1vcjintxflwf" path="res://Enemy/Enemy_Types/defense_target.gd" id="7_mh5em"]
@@ -15,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://cf7ao24yqb5ev" path="res://Visuals/Effects/Explosion/6.png" id="10_drcas"]
 [ext_resource type="Texture2D" uid="uid://b6armdykftyu5" path="res://Visuals/Effects/Explosion/1.png" id="10_whau4"]
 [ext_resource type="Texture2D" uid="uid://bemi0futfol55" path="res://Visuals/Effects/Explosion/2.png" id="11_5am3m"]
+[ext_resource type="Script" uid="uid://d2fna8yy4kilr" path="res://Enemy/set_type.gd" id="17_lpoy4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0fc7o"]
 radius = 2.0
@@ -54,10 +56,10 @@ animations = [{
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_ogkn4")
+"texture": ExtResource("4_ck3r1")
 }],
 "loop": true,
-"name": &"Enemy_1",
+"name": &"Defense",
 "speed": 5.0
 }, {
 "frames": [{
@@ -65,15 +67,15 @@ animations = [{
 "texture": ExtResource("3_pxso4")
 }],
 "loop": true,
-"name": &"Enemy_2",
+"name": &"Power",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_ck3r1")
+"texture": ExtResource("2_ogkn4")
 }],
 "loop": true,
-"name": &"Enemy_3",
+"name": &"Random",
 "speed": 5.0
 }]
 
@@ -122,6 +124,7 @@ neighbor_distance = 20.0
 debug_path_custom_color = Color(0.682353, 0.137255, 0.560784, 0.815686)
 
 [node name="Targeting" type="Node" parent="." unique_id=1112196203]
+script = ExtResource("5_a277p")
 
 [node name="Random_Target" type="Node" parent="Targeting" unique_id=2037526721]
 script = ExtResource("5_q62d7")
@@ -142,6 +145,10 @@ script = ExtResource("9_oba48")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" unique_id=1189680900]
 position = Vector2(0, 2.98023e-08)
-scale = Vector2(0.2132, 0.217738)
+scale = Vector2(0.4, 0.409)
 sprite_frames = SubResource("SpriteFrames_hb4hy")
-animation = &"Enemy_1"
+animation = &"Random"
+script = ExtResource("17_lpoy4")
+
+[connection signal="changetarget" from="Targeting" to="Sprite_Node/Sprite2D" method="_on_targeting_changetarget"]
+[connection signal="animation_changed" from="Sprite_Node/Sprite2D" to="Sprite_Node/Sprite2D" method="_on_animation_changed"]

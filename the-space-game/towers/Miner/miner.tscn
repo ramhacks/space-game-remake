@@ -1,8 +1,8 @@
-[gd_scene load_steps=32 format=3 uid="uid://c6np11nexofah"]
+[gd_scene format=3 uid="uid://c6np11nexofah"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_x10fq"]
-[ext_resource type="Script" path="res://towers/Miner/miner_tower.gd" id="2_3ciky"]
-[ext_resource type="Script" path="res://towers/Miner/miner.gd" id="2_7igyp"]
+[ext_resource type="Script" uid="uid://dfkicyg1eriys" path="res://towers/Miner/miner_tower.gd" id="2_3ciky"]
+[ext_resource type="Script" uid="uid://v8bf10p5sovm" path="res://towers/Miner/miner.gd" id="2_7igyp"]
 [ext_resource type="PackedScene" uid="uid://c11uhwml84phf" path="res://Components/health.tscn" id="3_84so6"]
 [ext_resource type="Texture2D" uid="uid://cgs7ld2xn3gnc" path="res://Visuals/Sprite_Frames/494.png" id="3_jupu6"]
 [ext_resource type="Texture2D" uid="uid://beq1a1rqkgpe5" path="res://Visuals/Sprite_Frames/514.png" id="3_yabks"]
@@ -28,7 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://w80eefylrpvj" path="res://Visuals/Sprite_Frames/534.png" id="23_8eotj"]
 [ext_resource type="Texture2D" uid="uid://bp3lql4l1n5pn" path="res://Visuals/Sprite_Frames/536.png" id="24_sgic6"]
 [ext_resource type="Texture2D" uid="uid://crau3vdk0vtxi" path="res://Visuals/Sprite_Frames/538.png" id="25_nnu05"]
-[ext_resource type="Script" path="res://towers/Miner/upgrades.gd" id="29_8b11p"]
+[ext_resource type="Script" uid="uid://cwca4c5dllflf" path="res://towers/Miner/upgrades.gd" id="29_8b11p"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xrw86"]
 animations = [{
@@ -128,28 +128,29 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_m6ypq"]
 radius = 8.06226
 
-[node name="miner" instance=ExtResource("1_x10fq")]
+[node name="miner" unique_id=1960510899 instance=ExtResource("1_x10fq")]
 script = ExtResource("2_3ciky")
 custom_class = "Miner"
 power_needed = 10
 power_time_seconds = 2
 
-[node name="Health" parent="." index="0" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_84so6")]
+[node name="Health" parent="." index="0" unique_id=502972133 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_84so6")]
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0"]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0" unique_id=1504173198]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_xrw86")
 animation = &"Level 1"
 script = ExtResource("2_7igyp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0" unique_id=1820447453]
 shape = SubResource("CircleShape2D_m6ypq")
 
-[node name="Upgrades" type="Node" parent="." index="12"]
+[node name="Upgrades" type="Node" parent="." index="12" unique_id=1614944588]
 script = ExtResource("29_8b11p")
 
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="draw_line" from="Sprite_Node/Sprite2D" to="." method="_on_sprite_2d_draw_line"]

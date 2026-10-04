@@ -130,6 +130,9 @@ script = ExtResource("1_e2foe")
 script = ExtResource("2_eaa06")
 mob_cap = 10
 
+[node name="CooldownEnemy" type="Timer" parent="Enemy_Wave_Spawner" unique_id=1096147353]
+editor_description = "This is a timer to make sure we dont endlessly spawn enemy waves forever"
+
 [node name="Global_Ticks" type="Timer" parent="." unique_id=289095970]
 wait_time = 10.0
 autostart = true
@@ -529,6 +532,7 @@ metadata/_edit_lock_ = true
 [connection signal="rebake_mesh" from="." to="NavigationRegion2D" method="_on_survival_rebake_mesh"]
 [connection signal="remove_radar_node" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground" method="_on_survival_remove_radar_node"]
 [connection signal="child_exiting_tree" from="Enemy_Wave_Spawner" to="Enemy_Wave_Spawner" method="_on_child_exiting_tree"]
+[connection signal="timeout" from="Enemy_Wave_Spawner/CooldownEnemy" to="Enemy_Wave_Spawner" method="_on_cooldown_enemy_timeout"]
 [connection signal="timeout" from="Global_Ticks" to="Enemy_Wave_Spawner" method="_on_global_ticks_timeout"]
 [connection signal="timeout" from="Global_Ticks" to="Global_Ticks" method="_on_timeout"]
 [connection signal="cancel_spawn_tower" from="Camera_Area" to="." method="_on_camera_area_cancel_spawn_tower"]

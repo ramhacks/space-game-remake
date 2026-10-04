@@ -363,6 +363,8 @@ func show_selection_ui(tower):
 	#re-add all button nodes just in case they were removed in another tower seleciton menu
 	var vbox = self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons")
 
+
+
 	var children = Globals.get_all_children(vbox)
 	children.pop_front()
 	for i in children:
@@ -370,13 +372,15 @@ func show_selection_ui(tower):
 
 	#Only display upgrade buttons if upgrade is available in the tree (are there children or is it a leaf node)
 
-	if len(tower.current_upgrade_node.children) > 0:
+
+	if len(tower.current_upgrade_node.children) > 0 and tower.built:
 		if len(tower.current_upgrade_node.children) > 1:
 			vbox_children[0].theme = button_themes["Custom_Button"]
-			vbox_children[0].text = tower.current_upgrade_node.children[1].label
+			vbox_children[0].text = tower.current_upgrade_node.children[1].label + ": " + str(tower.current_upgrade_node.children[1].price)
 			vbox.add_child(vbox_children[0])
 
-		vbox_children[1].text = tower.current_upgrade_node.children[0].label
+		vbox_children[1].text = tower.current_upgrade_node.children[0].label + ": " + str(tower.current_upgrade_node.children[0].price)
+
 		vbox.add_child(vbox_children[1])
 
 
