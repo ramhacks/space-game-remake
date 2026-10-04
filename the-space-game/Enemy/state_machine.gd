@@ -15,7 +15,6 @@ var target_changed = false
 
 func start_ai():
 	var temp = self.get_parent().get_new_target()
-
 	# Enemy Switched to random and needs to be called again to find a new target using random strategy
 	if (temp is EnemyEnums.TargetFound):
 		temp = self.get_parent().get_new_target()

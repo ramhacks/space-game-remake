@@ -14,9 +14,5 @@ func _process(delta: float) -> void:
 ## Source: targeting.gd
 ## Purpose: Change Sprite
 func _on_targeting_changetarget(newtarget: String) -> void:
-	print(newtarget)
-	animation = newtarget
-
-
-func _on_animation_changed() -> void:
-	print("Changed Successful")
+	if self.sprite_frames.has_animation(newtarget):
+		play(newtarget)

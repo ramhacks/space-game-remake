@@ -20,8 +20,6 @@ func _process(delta: float) -> void:
 		skip_frame = 0
 	$Resources.text = str(Globals.resources) + " minerals"
 	$Energy.text = str(Globals.total_current) + " energy"
-
-	$RPM.text = str(Globals.RPM) + " minerals per minute"
 	#Add a way to calculate resources per minute
 
 	skip_frame +=1

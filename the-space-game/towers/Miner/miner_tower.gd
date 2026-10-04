@@ -55,7 +55,6 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	draw_laser.emit(self, pos1, pos2, cooldown_delay, self)
 
 func upgrade(upgrade_type):
-	print("Upgrade")
 	#Change how RPM is calculated with new energy system
 	if(animated_node.upgrade_level < 3):
 		Globals.RPM -= mpm * 60

@@ -11,10 +11,10 @@ func _process(delta: float) -> void:
 	#add each cur_name option to customize for each seperate tower type
 	if Globals.tower_selection_mode:
 		if(tower_data_pull.cur_name == "miner"):
-			
-			$Label1.text = "Mine Rate:  " + str(tower_data_pull.mpm) + " mpm"
+
+			$Label1.text = "Mine Amount:  " + str(tower_data_pull.current_upgrade_node.custom_var)
 			$Label2.text = "Total Mined: " + str(tower_data_pull.total_mined)
-	
+
 		elif(tower_data_pull.cur_name == "solar"):
 			$Label1.text = "Energy Rate:  " + str(tower_data_pull.energy)
 			$Label2.visible = false

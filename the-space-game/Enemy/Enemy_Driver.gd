@@ -8,9 +8,9 @@ var radar_marker: Radar
 var health_connected
 
 var Targeting: Dictionary = {
-	"Random": "Targeting/Random_Target",
-	"Power": "Targeting/Power_Target",
-	"Defense": "Targeting/Defense_Target",
+	"random": "Targeting/Random_Target",
+	"power": "Targeting/Power_Target",
+	"defense": "Targeting/Defense_Target",
 }
 
 var target_strat: String
@@ -67,7 +67,9 @@ func _ready() -> void:
 func initialize(target_method, radar, start_position):
 	self.global_position = start_position
 	target_strat = target_method
+	print("TARGET STRAT IS: " + target_strat)
 	radar_marker = radar
+	self.get_node(Targeting[target_strat]).init_target()
 	$StateMachine.start_ai()
 
 func enemy_death():
@@ -84,17 +86,19 @@ func _process(delta: float) -> void:
 
 
 func get_new_target():
-
 	if(get_tree().get_nodes_in_group("tower_node").size() == 0):
 		#Force quit, do this until we have a loading screen
-
 		assert(3 == 2, "GAME OVER")
 		self.queue_free()
 
+	print(Targeting[target_strat])
+
 	var out = self.get_node(Targeting[target_strat]).get_target()
+
 	if(out is EnemyEnums.TargetFound and out == EnemyEnums.TargetFound.KILLSELF):
 		enemy_death()
 	elif (out is EnemyEnums.TargetFound and out == EnemyEnums.TargetFound.SWITCH_RANDOM):
+		self.get_node(Targeting[target_strat]).init_target()
 		#Dont return anything ignore and continue
 		return EnemyEnums.TargetFound.SWITCH_RANDOM
 	else:

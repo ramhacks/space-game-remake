@@ -3,10 +3,9 @@ const EnemyEnums = preload("res://enums/enemy_enums.gd")
 
 var current_animation_changed = false
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	get_parent().send_change("Defense")
 
-
+func init_target() -> void:
+	get_parent().send_change("defense")
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
@@ -18,7 +17,8 @@ func get_target() -> Variant:
 
 	if(get_tree().get_nodes_in_group("defense").size() == 0):
 		# Change targeting strategy to default random
-		get_parent().get_parent().target_strat = "Random"
+		print("NEEDED TO CHANGE NO VALID DEFENSE AVAILABLE")
+		get_parent().get_parent().target_strat = "random"
 		return EnemyEnums.TargetFound.SWITCH_RANDOM
 
 	var targ = get_tree().get_nodes_in_group("defense")[randi() % get_tree().get_nodes_in_group("defense").size()]

@@ -59,7 +59,7 @@ animations = [{
 "texture": ExtResource("4_ck3r1")
 }],
 "loop": true,
-"name": &"Defense",
+"name": &"defense",
 "speed": 5.0
 }, {
 "frames": [{
@@ -67,7 +67,7 @@ animations = [{
 "texture": ExtResource("3_pxso4")
 }],
 "loop": true,
-"name": &"Power",
+"name": &"power",
 "speed": 5.0
 }, {
 "frames": [{
@@ -75,7 +75,7 @@ animations = [{
 "texture": ExtResource("2_ogkn4")
 }],
 "loop": true,
-"name": &"Random",
+"name": &"random",
 "speed": 5.0
 }]
 
@@ -147,7 +147,7 @@ script = ExtResource("9_oba48")
 position = Vector2(0, 2.98023e-08)
 scale = Vector2(0.4, 0.409)
 sprite_frames = SubResource("SpriteFrames_hb4hy")
-animation = &"Random"
+animation = &"defense"
 script = ExtResource("17_lpoy4")
 
 [connection signal="changetarget" from="Targeting" to="Sprite_Node/Sprite2D" method="_on_targeting_changetarget"]
