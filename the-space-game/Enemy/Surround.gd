@@ -35,9 +35,7 @@ func Enter():
 
 	#nav.target_position = target_node.global_position + Vector2.RIGHT.rotated((current_angle + 20) % 360)*30
 
-func Update(delta:float):
-	pass
-		
+
 
 func _on_enemy_tower_removed() -> void:
 	Transitioned.emit(self, 'Chase')
@@ -47,41 +45,42 @@ func _on_enemy_tower_removed() -> void:
 
 
 func Physics_Update(delta: float):
-	randomize()
-	if(!is_instance_valid(self.get_parent().target_node)):
-		self.get_parent().target_node = enemy.get_new_target()
-	
-	if(enemy.global_position.distance_to(nav.target_position) < 40 and enemy.global_position.distance_to(nav.target_position) > 30 and is_instance_valid(self.get_parent().target_node) and not first_shot):
-		send_laser.emit(self.get_parent().target_node)
-		first_shot = true
-	
-	if(enemy.global_position.distance_to(nav.target_position) < 20 and is_instance_valid(self.get_parent().target_node)):
-		var angle = randf_range(-10, 10)
-		
-		current_angle = angle
-		nav.target_position = enemy.point_circle(self.get_parent().target_node.global_position, angle)
-		#nav.target_position = enemy.next_point(self.get_parent().target_node.global_position, enemy.global_position, angle)
-		send_laser.emit(self.get_parent().target_node)
-		first_shot = false
-		
-	if(!is_instance_valid(self.get_parent().target_node)):
-		self.get_parent().target_node = enemy.get_new_target()
-	
-		
-	if(is_instance_valid(self.get_parent().target_node)):
-		if(enemy.global_position.distance_to(self.get_parent().target_node.global_position) > anchor_distance):
-			Transitioned.emit(self, 'Chase')	
-	
-	if is_instance_valid(self.get_parent().target_node):
+	if !Globals.paused:
+		randomize()
+		if(!is_instance_valid(self.get_parent().target_node)):
+			self.get_parent().target_node = enemy.get_new_target()
 
-		move_direction = Vector2()
-		move_direction = nav.get_next_path_position() - enemy.global_position
-			
-		move_direction = move_direction.normalized()
+		if(enemy.global_position.distance_to(nav.target_position) < 40 and enemy.global_position.distance_to(nav.target_position) > 30 and is_instance_valid(self.get_parent().target_node) and not first_shot):
+			send_laser.emit(self.get_parent().target_node)
+			first_shot = true
 
-				
-		enemy.velocity = enemy.velocity.lerp(move_direction * enemy.speed, enemy.accel * delta)
+		if(enemy.global_position.distance_to(nav.target_position) < 20 and is_instance_valid(self.get_parent().target_node)):
+			var angle = randf_range(-10, 10)
 
-		enemy.move_and_slide()
-				
-		enemy.look_at(self.get_parent().target_node.global_position)
+			current_angle = angle
+			nav.target_position = enemy.point_circle(self.get_parent().target_node.global_position, angle)
+			#nav.target_position = enemy.next_point(self.get_parent().target_node.global_position, enemy.global_position, angle)
+			send_laser.emit(self.get_parent().target_node)
+			first_shot = false
+
+		if(!is_instance_valid(self.get_parent().target_node)):
+			self.get_parent().target_node = enemy.get_new_target()
+
+
+		if(is_instance_valid(self.get_parent().target_node)):
+			if(enemy.global_position.distance_to(self.get_parent().target_node.global_position) > anchor_distance):
+				Transitioned.emit(self, 'Chase')
+
+		if is_instance_valid(self.get_parent().target_node):
+
+			move_direction = Vector2()
+			move_direction = nav.get_next_path_position() - enemy.global_position
+
+			move_direction = move_direction.normalized()
+
+
+			enemy.velocity = enemy.velocity.lerp(move_direction * enemy.speed, enemy.accel * delta)
+
+			enemy.move_and_slide()
+
+			enemy.look_at(self.get_parent().target_node.global_position)

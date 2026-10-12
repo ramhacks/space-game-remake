@@ -41,6 +41,7 @@
 [ext_resource type="Texture2D" uid="uid://bbdxymif56th" path="res://Visuals/UIAssets/Pause.png" id="38_iaat1"]
 [ext_resource type="Script" uid="uid://cfatewa8dkjlt" path="res://Survival_Scene_Scripts/right_box.gd" id="38_uv5vx"]
 [ext_resource type="FontFile" uid="uid://baf5yckugqi1b" path="res://Visuals/Fonts/663_Trebuchet MS.ttf" id="39_qqdbo"]
+[ext_resource type="Script" uid="uid://wfo6pi7goiwx" path="res://GameScenes/pausemenu.gd" id="40_cyyct"]
 [ext_resource type="Script" uid="uid://d2rkn134m7sds" path="res://Survival_Scene_Scripts/navigation_region_2d.gd" id="40_ruc0v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
@@ -117,7 +118,6 @@ script = ExtResource("1_gc75h")
 [node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035]
 script = ExtResource("2_iaat1")
 base_prep_time = 30.0
-mob_cap = 10
 
 [node name="CooldownEnemy" type="Timer" parent="Enemy_Wave_Spawner" unique_id=1096147353]
 editor_description = "This is a timer to make sure we dont endlessly spawn enemy waves forever"
@@ -428,13 +428,14 @@ script = ExtResource("37_31c71")
 
 [node name="Pause" type="TextureButton" parent="HotBar_Layer/Hotbar_Background" unique_id=136411835]
 layout_mode = 0
-offset_left = 830.0
-offset_top = -510.0
-offset_right = 870.0
-offset_bottom = -470.0
+offset_left = 792.0
+offset_top = -475.0
+offset_right = 832.0
+offset_bottom = -435.0
 toggle_mode = true
 texture_normal = ExtResource("38_dakgy")
 texture_pressed = ExtResource("38_iaat1")
+script = ExtResource("40_cyyct")
 
 [node name="ColorRect2" type="ColorRect" parent="HotBar_Layer" unique_id=2041071801]
 z_index = 3
@@ -514,3 +515,4 @@ metadata/_edit_lock_ = true
 [connection signal="Upgrade_Pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_upgrade_button_upgrade_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" method="_on_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Recycle" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_recycle_pressed"]
+[connection signal="toggled" from="HotBar_Layer/Hotbar_Background/Pause" to="HotBar_Layer/Hotbar_Background/Pause" method="_on_toggled"]

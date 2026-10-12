@@ -76,7 +76,7 @@ func get_overlap():
 
 
 func upgrade(upgrade_type):
-	print(upgrade_type)
+	print("Upgraded to: " + upgrade_type)
 	if upgrade_type == "Pulsar":
 		laser_upgrade_type = 'pulsar'
 	else:

@@ -145,7 +145,6 @@ func _on_surround_send_laser(target: Variant) -> void:
 
 		var out = mis.instantiate()
 		out.set_damage(missle_damage)
-		print(missle_damage)
 
 		self.add_child(out)
 		out.set_target(target)

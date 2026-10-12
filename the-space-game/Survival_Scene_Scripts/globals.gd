@@ -62,7 +62,7 @@ var power_lines
 
 var power_line_segment
 
-
+var paused = false # when set to true stop power timer
 
 ## sent when a tower requests power but there is not enough power available to give it any
 signal no_power_available(sender)
@@ -86,12 +86,24 @@ func _ready():
 	power_line_segment = preload("res://General_Purpose_Scenes/power_line_segment.tscn")
 	sprite_collider_instance = preload("res://towers/sprite_collision_shape_setter.tscn")
 
+func pause_game():
+	paused = true
+	print("Paused set to true!")
+	print("STOPPING ALL POWER")
+
+
+func restart_game():
+	paused = false
+	global_power_timer_on.start()
+
 
 func start_off():
-	global_power_timer_off.start()
+	if !paused:
+		global_power_timer_off.start()
 
 func start_on():
-	global_power_timer_on.start()
+	if !paused:
+		global_power_timer_on.start()
 
 
 
@@ -132,7 +144,7 @@ func group_changed_adjust_max_power(group_target):
 		power_groups[group_target][1] += node.power_capacity
 
 func power_requested(tower, group, power_needed):
-	if(group in power_groups):
+	if(group in power_groups) and !paused:
 		if(power_groups[group][0]-power_needed > 0):
 			tower.do_process()
 			power_groups[group][0] -= power_needed

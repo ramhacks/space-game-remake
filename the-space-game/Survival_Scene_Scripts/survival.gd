@@ -372,8 +372,9 @@ func show_selection_ui(tower):
 
 	#Only display upgrade buttons if upgrade is available in the tree (are there children or is it a leaf node)
 
-	# for child in tower.current_upgrade_node.children:
-	# 	print(child.label)
+	for child in tower.current_upgrade_node.children:
+		print(child.label)
+
 	if len(tower.current_upgrade_node.children) > 0 and tower.built:
 		if len(tower.current_upgrade_node.children) > 1:
 			vbox_children[0].theme = button_themes["Custom_Button"]

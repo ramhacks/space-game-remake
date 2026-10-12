@@ -1,12 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://bxom4d8la8da2"]
+[gd_scene format=3 uid="uid://bxom4d8la8da2"]
 
-[ext_resource type="Script" path="res://UI Scenes/tower_button_component.gd" id="1_cujcw"]
+[ext_resource type="Script" uid="uid://cck2psirr8t7j" path="res://UI Scenes/tower_button_component.gd" id="1_cujcw"]
 [ext_resource type="Texture2D" uid="uid://boml38qf8ys4i" path="res://Visuals/Sprite_Frames/infobutton_frame1.png" id="1_ibxq2"]
 [ext_resource type="Texture2D" uid="uid://trco7br4nfk5" path="res://Visuals/Sprite_Frames/infobutton_frame2.png" id="2_a7dk1"]
 [ext_resource type="Texture2D" uid="uid://bx7rohojjycow" path="res://Visuals/Sprite_Frames/miner_button_frame_1.png" id="3_437o5"]
 [ext_resource type="Texture2D" uid="uid://cljqr2udohd4m" path="res://Visuals/Sprite_Frames/miner_button_frame_2.png" id="4_cvi6u"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=874872235]
+process_mode = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,7 +18,8 @@ mouse_filter = 2
 script = ExtResource("1_cujcw")
 tower_button_target = null
 
-[node name="Info" type="TextureButton" parent="."]
+[node name="Info" type="TextureButton" parent="." unique_id=261553226]
+process_mode = 1
 z_index = 1
 layout_mode = 0
 offset_top = 92.0
@@ -28,7 +30,7 @@ texture_normal = ExtResource("1_ibxq2")
 texture_pressed = ExtResource("2_a7dk1")
 metadata/_edit_lock_ = true
 
-[node name="select_button" type="TextureButton" parent="."]
+[node name="select_button" type="TextureButton" parent="." unique_id=563191138]
 layout_mode = 0
 offset_right = 100.0
 offset_bottom = 92.0

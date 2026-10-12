@@ -1,12 +1,12 @@
-[gd_scene load_steps=20 format=3 uid="uid://dd0iq32xbef8"]
+[gd_scene format=3 uid="uid://dd0iq32xbef8"]
 
-[ext_resource type="Script" path="res://towers/tower.gd" id="1_u867d"]
+[ext_resource type="Script" uid="uid://e1kg7fg1b6h4" path="res://towers/tower.gd" id="1_u867d"]
 [ext_resource type="PackedScene" uid="uid://c208gk4yto1e0" path="res://Components/hitbox.tscn" id="2_65kso"]
-[ext_resource type="Script" path="res://towers/sprite_node.gd" id="2_k56kl"]
+[ext_resource type="Script" uid="uid://cr3m42ii5qpk7" path="res://towers/sprite_node.gd" id="2_k56kl"]
 [ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://Visuals/Sprite_Frames/Green-Circle-PNG-Photo-2603984782.png" id="2_x3dtl"]
-[ext_resource type="Script" path="res://towers/Set_Tower_Selection_Collision.gd" id="3_hmvqe"]
-[ext_resource type="Script" path="res://towers/collision_area.gd" id="4_lhcah"]
-[ext_resource type="Script" path="res://towers/connector.gd" id="5_uevkj"]
+[ext_resource type="Script" uid="uid://cioxa5wviu4ds" path="res://towers/Set_Tower_Selection_Collision.gd" id="3_hmvqe"]
+[ext_resource type="Script" uid="uid://vb27camnq4vw" path="res://towers/collision_area.gd" id="4_lhcah"]
+[ext_resource type="Script" uid="uid://bj1w3no2nxhfe" path="res://towers/connector.gd" id="5_uevkj"]
 [ext_resource type="Texture2D" uid="uid://b6armdykftyu5" path="res://Visuals/Effects/Explosion/1.png" id="6_sra6u"]
 [ext_resource type="Texture2D" uid="uid://bemi0futfol55" path="res://Visuals/Effects/Explosion/2.png" id="7_ph56o"]
 
@@ -80,9 +80,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_w34gp"]
 _data = {
-"RESET": SubResource("Animation_b7t7o"),
-"laser": SubResource("Animation_nqa2o"),
-"line_disolve": SubResource("Animation_v036w")
+&"RESET": SubResource("Animation_b7t7o"),
+&"laser": SubResource("Animation_nqa2o"),
+&"line_disolve": SubResource("Animation_v036w")
 }
 
 [sub_resource type="Gradient" id="Gradient_gpy6k"]
@@ -107,19 +107,20 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="tower" type="Node2D" groups=["Placed_Towers", "tower_node"]]
+[node name="tower" type="Node2D" unique_id=679217469 groups=["Placed_Towers", "tower_node"]]
+process_mode = 1
 script = ExtResource("1_u867d")
 
-[node name="Hitbox" parent="." node_paths=PackedStringArray("parent", "radius_inherit") instance=ExtResource("2_65kso")]
+[node name="Hitbox" parent="." unique_id=1883757356 node_paths=PackedStringArray("parent", "radius_inherit") instance=ExtResource("2_65kso")]
 parent = NodePath("..")
 radius_inherit = NodePath("../Sprite")
 dynamic_Area = true
 hit_types = ["Enemy_Missile"]
 
-[node name="Sprite_Node" type="Node2D" parent="."]
+[node name="Sprite_Node" type="Node2D" parent="." unique_id=1857245891]
 script = ExtResource("2_k56kl")
 
-[node name="BuildProgress" type="ProgressBar" parent="."]
+[node name="BuildProgress" type="ProgressBar" parent="." unique_id=430682336]
 z_index = 2
 offset_left = -7.0
 offset_top = -1.0
@@ -128,48 +129,47 @@ offset_bottom = 1.0
 theme = SubResource("Theme_x60fm")
 show_percentage = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=660500617]
 root_node = NodePath("../Laser")
-libraries = {
-"": SubResource("AnimationLibrary_w34gp")
-}
+libraries/ = SubResource("AnimationLibrary_w34gp")
 
-[node name="Laser" type="Line2D" parent="."]
+[node name="Laser" type="Line2D" parent="." unique_id=1804344111]
 width = 2.0
 default_color = Color(0.52227, 0.952408, 3.85046e-07, 1)
 gradient = SubResource("Gradient_gpy6k")
 
-[node name="collider" type="Sprite2D" parent="."]
+[node name="collider" type="Sprite2D" parent="." unique_id=1122989570]
 z_index = 2
 position = Vector2(-2, 5)
 scale = Vector2(0.185, 0.183333)
 texture = ExtResource("2_x3dtl")
 metadata/_edit_lock_ = true
 
-[node name="Sprite" type="Area2D" parent="." groups=["sprite_node"]]
+[node name="Sprite" type="Area2D" parent="." unique_id=143090353 groups=["sprite_node"]]
 collision_mask = 3
 priority = 1
 script = ExtResource("3_hmvqe")
 metadata/_edit_lock_ = true
 
-[node name="Collision_Area" type="Area2D" parent="."]
+[node name="Collision_Area" type="Area2D" parent="." unique_id=1285518275]
+process_mode = 1
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("4_lhcah")
 
-[node name="Collider" type="CollisionShape2D" parent="Collision_Area"]
+[node name="Collider" type="CollisionShape2D" parent="Collision_Area" unique_id=1519484617]
 modulate = Color(0.776493, 0.149151, 7.70092e-07, 1)
 self_modulate = Color(1, 0.567861, 0.907826, 1)
 shape = SubResource("CircleShape2D_emkd0")
 
-[node name="Connector" type="Line2D" parent="."]
+[node name="Connector" type="Line2D" parent="." unique_id=1397177169]
 width = 1.0
 default_color = Color(0, 0.6, 0.701961, 0.419608)
 script = ExtResource("5_uevkj")
 
-[node name="Power_Delay" type="Timer" parent="."]
+[node name="Power_Delay" type="Timer" parent="." unique_id=1026206250]
 
-[node name="Explosion" type="AnimatedSprite2D" parent="."]
+[node name="Explosion" type="AnimatedSprite2D" parent="." unique_id=386470827]
 visible = false
 sprite_frames = SubResource("SpriteFrames_wry6m")
 

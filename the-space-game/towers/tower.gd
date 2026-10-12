@@ -389,7 +389,7 @@ func get_overlap():
 
 func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and clickable:
-		if event.is_action("BUTTON_LEFT"):
+		if event.is_action("BUTTON_LEFT") and !Globals.paused:
 			draw_selection_animation.emit(self.global_position, sprite_texture.get_size().x/2, true,  inherted_node)
 			#will change the hot bar or something to let us upgrade the selected tower
 

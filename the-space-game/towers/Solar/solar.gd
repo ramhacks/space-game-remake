@@ -28,17 +28,15 @@ func _ready() -> void:
 	child_area = self.get_node("Collision_Area")
 	animated_node = self.get_node("Sprite_Node/Sprite2D")
 	inherted_node = self
-	
+
 
 	energy_produced = self.current_upgrade_node.custom_var_2
 	current_animation = animated_node.animation
-	
+
 	sprite_texture = animated_node.get_sprite_frames().get_frame_texture("hover", 0)
 	place_build_progress_bar()
 	super._ready()
-	
-	
-	
+
 func get_overlap():
 	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however
 
@@ -49,15 +47,15 @@ func _process(delta: float) -> void:
 		build_progress = 100
 
 		Globals.NO_SOLAR_TOWER = false
-	
+
 	if built and connect_toggle:
 
 		$Power_Delay.wait_time = 0.5
 		power_time_seconds = self.current_upgrade_node.custom_var
-		$Power_Delay.timeout.connect(turn_on)  
+		$Power_Delay.timeout.connect(turn_on)
 		$Power_Delay.timeout.disconnect(_on_power_delay_timeout)
 		connect_toggle = false
-		
+
 	super._process(delta)
 
 
@@ -68,18 +66,18 @@ func set_placed(re_animate, current_overlapping_bodies):
 		if is_instance_valid(node):
 			$Connector.add_point(to_local(self.global_position))
 			$Connector.add_point(to_local(node.global_position))
-		
-		
-		
+
+
+
 	super.set_placed(re_animate, current_overlapping_bodies)
 
 func turn_on():
-	#health = 0 For testing explosion animation
-	if(Globals.power_groups[group_][0]+energy_produced <= Globals.power_groups[group_][1]):
-		Globals.power_groups[group_][0] += energy_produced
-		Globals.total_current += energy_produced
-	
-	
+	if !Globals.paused:
+		if(Globals.power_groups[group_][0]+energy_produced <= Globals.power_groups[group_][1]):
+			Globals.power_groups[group_][0] += energy_produced
+			Globals.total_current += energy_produced
+
+
 
 
 #called when this tower is upgraded, called once per upgrade, upgrade level is changed by a script in survival, the side button script
@@ -91,4 +89,3 @@ func upgrade(upgrade_type):
 	$Power_Delay.timeout.disconnect(turn_on)
 	$Power_Delay.timeout.connect(_on_power_delay_timeout)
 	connect_toggle = true
-	
