@@ -2,7 +2,6 @@ extends State
 
 var custom_class
 
-var basic_damage = 20
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
@@ -10,7 +9,6 @@ func _ready() -> void:
 
 
 func do_process(parent_node):
-
 	laser_enemy(parent_node)
 
 #Transfer to laser node when implemented
@@ -19,7 +17,7 @@ func laser_enemy(parent):
 
 	if is_instance_valid(target):
 		draw_laser_attack(parent.to_local(parent.global_position), parent.to_local(target.global_position), parent)
-		target.get_node("Hitbox").register_hit(parent, basic_damage, self)
+		target.get_node("Hitbox").register_hit(parent, parent.current_upgrade_node.custom_var, self)
 
 
 

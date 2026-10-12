@@ -372,15 +372,17 @@ func show_selection_ui(tower):
 
 	#Only display upgrade buttons if upgrade is available in the tree (are there children or is it a leaf node)
 
-
+	# for child in tower.current_upgrade_node.children:
+	# 	print(child.label)
 	if len(tower.current_upgrade_node.children) > 0 and tower.built:
 		if len(tower.current_upgrade_node.children) > 1:
 			vbox_children[0].theme = button_themes["Custom_Button"]
 			vbox_children[0].text = tower.current_upgrade_node.children[1].label + ": " + str(tower.current_upgrade_node.children[1].price)
+			vbox_children[0].upgrade_name = tower.current_upgrade_node.children[1].label
 			vbox.add_child(vbox_children[0])
 
 		vbox_children[1].text = tower.current_upgrade_node.children[0].label + ": " + str(tower.current_upgrade_node.children[0].price)
-
+		vbox_children[1].upgrade_name = tower.current_upgrade_node.children[0].label
 		vbox.add_child(vbox_children[1])
 
 
@@ -394,8 +396,6 @@ func show_selection_ui(tower):
 
 
 
-	var ui_list = get_tower_ui_node(tower.custom_class)
-
 
 
 #hide selection and go back to default hotbar
@@ -404,11 +404,6 @@ func show_selection_ui(tower):
 
 func hide_selection_ui(tower):
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = true
-
-	var ui_list = get_tower_ui_node(tower.custom_class)
-
-
-
 	var tween = self.get_tree().create_tween() #rotate the drawing
 	tween.tween_property(Globals.selection_node, "rotation", deg_to_rad(0), 0)
 	tween.finished.connect(hide_tween_done)

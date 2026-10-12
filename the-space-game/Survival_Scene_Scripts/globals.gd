@@ -1,5 +1,8 @@
 extends Node
 
+#Enum for power groups array
+const PowerG = preload("res://enums/power_enums.gd").PowerGroups
+
 ## Holds tracking data for connected node groups.
 ##
 ## **Dictionary Format:**
@@ -95,14 +98,12 @@ func start_on():
 #IMPORTANT, connects them based on group only, if not in group wont connect line between a group at all
 func connect_group_lines(self_node):
 
-	var news = power_groups[self_node.group_][1] - self_node.power_capacity
-	power_groups[self_node.group_][1] = news
+	var news = power_groups[self_node.group_][PowerG.MAX_POWER] - self_node.power_capacity
+	power_groups[self_node.group_][PowerG.MAX_POWER] = news
 
 
 
 	total_capacity -= self_node.power_capacity
-	#if(self_node.cur_name == 'solar'):
-		#power_groups[self_node.group_][0] -= self_node.energy_produced % self_node.power_capacity
 
 	if(total_capacity > 0 and total_capacity >= total_current):
 		total_current = total_current % total_capacity
@@ -125,7 +126,6 @@ func connect_group_lines(self_node):
 
 
 #Group Power Manegment
-
 func group_changed_adjust_max_power(group_target):
 	power_groups[group_target][1] = 0
 	for node in get_tree().get_nodes_in_group(group_target):
@@ -153,14 +153,11 @@ func all_in(connection_input, target_connections):
 
 func remove_node_from_group(tower):
 	tower.remove_from_group("Placed_Towers")
-	var found_friend = false
-	var found_list = tower.connections #binary list that will change to 0 or 1 depending on if the node is connected to another
 	#connection or not
-	var found_iter: int = 0
 	var check_true = false
 	var dfs_node_list = []
-	for connect in tower.connections:
-		var out = iterativeDFS(connect, tower)
+	for conn in tower.connections:
+		var out = iterativeDFS(conn, tower)
 		if(all_in(out, tower.connections)):
 			check_true = true
 			break
@@ -182,37 +179,6 @@ func remove_node_from_group(tower):
 
 	tower.queue_free()
 
-
-
-
-
-
-
-func iterativeBFS(v, delete_target):
-	var discovered = []
-	# create a stack used to do iterative DFS
-	var queue = []
-
-	# push the source node into the stack
-	queue.append(v)
-
-	# loop till stack is empty
-	while len(queue) > 0:
-
-		# Pop a vertex from the stack
-		var s = queue[0]
-		queue.pop_front()
-
-		if (s not in discovered and s != delete_target and is_instance_valid(s)):
-			discovered.append(s)
-		# if the vertex is already discovered yet, ignore it
-		for node in s.connections:
-			if (is_instance_valid(node) and node not in discovered and not node.hovering
-				and node != delete_target):
-				queue.append(node)
-
-						#---------------------------------------------------------
-	return false
 
 func iterativeDFS(v, delete_target):
 
@@ -255,53 +221,6 @@ func iterativeDFS(v, delete_target):
 
 	return discovered
 
-#Fastst algorithm to find smallest number in list
-func partition(arr, low, high) :
-
-	var temp
-	var pivot
-	var i
-	pivot = arr[high]
-	i = (low - 1)
-	for j in range(low, high) :
-		if arr[j][0] <= pivot[0] :
-			i += 1
-			temp = arr[i];
-			arr[i] = arr[j];
-			arr[j] = temp;
-
-
-	temp = arr[i + 1]
-	arr[i + 1] = arr[high]
-	arr[high] = temp
-
-	return (i + 1)
-
-# Implementation of QuickSelect
-func kthSmallest(a: Array, left, right, k) :
-	var pivotIndex
-	var myarr = a
-	while left <= right :
-
-		# Partition a[left..right] around a pivot
-		# and find the position of the pivot
-		pivotIndex = partition(a, left, right)
-
-		# If pivot itself is the k-th smallest element
-		if pivotIndex == k - 1 :
-			return a[pivotIndex][1]
-
-		# If there are more than k-1 elements on
-		# left of pivot, then k-th smallest must be
-		# on left side.
-		elif pivotIndex > k - 1 :
-			right = pivotIndex - 1
-
-		# Else k-th smallest is on right side.
-		else :
-			left = pivotIndex + 1
-
-	return -1
 
 
 func hide_selection_node():

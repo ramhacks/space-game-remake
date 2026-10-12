@@ -1,14 +1,12 @@
 extends Node
-const EnemyEnums = preload("res://enums/enemy_enums.gd")
+
 
 var current_animation_changed = false
 # Called when the node enters the scene tree for the first time.
 
 func init_target() -> void:
 	get_parent().send_change("defense")
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+
 
 
 ## This can return 2 types, first would be the target if it found it

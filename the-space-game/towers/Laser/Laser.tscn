@@ -474,4 +474,9 @@ script = ExtResource("20_80jae")
 [node name="Pulsar" type="Node" parent="StateMachine" index="2" unique_id=698462853]
 script = ExtResource("21_ys1hr")
 
+[node name="PulseTimer" type="Timer" parent="StateMachine/Pulsar" index="0" unique_id=188044813]
+unique_name_in_owner = true
+wait_time = 0.5
+
 [connection signal="tower_built" from="." to="StateMachine" method="_on_laser_tower_built"]
+[connection signal="timeout" from="StateMachine/Pulsar/PulseTimer" to="StateMachine/Pulsar" method="_on_pulse_timer_timeout"]

@@ -14,33 +14,24 @@ func _process(delta: float) -> void:
 		pass
 
 
-func _on_upgrade_button_pressed() -> void:
-	process_upgrade($Custom)
-
 func process_upgrade(upgrade_label):
+	print("UPGRADE LABEL RECEIVED: " + upgrade_label)
 	var can_upgrade: bool
 
 	var tower_targ = Globals.tower_selected
-
+	print(tower_targ.current_upgrade_node.children)
 	var child_target_index = tower_targ.current_upgrade_node.children_names.find(tower_targ.current_upgrade_node.label)
+	print(child_target_index)
 	var price = tower_targ.current_upgrade_node.children[child_target_index].price
 
 	can_upgrade = Globals.tower_selection_mode and (Globals.resources >= price)
-	#
-	#if(Globals.tower_selected is not Laser):
-		#can_upgrade = Globals.tower_selection_mode and (Globals.resources >= Globals.tower_selected.upgrade_price[Globals.tower_selected.level])
-		#
-	#else:
-		##Thel Upgrade Price is 100
-		#can_upgrade = Globals.tower_selection_mode and (Globals.tower_selected.pulsar_upgrade_price_map[Globals.tower_selected.level])
-
 	if(can_upgrade):
 
 		Globals.resources -= price
 		tower_targ.level += 1
 
 		tower_targ.current_upgrade_node = tower_targ.current_upgrade_node.children[child_target_index]
-		print(tower_targ)
+		print(tower_targ.current_upgrade_node.children)
 		if len(tower_targ.current_upgrade_node.children) > 0:
 			self.remove_child($Custom)
 
@@ -85,5 +76,9 @@ func _on_survival_finished() -> void:
 		Globals.tower_selected = false
 
 
-func _on_custom_pressed() -> void:
-	process_upgrade($Upgrade_Button)
+
+func _on_custom_upgrade_pressed(label: Variant) -> void:
+	process_upgrade(label)
+
+func _on_upgrade_button_upgrade_pressed(label: Variant) -> void:
+	process_upgrade(label)

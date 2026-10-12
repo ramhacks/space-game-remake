@@ -16,9 +16,6 @@ var wave_number = 0
 
 var current_budget = 0
 
-var base = 6
-var linear = 2
-var curve = 0.5
 
 @export var first_wave_delay := 20.0
 @export var base_prep_time := 15.0
@@ -58,7 +55,7 @@ var last_theme := ""
 var last_seen := {}
 
 func get_budget(w: int) -> float:
-	var budget := 6.0 + 2.0 * w + 0.5 * pow(w, 1.3)
+	var budget := 1.0 + 1.2 * w + 0.5 * pow(w, 1.1)
 	if w % 4 == 0:
 		budget *= 0.7
 	if w % 5 == 0:
@@ -173,6 +170,7 @@ func build_wave(w: int, game_state = null) -> Array[String]:
 		wave.append(picked)
 		budget -= ENEMY_COST[picked]
 
+	print(wave)
 
 	return wave
 
@@ -196,7 +194,7 @@ func spawn_new_wave(wave_number: int) -> void:
 		if get_tree().get_nodes_in_group("Enemies").size() >= mob_cap:
 			break
 		var x_jiggle = randi_range(-30, 30)
-		spawn_enemy(Vector2(random_x_range + x_jiggle, random_y_range[ind]), "defense")
+		spawn_enemy(Vector2(random_x_range + x_jiggle, random_y_range[ind]), behavior)
 
 
 func start_wave() -> void:

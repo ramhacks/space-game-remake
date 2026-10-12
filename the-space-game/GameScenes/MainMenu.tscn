@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://dq2gkmpqci1nj"]
+
+[ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://Visuals/Sprite_Frames/image(1).jpg" id="1_7itxl"]
+[ext_resource type="Script" uid="uid://6fq7xqiv3ncj" path="res://GameScenes/main_menu.gd" id="1_a7w87"]
+
+[sub_resource type="Gradient" id="Gradient_7itxl"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a7w87"]
+gradient = SubResource("Gradient_7itxl")
+width = 500
+height = 40
+fill_from = Vector2(0.773913, 0.8108696)
+repeat = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_7itxl"]
+font_size = 40
+font_color = Color(0.26666668, 0.7137255, 0.2901961, 1)
+
+[node name="MainMenu" type="Control" unique_id=280188112]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a7w87")
+
+[node name="Background_Layer" type="CanvasLayer" parent="." unique_id=1030729130]
+layer = -1
+
+[node name="Background" type="TextureRect" parent="Background_Layer" unique_id=2117206490]
+z_index = 4
+offset_right = 1152.0
+offset_bottom = 710.0
+texture = ExtResource("1_7itxl")
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1450691384]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 192.0
+offset_right = 832.0
+offset_bottom = 576.0
+
+[node name="Start" type="Button" parent="VBoxContainer" unique_id=1398487291]
+layout_mode = 2
+text = "Start
+"
+icon = SubResource("GradientTexture2D_a7w87")
+icon_alignment = 1
+
+[node name="Exit" type="Button" parent="VBoxContainer" unique_id=877929138]
+layout_mode = 2
+text = "Exit"
+icon = SubResource("GradientTexture2D_a7w87")
+icon_alignment = 1
+
+[node name="Label" type="Label" parent="." unique_id=451693881]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 64.0
+offset_right = 960.0
+offset_bottom = 192.0
+text = "The Space Game"
+label_settings = SubResource("LabelSettings_7itxl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

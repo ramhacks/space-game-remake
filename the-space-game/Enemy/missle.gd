@@ -15,19 +15,12 @@ var accel = 2
 @export var damage = 5
 
 var hit_sender = self
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func set_damage(damage_in):
+	damage = damage_in
 
 func set_target(target):
 	enemy = target
-
-	
 
 func _physics_process(delta: float) -> void:
 	if enemy:
@@ -38,6 +31,6 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area is Hitbox and Hitbox != hit_sender.get_node("Hitbox"):
-		area.register_hit(hit_sender, damage, self)
-		
+	if area:
+		if area is Hitbox and Hitbox != hit_sender.get_node("Hitbox"):
+			area.register_hit(hit_sender, damage, self)

@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 class_name Enemy
-const EnemyEnums = preload("res://enums/enemy_enums.gd")
+# const EnemyEnums = preload("res://enums/enemy_enums.gd")
 
 var radar_marker: Radar
 
@@ -13,12 +13,26 @@ var Targeting: Dictionary = {
 	"defense": "Targeting/Defense_Target",
 }
 
+var EnemyTypeDamages: Dictionary = {
+	"random": 5,
+	"power": 10,
+	"defense": 10
+}
+
+var EnemyTypeHealth: Dictionary = {
+	"random": 10,
+	"power": 15,
+	"defense": 5
+}
+
 var target_strat: String
 
 @export var health = 10
 
 var speed:int = 150
 var accel: int = 1
+
+var missle_damage:int = 0
 
 var distance_size: int = 60
 
@@ -33,7 +47,7 @@ var five_frames = 0
 var start_targeting = false
 var mis
 
-signal tower_removed
+# signal tower_removed
 
 func point_circle(center, angle):
 	var x = center.x + distance_size * cos(angle)
@@ -68,6 +82,8 @@ func initialize(target_method, radar, start_position):
 	self.global_position = start_position
 	target_strat = target_method
 	print("TARGET STRAT IS: " + target_strat)
+	health = EnemyTypeHealth[target_strat]
+	missle_damage = EnemyTypeDamages[target_strat]
 	radar_marker = radar
 	self.get_node(Targeting[target_strat]).init_target()
 	$StateMachine.start_ai()
@@ -91,15 +107,23 @@ func get_new_target():
 		assert(3 == 2, "GAME OVER")
 		self.queue_free()
 
-	print(Targeting[target_strat])
+
 
 	var out = self.get_node(Targeting[target_strat]).get_target()
+
+
 
 	if(out is EnemyEnums.TargetFound and out == EnemyEnums.TargetFound.KILLSELF):
 		enemy_death()
 	elif (out is EnemyEnums.TargetFound and out == EnemyEnums.TargetFound.SWITCH_RANDOM):
 		self.get_node(Targeting[target_strat]).init_target()
 		#Dont return anything ignore and continue
+
+		missle_damage = EnemyTypeDamages['random']
+
+		if health > EnemyTypeHealth['random']:	#Only bound health down if it is currently greater
+			health = EnemyTypeHealth['random']
+
 		return EnemyEnums.TargetFound.SWITCH_RANDOM
 	else:
 		#output is a reference to an object
@@ -108,7 +132,7 @@ func get_new_target():
 
 func _on_surround_send_laser(target: Variant) -> void:
 
-	if five_frames == 5:
+	if five_frames == 2:
 
 
 		if(!is_instance_valid(target)):
@@ -118,7 +142,10 @@ func _on_surround_send_laser(target: Variant) -> void:
 			else:
 				return
 
+
 		var out = mis.instantiate()
+		out.set_damage(missle_damage)
+		print(missle_damage)
 
 		self.add_child(out)
 		out.set_target(target)

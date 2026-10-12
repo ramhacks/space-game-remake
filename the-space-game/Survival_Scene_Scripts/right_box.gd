@@ -11,7 +11,9 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if(skip_frame == 2):
+		# print(Globals.total_capacity)
 		if (Globals.total_capacity < Globals.total_current):
+
 			$Energy_Amount_Bar.max_value = Globals.total_current
 			$Energy_Amount_Bar.value = Globals.total_current
 		else:
