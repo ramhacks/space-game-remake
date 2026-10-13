@@ -170,7 +170,6 @@ func build_wave(w: int, game_state = null) -> Array[String]:
 		wave.append(picked)
 		budget -= ENEMY_COST[picked]
 
-	print(wave)
 
 	return wave
 

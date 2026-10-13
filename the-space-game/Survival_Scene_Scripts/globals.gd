@@ -111,8 +111,6 @@ func add_to_mineral_queue(mineral_change: int, target_function: Callable):
 
 func pause_game():
 	paused = true
-	print("Paused set to true!")
-	print("STOPPING ALL POWER")
 
 
 func restart_game():

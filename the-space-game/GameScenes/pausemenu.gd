@@ -1,6 +1,7 @@
 extends TextureButton
 
 func _on_toggled(toggled_on: bool) -> void:
+	print(toggled_on)
 	if toggled_on:
 		get_child(0).show()
 		get_child(0).menu_closed.connect(restart)

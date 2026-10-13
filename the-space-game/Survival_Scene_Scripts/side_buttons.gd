@@ -15,13 +15,11 @@ func _process(delta: float) -> void:
 
 
 func process_upgrade(upgrade_label):
-	print("UPGRADE LABEL RECEIVED: " + upgrade_label)
 	var can_upgrade: bool
 
 	var tower_targ = Globals.tower_selected
 	#print(tower_targ.current_upgrade_node.children)
 	var child_target_index = tower_targ.current_upgrade_node.children_names.find(upgrade_label)
-	print(child_target_index)
 	var price = tower_targ.current_upgrade_node.children[child_target_index].price
 
 	can_upgrade = Globals.tower_selection_mode and (Globals.resources >= price)
@@ -31,7 +29,6 @@ func process_upgrade(upgrade_label):
 		tower_targ.level += 1
 
 		tower_targ.current_upgrade_node = tower_targ.current_upgrade_node.children[child_target_index]
-		print(tower_targ.current_upgrade_node.children)
 		if len(tower_targ.current_upgrade_node.children) > 0:
 			self.remove_child($Custom)
 
@@ -51,7 +48,6 @@ func process_upgrade(upgrade_label):
 		tower_targ.build_progress = 0
 
 		tower_targ.animated_node.play(tower_targ.current_upgrade_node.label)
-		print("Upgrading to " + tower_targ.current_upgrade_node.label)
 
 
 		if tower_targ is not Laser:

@@ -37,8 +37,6 @@ var current_state = PositionIndexs.MINIMAP
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	disable_pause.emit()
-	print(PositionIndexs.ENEMIES)
-	print($Continue.position)
 	$Continue.position = continue_button_positions[current_state]
 	$Back.position = back_button_positions[current_state]
 	$Close.position = close_button_positions[current_state]

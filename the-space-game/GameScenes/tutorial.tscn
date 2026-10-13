@@ -172,7 +172,7 @@ offset_left = 16.0
 offset_top = 8.0
 offset_right = 240.0
 offset_bottom = 83.0
-text = "Thats the tutorial. When you click the continue button the game will unpause. Good Luck!"
+text = "Thats the tutorial. When you click the continue button the game will unpause. Good Luck! If you need more info on the towers click the info buttons"
 autowrap_mode = 2
 metadata/_edit_lock_ = true
 

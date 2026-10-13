@@ -50,20 +50,13 @@ func do_process():
 		Globals.power_groups[self.group_][1] -= power_capacity
 		reset_energy = true
 	elif !set_energy and self.built:
-		print("ADDING BACK CAPACITY")
 		Globals.power_groups[self.group_][1] += power_capacity
 		set_energy = true
-	print(Globals.power_groups[self.group_][1])
 	super.do_process()
 
 func upgrade(upgrade_type):
-	print("UPGRADE BATTERY")
 	self.build_progress = 0
 	self.built = false
 	set_energy = false
 	Globals.power_groups[self.group_][1] -= self.power_capacity
-	print(self.current_upgrade_node.label)
-	print(self.current_upgrade_node.custom_var, self.current_upgrade_node.custom_var_2)
-
 	self.power_capacity = self.current_upgrade_node.custom_var #Power capacity for current level
-	print(self.power_capacity)
