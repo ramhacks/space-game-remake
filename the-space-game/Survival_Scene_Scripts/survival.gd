@@ -4,6 +4,7 @@ extends Node2D
 var mining_tower
 var solar_tower
 
+var activate_tutorial = false;
 # Prices of All Towers, Should not be located here
 var tower_price_dict = {
 	"Miner": 45,
@@ -36,6 +37,10 @@ signal create_radar_node(node)
 signal remove_radar_node(node)
 
 signal rebake_mesh(node_added)
+
+
+#Linked to hotbar to spawn the tutorial as its child
+signal spawn_tutorial()
 #these two variables are if we are going to place a tower, press the tower button and show the tower following
 #the mouse and then what type of tower we are placing, the functionality of the towers will be the same for
 #most towers but has a few exceptions we will implement at a later point
@@ -79,6 +84,7 @@ func clear_hover_lines():
 		hover_line_node.queue_free()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+
 	Globals.main_scene = self
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -149,7 +155,10 @@ func _ready() -> void:
 	self.add_child(tower_to_place)
 
 	tower_to_place.global_position = Vector2(1152/2, 648/2)
-	place_first_solar_node()
+	await place_first_solar_node()
+	if activate_tutorial:
+		spawn_tutorial.emit()
+
 
 
 
@@ -372,12 +381,10 @@ func show_selection_ui(tower):
 
 	#Only display upgrade buttons if upgrade is available in the tree (are there children or is it a leaf node)
 
-	for child in tower.current_upgrade_node.children:
-		print(child.label)
 
 	if len(tower.current_upgrade_node.children) > 0 and tower.built:
 		if len(tower.current_upgrade_node.children) > 1:
-			vbox_children[0].theme = button_themes["Custom_Button"]
+		#	vbox_children[0].theme = button_themes["Custom_Button"]
 			vbox_children[0].text = tower.current_upgrade_node.children[1].label + ": " + str(tower.current_upgrade_node.children[1].price)
 			vbox_children[0].upgrade_name = tower.current_upgrade_node.children[1].label
 			vbox.add_child(vbox_children[0])

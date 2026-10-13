@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://0u342yatpkw4" path="res://Survival_Scene_Scripts/camera.gd" id="4_cyyct"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://Visuals/Sprite_Frames/image(1).jpg" id="5_puhmn"]
 [ext_resource type="Script" uid="uid://bcxo1l0b0wedc" path="res://UI Scenes/hotbar.gd" id="6_56iln"]
+[ext_resource type="Script" uid="uid://br2i0g714n3qx" path="res://UI Scenes/hot_bar_layer.gd" id="6_e30k7"]
 [ext_resource type="Theme" uid="uid://chdmu6kfrhoyk" path="res://Visuals/Themes/hotbar_background1.tres" id="7_e30k7"]
 [ext_resource type="Theme" uid="uid://dyhmoabmqtjno" path="res://Visuals/Themes/hotbar_background2.tres" id="8_wetyh"]
 [ext_resource type="Script" uid="uid://cip2bil7coi4o" path="res://UI Scenes/default_hot_bar.gd" id="9_opim5"]
@@ -31,7 +32,6 @@
 [ext_resource type="Script" uid="uid://b2jcnw76agxu8" path="res://UI Scenes/text_bars.gd" id="29_1iudo"]
 [ext_resource type="FontFile" uid="uid://cv8a6vbc8ntaf" path="res://Visuals/Fonts/633_Trebuchet MS.ttf" id="30_yaxrf"]
 [ext_resource type="Script" uid="uid://cam8cf4ve0uip" path="res://Survival_Scene_Scripts/side_buttons.gd" id="31_s5jj8"]
-[ext_resource type="Theme" uid="uid://sd7rw18v7x7p" path="res://Visuals/Themes/Custom_Button.tres" id="32_q4w1m"]
 [ext_resource type="Script" uid="uid://b7lwpdws4ldwg" path="res://Survival_Scene_Scripts/UpgradeButtons.gd" id="33_iwtxx"]
 [ext_resource type="Theme" uid="uid://c31puf50m0oxm" path="res://Visuals/Themes/Upgrade_Button.tres" id="34_14b4j"]
 [ext_resource type="Theme" uid="uid://cavwcn7qaxlkh" path="res://Visuals/Themes/Recycle_Button.tres" id="35_72fwp"]
@@ -43,6 +43,7 @@
 [ext_resource type="FontFile" uid="uid://baf5yckugqi1b" path="res://Visuals/Fonts/663_Trebuchet MS.ttf" id="39_qqdbo"]
 [ext_resource type="Script" uid="uid://wfo6pi7goiwx" path="res://GameScenes/pausemenu.gd" id="40_cyyct"]
 [ext_resource type="Script" uid="uid://d2rkn134m7sds" path="res://Survival_Scene_Scripts/navigation_region_2d.gd" id="40_ruc0v"]
+[ext_resource type="PackedScene" uid="uid://dhvnosafesthb" path="res://UI Scenes/PauseMenu.tscn" id="44_puhmn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
 size = Vector2(1148, 519)
@@ -55,6 +56,9 @@ bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Theme" id="Theme_4hadf"]
 Panel/styles/panel = SubResource("StyleBoxFlat_8rshf")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyyct"]
+size = Vector2(744, 88)
 
 [sub_resource type="LabelSettings" id="LabelSettings_7cw3v"]
 font = ExtResource("30_yaxrf")
@@ -117,7 +121,9 @@ script = ExtResource("1_gc75h")
 
 [node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035]
 script = ExtResource("2_iaat1")
-base_prep_time = 30.0
+first_wave_delay = 120.0
+base_prep_time = 60.0
+mob_cap = 10
 
 [node name="CooldownEnemy" type="Timer" parent="Enemy_Wave_Spawner" unique_id=1096147353]
 editor_description = "This is a timer to make sure we dont endlessly spawn enemy waves forever"
@@ -152,6 +158,7 @@ texture = ExtResource("5_puhmn")
 metadata/_edit_lock_ = true
 
 [node name="HotBar_Layer" type="CanvasLayer" parent="." unique_id=1476328451]
+script = ExtResource("6_e30k7")
 
 [node name="Hotbar" type="Area2D" parent="HotBar_Layer" unique_id=423399476]
 collision_layer = 3
@@ -173,6 +180,26 @@ offset_bottom = 654.0
 mouse_filter = 2
 theme = ExtResource("7_e30k7")
 metadata/_edit_lock_ = true
+
+[node name="Pause" type="TextureButton" parent="HotBar_Layer/Hotbar_Background" unique_id=136411835]
+layout_mode = 0
+offset_left = 792.0
+offset_top = -475.0
+offset_right = 832.0
+offset_bottom = -435.0
+toggle_mode = true
+texture_normal = ExtResource("38_dakgy")
+texture_pressed = ExtResource("38_iaat1")
+script = ExtResource("40_cyyct")
+metadata/_edit_lock_ = true
+
+[node name="PauseMenu" parent="HotBar_Layer/Hotbar_Background/Pause" unique_id=897587067 instance=ExtResource("44_puhmn")]
+visible = false
+layout_mode = 1
+offset_left = -1050.0
+offset_top = 50.0
+offset_right = -794.0
+offset_bottom = 50.0
 
 [node name="Hotbar_Forground" type="Panel" parent="HotBar_Layer/Hotbar_Background" unique_id=1771399197]
 layout_mode = 0
@@ -306,6 +333,14 @@ offset_right = 708.0
 theme = ExtResource("27_v1p1f")
 bbcode_enabled = true
 
+[node name="Area2D" type="Area2D" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" unique_id=1485372410]
+collision_priority = 10.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover/Area2D" unique_id=747469637]
+z_index = 10
+position = Vector2(352, -36)
+shape = SubResource("RectangleShape2D_cyyct")
+
 [node name="Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=1347951975]
 visible = false
 anchors_preset = 0
@@ -327,7 +362,6 @@ offset_left = -1.0
 offset_top = 9.0
 offset_right = 155.0
 offset_bottom = 32.0
-text = "Mine Rate"
 label_settings = SubResource("LabelSettings_7cw3v")
 
 [node name="Label2" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars" unique_id=259508172]
@@ -335,7 +369,6 @@ layout_mode = 0
 offset_top = 34.0
 offset_right = 156.0
 offset_bottom = 57.0
-text = "Total Mined"
 label_settings = SubResource("LabelSettings_kf2bw")
 
 [node name="Label3" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars" unique_id=622940709]
@@ -385,7 +418,7 @@ metadata/_edit_lock_ = true
 
 [node name="Custom" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" unique_id=484876465]
 layout_mode = 2
-theme = ExtResource("32_q4w1m")
+theme = ExtResource("34_14b4j")
 text = "All Miners ON"
 script = ExtResource("33_iwtxx")
 
@@ -425,17 +458,6 @@ offset_right = 3.93399
 offset_bottom = 1.92699
 theme = SubResource("Theme_q3g37")
 script = ExtResource("37_31c71")
-
-[node name="Pause" type="TextureButton" parent="HotBar_Layer/Hotbar_Background" unique_id=136411835]
-layout_mode = 0
-offset_left = 792.0
-offset_top = -475.0
-offset_right = 832.0
-offset_bottom = -435.0
-toggle_mode = true
-texture_normal = ExtResource("38_dakgy")
-texture_pressed = ExtResource("38_iaat1")
-script = ExtResource("40_cyyct")
 
 [node name="ColorRect2" type="ColorRect" parent="HotBar_Layer" unique_id=2041071801]
 z_index = 3
@@ -498,6 +520,7 @@ metadata/_edit_lock_ = true
 [connection signal="finished" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_survival_finished"]
 [connection signal="rebake_mesh" from="." to="NavigationRegion2D" method="_on_survival_rebake_mesh"]
 [connection signal="remove_radar_node" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground" method="_on_survival_remove_radar_node"]
+[connection signal="spawn_tutorial" from="." to="HotBar_Layer" method="_on_survival_spawn_tutorial"]
 [connection signal="child_exiting_tree" from="Enemy_Wave_Spawner" to="Enemy_Wave_Spawner" method="_on_child_exiting_tree"]
 [connection signal="timeout" from="Enemy_Wave_Spawner/CooldownEnemy" to="Enemy_Wave_Spawner" method="_on_cooldown_enemy_timeout"]
 [connection signal="timeout" from="Global_Ticks" to="Enemy_Wave_Spawner" method="_on_global_ticks_timeout"]
@@ -507,12 +530,14 @@ metadata/_edit_lock_ = true
 [connection signal="hide_info_boxes" from="Camera_Area" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" method="_on_camera_area_hide_info_boxes"]
 [connection signal="input_event" from="Camera_Area" to="Camera_Area" method="_on_input_event"]
 [connection signal="place_tower" from="Camera_Area" to="." method="_on_camera_area_place_tower"]
+[connection signal="toggled" from="HotBar_Layer/Hotbar_Background/Pause" to="HotBar_Layer/Hotbar_Background/Pause" method="_on_toggled"]
 [connection signal="nodes_to_connect" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" to="." method="_on_default_hot_bar_nodes_to_connect"]
 [connection signal="nodes_to_connect" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" method="_on_default_hot_bar_nodes_to_connect"]
+[connection signal="activate_pause" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" to="HotBar_Layer/Hotbar_Background/Pause" method="_on_info_hover_activate_pause"]
+[connection signal="de_activate_pause" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" to="HotBar_Layer/Hotbar_Background/Pause" method="_on_info_hover_de_activate_pause"]
 [connection signal="hide_selection" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" to="." method="_on_side_buttons_hide_selection"]
 [connection signal="Upgrade_Pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Custom" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_custom_upgrade_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Custom" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Custom" method="_on_pressed"]
 [connection signal="Upgrade_Pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_upgrade_button_upgrade_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" method="_on_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Recycle" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_recycle_pressed"]
-[connection signal="toggled" from="HotBar_Layer/Hotbar_Background/Pause" to="HotBar_Layer/Hotbar_Background/Pause" method="_on_toggled"]

@@ -1,6 +1,6 @@
 extends Control
 
-class_name Tower_Button 
+class_name Tower_Button
 
 @export var tower_button_target: String
 @export var Normal_Texture: Texture2D
@@ -15,7 +15,7 @@ var shortcut_event: InputEventKey
 
 func to_ascii(input_string: String) -> int:
 	var output: int
-	
+
 	output = input_string.unicode_at(0)
 	if(output >= 97):
 		input_string = input_string.to_upper()
@@ -28,19 +28,12 @@ func _ready() -> void:
 	$select_button.texture_pressed = Pressed_Texture
 
 
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
 func _on_select_button_pressed() -> void:
 	But_pressed.emit(tower_button_target)
 
 func set_disabled() -> void:
 	$select_button.disabled = true
-	
+
 func set_enabled() -> void:
 	$select_button.disabled = false
 

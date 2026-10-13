@@ -49,6 +49,13 @@ text = "Start
 icon = SubResource("GradientTexture2D_a7w87")
 icon_alignment = 1
 
+[node name="Tutorial" type="Button" parent="VBoxContainer" unique_id=940898694]
+layout_mode = 2
+text = "Tutorial
+"
+icon = SubResource("GradientTexture2D_a7w87")
+icon_alignment = 1
+
 [node name="Exit" type="Button" parent="VBoxContainer" unique_id=877929138]
 layout_mode = 2
 text = "Exit"
@@ -67,4 +74,5 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

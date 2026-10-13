@@ -60,6 +60,8 @@ func setresources(amount):
 
 ## change resources by a certain amount, if no more resources return 0 if
 ## some left return 1
+##
+## Need to add this to utilze queue
 func extractresources(change):
 
 	if(self.resources > 0):

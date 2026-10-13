@@ -11,9 +11,9 @@ var Missile_3 = Path_Node.new()
 func _ready() -> void:
 #Health, Energy_Required, Label for upgrade animation, upgrade price, recycle price, damage/special property, range
 
-	Missile_1.__init__(60, 5, "Level 1", 400, 400, 450, 200)
-	Missile_2.__init__(65, 10, "Level 2", 500, 500, 500, 240)
-	Missile_3.__init__(70, 17, "Level 3", 1000, 650, 550, 288)
+	Missile_1.__init__(40, 5, "Level 1", 400, 400, 450, 200)
+	Missile_2.__init__(50, 10, "Level 2", 500, 500, 500, 240)
+	Missile_3.__init__(60, 17, "Level 3", 1000, 650, 550, 288)
 
 
 

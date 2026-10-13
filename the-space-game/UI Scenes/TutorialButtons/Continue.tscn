@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dyjaneuntf7g3"]
+
+[ext_resource type="Texture2D" uid="uid://chtjsp2sopyy2" path="res://Visuals/Button_Textures/TutorialButtons/Continue/New Piskel-1.png(1).png" id="1_y6wfy"]
+[ext_resource type="Texture2D" uid="uid://baai517l4uonp" path="res://Visuals/Button_Textures/TutorialButtons/Continue/New Piskel-2.png(1).png" id="2_pvsrc"]
+
+[node name="Continue" type="TextureButton" unique_id=448639077]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("1_y6wfy")
+texture_pressed = ExtResource("1_y6wfy")
+texture_hover = ExtResource("2_pvsrc")

@@ -117,6 +117,10 @@ func _ready() -> void:
 	place_build_progress_bar()
 	$Power_Delay.wait_time = power_time_seconds
 
+	#Set health according to upgrade tree
+	get_node("Health").health_amount = current_upgrade_node.health
+	# tower_targ.get_node("Health").max_health = tower_targ.current_upgrade_node.health
+
 
 func place_build_progress_bar():
 	$BuildProgress.position.y = $BuildProgress.position.y - (sprite_texture.get_size().y/2.5)

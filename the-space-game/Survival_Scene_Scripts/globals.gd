@@ -16,6 +16,7 @@ const PowerG = preload("res://enums/power_enums.gd").PowerGroups
 ##   unwanted bridging lines across the canvas.
 var power_groups = {}
 
+
 var total_current = 0
 var total_capacity = 0
 #so we don't have to loop over the dictionaries to get the totals to display to the player
@@ -62,11 +63,29 @@ var power_lines
 
 var power_line_segment
 
+# [Mineral Change, Action]
+var mineral_queue = []
 var paused = false # when set to true stop power timer
 
 ## sent when a tower requests power but there is not enough power available to give it any
 signal no_power_available(sender)
 
+
+func reset_all():
+	paused = false
+	mineral_queue = []
+	tower_hovering = false
+	tower_selection_mode = false
+	resources = 1000
+	RPM = 0
+	total_current = 0
+	total_capacity = 0
+	power_groups = {}
+	NO_SOLAR_TOWER = true
+
+
+
+# func _connect_signal()
 # manage power timers so solar stations are all synced
 func _ready():
 	global_power_timer_on.one_shot = true
@@ -85,6 +104,10 @@ func _ready():
 	power_lines = preload("res://General_Purpose_Scenes/Power_Group_Line.tscn")
 	power_line_segment = preload("res://General_Purpose_Scenes/power_line_segment.tscn")
 	sprite_collider_instance = preload("res://towers/sprite_collision_shape_setter.tscn")
+
+func add_to_mineral_queue(mineral_change: int, target_function: Callable):
+	mineral_queue.append([mineral_change, target_function])
+
 
 func pause_game():
 	paused = true
@@ -135,6 +158,12 @@ func connect_group_lines(self_node):
 	for g_ in group_to_erase:
 		power_groups.erase(g_)
 
+func _process(delta: float) -> void:
+	if len(mineral_queue):
+		var output = mineral_queue.pop_front()
+		if resources > output[0]:
+			resources = resources - output[0]
+			output[1].call()
 
 
 #Group Power Manegment

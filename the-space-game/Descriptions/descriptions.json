@@ -1,9 +1,9 @@
 {
-	"Miner": "[color=ebeb00]Miners[/color][color=white] extract [color=01e700]Minerals[/color][color=white] from any asteroid in range, [/color][color=01e700]Minerals[/color][color=white] are needed to [/color][color=00dfdf]construct structures, ships and missles[/color][color=white]. Miners can be upgraded to increaase their efficiency.[/color]",
-	"Solar": "[color=ebeb00]Solar Stations[/color][color=white] collect light from the sun and convert it into [/color][color=00dfdf]Energy [/color][color=white]which is needed to [/color][color=00dfdf]construct and power your structures[/color][color=white]. They can be upgraded several times to improve their efficiency.[/color]",
-	"Relay": "[color=ebeb00]Energy Relays[/color][color=white] are used to[/color][color=00dfdf] transport Energy between Solar Stations and Energy Stores to all other structures[/color][color=white]. They do this by reflecting and refracting light. They are cheap to make but are weak.",
-	"Repair_Station":"BLANK",
-	"Battery":"BLANK",
-	"Laser":"The laser has 2 different modes, The pulsar shoots in short bursts that do minimal damage, The thel does strong lasers and the basic is your normal laser with no special properties",
-	"Missile_Launcher": "BLANK"
+	"Miner": "[color=ebeb00]Miners[/color] extract [color=01e700]Minerals[/color] from any asteroid in range. [color=01e700]Minerals[/color] are needed to [color=00dfdf]construct structures, ships and missiles[/color]. Miners can be upgraded to increase their efficiency.",
+	"Solar": "[color=ebeb00]Solar Stations[/color] collect light from the sun and convert it into [color=00dfdf]Energy[/color], which is needed to [color=00dfdf]construct and power your structures[/color]. They can be upgraded several times to improve their efficiency.",
+	"Relay": "[color=ebeb00]Energy Relays[/color] are used to [color=00dfdf]transport Energy from Solar Stations and Energy Stores to all other structures[/color]. They do this by reflecting and refracting light. They are cheap to make, but weak.",
+	"Repair_Station": "[color=ebeb00]Repair Stations[/color] [color=00dfdf]repair structures[/color] within their radius.",
+	"Battery": "[color=ebeb00]Batteries[/color] act as [color=00dfdf]Energy storage[/color]. They increase the [color=00dfdf]maximum Energy[/color] of the net they are attached to. A net is everything connected to the tower, even indirectly.",
+	"Laser": "The [color=ebeb00]Laser[/color] has 3 modes. The [color=00dfdf]Pulsar[/color] fires short bursts that do minimal damage. The [color=00dfdf]Thel[/color] fires powerful, sustained beams. The [color=00dfdf]Basic[/color] is a standard laser with no special properties.",
+	"Missile_Launcher": "[color=ebeb00]Missile Launchers[/color] [color=00dfdf]fire missiles at enemies[/color], but the missiles consume [color=01e700]Minerals[/color]."
 }

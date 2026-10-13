@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cke61bckfa5t6"]
+
+[ext_resource type="Texture2D" uid="uid://cjes0cblh5d" path="res://Visuals/Button_Textures/TutorialButtons/Back/New Piskel-1.png.png" id="1_vqorr"]
+[ext_resource type="Texture2D" uid="uid://o6q5lxtbjedb" path="res://Visuals/Button_Textures/TutorialButtons/Back/New Piskel-2.png.png" id="2_ld8to"]
+
+[node name="Back" type="TextureButton" unique_id=448639077]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("1_vqorr")
+texture_pressed = ExtResource("1_vqorr")
+texture_hover = ExtResource("2_ld8to")

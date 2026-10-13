@@ -1,5 +1,20 @@
 [gd_scene format=3 uid="uid://dhvnosafesthb"]
 
+[ext_resource type="Script" uid="uid://ewug82mch8nq" path="res://UI Scenes/pause_menu.gd" id="1_s4wy4"]
+[ext_resource type="Theme" uid="uid://c31puf50m0oxm" path="res://Visuals/Themes/Upgrade_Button.tres" id="1_trob4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s4wy4"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_37kan"]
+Panel/styles/panel = SubResource("StyleBoxFlat_s4wy4")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s4wy4"]
+size = Vector2(1092, 412)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_37kan"]
+size = Vector2(266, 682)
+
 [node name="PauseMenu" type="Control" unique_id=897587067]
 layout_mode = 3
 anchors_preset = 15
@@ -7,9 +22,55 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_s4wy4")
 
-[node name="Panel" type="Panel" parent="." unique_id=490659098]
+[node name="Panel" type="Panel" parent="." unique_id=1083627174]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-scale = Vector2(28.600002, 16.36)
+offset_left = 256.0
+offset_top = 64.0
+offset_right = 896.0
+offset_bottom = 264.0
+theme = SubResource("Theme_37kan")
+
+[node name="Save" type="Button" parent="." unique_id=539579534]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 104.0
+offset_right = 832.0
+offset_bottom = 128.0
+theme = ExtResource("1_trob4")
+text = "Save"
+
+[node name="Exit" type="Button" parent="." unique_id=1001852933]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 200.0
+offset_right = 832.0
+offset_bottom = 223.0
+theme = ExtResource("1_trob4")
+text = "Exit"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1112391242]
+collision_priority = 10.0
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Area2D" unique_id=1910173419]
+z_index = -1
+position = Vector2(568, -130)
+shape = SubResource("RectangleShape2D_s4wy4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=993550660]
+position = Vector2(600, 468)
+shape = SubResource("RectangleShape2D_s4wy4")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Area2D" unique_id=901289003]
+z_index = -1
+position = Vector2(1032, 240)
+shape = SubResource("RectangleShape2D_37kan")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D" unique_id=1481430400]
+position = Vector2(123, 331)
+shape = SubResource("RectangleShape2D_37kan")
+
+[connection signal="pressed" from="Save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
