@@ -140,13 +140,13 @@ death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0" unique_id=1504173198]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" parent_id_path=PackedInt32Array(1857245891) index="0" unique_id=1504173198]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_xrw86")
 animation = &"Level 1"
 script = ExtResource("2_7igyp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0" unique_id=1820447453]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=1820447453]
 shape = SubResource("CircleShape2D_m6ypq")
 
 [node name="Upgrades" type="Node" parent="." index="12" unique_id=1614944588]

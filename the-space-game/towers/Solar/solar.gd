@@ -2,7 +2,7 @@ extends Tower
 
 class_name Solar
 
-
+var colliding_bodies = false
 var upgrade_level = 1
 
 #How much energy it is producing every tick/pulse

@@ -15,7 +15,6 @@ func get_target() -> Variant:
 
 	if(get_tree().get_nodes_in_group("defense").size() == 0):
 		# Change targeting strategy to default random
-		print("NEEDED TO CHANGE NO VALID DEFENSE AVAILABLE")
 		get_parent().get_parent().target_strat = "random"
 		return EnemyEnums.TargetFound.SWITCH_RANDOM
 

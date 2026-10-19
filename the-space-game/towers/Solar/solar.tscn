@@ -1,11 +1,11 @@
-[gd_scene load_steps=41 format=3 uid="uid://bftugtnfokgv"]
+[gd_scene format=3 uid="uid://bftugtnfokgv"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_cmj2o"]
-[ext_resource type="Script" path="res://towers/Solar/solar.gd" id="2_lr4nm"]
+[ext_resource type="Script" uid="uid://j4yels5ekbf2" path="res://towers/Solar/solar.gd" id="2_lr4nm"]
 [ext_resource type="Texture2D" uid="uid://d07u7pah6ppym" path="res://Visuals/Sprite_Frames/29.png" id="2_m4vuw"]
 [ext_resource type="PackedScene" uid="uid://c11uhwml84phf" path="res://Components/health.tscn" id="3_0ep3i"]
 [ext_resource type="Texture2D" uid="uid://b7inrwfjq44wa" path="res://Visuals/Sprite_Frames/71.png" id="3_2kyp7"]
-[ext_resource type="Script" path="res://towers/Solar/upgrades.gd" id="3_yb4d2"]
+[ext_resource type="Script" uid="uid://d2d5b2tmgt8i4" path="res://towers/Solar/upgrades.gd" id="3_yb4d2"]
 [ext_resource type="Texture2D" uid="uid://hc8fg33g4154" path="res://Visuals/Sprite_Frames/73.png" id="4_p3cc5"]
 [ext_resource type="Texture2D" uid="uid://c6rbhib0tkcc7" path="res://Visuals/Sprite_Frames/75.png" id="5_57i7e"]
 [ext_resource type="Texture2D" uid="uid://cub21e0g4j7vw" path="res://Visuals/Sprite_Frames/77.png" id="6_ufj80"]
@@ -37,7 +37,7 @@
 [ext_resource type="Texture2D" uid="uid://xiaafmub1uic" path="res://Visuals/Sprite_Frames/61.png" id="32_8qxca"]
 [ext_resource type="Texture2D" uid="uid://dfyiyrgmdujhs" path="res://Visuals/Sprite_Frames/63.png" id="33_jhvdb"]
 [ext_resource type="Texture2D" uid="uid://b2r4h68ymkcgx" path="res://Visuals/Sprite_Frames/65.png" id="34_knito"]
-[ext_resource type="Script" path="res://towers/Solar/solar_animated.gd" id="36_ytiel"]
+[ext_resource type="Script" uid="uid://b8vqm7gdgs7ph" path="res://towers/Solar/solar_animated.gd" id="36_ytiel"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3ggyo"]
 animations = [{
@@ -164,30 +164,30 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_o7vyt"]
 radius = 13.0
 
-[node name="solar_station" instance=ExtResource("1_cmj2o")]
+[node name="solar_station" unique_id=542042677 instance=ExtResource("1_cmj2o")]
 script = ExtResource("2_lr4nm")
 custom_class = "Solar"
 power_capacity = 200
 power_needed = 1
 power_time_seconds = 1
 
-[node name="Upgrades" type="Node" parent="." index="0"]
+[node name="Upgrades" type="Node" parent="." index="0" unique_id=464263572]
 script = ExtResource("3_yb4d2")
 
-[node name="Health" parent="." index="1" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_0ep3i")]
+[node name="Health" parent="." index="1" unique_id=1632793861 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_0ep3i")]
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
 
-[node name="Hitbox" parent="." index="2" node_paths=PackedStringArray("health_component")]
+[node name="Hitbox" parent="." index="2" unique_id=1883757356 node_paths=PackedStringArray("health_component")]
 health_component = NodePath("../Health")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0"]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" parent_id_path=PackedInt32Array(1857245891) index="0" unique_id=1199655188]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_3ggyo")
 animation = &"Level 1"
 script = ExtResource("36_ytiel")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=446612207]
 shape = SubResource("CircleShape2D_o7vyt")

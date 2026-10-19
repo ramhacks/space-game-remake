@@ -1,8 +1,8 @@
-[gd_scene load_steps=41 format=3 uid="uid://d1rjrhlpk4u4e"]
+[gd_scene format=3 uid="uid://d1rjrhlpk4u4e"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_7pvyt"]
-[ext_resource type="Script" path="res://towers/Missle_Launcher/missile_launcher.gd" id="2_yd63k"]
-[ext_resource type="Script" path="res://towers/Missle_Launcher/upgrades.gd" id="3_b1p13"]
+[ext_resource type="Script" uid="uid://u25vj87s87io" path="res://towers/Missle_Launcher/missile_launcher.gd" id="2_yd63k"]
+[ext_resource type="Script" uid="uid://dq0xs50ocnoyc" path="res://towers/Missle_Launcher/upgrades.gd" id="3_b1p13"]
 [ext_resource type="PackedScene" uid="uid://c11uhwml84phf" path="res://Components/health.tscn" id="4_1s5g7"]
 [ext_resource type="Texture2D" uid="uid://duui1u6irx78p" path="res://Visuals/Sprite_Frames/392.png" id="5_j5xo3"]
 [ext_resource type="Texture2D" uid="uid://hw1u0m2tma1u" path="res://Visuals/Sprite_Frames/394.png" id="6_tj4wu"]
@@ -187,39 +187,39 @@ radius = 5.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
 radius = 58.0
 
-[node name="Missile_Launcher" groups=["laser"] instance=ExtResource("1_7pvyt")]
+[node name="Missile_Launcher" unique_id=1246158242 groups=["laser"] instance=ExtResource("1_7pvyt")]
 script = ExtResource("2_yd63k")
 custom_class = "Missile_Launcher"
 power_time_seconds = 1
 
-[node name="Upgrades" type="Node" parent="." index="0"]
+[node name="Upgrades" type="Node" parent="." index="0" unique_id=2113878876]
 script = ExtResource("3_b1p13")
 
-[node name="Health" parent="." index="1" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("4_1s5g7")]
+[node name="Health" parent="." index="1" unique_id=1781450724 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("4_1s5g7")]
 health_amount = 200
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
 
-[node name="Hitbox" parent="." index="2" node_paths=PackedStringArray("health_component", "shape_")]
+[node name="Hitbox" parent="." index="2" unique_id=1883757356 node_paths=PackedStringArray("health_component", "shape_")]
 health_component = NodePath("../Health")
 shape_ = NodePath("../Sprite/CollisionShape2D")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0"]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" parent_id_path=PackedInt32Array(1857245891) index="0" unique_id=1705122057]
 z_index = 2
 position = Vector2(0, 1.19209e-07)
 scale = Vector2(0.443182, 0.443182)
 sprite_frames = SubResource("SpriteFrames_t4v7f")
 animation = &"Level 3"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=1486601280]
 shape = SubResource("CircleShape2D_qfnyt")
 
-[node name="Collision_Area" parent="." index="9"]
+[node name="Collision_Area" parent="." index="9" unique_id=1285518275]
 collision_layer = 10
 
-[node name="Collider" parent="Collision_Area" index="0"]
+[node name="Collider" parent="Collision_Area" index="0" unique_id=1519484617]
 shape = SubResource("CircleShape2D_emkd0")
 debug_color = Color(1, 1, 1, 0)
 metadata/_edit_lock_ = true

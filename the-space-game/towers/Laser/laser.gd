@@ -42,7 +42,6 @@ func _ready() -> void:
 	$StateMachine.parent_node = self
 
 	inherted_node = self
-	show_colliding_bodies = false
 	var current_animation : String = animated_node.animation
 
 	set_range_area()

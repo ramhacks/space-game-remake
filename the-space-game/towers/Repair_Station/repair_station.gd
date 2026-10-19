@@ -16,7 +16,7 @@ func set_range_area():
 	my_range_shape = CollisionShape2D.new()
 	my_range_base_shape.radius = self.current_upgrade_node.custom_var_2
 	my_range_shape.shape = my_range_base_shape
-	
+
 	my_range_area = Area2D.new()
 	my_range_area.collision_layer = pow(2, 2-1) + pow(2, 4-1)
 	my_range_area.collision_mask = pow(2, 1-1) + pow(2, 3-1)
@@ -28,13 +28,12 @@ func _ready() -> void:
 	sprite_node = self.get_node("Sprite")
 	child_area = self.get_node("Collision_Area")
 	animated_node = self.get_node("Sprite_Node/Sprite2D")
-	
+
 	inherted_node = self
-	show_colliding_bodies = true
 	var current_animation : String = animated_node.animation
-	
+
 	sprite_texture = animated_node.get_sprite_frames().get_frame_texture(current_animation, 0)
-	
+
 	place_build_progress_bar()
 	set_range_area()
 	super._ready()

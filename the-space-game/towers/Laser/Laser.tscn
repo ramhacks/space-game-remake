@@ -438,26 +438,26 @@ death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
 
-[node name="Hitbox" parent="." index="2" node_paths=PackedStringArray("health_component")]
+[node name="Hitbox" parent="." index="2" unique_id=1883757356 node_paths=PackedStringArray("health_component")]
 health_component = NodePath("../Health")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0" unique_id=1928199256]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" parent_id_path=PackedInt32Array(1857245891) index="0" unique_id=1928199256]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_nlb16")
 animation = &"Laser"
 script = ExtResource("17_g20wn")
 
-[node name="Laser" parent="." index="6"]
+[node name="Laser" parent="." index="6" unique_id=1804344111]
 points = PackedVector2Array(644, 199)
 default_color = Color(0.9254902, 0.87058824, 0.10980392, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0" unique_id=2100627061]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=2100627061]
 shape = SubResource("CircleShape2D_qfnyt")
 
-[node name="Collision_Area" parent="." index="9"]
+[node name="Collision_Area" parent="." index="9" unique_id=1285518275]
 collision_layer = 10
 
-[node name="Collider" parent="Collision_Area" index="0"]
+[node name="Collider" parent="Collision_Area" index="0" unique_id=1519484617]
 shape = SubResource("CircleShape2D_emkd0")
 debug_color = Color(1, 1, 1, 0)
 

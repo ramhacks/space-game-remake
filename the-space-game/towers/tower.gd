@@ -62,7 +62,7 @@ signal request_power(sender, group, power_needed)
 var overlap_areas: Array = []
 
 
-var show_colliding_bodies: bool = false
+@export var show_colliding_asteroids: bool = false
 
 var build_progress: int = 0 #percantage up to 100
 var built: bool = false #we will set this to false when we implement power
@@ -176,7 +176,7 @@ func rebuild():
 #-----------------------------------------------------------------
 
 func send_hover_line():
-	if(show_colliding_bodies):
+	if(show_colliding_asteroids):
 		if(len(sprite_node.get_overlapping_bodies()) > 0):
 			on_object = true
 		else:
@@ -426,6 +426,5 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	draw_laser.emit(self, pos1, pos2, cooldown_delay, self)
 	#we can't use tweens because tweens are meant for single animations
 	#we need to animate 2 things at once so we have to use attached line node and can't dynamically create one
-
 
 #This tower has no more health, recycle it

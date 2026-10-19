@@ -46,6 +46,7 @@
 [ext_resource type="Script" uid="uid://d2rkn134m7sds" path="res://Survival_Scene_Scripts/navigation_region_2d.gd" id="40_ruc0v"]
 [ext_resource type="PackedScene" uid="uid://dhvnosafesthb" path="res://UI Scenes/PauseMenu.tscn" id="44_puhmn"]
 [ext_resource type="Script" uid="uid://c8ancrkdwmium" path="res://GameScenes/wave_display.gd" id="45_e30k7"]
+[ext_resource type="Script" uid="uid://dwl7nyqc57pp" path="res://GameScenes/wave_number.gd" id="45_wetyh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
 size = Vector2(1148, 519)
@@ -505,6 +506,14 @@ value = 50.0
 show_percentage = false
 metadata/_edit_lock_ = true
 
+[node name="WaveNumber" type="Label" parent="HotBar_Layer" unique_id=1306834214]
+offset_left = 8.0
+offset_top = 624.0
+offset_right = 248.0
+offset_bottom = 647.0
+text = "Wave 0"
+script = ExtResource("45_wetyh")
+
 [node name="WaveDisplay" type="Control" parent="HotBar_Layer" unique_id=1887040726]
 layout_mode = 3
 anchors_preset = 0
@@ -523,7 +532,7 @@ offset_bottom = 43.0
 theme = ExtResource("36_56iln")
 step = 1.0
 
-[node name="Label" type="Label" parent="HotBar_Layer/WaveDisplay" unique_id=40041673]
+[node name="WaveProgressDesc" type="Label" parent="HotBar_Layer/WaveDisplay" unique_id=40041673]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 16.0
@@ -564,3 +573,4 @@ metadata/_edit_lock_ = true
 [connection signal="Upgrade_Pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_upgrade_button_upgrade_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" method="_on_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Recycle" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_recycle_pressed"]
+[connection signal="change_wave_number" from="HotBar_Layer/WaveDisplay" to="HotBar_Layer/WaveNumber" method="_on_wave_display_change_wave_number"]

@@ -2,6 +2,7 @@ extends Control
 
 var initial_enemy_count = 0;
 var wave_in_progress = false
+signal change_wave_number(wave_number: int)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -17,14 +18,13 @@ func _process(delta: float) -> void:
 		hide()
 
 
-func _on_enemy_wave_spawner_wave_start(int: Variant) -> void:
+
+func _on_enemy_wave_spawner_wave_start(wavenum: Variant) -> void:
 	show()
+	print(wavenum)
+	change_wave_number.emit(wavenum)
 	wave_in_progress = true
-	print("DEBUG VALUES")
 	initial_enemy_count = get_tree().get_nodes_in_group("Enemies").size()
-	print(initial_enemy_count)
 	$WaveProgress.max_value = initial_enemy_count
-	print($WaveProgress.max_value)
+
 	$WaveProgress.value = initial_enemy_count
-	print($WaveProgress.value)
-	print("__________________")

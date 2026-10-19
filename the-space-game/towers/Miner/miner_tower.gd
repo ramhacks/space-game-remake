@@ -19,7 +19,6 @@ func _ready() -> void:
 	animated_node = self.get_node("Sprite_Node/Sprite2D")
 
 	inherted_node = self
-	show_colliding_bodies = true
 	var current_animation : String = animated_node.animation
 
 	sprite_texture = animated_node.get_sprite_frames().get_frame_texture(current_animation, 0)

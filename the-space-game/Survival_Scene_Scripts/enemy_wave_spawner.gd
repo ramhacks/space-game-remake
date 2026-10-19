@@ -202,11 +202,8 @@ func spawn_new_wave(wave_number: int) -> void:
 	wave_start.emit(wave_number)
 
 func start_wave() -> void:
-	print("Starting new wave")
-
 	# Nothing to attack yet, so wait a bit and check again
 	if get_tree().get_nodes_in_group("tower_node").size() == 0 or Globals.paused:
-		print("Game Paused Cancel")
 		$CooldownEnemy.start(5.0)
 		return
 

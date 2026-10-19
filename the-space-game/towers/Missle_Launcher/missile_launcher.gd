@@ -41,7 +41,6 @@ func _ready() -> void:
 	animated_node = self.get_node("Sprite_Node/Sprite2D")
 	mis = preload("res://Enemy/missle.tscn")
 	inherted_node = self
-	show_colliding_bodies = true
 	var current_animation : String = animated_node.animation
 
 	set_range_area()
