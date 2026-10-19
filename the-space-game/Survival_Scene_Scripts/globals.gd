@@ -159,7 +159,7 @@ func connect_group_lines(self_node):
 func _process(delta: float) -> void:
 	if len(mineral_queue):
 		var output = mineral_queue.pop_front()
-		if resources > output[0]:
+		if resources-output[0] > 0:
 			resources = resources - output[0]
 			output[1].call()
 

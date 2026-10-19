@@ -1,5 +1,8 @@
 extends Node
 
+signal wave_start(int)
+
+
 #Wave spawner for enemies
 var enemy
 var enemy_node
@@ -179,7 +182,7 @@ func spawn_new_wave(wave_number: int) -> void:
 	# they all will pick a separate target and go to a point on their radius,
 	# then they will circle the tower and fire
 
-	if get_tree().get_nodes_in_group("tower_node").size() == 0:
+	if get_tree().get_nodes_in_group("tower_node").size() == 0 or Globals.paused:
 		return
 
 	random.randomize()
@@ -196,15 +199,21 @@ func spawn_new_wave(wave_number: int) -> void:
 		spawn_enemy(Vector2(random_x_range + x_jiggle, random_y_range[ind]), behavior)
 
 
+	wave_start.emit(wave_number)
+
 func start_wave() -> void:
+	print("Starting new wave")
+
 	# Nothing to attack yet, so wait a bit and check again
-	if get_tree().get_nodes_in_group("tower_node").size() == 0:
+	if get_tree().get_nodes_in_group("tower_node").size() == 0 or Globals.paused:
+		print("Game Paused Cancel")
 		$CooldownEnemy.start(5.0)
 		return
 
 	wave_number += 1
 	wave_in_effect = true
 	wave_elapsed = 0.0
+
 	spawn_new_wave(wave_number)
 
 

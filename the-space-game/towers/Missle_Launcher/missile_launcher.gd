@@ -9,7 +9,7 @@ var projectile_type = "Missile"
 var mis
 
 
-
+var sent_signal = false;
 
 var my_range_base_shape
 var my_range_shape
@@ -80,14 +80,16 @@ func do_process():
 
 		self.power_time_seconds = 2
 
+		if !sent_signal:
+			tower_built.emit()
+			sent_signal = true;
 
-		tower_built.emit()
-
+		var target = change_collision_list(my_range_area.get_overlapping_bodies())
+		if is_instance_valid(target):
 		#Each missile is worth its damage amount divided by 3
-		if Globals.resources >= (self.current_upgrade_node.custom_var / 3):
-
-			Globals.resources = Globals.resources - (self.current_upgrade_node.custom_var / 3)
-			send_missile()
+			if Globals.resources >= (self.current_upgrade_node.custom_var / 3):
+				Globals.resources = Globals.resources - (self.current_upgrade_node.custom_var / 3)
+				send_missile(target)
 
 
 	super.do_process()
@@ -95,9 +97,9 @@ func do_process():
 
 
 #Transfer to laser node when implemented
-func send_missile():
+func send_missile(target):
 
-	var target = change_collision_list(my_range_area.get_overlapping_bodies())
+
 	if is_instance_valid(target):
 		var out = mis.instantiate()
 		out.custom_class = "Player_"

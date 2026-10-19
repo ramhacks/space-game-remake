@@ -33,6 +33,8 @@ var my_collding_radius #so we don't have to call deeper into the node to check t
 
 var level = 1
 
+var built_connected = false;
+
 #ENERGY VARS
 var connection_points: Array = []
 #list of connections to other nodes via global position, will be used by each groups line connector to connect
@@ -132,6 +134,9 @@ func _process(delta: float) -> void:
 
 	overlap_areas = $Collision_Area.get_overlapping_areas()
 
+	#Only check if no built is connected is true
+	if (!built_connected):
+		built_connected = check_built_connections(overlap_areas)
 	#-------------------
 
 	if(len(sprite_node.get_overlapping_areas()) > 0):
@@ -238,6 +243,7 @@ func set_clickable():
 	clickable = true
 	connections = $Collision_Area.get_overlapping_areas()
 	get_segments()
+
 	set_group($Collision_Area.get_overlapping_areas())
 	if(power_time_seconds > 0):
 
@@ -248,7 +254,7 @@ func set_clickable():
 
 func _on_power_delay_timeout() -> void:
 	#don't emit if it doesn't need power to work
-	if(current_upgrade_node.energy_needs) > 0:
+	if(current_upgrade_node.energy_needs) > 0 and built_connected:
 		request_power.emit(self, group_, current_upgrade_node.energy_needs)
 
 #Convert group to any group we want
@@ -256,6 +262,22 @@ func convert_group(group_target):
 	self.remove_from_group(group_)
 	group_ = group_target
 	self.add_to_group(group_target)
+
+
+func check_built_connections(overlaps) -> bool:
+	var found_valid: bool = false
+	var build_lists = []
+	# Only enable power pass through if connected to a built tower. dont have to worry as
+	# if tower is built but not connected to power then there will be no power to pass through
+	if len(overlaps):
+		for node in overlaps:
+			if(node is sprite_collider):
+				build_lists.append(node.get_parent().build_progress)
+
+	if build_lists.has(100):
+		return true
+	else:
+		return false;
 
 
 # Sets a group for the tower this is the main function of the power generation scheme
@@ -272,6 +294,7 @@ func set_group(overlaps):
 	var found_valid: bool = false
 	var found_groups = []
 
+
 	if(len(overlaps)):
 		for node in overlaps:
 			if(node is sprite_collider):
@@ -281,7 +304,7 @@ func set_group(overlaps):
 
 						self.add_to_group(node.get_parent().group_)
 
-						Globals.power_groups[node.get_parent().group_][1]+= power_capacity
+						Globals.power_groups[node.get_parent().group_][1] += power_capacity
 						Globals.total_capacity += power_capacity
 						group_ = node.get_parent().group_
 						found_valid = true

@@ -1,7 +1,13 @@
 extends TextureButton
 
+
+# When space is pressed pause the game
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("pause"):
+		button_pressed = !button_pressed
+		_on_toggled(button_pressed)
+
 func _on_toggled(toggled_on: bool) -> void:
-	print(toggled_on)
 	if toggled_on:
 		get_child(0).show()
 		get_child(0).menu_closed.connect(restart)
