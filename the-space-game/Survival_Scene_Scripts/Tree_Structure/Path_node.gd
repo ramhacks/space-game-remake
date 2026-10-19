@@ -8,14 +8,16 @@ var children_names: Array
 var health: int
 var custom_var #can be damage, mining amount, power generation delay etc, depends on node
 var custom_var_2
+var custom_var_3
 
 var energy_needs: int
 var label: String
 var price: int
 var recycle_price: int
+var wave_unlocked: int
 
 
-func __init__(health_in, energy_in, label_in, upgrade_price_in, recycle_in, custom_var_in=null,custom_var_2_in=null):
+func __init__(health_in, energy_in, label_in, upgrade_price_in, recycle_in, custom_var_in=null,custom_var_2_in=null, custom_var_3_in = null, wave_unlocked_in=null):
 	health = health_in
 
 	energy_needs = energy_in
@@ -25,6 +27,9 @@ func __init__(health_in, energy_in, label_in, upgrade_price_in, recycle_in, cust
 
 	custom_var = custom_var_in
 	custom_var_2 = custom_var_2_in
+	if wave_unlocked_in:
+		wave_unlocked = wave_unlocked_in
+	custom_var_3 = custom_var_3_in
 
 
 func add_child_path(child):

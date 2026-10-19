@@ -3,17 +3,6 @@ extends State
 var custom_class
 
 
-# Fires slower but does significantly more damage
-var damage_map = {
-	2: 50,
-	3: 80,
-	4: 100
-}
-
-var health_map = {
-
-}
-
 
 
 # Called when the node enters the scene tree for the first time.

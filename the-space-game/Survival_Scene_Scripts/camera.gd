@@ -1,6 +1,32 @@
+extends Area2D
+
+var correct_area = false
+signal cancel_spawn_tower
+signal place_tower(cur_position)
+signal draw_select(tower_pos, tower_radius, clicked_self)
+signal send_rel(loc)
+signal hide_info_boxes
+
+var cur_name = "camera"
+
+var cam
+
+var mouse_start_pos
+var screen_start_position = position
+
+
+var dragging = false
+
+var button_move_amount = 10 #amount camera will move when moved by arrow keys
+
+# zoom settings
 var zoom_factor = 1.1
 var min_zoom = 0.5
 var max_zoom = 3.0
+
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	cam = get_node("Camera2D")
 
 func zoom_at(mouse_pos: Vector2, factor: float) -> void:
 	var old_zoom = cam.zoom.x
@@ -18,3 +44,67 @@ func zoom_at(mouse_pos: Vector2, factor: float) -> void:
 	if dragging:
 		mouse_start_pos = get_viewport().get_mouse_position()
 		screen_start_position = position
+
+func get_relative_mouse_pos(event_pos):
+	#returns the mouse position relative to the camera position
+	if(!event_pos):
+		#this is for when we are placing a tower, for this we don't have an event position
+		#these two are still updated because call_rel / dragging use them
+		mouse_start_pos = get_viewport().get_mouse_position()
+		screen_start_position = position
+		return get_global_mouse_position()
+
+	#drag case: screen-space drag distance divided by zoom
+	return (mouse_start_pos - event_pos) / cam.zoom.x + screen_start_position
+func call_rel(loc):
+	send_rel.emit(loc + screen_start_position)
+
+func _input(event):
+	get_tree().call_group("tower_node", "move_minimap_icon")
+
+	# mouse wheel zoom (handled first so wheel events never reach the drag logic)
+	if event is InputEventMouseButton and (event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN):
+		if event.pressed:
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				zoom_at(event.position, zoom_factor)
+			else:
+				zoom_at(event.position, 1.0 / zoom_factor)
+		return
+
+	if (event is InputEventMouseButton) or event.is_action("Middle_Button"):
+		if event.is_pressed():
+			mouse_start_pos = get_viewport().get_mouse_position()
+
+			screen_start_position = position
+			dragging = true
+		else:
+			dragging = false
+
+	elif event is InputEventMouseMotion and dragging:
+		position = get_relative_mouse_pos(event.position)
+
+	if event.is_action("BUTTON_RIGHT"):
+		cancel_spawn_tower.emit()
+
+	if event.is_action("BUTTON_LEFT"):
+		place_tower.emit(get_relative_mouse_pos(false))
+
+
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_SPACE:
+			get_tree().paused = !get_tree().paused
+
+	if event is InputEventKey and event.pressed:
+			if event.keycode == KEY_SPACE:
+				get_tree().paused = !get_tree().paused
+			elif event.keycode == KEY_UP:
+				zoom_at(get_viewport_rect().size / 2, zoom_factor)
+			elif event.keycode == KEY_DOWN:
+				zoom_at(get_viewport_rect().size / 2, 1.0 / zoom_factor)
+
+
+func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouseButton:
+		if event.is_action("BUTTON_LEFT"):
+			hide_info_boxes.emit()
+			draw_select.emit(Vector2(0,0), 1, false, false)

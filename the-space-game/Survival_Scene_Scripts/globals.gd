@@ -45,6 +45,7 @@ var sprite_collider_instance
 var tower_selection_mode = false
 var tower_selected
 
+var wave_number: int = 0
 
 var selection_node
 

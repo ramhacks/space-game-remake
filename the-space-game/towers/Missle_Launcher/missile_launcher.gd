@@ -117,4 +117,5 @@ func change_collision_list(col_list):
 	return null
 
 func upgrade(upgrade_type):
+
 	pass

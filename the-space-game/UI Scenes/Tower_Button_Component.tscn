@@ -38,6 +38,19 @@ texture_normal = ExtResource("3_437o5")
 texture_pressed = ExtResource("4_cvi6u")
 stretch_mode = 0
 
+[node name="Unlock" type="Panel" parent="." unique_id=458314062]
+z_index = 4
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 117.0
+
+[node name="Label" type="Label" parent="Unlock" unique_id=298972250]
+layout_mode = 0
+offset_right = 98.0
+offset_bottom = 116.0
+text = "Locked Until
+Wave #"
+
 [connection signal="button_down" from="Info" to="." method="_on_info_button_down"]
 [connection signal="button_up" from="Info" to="." method="_on_info_button_up"]
 [connection signal="toggled" from="Info" to="." method="_on_info_toggled"]

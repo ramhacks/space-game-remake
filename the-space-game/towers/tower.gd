@@ -120,7 +120,8 @@ func _ready() -> void:
 	$Power_Delay.wait_time = power_time_seconds
 
 	#Set health according to upgrade tree
-	get_node("Health").health_amount = current_upgrade_node.health
+	get_node("Health").set_health(current_upgrade_node.health)
+
 	# tower_targ.get_node("Health").max_health = tower_targ.current_upgrade_node.health
 
 

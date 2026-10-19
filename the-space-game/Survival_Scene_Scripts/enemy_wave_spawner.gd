@@ -14,7 +14,7 @@ var random = RandomNumberGenerator.new()
 
 var cooldown_node
 
-var wave_number = 0
+
 
 
 var current_budget = 0
@@ -190,7 +190,7 @@ func spawn_new_wave(wave_number: int) -> void:
 	var random_y_range = [random.randi_range(-20, 0), random.randi_range(650, 750)]
 	var ind = random.randi_range(0, 1)
 
-	var enemies: Array[String] = build_wave(wave_number)
+	var enemies: Array[String] = build_wave(Globals.wave_number)
 
 	for behavior in enemies:
 		if get_tree().get_nodes_in_group("Enemies").size() >= mob_cap:
@@ -199,7 +199,7 @@ func spawn_new_wave(wave_number: int) -> void:
 		spawn_enemy(Vector2(random_x_range + x_jiggle, random_y_range[ind]), behavior)
 
 
-	wave_start.emit(wave_number)
+	wave_start.emit(Globals.wave_number)
 
 func start_wave() -> void:
 	# Nothing to attack yet, so wait a bit and check again
@@ -207,11 +207,11 @@ func start_wave() -> void:
 		$CooldownEnemy.start(5.0)
 		return
 
-	wave_number += 1
+	Globals.wave_number += 1
 	wave_in_effect = true
 	wave_elapsed = 0.0
 
-	spawn_new_wave(wave_number)
+	spawn_new_wave(Globals.wave_number)
 
 
 
@@ -226,7 +226,7 @@ func _process(delta: float) -> void:
 
 func end_wave() -> void:
 	wave_in_effect = false
-	$CooldownEnemy.start(get_prep_time(wave_number))
+	$CooldownEnemy.start(get_prep_time(Globals.wave_number))
 
 
 func get_prep_time(w: int) -> float:

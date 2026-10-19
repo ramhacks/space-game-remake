@@ -133,6 +133,7 @@ script = ExtResource("2_3ciky")
 custom_class = "Miner"
 power_needed = 10
 power_time_seconds = 2
+show_colliding_asteroids = true
 
 [node name="Health" parent="." index="0" unique_id=502972133 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_84so6")]
 death_animation = NodePath("../Explosion")

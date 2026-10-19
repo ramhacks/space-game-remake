@@ -77,9 +77,11 @@ func get_overlap():
 func upgrade(upgrade_type):
 	if upgrade_type == "Pulsar":
 		laser_upgrade_type = 'pulsar'
+
 	else:
 		laser_upgrade_type = 'thel'
 
+	$Power_Delay.wait_time = self.current_upgrade_node.custom_var_3
 
 
 	my_range_shape.queue_free()

@@ -46,8 +46,7 @@ func continue_upgrade() -> void:
 		#Make an exception on what upgrade button they pressed as there would be 2 options
 		temp_tower_targ.upgrade(temp_tower_targ.current_upgrade_node.label) #Change parameter to type, either thel or pulsar
 
-	temp_tower_targ.get_node("Health").health_amount = temp_tower_targ.current_upgrade_node.health
-	temp_tower_targ.get_node("Health").max_health = temp_tower_targ.current_upgrade_node.health
+	temp_tower_targ.get_node("Health").set_health(temp_tower_targ.current_upgrade_node.health)
 
 func process_upgrade(upgrade_label):
 	var can_upgrade: bool

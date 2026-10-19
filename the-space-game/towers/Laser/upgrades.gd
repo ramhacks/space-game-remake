@@ -18,15 +18,16 @@ var Pulsar_3 = Path_Node.new()
 func _ready() -> void:
 	# Less energy required means it can fire more often
 #Health, Energy_Required per blast, Label for upgrade animation, upgrade price, recycle price, damage/special property, range
-	Base.__init__(40, 3, "Laser", 100, 50, 30, 60)
+# power_delay_time
+	Base.__init__(40, 3, "Laser", 100, 50, 10, 60, 3)
 
-	Thel_1.__init__(50, 5, "Thel", 500, 350, 1, 133)
-	Thel_2.__init__(60, 10, "Thel 2", 800, 400, 5, 193)
-	Thel_3.__init__(70, 17, "Thel 3", 1000, 500, 10, 260)
+	Thel_1.__init__(50, 5, "Thel", 500, 350, 13, 133, 5)
+	Thel_2.__init__(60, 10, "Thel 2", 800, 400, 15, 193, 5)
+	Thel_3.__init__(70, 17, "Thel 3", 1000, 500, 17, 260, 5)
 
-	Pulsar_1.__init__(50, 2, "Pulsar", 100, 70, 12, 73)
-	Pulsar_2.__init__(55, 5, "Pulsar 2", 150, 100, 14, 76)
-	Pulsar_3.__init__(60, 7, "Pulsar 3", 300, 200, 16, 86)
+	Pulsar_1.__init__(50, 2, "Pulsar", 100, 70, 3, 73, 2)
+	Pulsar_2.__init__(55, 5, "Pulsar 2", 150, 100, 5, 76, 2)
+	Pulsar_3.__init__(60, 7, "Pulsar 3", 300, 200, 10, 86, 2)
 
 
 	Base.add_child_path(Thel_1)
