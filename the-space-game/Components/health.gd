@@ -16,7 +16,6 @@ var is_dead = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	max_health = health_amount
-	print(max_health)
 	parent.get_node("Hitbox").health_component = self
 	death_animation.animation_finished.connect(_on_explosion_animation_finished)
 

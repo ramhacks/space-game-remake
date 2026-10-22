@@ -12,12 +12,14 @@ var continue_button_positions = [
 	Vector2(848.0, 304.0),
 	Vector2(1096.0, 472.0),
 	Vector2(1096.0, 472.0),
+	Vector2(1096.0, 472.0),
 	Vector2(544.0, 256.0),
 	Vector2(256.0, 224.0)
 ];
 var back_button_positions = [
 	Vector2(0.0, 384.0),
 	Vector2(624.0, 304.0),
+	Vector2(872.0, 472.0),
 	Vector2(872.0, 472.0),
 	Vector2(872.0, 472.0),
 	Vector2(320.0, 256.0),
@@ -27,6 +29,7 @@ var back_button_positions = [
 var close_button_positions = [
 	Vector2(224.0, 264.0),
 	Vector2(848.0, 88.0),
+	Vector2(1096.0, 256.0),
 	Vector2(1096.0, 256.0),
 	Vector2(1096.0, 256.0),
 	Vector2(544.0, 40.0),
@@ -80,24 +83,36 @@ func process_state_change() -> void:
 			$Minerals.hide()
 			$Solar.hide()
 			$Energy.hide()
+			$TowerSelections.hide()
 			$GoodLuck.hide()
 		PositionIndexs.SOLAR:
 			$MiniMap.hide()
 			$Enemies.hide()
 			$Minerals.hide()
 			$Solar.show()
+			$TowerSelections.hide()
 			$Energy.hide()
 			$GoodLuck.hide()
 		PositionIndexs.ENERGY:
 			$MiniMap.hide()
 			$Enemies.hide()
+			$TowerSelections.hide()
 			$Minerals.hide()
 			$Solar.hide()
 			$Energy.show()
 			$GoodLuck.hide()
+		PositionIndexs.TOWERS:
+			$MiniMap.hide()
+			$Enemies.hide()
+			$TowerSelections.show()
+			$Minerals.hide()
+			$Solar.hide()
+			$Energy.hide()
+			$GoodLuck.hide()
 		PositionIndexs.MINERALS:
 			$MiniMap.hide()
 			$Enemies.hide()
+			$TowerSelections.hide()
 			$Minerals.show()
 			$Solar.hide()
 			$Energy.hide()
@@ -105,6 +120,7 @@ func process_state_change() -> void:
 		PositionIndexs.ENEMIES:
 			$MiniMap.hide()
 			$Enemies.show()
+			$TowerSelections.hide()
 			$Minerals.hide()
 			$Solar.hide()
 			$Energy.hide()
@@ -113,6 +129,7 @@ func process_state_change() -> void:
 			$MiniMap.hide()
 			$Enemies.hide()
 			$Minerals.hide()
+			$TowerSelections.hide()
 			$Solar.hide()
 			$Energy.hide()
 			$GoodLuck.show()

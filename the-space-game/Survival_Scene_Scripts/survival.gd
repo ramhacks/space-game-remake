@@ -365,9 +365,10 @@ func get_tower_ui_node(tower_type):
 	return self.get_node(pathstring_button)
 
 
-
+#Runs when tower is selected
 #show selection ui
 func show_selection_ui(tower):
+
 
 	#re-add all button nodes just in case they were removed in another tower seleciton menu
 	var vbox = self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons")

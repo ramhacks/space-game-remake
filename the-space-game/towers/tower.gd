@@ -65,7 +65,7 @@ var overlap_areas: Array = []
 @export var show_colliding_asteroids: bool = false
 
 var build_progress: int = 0 #percantage up to 100
-var built: bool = false #we will set this to false when we implement power
+var built: bool = false
 var set_build_frame: bool = false
 
 
@@ -100,7 +100,8 @@ var sprite_texture #used to get radius and height of sprite to draw selection an
 
 
 func reset_line():
-	connections.erase(-1)
+	while connections.has(-1):
+		connections.erase(-1)
 	$Connector.redraw_no_priority(connections)
 
 
@@ -136,8 +137,8 @@ func _process(delta: float) -> void:
 	overlap_areas = $Collision_Area.get_overlapping_areas()
 
 	#Only check if no built is connected is true
-	if (!built_connected):
-		built_connected = check_built_connections(overlap_areas)
+	if (!built_connected and !hovering):
+		built_connected = Globals.find_closest_solar(self)
 	#-------------------
 
 	if(len(sprite_node.get_overlapping_areas()) > 0):
@@ -339,7 +340,10 @@ func set_group(overlaps):
 		group_ = found_groups[0]
 
 	if(len(found_groups) > 1):
+
 		for g in found_groups:
+			print("PRINTING POWERS")
+			print(Globals.power_groups[g][0])
 			get_tree().call_group(g, "convert_group", group_)
 		Globals.group_changed_adjust_max_power(group_)
 

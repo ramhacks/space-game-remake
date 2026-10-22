@@ -4,6 +4,7 @@ enum SequenceButtonPositions {
 	MINIMAP,
 	SOLAR,
 	ENERGY,
+	TOWERS,
 	MINERALS,
 	ENEMIES,
 	GOODLUCK,

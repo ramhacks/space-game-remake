@@ -21,7 +21,6 @@ func _process(delta: float) -> void:
 
 func _on_enemy_wave_spawner_wave_start(wavenum: Variant) -> void:
 	show()
-	print(wavenum)
 	change_wave_number.emit(wavenum)
 	wave_in_progress = true
 	initial_enemy_count = get_tree().get_nodes_in_group("Enemies").size()

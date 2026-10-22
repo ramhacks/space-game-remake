@@ -66,6 +66,34 @@ text = "This is your first solar node. You start every game with this and it gen
 autowrap_mode = 2
 metadata/_edit_lock_ = true
 
+[node name="TowerSelections" type="Control" parent="." unique_id=523919345]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 336.0
+offset_top = 320.0
+offset_right = 376.0
+offset_bottom = 360.0
+
+[node name="Panel" type="Panel" parent="TowerSelections" unique_id=1994166099]
+z_index = 10
+layout_mode = 0
+offset_left = 536.0
+offset_top = -32.0
+offset_right = 792.0
+offset_bottom = 184.0
+theme = ExtResource("2_mmdx4")
+
+[node name="Label" type="Label" parent="TowerSelections/Panel" unique_id=510569684]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 8.0
+offset_right = 240.0
+offset_bottom = 83.0
+text = "You also have the ability to place towers. To do this click the tower to purchase then place. To cancel just right click. "
+autowrap_mode = 2
+metadata/_edit_lock_ = true
+
 [node name="Energy" type="Control" parent="." unique_id=742492109]
 visible = false
 layout_mode = 3

@@ -1,6 +1,6 @@
 {
 	"Miner": "[color=ebeb00]Miners[/color] extract [color=01e700]Minerals[/color] from any asteroid in range. [color=01e700]Minerals[/color] are needed to [color=00dfdf]construct structures, ships and missiles[/color]. Miners can be upgraded to increase their efficiency.",
-	"Solar": "[color=ebeb00]Solar Stations[/color] collect light from the sun and convert it into [color=00dfdf]Energy[/color], which is needed to [color=00dfdf]construct and power your structures[/color]. They can be upgraded several times to improve their efficiency.",
+	"Solar": "[color=ebeb00]Solar Stations[/color] collect light from the sun and convert it into [color=00dfdf]Energy[/color], which is needed to [color=00dfdf]construct and power your structures[/color]. They can be upgraded several times to improve their efficiency. THEY ALSO ACT as your only battery early game to store energy",
 	"Relay": "[color=ebeb00]Energy Relays[/color] are used to [color=00dfdf]transport Energy from Solar Stations and Energy Stores to all other structures[/color]. They do this by reflecting and refracting light. They are cheap to make, but weak.",
 	"Repair_Station": "[color=ebeb00]Repair Stations[/color] [color=00dfdf]repair structures[/color] within their radius.",
 	"Battery": "[color=ebeb00]Batteries[/color] act as [color=00dfdf]Energy storage[/color]. They increase the [color=00dfdf]maximum Energy[/color] of the net they are attached to. A net is everything connected to the tower, even indirectly.",

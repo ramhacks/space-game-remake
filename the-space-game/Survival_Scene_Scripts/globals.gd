@@ -83,6 +83,7 @@ func reset_all():
 	total_capacity = 0
 	power_groups = {}
 	NO_SOLAR_TOWER = true
+	wave_number = 0
 
 
 
@@ -193,17 +194,22 @@ func all_in(connection_input, target_connections):
 
 func remove_node_from_group(tower):
 	tower.remove_from_group("Placed_Towers")
-	#connection or not
 	var check_true = false
 	var dfs_node_list = []
+	power_groups[tower.group_][0] = power_groups[tower.group_][0] - tower.power_capacity
+	total_capacity -= tower.power_capacity
+	print("Removed capactiy from power array")
+	print(total_capacity)
+
 	for conn in tower.connections:
+		if typeof(conn) == TYPE_INT or not is_instance_valid(conn):
+			continue
 		var out = iterativeDFS(conn, tower)
 		if(all_in(out, tower.connections)):
 			check_true = true
 			break
 		else:
 			dfs_node_list.append(out)
-
 	if(!check_true):
 		for g in dfs_node_list:
 			var new_group_name = str(power_groups.size()+1)
@@ -216,48 +222,64 @@ func remove_node_from_group(tower):
 				power_groups[new_group_name][1] += node.power_capacity
 				total_capacity += node.power_capacity
 
-
 	tower.queue_free()
 
 
-func iterativeDFS(v, delete_target):
-
+func find_closest_solar(v):
 	var discovered = []
-	var names_ = []
-	# create a stack used to do iterative DFS
 	var stack = []
-
-	# push the source node into the stack
 	stack.push_front(v)
 
-	# loop till stack is empty
+	if v.custom_class == "Solar":
+		return true
+
+
+	var found = false
+
 	while len(stack) > 0:
+		var s = stack[0]
+		stack.pop_front()
+		print(s.connections)
+		# FIX: The connections loop MUST be nested inside this validation block
+		if typeof(s) != TYPE_INT and is_instance_valid(s) and s not in discovered:
 
-		# Pop a vertex from the stack
+			discovered.append(s)
 
+
+			for node in s.connections:
+				if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered and not node.hovering and node.built:
+					if node.custom_class == "Solar":
+						found = true
+					else:
+						stack.push_front(node)
+
+				# FIX: Moved outside the deletion check so the index always increments accurately
+	return found
+
+func iterativeDFS(v, delete_target):
+	var discovered = []
+	var names_ = []
+	var stack = []
+	stack.push_front(v)
+
+	while len(stack) > 0:
 		var s = stack[0]
 		stack.pop_front()
 
-
-		if (s not in discovered and s != delete_target and is_instance_valid(s)):
+		# FIX: The connections loop MUST be nested inside this validation block
+		if typeof(s) != TYPE_INT and is_instance_valid(s) and s not in discovered and s != delete_target:
 			discovered.append(s)
 			names_.append(s.cur_name)
 
-		# if the vertex is already discovered yet, ignore it
-		var iters = 0
-
-		for node in s.connections:
-			if (is_instance_valid(node) and node not in discovered and not node.hovering):
-				if(node == delete_target):
-					s.connections[iters] = -1 #mark to remove all lines that were pointing to this node
-
-					continue
-				stack.push_front(node)
-			iters+=1
-
-
-						#---------------------------------------------------------
-
+			var iters = 0
+			for node in s.connections:
+				if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered and not node.hovering:
+					if node == delete_target:
+						s.connections[iters] = -1
+					else:
+						stack.push_front(node)
+				# FIX: Moved outside the deletion check so the index always increments accurately
+				iters += 1
 
 	return discovered
 

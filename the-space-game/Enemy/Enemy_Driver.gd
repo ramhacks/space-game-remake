@@ -81,7 +81,6 @@ func _ready() -> void:
 func initialize(target_method, radar, start_position):
 	self.global_position = start_position
 	target_strat = target_method
-	print("TARGET STRAT IS: " + target_strat)
 	health = EnemyTypeHealth[target_strat]
 	missle_damage = EnemyTypeDamages[target_strat]
 	radar_marker = radar
