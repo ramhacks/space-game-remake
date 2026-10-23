@@ -181,6 +181,7 @@ func power_requested(tower, group, power_needed):
 		else:
 			no_power_available.emit(tower)
 
+
 func all_in(connection_input, target_connections):
 	var check = []
 	for node in target_connections:
@@ -192,19 +193,20 @@ func all_in(connection_input, target_connections):
 	else:
 		return false
 
+
+# Target function to fix that is causing issues
 func remove_node_from_group(tower):
 	tower.remove_from_group("Placed_Towers")
 	var check_true = false
 	var dfs_node_list = []
 	power_groups[tower.group_][0] = power_groups[tower.group_][0] - tower.power_capacity
 	total_capacity -= tower.power_capacity
-	print("Removed capactiy from power array")
-	print(total_capacity)
 
 	for conn in tower.connections:
 		if typeof(conn) == TYPE_INT or not is_instance_valid(conn):
 			continue
 		var out = iterativeDFS(conn, tower)
+		print(out)
 		if(all_in(out, tower.connections)):
 			check_true = true
 			break
@@ -230,7 +232,8 @@ func find_closest_solar(v):
 	var stack = []
 	stack.push_front(v)
 
-	if v.custom_class == "Solar":
+	# IF self is solar this function is irrelevent
+	if v.custom_class == "Solar" and !v.built:
 		return true
 
 
@@ -239,7 +242,6 @@ func find_closest_solar(v):
 	while len(stack) > 0:
 		var s = stack[0]
 		stack.pop_front()
-		print(s.connections)
 		# FIX: The connections loop MUST be nested inside this validation block
 		if typeof(s) != TYPE_INT and is_instance_valid(s) and s not in discovered:
 
@@ -256,6 +258,8 @@ func find_closest_solar(v):
 				# FIX: Moved outside the deletion check so the index always increments accurately
 	return found
 
+
+# Removes any connection references from other nodes attached to itself
 func iterativeDFS(v, delete_target):
 	var discovered = []
 	var names_ = []

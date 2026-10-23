@@ -137,8 +137,7 @@ func _process(delta: float) -> void:
 	overlap_areas = $Collision_Area.get_overlapping_areas()
 
 	#Only check if no built is connected is true
-	if (!built_connected and !hovering):
-		built_connected = Globals.find_closest_solar(self)
+
 	#-------------------
 
 	if(len(sprite_node.get_overlapping_areas()) > 0):
@@ -155,6 +154,7 @@ func _process(delta: float) -> void:
 		self.get_node("BuildProgress").set_visible(false)
 		built = true
 	else:
+
 		self.get_node("BuildProgress").value = build_progress
 
 func move_minimap_icon():
@@ -255,8 +255,13 @@ func set_clickable():
 	#put on minimap:
 
 func _on_power_delay_timeout() -> void:
+	# Only check when power timeout, avoid checking every single process tick
+	if (!built_connected and !hovering):
+		built_connected = Globals.find_closest_solar(self)
 	#don't emit if it doesn't need power to work
 	if(current_upgrade_node.energy_needs) > 0 and built_connected:
+		#First check if we can continue building by making sure a solar node still exists in the graph
+		built_connected = Globals.find_closest_solar(self)
 		request_power.emit(self, group_, current_upgrade_node.energy_needs)
 
 #Convert group to any group we want
@@ -342,8 +347,6 @@ func set_group(overlaps):
 	if(len(found_groups) > 1):
 
 		for g in found_groups:
-			print("PRINTING POWERS")
-			print(Globals.power_groups[g][0])
 			get_tree().call_group(g, "convert_group", group_)
 		Globals.group_changed_adjust_max_power(group_)
 
