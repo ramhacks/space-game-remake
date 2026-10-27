@@ -59,4 +59,4 @@ func upgrade(upgrade_type):
 	self.built = false
 	set_energy = false
 	Globals.power_groups[self.group_][1] -= self.power_capacity
-	self.power_capacity = self.current_upgrade_node.custom_var #Power capacity for current level
+	self.power_capacity = self.current_upgrade_node.custom_vars_dict["Power_Capacity"] #Power capacity for current level

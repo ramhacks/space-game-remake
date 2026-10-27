@@ -23,7 +23,7 @@ var my_range_area
 func set_range_area():
 	my_range_base_shape = CircleShape2D.new()
 	my_range_shape = CollisionShape2D.new()
-	my_range_base_shape.radius = self.current_upgrade_node.custom_var_2
+	my_range_base_shape.radius = self.current_upgrade_node.custom_vars_dict["Range"]
 	my_range_shape.shape = my_range_base_shape
 
 	my_range_area = Area2D.new()
@@ -73,6 +73,11 @@ func _process(delta: float) -> void:
 
 	super._process(delta)
 
+
+var target
+func complete_missle():
+	if is_instance_valid(target):
+		send_missile(target)
 func do_process():
 	if built:
 
@@ -83,12 +88,13 @@ func do_process():
 			tower_built.emit()
 			sent_signal = true;
 
-		var target = change_collision_list(my_range_area.get_overlapping_bodies())
+		target = change_collision_list(my_range_area.get_overlapping_bodies())
 		if is_instance_valid(target):
-		#Each missile is worth its damage amount divided by 3
-			if Globals.resources >= (self.current_upgrade_node.custom_var / 3):
-				Globals.resources = Globals.resources - (self.current_upgrade_node.custom_var / 3)
-				send_missile(target)
+		#Each missile is worth its damage amount divided by 4
+			Globals.add_to_mineral_queue(self.current_upgrade_node.custom_vars_dict["Damage"] / 4, complete_missle)
+			# if Globals.resources >= (self.current_upgrade_node.custom_vars_dict["Damage"] / 4):
+			# 	Globals.resources = Globals.resources - (self.current_upgrade_node.custom_vars_dict["Damage"] / 4)
+			# 	send_missile(target)
 
 
 	super.do_process()
@@ -96,16 +102,14 @@ func do_process():
 
 
 #Transfer to laser node when implemented
-func send_missile(target):
-
-
-	if is_instance_valid(target):
+func send_missile(target_):
+	if is_instance_valid(target_):
 		var out = mis.instantiate()
 		out.custom_class = "Player_"
 		out.damage = current_upgrade_node.custom_var
 
 		self.add_child(out)
-		out.set_target(target)
+		out.set_target(target_)
 
 
 #Look for an enemy target in range
@@ -117,5 +121,4 @@ func change_collision_list(col_list):
 	return null
 
 func upgrade(upgrade_type):
-
 	pass

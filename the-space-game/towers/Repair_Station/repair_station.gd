@@ -17,7 +17,7 @@ var set_power_delay = false
 func set_range_area():
 	my_range_base_shape = CircleShape2D.new()
 	my_range_shape = CollisionShape2D.new()
-	my_range_base_shape.radius = self.current_upgrade_node.custom_var_2
+	my_range_base_shape.radius = self.current_upgrade_node.custom_vars_dict["Range"]
 	my_range_shape.shape = my_range_base_shape
 
 	my_range_area = Area2D.new()
@@ -50,12 +50,12 @@ func _process(delta: float) -> void:
 func do_process():
 	if built:
 		if !set_power_delay:
-			$Power_Delay.wait_time = self.current_upgrade_node.custom_var_3
+			$Power_Delay.wait_time = self.current_upgrade_node.custom_vars_dict["Cooldown"]
 			set_power_delay = true
 		var overlap = $Collision_Area.get_overlapping_areas()
 		for node in overlap:
 			if node is sprite_collider and is_instance_valid(node) and node.correct_area and node.get_parent() != self:
-				var status = node.get_parent().get_node("Health").heal(self.current_upgrade_node.custom_var)
+				var status = node.get_parent().get_node("Health").heal(self.current_upgrade_node.custom_vars_dict["Repair_Amount"])
 				if !status:
 					#Tower already fully repaired add used energy back into pool, no need to repair
 					Globals.power_groups[group_][0] += self.current_upgrade_node.energy_needs

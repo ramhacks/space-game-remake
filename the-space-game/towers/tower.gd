@@ -50,7 +50,7 @@ var group_: String = 'NAN'
 #amount that this tower needs to function
 #We can modify this to be customized when implementing missles/lasers
 @export var power_needed: int
-@export var power_time_seconds: int
+@export var power_time_seconds: float
 
 var connections: Array = []
 var sent_: bool = false
@@ -75,7 +75,7 @@ var hover_line = Line2D.new()  #hover line node pointer
 
 
 signal draw_laser(tower, pos1, pos2, cooldown_time, tower_origin)
-signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
+# signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
 signal draw_selection_animation(tower_pos, tower_radius, clicked_self, tower_type)
 signal update_location(loc)
 
@@ -112,6 +112,7 @@ func reset_line():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	#set child node static variables
 	sprite_var_node_holder = $Sprite
@@ -122,6 +123,15 @@ func _ready() -> void:
 
 	#Set health according to upgrade tree
 	get_node("Health").set_health(current_upgrade_node.health)
+	add_child(hover_line)
+	hover_line.default_color = Color(0.192, 0.988, 0.165)
+	hover_line.width = 1.0
+
+
+	if !built and power_time_seconds != 0.5:
+
+		power_time_seconds = 0.5
+		$Power_Delay.wait_time = power_time_seconds
 
 	# tower_targ.get_node("Health").max_health = tower_targ.current_upgrade_node.health
 
@@ -177,6 +187,12 @@ func rebuild():
 #Hover functionality
 #-----------------------------------------------------------------
 
+func clear_hover_lines():
+	print("GREEEN: ", hover_line.points)
+	hover_line.clear_points()
+
+
+
 func send_hover_line():
 	if(show_colliding_asteroids):
 		if(len(sprite_node.get_overlapping_bodies()) > 0):
@@ -184,8 +200,12 @@ func send_hover_line():
 		else:
 			on_object = false
 
+		hover_line.clear_points()
 		var overlap = child_area.get_overlapping_bodies()
-		draw_hover_line.emit(self.global_position, overlap, 0.192, 0.988, 0.165, 3, hover_line)
+		for node in overlap:
+			hover_line.add_point(to_local(self.global_position))
+			hover_line.add_point(to_local(node.global_position))
+		##draw_hover_line.emit(self.global_position, overlap, 0.192, 0.988, 0.165, 3, hover_line)
 
 #traw thin blue power lines to overlapping towers
 func draw_tower_hover_lines(input_array=false):
@@ -357,12 +377,6 @@ func set_group(overlaps):
 func no_power_available(sender):
 	#only act if we are the ones who's power was not able to be recieved
 	if sender == self and built: #only change if tower is built, if it isn't user can just see that the build meter is not going up
-			#Play no power_animation
-		if inherted_node is Laser:
-			animated_node.play(current_upgrade_node.label + " dead")
-		else:
-			pass
-
 		no_power_animation_on = true
 
 
@@ -426,6 +440,7 @@ func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -
 	if event is InputEventMouseButton and clickable:
 		if event.is_action("BUTTON_LEFT") and !Globals.paused:
 			draw_selection_animation.emit(self.global_position, sprite_texture.get_size().x/2, true,  inherted_node)
+			print("GROUP: ", group_)
 			#will change the hot bar or something to let us upgrade the selected tower
 
 #power on

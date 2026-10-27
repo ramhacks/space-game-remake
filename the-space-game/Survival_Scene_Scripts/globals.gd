@@ -16,6 +16,10 @@ const PowerG = preload("res://enums/power_enums.gd").PowerGroups
 ##   unwanted bridging lines across the canvas.
 var power_groups = {}
 
+var starting_resources = 300
+
+
+
 
 var total_current = 0
 var total_capacity = 0
@@ -39,7 +43,7 @@ func GetAllTreeNodes(node , listOfAllNodesInTree, type_string): #recursive
 var main_scene
 
 ## amount of resources the current player has
-var resources = 1000
+var resources = starting_resources
 var RPM = 0
 var sprite_collider_instance
 var tower_selection_mode = false
@@ -66,6 +70,9 @@ var power_line_segment
 
 # [Mineral Change, Action]
 var mineral_queue = []
+
+# [tower to remove]
+var removal_queue = []
 var paused = false # when set to true stop power timer
 
 ## sent when a tower requests power but there is not enough power available to give it any
@@ -77,7 +84,7 @@ func reset_all():
 	mineral_queue = []
 	tower_hovering = false
 	tower_selection_mode = false
-	resources = 1000
+	resources = starting_resources
 	RPM = 0
 	total_current = 0
 	total_capacity = 0
@@ -161,7 +168,8 @@ func connect_group_lines(self_node):
 func _process(delta: float) -> void:
 	if len(mineral_queue):
 		var output = mineral_queue.pop_front()
-		if resources-output[0] > 0:
+
+		if resources-output[0] >= 0:
 			resources = resources - output[0]
 			output[1].call()
 
@@ -193,38 +201,75 @@ func all_in(connection_input, target_connections):
 	else:
 		return false
 
+#Only called by remove_node_group when done, unless removal_queue is empty then directly called when remove-tower_node is called
+func advance_removal_queue() -> void:
+	if len(removal_queue):
+		remove_node_group(removal_queue.pop_front())
 
-# Target function to fix that is causing issues
-func remove_node_from_group(tower):
+#Combine two arrays and removing duplicates
+func combine_set(arr1, arr2) -> Array:
+	var unique_dict = {}
+
+	for item in arr1 + arr2:
+		unique_dict[item] = true
+
+	var combined = unique_dict.keys()
+	return combined
+
+# How towers are removed now:
+# Queue system, only remove one tower at a time do not remove asynchronously
+# Step 1:
+	# remove connection references from directly connected towers, return these nodes (named k_nodes)
+# Step 2:
+	# get all nodes connected to the k_nodes.
+	# DFS to get groups of nodes that are connected to the k_nodes and return all these nodes. Inside dfs reassign
+	# groups
+	# after dfs if k_node found in group skip, we don't need to reassign groups again
+
+func remove_node_group(tower):
 	tower.remove_from_group("Placed_Towers")
-	var check_true = false
-	var dfs_node_list = []
+	var k_nodes_array = tower.connections # Direct node connections
 	power_groups[tower.group_][0] = power_groups[tower.group_][0] - tower.power_capacity
 	total_capacity -= tower.power_capacity
 
-	for conn in tower.connections:
-		if typeof(conn) == TYPE_INT or not is_instance_valid(conn):
-			continue
-		var out = iterativeDFS(conn, tower)
-		print(out)
-		if(all_in(out, tower.connections)):
-			check_true = true
-			break
-		else:
-			dfs_node_list.append(out)
-	if(!check_true):
-		for g in dfs_node_list:
-			var new_group_name = str(power_groups.size()+1)
-			power_groups[new_group_name] = [0, 0]
+	#This holds k nodes that was found to be in a k_node_group
+	var k_skip = []
 
-			for node in g:
-				node.remove_from_group(node.group_)
-				node.group_ = new_group_name
-				node.add_to_group(new_group_name)
-				power_groups[new_group_name][1] += node.power_capacity
-				total_capacity += node.power_capacity
+	for conn in k_nodes_array:
+		conn.connections.erase(tower)
+		if conn in k_skip:
+			continue # We don't need to make another group this node is already in a group defined
+		var new_group_name = str(power_groups.size()+1)
+		power_groups[new_group_name] = [0, 0]
+
+		# First change group of self then move on to changing connections
+		conn.remove_from_group(conn.group_)
+		conn.group_ = new_group_name
+		conn.add_to_group(new_group_name)
+		power_groups[new_group_name][1] += conn.power_capacity
+		total_capacity += conn.power_capacity
+		var group = iterativeDFS_main(conn, new_group_name)
+
+		var inters = group.filter(func(item): return k_nodes_array.has(item))
+
+		k_skip = combine_set(k_skip, inters)
 
 	tower.queue_free()
+
+
+
+
+
+
+# Target function to fix that is causing issues
+func remove_node_from_group(tower):
+	if len(removal_queue) == 0:
+		removal_queue.append(tower)
+		advance_removal_queue()
+	else:
+		removal_queue.append(tower)
+
+	return
 
 
 func find_closest_solar(v):
@@ -258,11 +303,8 @@ func find_closest_solar(v):
 				# FIX: Moved outside the deletion check so the index always increments accurately
 	return found
 
-
-# Removes any connection references from other nodes attached to itself
-func iterativeDFS(v, delete_target):
+func iterativeDFS_main(v, new_group_name):
 	var discovered = []
-	var names_ = []
 	var stack = []
 	stack.push_front(v)
 
@@ -271,21 +313,23 @@ func iterativeDFS(v, delete_target):
 		stack.pop_front()
 
 		# FIX: The connections loop MUST be nested inside this validation block
-		if typeof(s) != TYPE_INT and is_instance_valid(s) and s not in discovered and s != delete_target:
+		if typeof(s) != TYPE_INT and is_instance_valid(s) and s not in discovered:
 			discovered.append(s)
-			names_.append(s.cur_name)
 
-			var iters = 0
+
 			for node in s.connections:
 				if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered and not node.hovering:
-					if node == delete_target:
-						s.connections[iters] = -1
-					else:
-						stack.push_front(node)
+					node.remove_from_group(node.group_)
+					node.group_ = new_group_name
+					node.add_to_group(new_group_name)
+					power_groups[new_group_name][1] += node.power_capacity
+					total_capacity += node.power_capacity
+					stack.push_front(node)
 				# FIX: Moved outside the deletion check so the index always increments accurately
-				iters += 1
+
 
 	return discovered
+
 
 
 

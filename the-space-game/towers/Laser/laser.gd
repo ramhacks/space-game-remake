@@ -23,7 +23,7 @@ func set_range_area():
 	my_range_base_shape = CircleShape2D.new()
 	my_range_shape = CollisionShape2D.new()
 
-	my_range_base_shape.radius = self.current_upgrade_node.custom_var_2
+	my_range_base_shape.radius = self.current_upgrade_node.custom_vars_dict["Range"]
 	my_range_shape.shape = my_range_base_shape
 
 	my_range_area = Area2D.new()
@@ -81,7 +81,7 @@ func upgrade(upgrade_type):
 	else:
 		laser_upgrade_type = 'thel'
 
-	$Power_Delay.wait_time = self.current_upgrade_node.custom_var_3
+	$Power_Delay.wait_time = self.current_upgrade_node.custom_vars_dict["Power_Delay"]
 
 
 	my_range_shape.queue_free()

@@ -2,7 +2,13 @@ extends Node
 
 signal wave_start(int)
 
+## Makes it so enemies will spawn in 30 seconds
+@export var debug_mode: bool = false
 
+## Makes it so mob cap is set to 0 on startup
+@export var disable_enimies: bool = false
+
+@export var break_time_jiggle: int = 0
 #Wave spawner for enemies
 var enemy
 var enemy_node
@@ -68,6 +74,13 @@ func get_budget(w: int) -> float:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if debug_mode:
+		first_wave_delay = 30
+		base_prep_time = 15
+		max_wave_duration = 60
+
+	if disable_enimies:
+		mob_cap = 0
 	radar_node = preload("res://Visuals/Minimap_textures/radar_marker.tscn")
 	enemy_marker_texture = load("res://Visuals/Minimap_textures/enemy.png")
 	cooldown_node = $CooldownEnemy
@@ -107,7 +120,7 @@ func spawn_enemy(pos, type):
 	enemies_alive.append(enemy_node)
 	enemy_node.initialize(type, enemy_marker2, pos)
 
-
+# AI ASSISTED CODE BELOW
 func _weakness_bonus(theme: String, game_state) -> float:
 	if game_state == null:
 		return 0.0
@@ -182,6 +195,8 @@ func spawn_new_wave(wave_number: int) -> void:
 	# they all will pick a separate target and go to a point on their radius,
 	# then they will circle the tower and fire
 
+
+
 	if get_tree().get_nodes_in_group("tower_node").size() == 0 or Globals.paused:
 		return
 
@@ -214,23 +229,25 @@ func start_wave() -> void:
 	spawn_new_wave(Globals.wave_number)
 
 
+#END AI ASSISTED CODE
+
 
 func _process(delta: float) -> void:
 	if !wave_in_effect:
 		return
 
 	wave_elapsed += delta
-	var cleared := get_tree().get_nodes_in_group("Enemies").size() == 0
+	var cleared = get_tree().get_nodes_in_group("Enemies").size() == 0
 	if cleared or wave_elapsed >= max_wave_duration:
 		end_wave()
 
 func end_wave() -> void:
 	wave_in_effect = false
-	$CooldownEnemy.start(get_prep_time(Globals.wave_number))
+	$CooldownEnemy.start(get_prep_time(Globals.wave_number) + random.randf_range(0, break_time_jiggle))
 
 
 func get_prep_time(w: int) -> float:
-	var t := base_prep_time
+	var t = base_prep_time
 	if w % 5 == 0:
 		t += 8.0   # extra recovery after a spike wave
 	if (w + 1) % 5 == 0:

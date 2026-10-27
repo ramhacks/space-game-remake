@@ -118,8 +118,9 @@ script = ExtResource("1_gc75h")
 
 [node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035]
 script = ExtResource("2_iaat1")
-first_wave_delay = 30.0
+first_wave_delay = 45.0
 base_prep_time = 60.0
+mob_cap = 10
 
 [node name="CooldownEnemy" type="Timer" parent="Enemy_Wave_Spawner" unique_id=1096147353]
 editor_description = "This is a timer to make sure we dont endlessly spawn enemy waves forever"

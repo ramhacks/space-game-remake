@@ -11,8 +11,10 @@ var Base_Dict = {
 	"Label": "Level 1",
 	"Upgrade_Price": 200,
 	"Recycle_Price": 100,
-	"Power_Gen_Time_Sec": 3,
-	"EnergyProduce": 4
+	"Custom_Dict": {
+		"Power_Gen_Time_Sec": 3,
+		"EnergyProduce": 4
+	}
 }
 
 var Solar_1_Dict = {
@@ -21,18 +23,23 @@ var Solar_1_Dict = {
 	"Label": "Level 2",
 	"Upgrade_Price": 300,
 	"Recycle_Price": 150,
-	"Power_Gen_Time_Sec": 3,
-	"EnergyProduce": 9
+	"Custom_Dict": {
+		"Power_Gen_Time_Sec": 3,
+		"EnergyProduce": 9
+	}
+
 }
 
 var Solar_2_Dict = {
-	"Health": 55,
+	"Health": 70,
 	"Energy_Required": 1,
 	"Label": "Level 3",
 	"Upgrade_Price": 400,
 	"Recycle_Price": 200,
-	"Power_Gen_Time_Sec": 1.5,
-	"EnergyProduce": 14
+	"Custom_Dict": {
+		"Power_Gen_Time_Sec": 1.5,
+		"EnergyProduce": 14
+	}
 }
 
 
@@ -44,8 +51,7 @@ func _ready() -> void:
 		Base_Dict["Label"],
 		Base_Dict["Upgrade_Price"],
 		Base_Dict["Recycle_Price"],
-		Base_Dict["Power_Gen_Time_Sec"],
-		Base_Dict["EnergyProduce"]
+		Base_Dict["Custom_Dict"],
 	)
 	Solar_1.__init__(
 		Solar_1_Dict["Health"],
@@ -53,8 +59,7 @@ func _ready() -> void:
 		Solar_1_Dict["Label"],
 		Solar_1_Dict["Upgrade_Price"],
 		Solar_1_Dict["Recycle_Price"],
-		Solar_1_Dict["Power_Gen_Time_Sec"],
-		Solar_1_Dict["EnergyProduce"]
+		Solar_1_Dict["Custom_Dict"]
 	)
 	Solar_2.__init__(
 		Solar_2_Dict["Health"],
@@ -62,8 +67,7 @@ func _ready() -> void:
 		Solar_2_Dict["Label"],
 		Solar_2_Dict["Upgrade_Price"],
 		Solar_2_Dict["Recycle_Price"],
-		Solar_2_Dict["Power_Gen_Time_Sec"],
-		Solar_2_Dict["EnergyProduce"]
+		Solar_2_Dict["Custom_Dict"]
 	)
 
 	Base.children.append(Solar_1)

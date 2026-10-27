@@ -7,9 +7,12 @@ var Base_Dict = {
 	"Label": "Level 1",
 	"Upgrade_Price": 300,
 	"Recycle_Price": 300,
-	"Repair_Amount": 5,
-	"Range": 150,
-	"Cooldown": 30
+	"Custom_Dict": {
+		"Repair_Amount": 5,
+		"Range": 150,
+		"Cooldown": 30
+	}
+
 }
 
 var Repair_1_Dict = {
@@ -18,9 +21,11 @@ var Repair_1_Dict = {
 	"Label": "Level 2",
 	"Upgrade_Price": 300,
 	"Recycle_Price": 150,
-	"Repair_Amount": 10,
-	"Range": 250,
-	"Cooldown": 30
+	"Custom_Dict": {
+		"Repair_Amount": 10,
+		"Range": 250,
+		"Cooldown": 30
+	}
 }
 
 var Repair_1 = Path_Node.new()
@@ -34,9 +39,7 @@ func _ready() -> void:
 		Base_Dict["Label"],
 		Base_Dict["Upgrade_Price"],
 		Base_Dict["Recycle_Price"],
-		Base_Dict["Repair_Amount"],
-		Base_Dict["Range"],
-		Base_Dict["Cooldown"]
+		Base_Dict["Custom_Dict"]
 	)
 #Health, Energy_Required, Label for upgrade animation, upgrade price, recycle price, damage/special property, range
 
@@ -46,9 +49,7 @@ func _ready() -> void:
 		Repair_1_Dict["Label"],
 		Repair_1_Dict["Upgrade_Price"],
 		Repair_1_Dict["Recycle_Price"],
-		Repair_1_Dict["Repair_Amount"],
-		Repair_1_Dict["Range"],
-		Repair_1_Dict["Cooldown"]
+		Repair_1_Dict["Custom_Dict"]
 	)
 
 

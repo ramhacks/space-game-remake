@@ -74,14 +74,7 @@ var enemy_node
 var enemy
 var vbox_children = []#list of children in buttons (upgrade level so on) so if they are removed we can add them back in
 
-func clear_hover_lines():
-	var hover_line_node
-	#fix so that you can't place tower in hotbar
-	if(len(get_tree().get_nodes_in_group("hover_line"))):
-		hover_line_node = get_tree().get_nodes_in_group("hover_line")[0]
 
-	if(hover_line_node):
-		hover_line_node.queue_free()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
@@ -213,12 +206,50 @@ func _process(delta: float) -> void:
 func _on_camera_area_cancel_spawn_tower() -> void:
 	#if mouse right_clicked and currently placeing_tower cancel it
 	if(Globals.tower_hovering):
-		clear_hover_lines()
 		tower_to_place.queue_free()
 		Globals.tower_hovering = false
 
+var cur_position
 
-func _on_camera_area_place_tower(cur_position: Variant) -> void:
+func continue_placing() -> void:
+	print("Correct amount of minerals")
+	Globals.tower_node_amount += 1
+	Globals.tower_hovering = false
+	tower_to_place.clear_hover_lines()
+	var copy = tower_scene.instantiate()
+	copy.position = cur_position
+	self.add_child(copy)
+
+	tower_to_place.queue_free()
+
+	copy.overlap_areas = tower_to_place.get_areas_overlap()
+	if tower_to_place is Miner:
+		copy.set_placed(true, tower_to_place.get_areas_overlap())
+	else:
+		copy.set_placed(true, tower_to_place.get_overlap())
+
+
+	copy.get_node("collider").visible = false
+
+	#connect tower signals global functions
+	copy.draw_laser.connect(draw_laser)
+	copy.draw_selection_animation.connect(draw_selector)
+	copy.request_power.connect(Globals.power_requested)
+
+
+	var marker_instance = radar_node.instantiate()
+
+	copy.radar_marker = marker_instance
+	copy.update_location.connect(marker_instance.on_update_location)
+	create_radar_node.emit(marker_instance)
+
+	marker_instance.get_relative.connect($Camera_Area.call_rel)
+	$Camera_Area.send_rel.connect(marker_instance.receive_relative)
+
+	Globals.no_power_available.connect(copy.no_power_available)
+
+func _on_camera_area_place_tower(cur_position_: Variant) -> void:
+	cur_position = cur_position_
 	if(Globals.tower_hovering):
 		var is_miner_and_overlapping = (tower_to_place is Miner
 										and len(tower_to_place.get_overlap()) != 0)
@@ -230,44 +261,11 @@ func _on_camera_area_place_tower(cur_position: Variant) -> void:
 
 		if(is_miner_and_overlapping and above_hot_bar_AND_not_on_tower):
 			if(tower_to_place.colliding_areas() == 0):
-				Globals.tower_node_amount += 1
-				clear_hover_lines()
-
-				Globals.resources = Globals.resources - tower_to_place.current_upgrade_node.price
+				Globals.add_to_mineral_queue(tower_to_place.current_upgrade_node.price,  continue_placing)
 
 
-				Globals.tower_hovering = false
-				var copy = tower_scene.instantiate()
-				copy.position = cur_position
-				self.add_child(copy)
-
-				tower_to_place.queue_free()
-
-				copy.overlap_areas = tower_to_place.get_areas_overlap()
-				if tower_to_place is Miner:
-					copy.set_placed(true, tower_to_place.get_areas_overlap())
-				else:
-					copy.set_placed(true, tower_to_place.get_overlap())
 
 
-				copy.get_node("collider").visible = false
-
-				#connect tower signals global functions
-				copy.draw_laser.connect(draw_laser)
-				copy.draw_selection_animation.connect(draw_selector)
-				copy.request_power.connect(Globals.power_requested)
-
-
-				var marker_instance = radar_node.instantiate()
-
-				copy.radar_marker = marker_instance
-				copy.update_location.connect(marker_instance.on_update_location)
-				create_radar_node.emit(marker_instance)
-
-				marker_instance.get_relative.connect($Camera_Area.call_rel)
-				$Camera_Area.send_rel.connect(marker_instance.receive_relative)
-
-				Globals.no_power_available.connect(copy.no_power_available)
 
 
 
@@ -293,30 +291,6 @@ func draw_laser(tower, pos1, pos2, cooldown_time, tower_origin):
 	tower.get_node("AnimationPlayer").play("line_disolve")
 
 
-
-
-
-func hover_line(pos1, pos2_list, R, G, B, opacity, line_node):
-	line_node.add_to_group("hover_line")
-	line_node.clear_points()
-	var color = Color(R, G, B, opacity)
-	self.add_child(line_node)
-	line_node.set_default_color(color)
-	line_node.width = 1.5
-	var draw = true
-	for nodes in pos2_list:
-		#only draw line (only applies to miner class) if asteroid is not empty of resources
-		if(nodes is Asteroid):
-			if(nodes.asteroid_empty):
-				draw = false
-			else:
-				draw = true
-
-			#only draw line (only applies to miner class) if asteroid is not empty of resources
-		if draw and nodes is Asteroid:
-			line_node.add_point(to_local(pos1))
-			line_node.add_point(to_local(nodes.global_position))
-			line_node.add_point(to_local(pos1))
 
 
 #Function to draw selector when tower is clicked and show hotbar
@@ -453,7 +427,7 @@ func tower_button_clicked(price, tower_type):
 		tower_scene = tower_type
 		tower_to_place = tower_scene.instantiate() #create a temporary tower object, will be deleted and replaced once placed
 
-		tower_to_place.draw_hover_line.connect(hover_line)
+	#	tower_to_place.draw_hover_line.connect(hover_line)
 		tower_to_place.hovering = true
 		#don't run the placed function so nothing will happen
 		self.add_child(tower_to_place)

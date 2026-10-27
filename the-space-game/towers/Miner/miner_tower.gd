@@ -25,7 +25,7 @@ func _ready() -> void:
 
 	place_build_progress_bar()
 	super._ready()
-	mpm = self.current_upgrade_node.custom_var
+	mpm = self.current_upgrade_node.custom_vars_dict["Resource_Extracted"]
 
 
 
@@ -59,8 +59,8 @@ func upgrade(upgrade_type):
 		Globals.RPM -= mpm * 60
 		#have to subtract it so we don't just add more cause then we would double it
 		animated_node.upgrade_level += 1
-		Globals.RPM += self.current_upgrade_node.custom_var * 60
-		mpm = self.current_upgrade_node.custom_var
+		Globals.RPM += self.current_upgrade_node.custom_vars_dict["Resource_Extracted"] * 60
+		mpm = self.current_upgrade_node.custom_vars_dict["Resource_Extracted"]
 
 func get_overlap():
 #overlapping bodies (for asteroid detection)		#overlapping areas to make sure we are not on top of another node

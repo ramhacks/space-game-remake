@@ -17,7 +17,7 @@ func laser_enemy(parent):
 
 	if is_instance_valid(target):
 		draw_laser_attack(parent.to_local(parent.global_position), parent.to_local(target.global_position), parent)
-		target.get_node("Hitbox").register_hit(parent, parent.current_upgrade_node.custom_var, self)
+		target.get_node("Hitbox").register_hit(parent, parent.custom_vars_dict["Damage"], self)
 
 
 

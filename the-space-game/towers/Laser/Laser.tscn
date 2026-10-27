@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_ktcgg"]
 [ext_resource type="Script" uid="uid://b66g7r6b3ob84" path="res://towers/Laser/laser.gd" id="2_4d8m5"]
 [ext_resource type="PackedScene" uid="uid://c11uhwml84phf" path="res://Components/health.tscn" id="3_j2n2b"]
-[ext_resource type="Texture2D" uid="uid://dyqx0g25c4fem" path="res://Visuals/Sprite_Frames/234.png" id="4_aia41"]
 [ext_resource type="Texture2D" uid="uid://cey1x5g88wnuy" path="res://Visuals/Sprite_Frames/205.png" id="4_nb7qc"]
 [ext_resource type="Texture2D" uid="uid://t42vhon4bnq3" path="res://Visuals/Sprite_Frames/209.png" id="5_iti0v"]
 [ext_resource type="Texture2D" uid="uid://b75fil215ghef" path="res://Visuals/Sprite_Frames/211.png" id="6_qqn0g"]
@@ -47,7 +46,6 @@
 [ext_resource type="Texture2D" uid="uid://83ye3h86dxcv" path="res://Visuals/Sprite_Frames/337.png" id="28_4jtg6"]
 [ext_resource type="Texture2D" uid="uid://cc8mrpubv0e3j" path="res://Visuals/Sprite_Frames/263.png" id="28_sye41"]
 [ext_resource type="Texture2D" uid="uid://fei3jawu87ii" path="res://Visuals/Sprite_Frames/339.png" id="29_ps06h"]
-[ext_resource type="Texture2D" uid="uid://b5agtpt6guegu" path="res://Visuals/Sprite_Frames/260.png" id="29_u0jbv"]
 [ext_resource type="Texture2D" uid="uid://d1rbwugl43pvx" path="res://Visuals/Sprite_Frames/265.png" id="29_vw7kh"]
 [ext_resource type="Texture2D" uid="uid://c6gcjuf84wpps" path="res://Visuals/Sprite_Frames/267.png" id="30_fh1b3"]
 [ext_resource type="Texture2D" uid="uid://cd8cpc2tvgsyc" path="res://Visuals/Sprite_Frames/341.png" id="30_s8x2u"]
@@ -69,7 +67,6 @@
 [ext_resource type="Texture2D" uid="uid://kbqwp54y8guj" path="res://Visuals/Sprite_Frames/361.png" id="38_wexco"]
 [ext_resource type="Texture2D" uid="uid://cga6hbivou21j" path="res://Visuals/Sprite_Frames/363.png" id="39_0kiye"]
 [ext_resource type="Texture2D" uid="uid://datb5wnqg4eg6" path="res://Visuals/Sprite_Frames/289.png" id="39_qsa8g"]
-[ext_resource type="Texture2D" uid="uid://cdbmvj8ihu38f" path="res://Visuals/Sprite_Frames/284.png" id="40_afxqx"]
 [ext_resource type="Texture2D" uid="uid://c25505u5c3orl" path="res://Visuals/Sprite_Frames/291.png" id="40_wkbh7"]
 [ext_resource type="Texture2D" uid="uid://jhhrmts4c1dn" path="res://Visuals/Sprite_Frames/365.png" id="40_wnokh"]
 [ext_resource type="Texture2D" uid="uid://cuj880y1n24sb" path="res://Visuals/Sprite_Frames/293.png" id="41_6jda2"]
@@ -86,10 +83,6 @@
 [ext_resource type="Texture2D" uid="uid://74vxxnfct1cd" path="res://Visuals/Sprite_Frames/303.png" id="46_sqdt3"]
 [ext_resource type="Texture2D" uid="uid://v1ayabqvnif" path="res://Visuals/Sprite_Frames/305.png" id="47_1gaqy"]
 [ext_resource type="Texture2D" uid="uid://1q7f1yeycdem" path="res://Visuals/Sprite_Frames/379.png" id="47_hwr1n"]
-[ext_resource type="Texture2D" uid="uid://c3t2v7t6ohbfh" path="res://Visuals/Sprite_Frames/308.png" id="51_pnqeq"]
-[ext_resource type="Texture2D" uid="uid://dmh6tclinco0w" path="res://Visuals/Sprite_Frames/334.png" id="63_xa8uf"]
-[ext_resource type="Texture2D" uid="uid://3vaeio88y4fe" path="res://Visuals/Sprite_Frames/358.png" id="74_ulcn0"]
-[ext_resource type="Texture2D" uid="uid://ytlue1emoc68" path="res://Visuals/Sprite_Frames/382.png" id="85_ykd13"]
 [ext_resource type="Script" uid="uid://bgk2x60kj80tu" path="res://towers/Laser/upgrades.gd" id="91_p061p"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nlb16"]
@@ -133,14 +126,6 @@ animations = [{
 }],
 "loop": false,
 "name": &"Laser",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_aia41")
-}],
-"loop": false,
-"name": &"Laser dead",
 "speed": 10.0
 }, {
 "frames": [{
@@ -218,14 +203,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("40_afxqx")
-}],
-"loop": false,
-"name": &"Pulsar 2 dead",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": ExtResource("38_ngjfo")
 }, {
 "duration": 1.0,
@@ -258,22 +235,6 @@ animations = [{
 "loop": true,
 "name": &"Pulsar 3",
 "speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("51_pnqeq")
-}],
-"loop": false,
-"name": &"Pulsar 3 dead",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("29_u0jbv")
-}],
-"loop": false,
-"name": &"Pulsar dead",
-"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -350,14 +311,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("74_ulcn0")
-}],
-"loop": false,
-"name": &"Thel 2 dead",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": ExtResource("38_wexco")
 }, {
 "duration": 1.0,
@@ -393,22 +346,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("85_ykd13")
-}],
-"loop": false,
-"name": &"Thel 3 dead",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("63_xa8uf")
-}],
-"loop": false,
-"name": &"Thel dead",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": ExtResource("4_nb7qc")
 }],
 "loop": false,
@@ -426,13 +363,11 @@ radius = 58.0
 script = ExtResource("2_4d8m5")
 custom_class = "Laser"
 power_needed = 1
-power_time_seconds = 1
 
 [node name="Upgrades" type="Node" parent="." index="0" unique_id=1943170888]
 script = ExtResource("91_p061p")
 
 [node name="Health" parent="." index="1" unique_id=319312796 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_j2n2b")]
-health_amount = 200
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")

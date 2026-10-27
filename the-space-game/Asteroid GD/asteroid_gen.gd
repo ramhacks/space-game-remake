@@ -1,16 +1,16 @@
 extends Node2D
 
 var solar_pos = Vector2(1152/2, 648/2)
-@export var max_radius_circle = 300
-@export var min_radius_circle = 90
+@export var max_radius_circle = 350
+@export var min_radius_circle = 130
 var place_chance = 10
 var transformx = int(-(get_viewport_rect().size.x/2)+(get_viewport_rect().size.x/50))
 var transformy = int(-(get_viewport_rect().size.y/2))
 var center = [int(get_viewport_rect().size.x/2), transformy*-1]
 
-func gen_float_list(transformy, asteroid_sep):
+func gen_float_list(transform_y, asteroid_sep):
 	var floatlist = [0]
-	while floatlist[len(floatlist)-1] < transformy*-1:
+	while floatlist[len(floatlist)-1] < transform_y*-1:
 		floatlist.append(floatlist[len(floatlist)-1]+asteroid_sep)
 
 	floatlist.pop_back()
@@ -38,8 +38,6 @@ func get_ordered_spaced_randoms(min_val: float, max_val: float, count: int, min_
 # END AI
 
 func double_wave(random) -> void:
-	var angle = 11 #w
-
 	var height = 270 # how tall it is, every iteration make smaller to generate asteroid along it
 	var width =  200 #how wide the wave is
 
@@ -103,16 +101,15 @@ func double_wave(random) -> void:
 func circle_form(random) -> void:
 	# Center should be position of first spawned solar generator
 	var loop_amount = 10
-	var radius_list = get_ordered_spaced_randoms(min_radius_circle, max_radius_circle, loop_amount, 10)
+	var radius_list = get_ordered_spaced_randoms(min_radius_circle, max_radius_circle, loop_amount, 12)
 
 
 	for radius in radius_list:
-		var num_points = randi_range(1, 40)
+		var num_points = randi_range(1, 30)
 		for z in range(num_points):
 			var angle = 2.0 * PI * (float(z) / num_points)
 			var spawn_pos = solar_pos + Vector2.from_angle(angle) * radius
-			var distance = solar_pos.distance_to(spawn_pos)
-			var place = random.randi_range(0, 15)
+			var place = random.randi_range(0, 10)
 			if(place < place_chance and spawn_pos.x < get_viewport_rect().size.x):
 				var asteroid = preload( "res://Asteroid_Gen/asteroid.tscn")
 				var s = asteroid.instantiate()
@@ -120,7 +117,7 @@ func circle_form(random) -> void:
 				s.get_node("Sprite2D").set_random_size()
 				s.get_node("Sprite2D").assign_full_texture()
 				s.position.x = spawn_pos.x + jiggle_asteroid
-				s.position.y = spawn_pos.y
+				s.position.y = spawn_pos.y + jiggle_asteroid
 				self.add_child(s)
 
 
@@ -129,5 +126,8 @@ func circle_form(random) -> void:
 func _ready() -> void:
 	var random = RandomNumberGenerator.new()
 	random.randomize()
-
-	circle_form(random)
+	var out = random.randi_range(0, 1)
+	if out == 0:
+		circle_form(random)
+	else:
+		double_wave(random)

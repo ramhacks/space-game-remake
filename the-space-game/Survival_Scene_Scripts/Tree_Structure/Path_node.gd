@@ -16,8 +16,11 @@ var price: int
 var recycle_price: int
 var wave_unlocked: int
 
+# Dict of custom vars, will be custom for each tower so it can be labeled.
+# This node is completly generic so does not know the names as the tower defines those
+var custom_vars_dict = {}
 
-func __init__(health_in, energy_in, label_in, upgrade_price_in, recycle_in, custom_var_in=null,custom_var_2_in=null, custom_var_3_in = null, wave_unlocked_in=null):
+func __init__(health_in, energy_in, label_in, upgrade_price_in, recycle_in, custom_var_dict_, wave_unlocked_in=null):
 	health = health_in
 
 	energy_needs = energy_in
@@ -25,11 +28,11 @@ func __init__(health_in, energy_in, label_in, upgrade_price_in, recycle_in, cust
 	price = upgrade_price_in
 	recycle_price = recycle_in
 
-	custom_var = custom_var_in
-	custom_var_2 = custom_var_2_in
+
 	if wave_unlocked_in:
 		wave_unlocked = wave_unlocked_in
-	custom_var_3 = custom_var_3_in
+
+	custom_vars_dict = custom_var_dict_
 
 
 func add_child_path(child):
