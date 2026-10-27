@@ -118,7 +118,7 @@ script = ExtResource("1_gc75h")
 
 [node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035]
 script = ExtResource("2_iaat1")
-first_wave_delay = 45.0
+first_wave_delay = 120.0
 base_prep_time = 60.0
 mob_cap = 10
 

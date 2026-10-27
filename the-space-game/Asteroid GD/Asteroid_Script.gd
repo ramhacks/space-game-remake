@@ -65,11 +65,14 @@ func setresources(amount):
 func extractresources(change):
 
 	if(self.resources > 0):
-		if((self.resources - change) > 0):
-			Globals.resources += change
+		if change:
+			if((self.resources - change) > 0):
+				Globals.resources += change
+			else:
+				Globals.resources += self.resources
+			self.resources -= change
 		else:
-			Globals.resources += self.resources
-		self.resources -= change
+			return 0
 	else:
 		#assign an empty texture if it is empty, this will rarly be called but is here just in case
 		assign_empty_texture()

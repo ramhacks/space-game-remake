@@ -212,7 +212,6 @@ func _on_camera_area_cancel_spawn_tower() -> void:
 var cur_position
 
 func continue_placing() -> void:
-	print("Correct amount of minerals")
 	Globals.tower_node_amount += 1
 	Globals.tower_hovering = false
 	tower_to_place.clear_hover_lines()

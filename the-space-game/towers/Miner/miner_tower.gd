@@ -34,7 +34,9 @@ func do_process():
 
 	if built:
 		if(animated_node):
-			total_mined += animated_node.mine(line_node)
+			var out = animated_node.mine(line_node)
+
+			total_mined += out
 	super.do_process()
 
 #overwrite set_placed:

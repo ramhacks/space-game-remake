@@ -19,7 +19,7 @@ func mine(line_node):
 	#only mine if there is a node nearby and powered
 		#create mining laser graphic
 		if(closest.get_resource_amount() > 0):
-			closest.extract(self.get_parent().get_parent().current_upgrade_node.custom_var)
+			closest.extract(self.get_parent().get_parent().current_upgrade_node.custom_vars_dict["Resource_Extracted"])
 
 		else:
 			#queue behavior
@@ -41,7 +41,7 @@ func mine(line_node):
 		else:
 			draw_line.emit(to_local(self.global_position), to_local(self.global_position))
 
-		return self.get_parent().get_parent().current_upgrade_node.custom_var
+		return self.get_parent().get_parent().current_upgrade_node.custom_vars_dict["Resource_Extracted"]
 	return 0
 
 func change_collision_list(col_list):

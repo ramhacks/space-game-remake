@@ -8,7 +8,9 @@ var Base_Dict = {
 	"Label": "Base",
 	"Upgrade_Price": 20,
 	"Recycle_Price": 20,
-	"Custom_Dict": {},
+	"Custom_Dict": {
+		"Connection_Limit": 5
+	},
 }
 
 # Called when the node enters the scene tree for the first time.

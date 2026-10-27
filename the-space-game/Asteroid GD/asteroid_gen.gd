@@ -4,9 +4,11 @@ var solar_pos = Vector2(1152/2, 648/2)
 @export var max_radius_circle = 350
 @export var min_radius_circle = 130
 var place_chance = 10
-var transformx = int(-(get_viewport_rect().size.x/2)+(get_viewport_rect().size.x/50))
-var transformy = int(-(get_viewport_rect().size.y/2))
-var center = [int(get_viewport_rect().size.x/2), transformy*-1]
+var transformx: int
+var transformy: int
+var center: Array
+
+
 
 func gen_float_list(transform_y, asteroid_sep):
 	var floatlist = [0]
@@ -43,7 +45,6 @@ func double_wave(random) -> void:
 
 
 
-
    #change it so that generates more toward center point
    #do this by getting distance from center, the closer it is the higher the chance of placing it
 
@@ -52,6 +53,7 @@ func double_wave(random) -> void:
 
 	var loopamount = 16 #amount of times to iterate over smaller wave
 	for j in range(0, loopamount):
+
 		var random_chance_change = random.randf_range(1.5,2)
 		var asteroid_separation = random.randf_range(1, 3)  #amount asteroids are separated over the x axis
 		var loop = gen_float_list(transformy, asteroid_separation)
@@ -62,6 +64,7 @@ func double_wave(random) -> void:
 			#have to find a way to tilt the wave
 			var distance = sqrt(((center[0]-x_pos)**2)+(center[1]-y_pos)**2) # calculate the distance from the center point (this will change when we make the center point 0, 0)
 			var place = random.randi_range(0, int(distance))
+			print(place)
 			if(place < place_chance and x_pos < get_viewport_rect().size.x):
 				var jiggle_asteroid = random.randi_range(-50, 50)  #if place is less then 10 place asteroid
 				var asteroid = preload( "res://Asteroid_Gen/asteroid.tscn")
@@ -124,8 +127,13 @@ func circle_form(random) -> void:
 
 
 func _ready() -> void:
+	var vp = get_viewport_rect().size
+	transformx = int(-(vp.x / 2) + (vp.x / 50))
+	transformy = int(-(vp.y / 2))
+	center = [int(vp.x / 2), transformy * -1]
 	var random = RandomNumberGenerator.new()
 	random.randomize()
+
 	var out = random.randi_range(0, 1)
 	if out == 0:
 		circle_form(random)

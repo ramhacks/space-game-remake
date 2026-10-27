@@ -13,7 +13,8 @@ var Base_Dict = {
 	"Recycle_Price": 100,
 	"Custom_Dict": {
 		"Power_Gen_Time_Sec": 3,
-		"EnergyProduce": 4
+		"EnergyProduce": 4,
+		"Connection_Limit": 3
 	}
 }
 
@@ -25,7 +26,8 @@ var Solar_1_Dict = {
 	"Recycle_Price": 150,
 	"Custom_Dict": {
 		"Power_Gen_Time_Sec": 3,
-		"EnergyProduce": 9
+		"EnergyProduce": 9,
+		"Connection_Limit": 3
 	}
 
 }
@@ -38,7 +40,8 @@ var Solar_2_Dict = {
 	"Recycle_Price": 200,
 	"Custom_Dict": {
 		"Power_Gen_Time_Sec": 1.5,
-		"EnergyProduce": 14
+		"EnergyProduce": 14,
+		"Connection_Limit": 3
 	}
 }
 

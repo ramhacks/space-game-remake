@@ -205,10 +205,20 @@ func send_hover_line():
 		for node in overlap:
 			hover_line.add_point(to_local(self.global_position))
 			hover_line.add_point(to_local(node.global_position))
-		##draw_hover_line.emit(self.global_position, overlap, 0.192, 0.988, 0.165, 3, hover_line)
+
+func slice_correct(input_array, limit) -> Array:
+	var output = []
+
+	var cur = 0
+
+	for i in range(min(len(input_array), limit)):
+		if input_array[i] is sprite_collider:
+			output.append(input_array[i])
+	return output
 
 #traw thin blue power lines to overlapping towers
 func draw_tower_hover_lines(input_array=false):
+
 	$Sprite.connections = []
 	$Sprite.connections = $Collision_Area.get_overlapping_areas()
 	connections = $Collision_Area.get_overlapping_areas()
@@ -216,18 +226,27 @@ func draw_tower_hover_lines(input_array=false):
 
 	var loop_array: Array
 	if input_array:
+		#Add self to connection points
 		connection_points.append(self.global_position)
-		loop_array = input_array
-	else:
-		loop_array = $Sprite.connections
 
+		# Make sure that it only does the first ones as there is a limit for connections
+		loop_array = input_array.slice(0, int(current_upgrade_node.custom_vars_dict["Connection_Limit"]))
+	else:
+		#print($Sprite.connections.slice(0, int(current_upgrade_node.custom_vars_dict["Connection_Limit"]) + 1))
+		loop_array = $Sprite.connections
+		#loop_array = $Sprite.connections.slice(0, int(current_upgrade_node.custom_vars_dict["Connection_Limit"]) + 1)
+
+
+	var count = 0
 	for node in loop_array:
+		if count >= current_upgrade_node.custom_vars_dict["Connection_Limit"] + 1:
+			return
 		if node is sprite_collider and is_instance_valid(node) and node.correct_area:
 			$Connector.add_point(to_local(self.global_position))
 			$Connector.add_point(to_local(node.global_position))
 			if input_array:
 				connection_points.append(node.global_position)
-
+			count+=1
 
 
 
@@ -325,7 +344,8 @@ func set_group(overlaps):
 	if(len(overlaps)):
 		for node in overlaps:
 			if(node is sprite_collider):
-				if (node.get_parent().group_ != 'NAN'):
+				#Make sure it is even avaialble to connect in the first place. if not then do not attemtp as its connection slots are completly full
+				if (node.get_parent().group_ != 'NAN' and len(node.get_parent().connections) <= node.get_parent().current_upgrade_node.custom_vars_dict["Connection_Limit"]):
 					found_groups.append(node.get_parent().group_)
 					if(not found_valid):
 
@@ -338,8 +358,6 @@ func set_group(overlaps):
 
 	#2 types of groups, convert all nodes in every other group to myself, delete all other groups except group
 	#I belong to
-
-
 
 	#Can't find any groups, create a new one
 	if not found_valid:

@@ -9,7 +9,8 @@ var Missile_1_Dict = {
 	"Recycle_Price": 300,
 	"Custom_Dict": {
 		"Damage": 15,
-		"Range": 200
+		"Range": 200,
+		"Connection_Limit": 1
 	},
 }
 
@@ -21,7 +22,8 @@ var Missile_2_Dict = {
 	"Recycle_Price": 400,
 	"Custom_Dict": {
 		"Damage": 20,
-		"Range": 240
+		"Range": 240,
+		"Connection_Limit": 1
 	},
 }
 
@@ -33,7 +35,8 @@ var Missile_3_Dict = {
 	"Recycle_Price": 650,
 	"Custom_Dict": {
 		"Damage": 25,
-		"Range": 280
+		"Range": 280,
+		"Connection_Limit": 1
 	},
 }
 

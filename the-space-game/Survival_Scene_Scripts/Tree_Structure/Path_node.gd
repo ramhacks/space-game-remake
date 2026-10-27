@@ -6,6 +6,8 @@ var children: Array
 var children_names: Array
 
 var health: int
+
+
 var custom_var #can be damage, mining amount, power generation delay etc, depends on node
 var custom_var_2
 var custom_var_3
