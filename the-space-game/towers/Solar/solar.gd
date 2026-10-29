@@ -30,7 +30,7 @@ func _ready() -> void:
 	inherted_node = self
 
 
-	energy_produced = self.current_upgrade_node.custom_vars_dict["EnergyProduce"]
+	energy_produced = self.current_upgrade_node.custom_vars_dict["Energy Produced"]
 	current_animation = animated_node.animation
 
 	sprite_texture = animated_node.get_sprite_frames().get_frame_texture("hover", 0)
@@ -51,7 +51,7 @@ func _process(delta: float) -> void:
 	if built and connect_toggle:
 
 		$Power_Delay.wait_time = 0.5
-		power_time_seconds = self.current_upgrade_node.custom_vars_dict["Power_Gen_Time_Sec"]
+		power_time_seconds = self.current_upgrade_node.custom_vars_dict["Power Gen Delay"]
 		$Power_Delay.timeout.connect(turn_on)
 		$Power_Delay.timeout.disconnect(_on_power_delay_timeout)
 		connect_toggle = false
@@ -84,8 +84,8 @@ func turn_on():
 func upgrade(upgrade_type):
 	self.build_progress = 0
 	self.built = false
-	energy_produced = self.current_upgrade_node.custom_vars_dict["EnergyProduce"]
-	$Power_Delay.wait_time = self.current_upgrade_node.custom_vars_dict["Power_Gen_Time_Sec"]
+	energy_produced = self.current_upgrade_node.custom_vars_dict["Energy Produced"]
+	$Power_Delay.wait_time = self.current_upgrade_node.custom_vars_dict["Power Gen Delay"]
 	$Power_Delay.timeout.disconnect(turn_on)
 	$Power_Delay.timeout.connect(_on_power_delay_timeout)
 	connect_toggle = true

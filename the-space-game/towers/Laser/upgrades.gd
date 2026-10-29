@@ -4,7 +4,7 @@ var Base_Dict = {
 	"Health": 40,
 	"Energy_Required": 3,
 	"Label": "Laser",
-	"Upgrade_Price": 100,
+	"Upgrade_Price": 400,
 	"Recycle_Price": 50,
 	"Custom_Dict": {
 		"Damage": 10,

@@ -55,7 +55,7 @@ func do_process():
 		var overlap = $Collision_Area.get_overlapping_areas()
 		for node in overlap:
 			if node is sprite_collider and is_instance_valid(node) and node.correct_area and node.get_parent() != self:
-				var status = node.get_parent().get_node("Health").heal(self.current_upgrade_node.custom_vars_dict["Repair_Amount"])
+				var status = node.get_parent().get_node("Health").heal(self.current_upgrade_node.custom_vars_dict["Repair Amount"])
 				if !status:
 					#Tower already fully repaired add used energy back into pool, no need to repair
 					Globals.power_groups[group_][0] += self.current_upgrade_node.energy_needs

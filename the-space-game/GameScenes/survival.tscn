@@ -206,6 +206,7 @@ theme = ExtResource("8_wetyh")
 metadata/_edit_lock_ = true
 
 [node name="Default_Hot Bar" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=404659308]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -336,7 +337,6 @@ position = Vector2(352, -36)
 shape = SubResource("RectangleShape2D_cyyct")
 
 [node name="Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=1347951975]
-visible = false
 anchors_preset = 0
 offset_right = 651.0
 offset_bottom = 131.0
@@ -379,17 +379,16 @@ label_settings = SubResource("LabelSettings_7cw3v")
 
 [node name="Label2" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars" unique_id=259508172]
 layout_mode = 0
-offset_top = 34.0
+offset_top = 69.0
 offset_right = 156.0
-offset_bottom = 57.0
+offset_bottom = 92.0
 label_settings = SubResource("LabelSettings_kf2bw")
 
 [node name="Label3" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/TextBars" unique_id=622940709]
 layout_mode = 0
-offset_left = -1.0
-offset_top = 51.0
-offset_right = 39.0
-offset_bottom = 74.0
+offset_top = 93.0
+offset_right = 152.0
+offset_bottom = 116.0
 label_settings = SubResource("LabelSettings_mw3dt")
 
 [node name="Health" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection" unique_id=1475688911]

@@ -8,7 +8,7 @@ var Base_Dict = {
 	"Upgrade_Price": 300,
 	"Recycle_Price": 300,
 	"Custom_Dict": {
-		"Repair_Amount": 5,
+		"Repair Amount": 5,
 		"Range": 150,
 		"Cooldown": 30,
 		"Connection_Limit": 3
@@ -23,7 +23,7 @@ var Repair_1_Dict = {
 	"Upgrade_Price": 300,
 	"Recycle_Price": 150,
 	"Custom_Dict": {
-		"Repair_Amount": 10,
+		"Repair Amount": 10,
 		"Range": 250,
 		"Cooldown": 30,
 		"Connection_Limit": 3

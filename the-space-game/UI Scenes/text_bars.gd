@@ -13,7 +13,9 @@ func dict_to_string(d: Dictionary) -> String:
 	return "\n".join(lines)
 
 func modify_text(tower_data):
-	print(dict_to_string(tower_data.current_upgrade_node.custom_vars_dict))
+	#print(dict_to_string(tower_data.current_upgrade_node.custom_vars_dict))
 	$Label1.text = dict_to_string(tower_data.current_upgrade_node.custom_vars_dict)
+
+	$Label2.text = "Energy Required: " + str(tower_data.current_upgrade_node.energy_needs)
 	if(tower_data.custom_class == "Miner"):
 		$Label3.text = "Total Mined: " + str(tower_data.total_mined)

@@ -12,7 +12,7 @@ var Base_Dict = {
 	"Upgrade_Price": 200,
 	"Recycle_Price": 100,
 	"Custom_Dict": {
-		"Power_Gen_Time_Sec": 3,
+		"Power Gen Delay": 3,
 		"EnergyProduce": 4,
 		"Connection_Limit": 3
 	}

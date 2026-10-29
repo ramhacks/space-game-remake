@@ -10,7 +10,7 @@ var Base_Dict = {
 	"Upgrade_Price": 40,
 	"Recycle_Price": 30,
 	"Custom_Dict": {
-		"Resource_Extracted": 2,
+		"Extraction per Cycle": 2,
 		"Connection_Limit": 1
 	},
 }
@@ -22,7 +22,7 @@ var Miner_1_Dict = {
 	"Upgrade_Price": 200,
 	"Recycle_Price": 50,
 	"Custom_Dict": {
-		"Resource_Extracted": 5,
+		"Extraction per Cycle": 5,
 		"Connection_Limit": 1
 	},
 }

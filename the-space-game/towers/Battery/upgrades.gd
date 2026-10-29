@@ -13,7 +13,7 @@ var Base_Dict = {
 	"Upgrade_Price": 300,
 	"Recycle_Price": 100,
 	"Custom_Dict": {
-		"Power_Capacity": 50,
+		"Power Capacity": 50,
 		"Connection_Limit": 2
 	}
 }

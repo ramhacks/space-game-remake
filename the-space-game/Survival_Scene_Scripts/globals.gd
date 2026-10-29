@@ -18,7 +18,7 @@ var power_groups = {}
 
 var starting_resources = 300
 
-
+var last_deleted_tower: Node;
 
 
 var total_current = 0
@@ -203,7 +203,9 @@ func all_in(connection_input, target_connections):
 
 #Only called by remove_node_group when done, unless removal_queue is empty then directly called when remove-tower_node is called
 func advance_removal_queue() -> void:
+
 	if len(removal_queue):
+
 		remove_node_group(removal_queue.pop_front())
 
 #Combine two arrays and removing duplicates
@@ -227,6 +229,7 @@ func combine_set(arr1, arr2) -> Array:
 	# after dfs if k_node found in group skip, we don't need to reassign groups again
 
 func remove_node_group(tower):
+	last_deleted_tower = tower
 	tower.remove_from_group("Placed_Towers")
 	var k_nodes_array = tower.connections # Direct node connections
 	power_groups[tower.group_][0] = power_groups[tower.group_][0] - tower.power_capacity

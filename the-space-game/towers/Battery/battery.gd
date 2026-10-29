@@ -30,7 +30,7 @@ func _ready() -> void:
 	animated_node = self.get_node("Sprite_Node/Sprite2D")
 	inherted_node = self
 	current_animation = animated_node.animation
-
+	self.power_capacity = self.current_upgrade_node.custom_vars_dict["Power Capacity"]
 	sprite_texture = animated_node.get_sprite_frames().get_frame_texture("hover", 0)
 	super._ready()
 
@@ -59,4 +59,4 @@ func upgrade(upgrade_type):
 	self.built = false
 	set_energy = false
 	Globals.power_groups[self.group_][1] -= self.power_capacity
-	self.power_capacity = self.current_upgrade_node.custom_vars_dict["Power_Capacity"] #Power capacity for current level
+	self.power_capacity = self.current_upgrade_node.custom_vars_dict["Power Capacity"] #Power capacity for current level

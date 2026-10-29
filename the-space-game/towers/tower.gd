@@ -158,7 +158,10 @@ func place_build_progress_bar():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	#set child node and self dynamic variables
-
+	if Globals.last_deleted_tower in connections:
+		#Extra layer of precaution just in case we have a stray reference to a node that was supposed to be removed
+		connections.erase(Globals.last_deleted_tower)
+		$Connector.redraw_no_priority(connections)
 	overlap_areas = $Collision_Area.get_overlapping_areas()
 
 	#Only check if no built is connected is true
@@ -203,7 +206,7 @@ func rebuild():
 #-----------------------------------------------------------------
 
 func clear_hover_lines():
-	print("GREEEN: ", hover_line.points)
+	#print("GREEEN: ", hover_line.points)
 	hover_line.clear_points()
 
 
@@ -263,7 +266,7 @@ func draw_tower_hover_lines(input_array=false):
 				if input_array:
 					connection_points.append(node.global_position)
 				count+=1
-~
+
 
 
 #Functions that tend to be overloaded by inherted towers
@@ -416,7 +419,6 @@ func no_power_available(sender):
 
 
 func do_process():
-
 	#This if statment is for if there previously was no power available but we got power back
 	if no_power_animation_on and built:
 
@@ -474,7 +476,7 @@ func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -
 	if event is InputEventMouseButton and clickable:
 		if event.is_action("BUTTON_LEFT") and !Globals.paused:
 			draw_selection_animation.emit(self.global_position, sprite_texture.get_size().x/2, true,  inherted_node)
-			print("GROUP: ", group_)
+			#print("GROUP: ", group_)
 			#will change the hot bar or something to let us upgrade the selected tower
 
 #power on
