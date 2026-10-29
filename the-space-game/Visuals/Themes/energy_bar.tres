@@ -1,0 +1,12 @@
+[gd_resource type="Theme" format=3 uid="uid://dejtoowi0l1is"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_futgu"]
+bg_color = Color(0.15667456, 0.1566746, 0.15667447, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tu7kn"]
+bg_color = Color(0, 0.804175, 0.804175, 1)
+corner_detail = 19
+
+[resource]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_futgu")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_tu7kn")

@@ -64,7 +64,6 @@ func double_wave(random) -> void:
 			#have to find a way to tilt the wave
 			var distance = sqrt(((center[0]-x_pos)**2)+(center[1]-y_pos)**2) # calculate the distance from the center point (this will change when we make the center point 0, 0)
 			var place = random.randi_range(0, int(distance))
-			print(place)
 			if(place < place_chance and x_pos < get_viewport_rect().size.x):
 				var jiggle_asteroid = random.randi_range(-50, 50)  #if place is less then 10 place asteroid
 				var asteroid = preload( "res://Asteroid_Gen/asteroid.tscn")

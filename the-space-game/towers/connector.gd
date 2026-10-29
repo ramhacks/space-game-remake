@@ -46,9 +46,12 @@ func priority_lines(overlap_areas):
 	self.get_parent().connections = []
 	var connect_with_priority = []
 	for node in overlap_areas:
+
 		if (is_instance_valid(node) and node is sprite_collider and node.get_parent().hovering == false and node != self.get_parent().get_node("Sprite")
 			and node.get_parent().clickable):
-			connect_with_priority.append(node)
+			print(len(node.get_parent().connections), " ", node.get_parent().current_upgrade_node.custom_vars_dict["Connection_Limit"])
+			if len(node.get_parent().connections) < node.get_parent().current_upgrade_node.custom_vars_dict["Connection_Limit"]:
+				connect_with_priority.append(node)
 
 
 

@@ -10,7 +10,7 @@ var Base_Dict = {
 		"Damage": 10,
 		"Range": 60,
 		"Power_Delay": 3,
-		"Connection_Limit": 2
+		"Connection_Limit": 1
 	}
 }
 
@@ -24,7 +24,7 @@ var Thel_1_Dict = {
 		"Damage": 12,
 		"Range": 133,
 		"Power_Delay": 5,
-		"Connection_Limit": 2
+		"Connection_Limit": 1
 	}
 }
 
@@ -38,7 +38,7 @@ var Thel_2_Dict = {
 		"Damage": 15,
 		"Range": 193,
 		"Power_Delay": 5,
-		"Connection_Limit": 2
+		"Connection_Limit": 1
 	}
 }
 
@@ -52,7 +52,7 @@ var Thel_3_Dict = {
 		"Damage": 20,
 		"Range": 260,
 		"Power_Delay": 5,
-		"Connection_Limit": 2
+		"Connection_Limit": 1
 	}
 }
 
@@ -66,7 +66,7 @@ var Pulsar_1_Dict = {
 		"Damage": 4,
 		"Range": 73,
 		"Power_Delay": 2,
-		"Connection_Limit": 2
+		"Connection_Limit": 1
 	}
 }
 
@@ -80,7 +80,7 @@ var Pulsar_2_Dict = {
 		"Damage": 4,
 		"Range": 73,
 		"Power_Delay": 2,
-		"Connection_Limit": 2
+		"Connection_Limit": 1
 	}
 }
 
@@ -94,7 +94,7 @@ var Pulsar_3_Dict = {
 		"Damage": 8,
 		"Range": 85,
 		"Power_Delay": 2,
-		"Connection_Limit": 2,
+		"Connection_Limit": 1,
 	}
 }
 

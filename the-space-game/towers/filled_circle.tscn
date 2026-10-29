@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cxs8r1i5n08cx"]
+
+[ext_resource type="Script" uid="uid://bu0vlmv5bscn3" path="res://towers/filled_circle.gd" id="1_5q8pb"]
+
+[node name="Node2D" type="Node2D" unique_id=1648910627]
+script = ExtResource("1_5q8pb")

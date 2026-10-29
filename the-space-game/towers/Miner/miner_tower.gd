@@ -1,5 +1,4 @@
 extends Tower
-
 class_name Miner
 
 

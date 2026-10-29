@@ -18,7 +18,7 @@ var sprite_radius = 1
 var killed = false
 var line_node_connections = []
  #what group this node belongs to
-
+const CIRCLE_SCENE = preload("res://towers/filled_circle.tscn")
 var radar_marker: Radar #node containing pointer to node on minimap representing tower
 
 
@@ -104,7 +104,22 @@ func reset_line():
 		connections.erase(-1)
 	$Connector.redraw_no_priority(connections)
 
+var circle_instance: Node = null
 
+#Show a faint circle to show the radius of the tower, be it be the range of a laser or the range of a miner
+#The label will be the radius to get, as some towers call their radius differently in the custom vars dict
+func draw_radius(radius):
+
+	circle_instance = CIRCLE_SCENE.instantiate()
+
+	circle_instance.radius = radius
+
+	add_child(circle_instance)
+
+func hide_circle():
+	if is_instance_valid(circle_instance):
+			circle_instance.queue_free()
+			circle_instance = null
 
 
 
@@ -239,15 +254,16 @@ func draw_tower_hover_lines(input_array=false):
 
 	var count = 0
 	for node in loop_array:
-		if count >= current_upgrade_node.custom_vars_dict["Connection_Limit"] + 1:
+		if count > current_upgrade_node.custom_vars_dict["Connection_Limit"]:
 			return
 		if node is sprite_collider and is_instance_valid(node) and node.correct_area:
-			$Connector.add_point(to_local(self.global_position))
-			$Connector.add_point(to_local(node.global_position))
-			if input_array:
-				connection_points.append(node.global_position)
-			count+=1
-
+			if len(node.get_parent().connections) < node.get_parent().current_upgrade_node.custom_vars_dict["Connection_Limit"]:
+				$Connector.add_point(to_local(self.global_position))
+				$Connector.add_point(to_local(node.global_position))
+				if input_array:
+					connection_points.append(node.global_position)
+				count+=1
+~
 
 
 #Functions that tend to be overloaded by inherted towers

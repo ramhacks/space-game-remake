@@ -388,6 +388,7 @@ func hide_selection_ui(tower):
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = true
 	var tween = self.get_tree().create_tween() #rotate the drawing
 	tween.tween_property(Globals.selection_node, "rotation", deg_to_rad(0), 0)
+	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").hide_circle(tower)
 	tween.finished.connect(hide_tween_done)
 
 func hide_tween_done():

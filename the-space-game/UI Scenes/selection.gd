@@ -30,6 +30,9 @@ func _process(delta: float) -> void:
 				$Health/ProgressBar.value = tower_data_pull.get_node("Health").health_amount % 100
 
 
+
+
+
 	else:
 		self.visible = false
 
@@ -43,3 +46,14 @@ func show_selection_nodes(tower):
 	$TextBars/Label2.visible = true
 
 	$TextBars.tower_data_pull = tower
+	$Connections_Progress.max_value = tower.current_upgrade_node.custom_vars_dict["Connection_Limit"]
+	$Connections_Progress.value = len(tower.connections)
+	$Connecitons_Label.text = "Connections: " + str(len(tower.connections)) + "/" + str(tower.current_upgrade_node.custom_vars_dict["Connection_Limit"])
+	if tower.custom_class == "Laser" or tower.custom_class == "Missile_Launcher" or tower.custom_class == "Repair_Station":
+		tower.draw_radius(tower.current_upgrade_node.custom_vars_dict["Range"])
+
+
+
+#Hide circle that was shown during selection
+func hide_circle(tower) -> void:
+	tower.hide_circle()
