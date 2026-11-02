@@ -1,8 +1,16 @@
 extends Node2D
 
+#const Asteroids = preload("/home/logan/Documents/space-game-remake/the-space-game/enums/asteroid_generation_enum.gd").Configerations
+
 var solar_pos = Vector2(1152/2, 648/2)
 @export var max_radius_circle = 350
 @export var min_radius_circle = 130
+@export var spawn_margin = 30.0   # minimum gap past the farthest asteroid
+@export var spawn_band = 150.0    # how much farther out the point may land
+
+const JIGGLE = 50.0
+const WAVE_HEIGHT = 270.0
+const WAVE_WIDTH = 200.0
 var place_chance = 10
 var transformx: int
 var transformy: int
@@ -135,6 +143,47 @@ func _ready() -> void:
 
 	var out = random.randi_range(0, 1)
 	if out == 0:
+		Globals.asteroid_generation_type = "Circle"
 		circle_form(random)
 	else:
+		Globals.asteroid_generation_type = "Wave"
 		double_wave(random)
+
+# AI
+@export_range(1.0, 5.0) var closeness_bias = 3.5  # 1 = even spread, higher = hugs the circle
+
+func circle_reach() -> float:
+	return max_radius_circle + JIGGLE * sqrt(2)
+
+func circle_pos_annulus() -> Vector2:
+	var r_min = circle_reach() + spawn_margin
+	var r_max = r_min + spawn_band
+	# raising a 0-1 value to a power pushes results toward 0, which is the inner edge
+	var t = pow(randf(), closeness_bias)
+	var r = lerp(r_min, r_max, t)
+	return solar_pos + Vector2.from_angle(randf() * TAU) * r
+
+@export var wave_margin = 10.0
+@export var wave_band = 40.0
+@export_range(1.0, 5.0) var wave_closeness_bias = 3.0
+
+func wave_envelope(x: float) -> float:
+	var vp = get_viewport_rect().size
+	var tx = -(vp.x / 2) + (vp.x / 50)   # same as transformx
+	return WAVE_HEIGHT / (1.0 + pow((x + tx) / WAVE_WIDTH, 2))
+
+func wave_pos_envelope() -> Vector2:
+	var vp = get_viewport_rect().size
+	var x = randf_range(-JIGGLE, vp.x + JIGGLE)
+
+	# asteroids jiggle +/- 50 on x, so take the tallest envelope value within that window.
+	# The curve peaks at the center, so clamp the peak into the window to find it.
+	var peak_x = vp.x / 2 - vp.x / 50
+	var worst_x = clamp(peak_x, x - JIGGLE, x + JIGGLE)
+	var env = wave_envelope(worst_x)
+
+	var side = 1.0 if randf() < 0.5 else -1.0   # above or below
+	var offset = env + spawn_margin + randf_range(0.0, spawn_band)
+	return Vector2(x, vp.y / 2 + side * offset)
+
+#END AI

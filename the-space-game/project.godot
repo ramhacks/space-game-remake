@@ -38,6 +38,9 @@ Enemies=""
 Radar_Markers=""
 laser=""
 defense="Nodes that can destroy enemies"
+wave_enemies="Enemies specifically spawned by wave not by towers"
+EnemyTowers="All enemy towers on screen"
+spawned_enemy="Enemies spawned by the enemy tower, have a different mob cap value"
 
 [input]
 

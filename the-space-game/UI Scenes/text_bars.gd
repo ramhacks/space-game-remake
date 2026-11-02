@@ -18,4 +18,7 @@ func modify_text(tower_data):
 
 	$Label2.text = "Energy Required: " + str(tower_data.current_upgrade_node.energy_needs)
 	if(tower_data.custom_class == "Miner"):
+		$Label3.show()
 		$Label3.text = "Total Mined: " + str(tower_data.total_mined)
+	else:
+		$Label3.hide()

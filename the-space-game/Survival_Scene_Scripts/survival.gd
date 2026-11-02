@@ -57,7 +57,7 @@ var starting_tower_pos
 var activate_nearby_node_showing = false
 
 var waiting_for_clickout = false
-
+var asteroids
 
 var button_themes = {
 	"Custom_Button": 0,
@@ -114,8 +114,9 @@ func _ready() -> void:
 	radar_level = get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground/Minimap")
 	var tween = self.get_tree().create_tween() #rotate the drawing
 	tween.tween_property(Globals.selection_node, "rotation", deg_to_rad(0), 0.5)
-	var instance = asteroid_scene.instantiate()
-	self.add_child(instance)
+	asteroids = asteroid_scene.instantiate()
+	self.add_child(asteroids)
+
 
 
 
@@ -154,7 +155,11 @@ func _ready() -> void:
 
 
 
+func circle_point() -> Vector2:
+	return asteroids.circle_pos_annulus()
 
+func wave_point() -> Vector2:
+	return asteroids.wave_pos_envelope()
 
 
 func place_first_solar_node():
@@ -184,10 +189,13 @@ func place_first_solar_node():
 
 	copy.radar_marker = marker_instance
 	copy.update_location.connect(marker_instance.on_update_location)
+
 	create_radar_node.emit(marker_instance)
+
 
 	marker_instance.get_relative.connect($Camera_Area.call_rel)
 	$Camera_Area.send_rel.connect(marker_instance.receive_relative)
+	copy.move_minimap_icon()
 
 	Globals.no_power_available.connect(copy.no_power_available)
 

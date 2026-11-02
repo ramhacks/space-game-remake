@@ -15,7 +15,7 @@ var move_direction: Vector2
 
 func Enter():
 	pos_set = false
-	
+
 func Update(delta: float):
 	if not pos_set and is_instance_valid(self.get_parent().target_node):
 		randomize()
@@ -23,7 +23,7 @@ func Update(delta: float):
 		nav.target_position = enemy.point_circle(self.get_parent().target_node.global_position, angle)
 		pos_set = true
 	#Change so its not just the first tower in a group, make it actively target things
-	
+
 
 	if(!(is_instance_valid(self.get_parent().target_node) and self.get_parent().target_node.get_node("Health").health_amount > 0)):
 		self.get_parent().target_node = enemy.get_new_target()
@@ -39,16 +39,15 @@ func Physics_Update(delta: float):
 
 		move_direction = Vector2()
 		move_direction = nav.get_next_path_position() - enemy.global_position
-			
+
 		move_direction = move_direction.normalized()
 
-				
+
 		enemy.velocity = enemy.velocity.lerp(move_direction * enemy.speed, enemy.accel * delta)
 
 		enemy.move_and_slide()
-				
+
 		enemy.look_at(nav.target_position)
 	else:
-		self.get_parent().target_node = enemy.get_new_target()
-
-			
+		if self.get_parent():
+			self.get_parent().target_node = enemy.get_new_target()

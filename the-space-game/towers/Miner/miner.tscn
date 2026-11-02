@@ -128,7 +128,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_m6ypq"]
 radius = 8.06226
 
-[node name="miner" unique_id=1960510899 instance=ExtResource("1_x10fq")]
+[node name="miner" unique_id=1960510899 groups=["tower_node"] instance=ExtResource("1_x10fq")]
 script = ExtResource("2_3ciky")
 custom_class = "Miner"
 power_needed = 10

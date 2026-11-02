@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cf5pqleati37r"]
 
 [ext_resource type="Script" uid="uid://bgo6pfx2odm6w" path="res://Survival_Scene_Scripts/survival.gd" id="1_gc75h"]
-[ext_resource type="Script" uid="uid://cffyfv15aq2tg" path="res://Survival_Scene_Scripts/enemy_wave_spawner.gd" id="2_iaat1"]
+[ext_resource type="Script" uid="uid://xhg3p4qggmrm" path="res://Survival_Scene_Scripts/EnemySpawning/enemy_wave_spawner.gd" id="2_opim5"]
 [ext_resource type="Script" uid="uid://u8fk7xpa6mkw" path="res://Survival_Scene_Scripts/game_ticks.gd" id="3_dakgy"]
 [ext_resource type="Script" uid="uid://0u342yatpkw4" path="res://Survival_Scene_Scripts/camera.gd" id="4_cyyct"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://Visuals/Sprite_Frames/image(1).jpg" id="5_puhmn"]
@@ -113,14 +113,16 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(20, -357.407, 1330, -36
 [node name="Survival" type="Node2D" unique_id=1976739406]
 script = ExtResource("1_gc75h")
 
-[node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035]
-script = ExtResource("2_iaat1")
-first_wave_delay = 120.0
-base_prep_time = 60.0
-mob_cap = 10
+[node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035 node_paths=PackedStringArray("CameraArea")]
+script = ExtResource("2_opim5")
+debug_mode = true
+CameraArea = NodePath("../Camera_Area")
+max_enemy_towers = 3
+mob_cap = 20
 
 [node name="CooldownEnemy" type="Timer" parent="Enemy_Wave_Spawner" unique_id=1096147353]
 editor_description = "This is a timer to make sure we dont endlessly spawn enemy waves forever"
+one_shot = true
 
 [node name="Global_Ticks" type="Timer" parent="." unique_id=289095970]
 wait_time = 10.0
@@ -206,7 +208,6 @@ theme = ExtResource("8_wetyh")
 metadata/_edit_lock_ = true
 
 [node name="Default_Hot Bar" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=404659308]
-visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -337,6 +338,7 @@ position = Vector2(352, -36)
 shape = SubResource("RectangleShape2D_cyyct")
 
 [node name="Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=1347951975]
+visible = false
 anchors_preset = 0
 offset_right = 651.0
 offset_bottom = 131.0

@@ -359,7 +359,7 @@ radius = 16.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
 radius = 58.0
 
-[node name="Laser" unique_id=127248683 groups=["laser"] instance=ExtResource("1_ktcgg")]
+[node name="Laser" unique_id=127248683 groups=["laser", "tower_node"] instance=ExtResource("1_ktcgg")]
 script = ExtResource("2_4d8m5")
 custom_class = "Laser"
 power_needed = 1

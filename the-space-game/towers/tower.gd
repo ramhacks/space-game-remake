@@ -97,7 +97,8 @@ var on_object: bool = false #if sprite itself is on asteroid don't let the playe
 
 var sprite_texture #used to get radius and height of sprite to draw selection animation and place build_progress_bar
 
-
+#Last connection amount, lets us detect if it ever changes for any reason
+var past_connection_amount = 0
 
 func reset_line():
 	while connections.has(-1):
@@ -157,12 +158,19 @@ func place_build_progress_bar():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+
 	#set child node and self dynamic variables
 	if Globals.last_deleted_tower in connections:
+		print("ACTIVATED")
 		#Extra layer of precaution just in case we have a stray reference to a node that was supposed to be removed
 		connections.erase(Globals.last_deleted_tower)
 		$Connector.redraw_no_priority(connections)
+		send_hover_line()
+		draw_tower_hover_lines()
 	overlap_areas = $Collision_Area.get_overlapping_areas()
+
+
+
 
 	#Only check if no built is connected is true
 
@@ -181,8 +189,8 @@ func _process(delta: float) -> void:
 	if build_progress == 100 and !built and !set_build_frame:
 		self.get_node("BuildProgress").set_visible(false)
 		built = true
+		#reconnection_lines()
 	else:
-
 		self.get_node("BuildProgress").value = build_progress
 
 func move_minimap_icon():
@@ -234,6 +242,36 @@ func slice_correct(input_array, limit) -> Array:
 			output.append(input_array[i])
 	return output
 
+func reconnection_lines():
+	$Sprite.connections = []
+	$Sprite.connections = $Collision_Area.get_overlapping_areas()
+	connections = $Collision_Area.get_overlapping_areas()
+	$Connector.clear_points()
+
+	print("RECONNECTING")
+	var loop_array: Array
+	loop_array = $Sprite.connections
+	var count = 0
+	for node in loop_array:
+		if node == $Collision_Area or node == $Sprite:
+			return
+		if node is sprite_collider and is_instance_valid(node) and node.correct_area and !node.get_parent().built:
+			continue
+		if count > current_upgrade_node.custom_vars_dict["Connection_Limit"]:
+			return
+		if node is sprite_collider and is_instance_valid(node) and node.correct_area:
+			if len(node.get_parent().connections) < node.get_parent().current_upgrade_node.custom_vars_dict["Connection_Limit"]:
+				$Connector.add_point(to_local(self.global_position))
+				$Connector.add_point(to_local(node.global_position))
+
+				count+=1
+			else:
+				connections.erase(node)
+		else:
+			connections.erase(node)
+	print(connections)
+
+
 #traw thin blue power lines to overlapping towers
 func draw_tower_hover_lines(input_array=false):
 
@@ -257,6 +295,9 @@ func draw_tower_hover_lines(input_array=false):
 
 	var count = 0
 	for node in loop_array:
+		if node == $Collision_Area:
+			connections.erase(node)
+			return
 		if count > current_upgrade_node.custom_vars_dict["Connection_Limit"]:
 			return
 		if node is sprite_collider and is_instance_valid(node) and node.correct_area:
@@ -266,6 +307,10 @@ func draw_tower_hover_lines(input_array=false):
 				if input_array:
 					connection_points.append(node.global_position)
 				count+=1
+			else:
+				connections.erase(node)
+		else:
+			connections.erase(node)
 
 
 
@@ -419,6 +464,7 @@ func no_power_available(sender):
 
 
 func do_process():
+	past_connection_amount = connections
 	#This if statment is for if there previously was no power available but we got power back
 	if no_power_animation_on and built:
 

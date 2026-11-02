@@ -187,7 +187,7 @@ radius = 5.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
 radius = 58.0
 
-[node name="Missile_Launcher" unique_id=1246158242 groups=["laser"] instance=ExtResource("1_7pvyt")]
+[node name="Missile_Launcher" unique_id=1246158242 groups=["laser", "tower_node"] instance=ExtResource("1_7pvyt")]
 script = ExtResource("2_yd63k")
 custom_class = "Missile_Launcher"
 power_time_seconds = 1
@@ -196,7 +196,6 @@ power_time_seconds = 1
 script = ExtResource("3_b1p13")
 
 [node name="Health" parent="." index="1" unique_id=1781450724 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("4_1s5g7")]
-health_amount = 200
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")

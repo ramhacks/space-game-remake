@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qa4w8kdero5i"
-path="res://.godot/imported/33.png-e6ebc20707b700dabb26848e87498fc7.ctex"
+uid="uid://b0fejercrkwms"
+path="res://.godot/imported/492.png-7b2595b201ad7a728168c7ec3e34dedd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Visuals/Sprite_Frames/33.png"
-dest_files=["res://.godot/imported/33.png-e6ebc20707b700dabb26848e87498fc7.ctex"]
+source_file="res://Visuals/Sprite_Frames/EnemySpawner/492.png"
+dest_files=["res://.godot/imported/492.png-7b2595b201ad7a728168c7ec3e34dedd.ctex"]
 
 [params]
 

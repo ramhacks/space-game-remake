@@ -18,4 +18,5 @@ func get_target() -> Variant:
 		return EnemyEnums.TargetFound.KILLSELF # No other towers destroy enemy
 
 	var targ = get_tree().get_nodes_in_group("tower_node")[randi_range(0, get_tree().get_nodes_in_group("tower_node").size() - 1)]
+
 	return targ

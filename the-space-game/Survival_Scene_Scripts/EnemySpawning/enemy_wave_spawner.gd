@@ -2,13 +2,16 @@ extends Node
 
 signal wave_start(int)
 
+signal wave_active
+signal wave_stopped
 ## Makes it so enemies will spawn in 30 seconds
 @export var debug_mode: bool = false
 
 ## Makes it so mob cap is set to 0 on startup
 @export var disable_enimies: bool = false
-
+@export var CameraArea: Area2D = null
 @export var break_time_jiggle: int = 0
+@export var max_enemy_towers: int = 0
 #Wave spawner for enemies
 var enemy
 var enemy_node
@@ -17,7 +20,7 @@ var radar_node
 var enemy_marker
 var enemy_marker_texture
 var random = RandomNumberGenerator.new()
-
+var enemy_spawner_tower
 var cooldown_node
 
 
@@ -34,7 +37,6 @@ var current_budget = 0
 var wave_in_effect := false
 var wave_elapsed := 0.0
 
-var enemies_alive = []; # List of enemies alive if empty wave has been defeated
 
 @export var mob_cap: int
 
@@ -71,7 +73,9 @@ func get_budget(w: int) -> float:
 		budget *= 1.3
 	return budget
 
-
+#Lets children call this function via this node
+func call_radar(node):
+	get_parent().create_radar_node.emit(node)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if debug_mode:
@@ -83,6 +87,7 @@ func _ready() -> void:
 		mob_cap = 0
 	radar_node = preload("res://Visuals/Minimap_textures/radar_marker.tscn")
 	enemy_marker_texture = load("res://Visuals/Minimap_textures/enemy.png")
+	enemy_spawner_tower = preload("res://Enemy/EnemySpawner/EnemySpawner.tscn")
 	cooldown_node = $CooldownEnemy
 
 	enemy = preload("res://Enemy/Enemy_Types/Power_Targeter.tscn")
@@ -94,6 +99,12 @@ func _ready() -> void:
 	$CooldownEnemy.one_shot = true
 	$CooldownEnemy.timeout.connect(_on_cooldown_timeout)
 	$CooldownEnemy.start(first_wave_delay)
+
+
+func prepare_enemy_tower_instance(tower_instance: EnemySpawner):
+	wave_active.connect(tower_instance.activate_tower)
+	wave_stopped.connect(tower_instance.deactivate_tower)
+
 
 func _on_cooldown_timeout() -> void:
 	start_wave()
@@ -116,9 +127,13 @@ func spawn_enemy(pos, type):
 
 
 	enemy_node = enemy.instantiate()
+	enemy_node.add_to_group("wave_enemies")
 	self.add_child(enemy_node)
-	enemies_alive.append(enemy_node)
 	enemy_node.initialize(type, enemy_marker2, pos)
+
+
+
+
 
 # AI ASSISTED CODE BELOW
 func _weakness_bonus(theme: String, game_state) -> float:
@@ -208,15 +223,46 @@ func spawn_new_wave(wave_number: int) -> void:
 	var enemies: Array[String] = build_wave(Globals.wave_number)
 
 	for behavior in enemies:
-		if get_tree().get_nodes_in_group("Enemies").size() >= mob_cap:
+		if get_tree().get_nodes_in_group("wave_enemies").size() >= mob_cap:
 			break
 		var x_jiggle = randi_range(-30, 30)
 		spawn_enemy(Vector2(random_x_range + x_jiggle, random_y_range[ind]), behavior)
 
 
+	# After wave 4 enemy spawners can spawn around the map
+	if Globals.wave_number >= 0:
+		if get_tree().get_nodes_in_group("EnemyTowers").size() >= max_enemy_towers:
+			return
+		var spawn_pos: Vector2
+		if Globals.asteroid_generation_type == "Circle":
+			spawn_pos = get_parent().circle_point()
+		else:
+			spawn_pos = get_parent().wave_point()
+
+
+		var enemy_marker3 = radar_node.instantiate()
+		enemy_marker3.texture = enemy_marker_texture
+		enemy_marker3.get_relative.connect(get_parent().get_node("Camera_Area").call_rel)
+		enemy_marker3.on_update_location(spawn_pos)
+
+		get_parent().get_node("Camera_Area").send_rel.connect(enemy_marker3.receive_relative)
+
+		get_parent().create_radar_node.emit(enemy_marker3)
+
+		var amount = random.randi_range(1, 2)
+		for i in range(0, amount):
+			if get_tree().get_nodes_in_group("EnemyTowers").size() >= max_enemy_towers:
+				return
+			var spawner = enemy_spawner_tower.instantiate()
+			self.add_child(spawner)
+			spawner.initialize(enemy_marker3, spawn_pos)
+
 	wave_start.emit(Globals.wave_number)
 
+
+#Start wave, activate all enemy spawner towers on board by emitting the tower signal
 func start_wave() -> void:
+	wave_active.emit()
 	# Nothing to attack yet, so wait a bit and check again
 	if get_tree().get_nodes_in_group("tower_node").size() == 0 or Globals.paused:
 		$CooldownEnemy.start(5.0)
@@ -224,6 +270,7 @@ func start_wave() -> void:
 
 	Globals.wave_number += 1
 	wave_in_effect = true
+	Globals.wave_active = true
 	wave_elapsed = 0.0
 
 	spawn_new_wave(Globals.wave_number)
@@ -237,12 +284,15 @@ func _process(delta: float) -> void:
 		return
 
 	wave_elapsed += delta
-	var cleared = get_tree().get_nodes_in_group("Enemies").size() == 0
-	if cleared or wave_elapsed >= max_wave_duration:
+	var cleared = get_tree().get_nodes_in_group("wave_enemies").size() == 0
+	if cleared:
 		end_wave()
 
+#End wave, deactivate all enemy tower spawners and restart cooldown timer
 func end_wave() -> void:
+	wave_stopped.emit()
 	wave_in_effect = false
+	Globals.wave_active = false
 	$CooldownEnemy.start(get_prep_time(Globals.wave_number) + random.randf_range(0, break_time_jiggle))
 
 

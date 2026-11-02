@@ -16,8 +16,8 @@ var Base_Dict = {
 }
 
 var Miner_1_Dict = {
-	"Health": 40,
-	"Energy_Required": 5,
+	"Health": 50,
+	"Energy_Required": 4,
 	"Label": "Level 2",
 	"Upgrade_Price": 200,
 	"Recycle_Price": 50,

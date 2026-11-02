@@ -1,7 +1,7 @@
-[gd_scene load_steps=32 format=3 uid="uid://dhjccf647xsye"]
+[gd_scene format=3 uid="uid://dhjccf647xsye"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_t8boh"]
-[ext_resource type="Script" path="res://towers/Battery/battery.gd" id="2_kv32f"]
+[ext_resource type="Script" uid="uid://d1pv0okuiajtw" path="res://towers/Battery/battery.gd" id="2_kv32f"]
 [ext_resource type="PackedScene" uid="uid://c11uhwml84phf" path="res://Components/health.tscn" id="3_fbgp1"]
 [ext_resource type="Texture2D" uid="uid://b2gppu5rjcwl5" path="res://Visuals/Sprite_Frames/120.png" id="4_7hrxu"]
 [ext_resource type="Texture2D" uid="uid://gahnm0vmbvlv" path="res://Visuals/Sprite_Frames/151.png" id="5_oyft5"]
@@ -27,8 +27,8 @@
 [ext_resource type="Texture2D" uid="uid://bclylxf3ikuu3" path="res://Visuals/Sprite_Frames/142.png" id="25_v3fly"]
 [ext_resource type="Texture2D" uid="uid://nf2gxmk4iw2g" path="res://Visuals/Sprite_Frames/144.png" id="26_mq20q"]
 [ext_resource type="Texture2D" uid="uid://c47juocmun6o5" path="res://Visuals/Sprite_Frames/146.png" id="27_2d1v8"]
-[ext_resource type="Script" path="res://towers/Battery/upgrades.gd" id="28_ds10r"]
-[ext_resource type="Script" path="res://towers/Battery/battery_sprite.gd" id="36_dno7p"]
+[ext_resource type="Script" uid="uid://w44cgjkta2np" path="res://towers/Battery/upgrades.gd" id="28_ds10r"]
+[ext_resource type="Script" uid="uid://b3sgyt4rioe5n" path="res://towers/Battery/battery_sprite.gd" id="36_dno7p"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3ggyo"]
 animations = [{
@@ -136,27 +136,29 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_o7vyt"]
 radius = 13.0
 
-[node name="battery" instance=ExtResource("1_t8boh")]
+[node name="battery" unique_id=1530407657 groups=["tower_node"] instance=ExtResource("1_t8boh")]
 script = ExtResource("2_kv32f")
 custom_class = "Battery"
 power_capacity = 50
 power_needed = 1
-power_time_seconds = 1
 
-[node name="Health" parent="." index="0" node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_fbgp1")]
+[node name="Health" parent="." index="0" unique_id=863427821 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_fbgp1")]
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" index="0"]
+[node name="Hitbox" parent="." index="1" unique_id=1883757356 node_paths=PackedStringArray("health_component")]
+health_component = NodePath("../Health")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" parent_id_path=PackedInt32Array(1857245891) index="0" unique_id=619731478]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_3ggyo")
 animation = &"hover"
 script = ExtResource("36_dno7p")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=897644095]
 shape = SubResource("CircleShape2D_o7vyt")
 
-[node name="Upgrades" type="Node" parent="." index="12"]
+[node name="Upgrades" type="Node" parent="." index="12" unique_id=1868515857]
 script = ExtResource("28_ds10r")

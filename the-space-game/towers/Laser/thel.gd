@@ -21,10 +21,10 @@ func do_process(parent_node):
 #Transfer to laser node when implemented
 func laser_enemy(parent):
 	var target = change_collision_list(parent.my_range_area.get_overlapping_bodies())
-
+	var damage = parent.current_upgrade_node.custom_vars_dict["Damage"]
 	if is_instance_valid(target):
 		draw_laser_attack(parent.to_local(parent.global_position), parent.to_local(target.global_position), parent)
-		target.get_node("Hitbox").register_hit(parent, parent.custom_vars_dict["Damage"], self)
+		target.get_node("Hitbox").register_hit(parent, damage, self)
 
 func change_collision_list(col_list):
 	for enemy in col_list:

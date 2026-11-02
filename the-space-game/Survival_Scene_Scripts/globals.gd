@@ -16,7 +16,8 @@ const PowerG = preload("res://enums/power_enums.gd").PowerGroups
 ##   unwanted bridging lines across the canvas.
 var power_groups = {}
 
-var starting_resources = 300
+#var starting_resources = 300
+var starting_resources = 1000
 
 var last_deleted_tower: Node;
 
@@ -50,6 +51,7 @@ var tower_selection_mode = false
 var tower_selected
 
 var wave_number: int = 0
+var wave_active = false
 
 var selection_node
 
@@ -62,6 +64,10 @@ var global_power_timer_on = Timer.new()
 var power_on_delay = 0.5
 var global_power_timer_off = Timer.new()
 var power_off_delay = 0.5
+
+
+var asteroid_generation_type: String;
+
 
 
 var power_lines
@@ -239,6 +245,7 @@ func remove_node_group(tower):
 	var k_skip = []
 
 	for conn in k_nodes_array:
+
 		conn.connections.erase(tower)
 		if conn in k_skip:
 			continue # We don't need to make another group this node is already in a group defined
@@ -258,6 +265,10 @@ func remove_node_group(tower):
 		k_skip = combine_set(k_skip, inters)
 
 	tower.queue_free()
+
+	for conn in k_nodes_array:
+		conn.draw_tower_hover_lines()
+		print("DRAW NEW LINES")
 
 
 
@@ -297,11 +308,12 @@ func find_closest_solar(v):
 
 
 			for node in s.connections:
-				if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered and not node.hovering and node.built:
-					if node.custom_class == "Solar":
-						found = true
-					else:
-						stack.push_front(node)
+				if node is Tower:
+					if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered and not node.hovering and node.built:
+						if node.custom_class == "Solar":
+							found = true
+						else:
+							stack.push_front(node)
 
 				# FIX: Moved outside the deletion check so the index always increments accurately
 	return found
@@ -321,10 +333,11 @@ func iterativeDFS_main(v, new_group_name):
 
 
 			for node in s.connections:
-				if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered and not node.hovering:
+				if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered:
 					node.remove_from_group(node.group_)
 					node.group_ = new_group_name
 					node.add_to_group(new_group_name)
+
 					power_groups[new_group_name][1] += node.power_capacity
 					total_capacity += node.power_capacity
 					stack.push_front(node)

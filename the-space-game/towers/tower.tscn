@@ -107,7 +107,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="tower" type="Node2D" unique_id=679217469 groups=["Placed_Towers", "tower_node"]]
+[node name="tower" type="Node2D" unique_id=679217469 groups=["Placed_Towers"]]
 process_mode = 1
 script = ExtResource("1_u867d")
 

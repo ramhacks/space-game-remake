@@ -100,33 +100,28 @@ func _process(delta: float) -> void:
 
 
 
-func get_new_target():
-	if(get_tree().get_nodes_in_group("tower_node").size() == 0):
-		#Force quit, do this until we have a loading screen
-		assert(3 == 2, "GAME OVER")
-		self.queue_free()
-
-
-
-	var out = self.get_node(Targeting[target_strat]).get_target()
-
-
-
-	if(out is EnemyEnums.TargetFound and out == EnemyEnums.TargetFound.KILLSELF):
+func get_new_target() -> Node2D:
+	if get_tree().get_nodes_in_group("tower_node").is_empty():
+		assert(false, "GAME OVER")
 		enemy_death()
-	elif (out is EnemyEnums.TargetFound and out == EnemyEnums.TargetFound.SWITCH_RANDOM):
-		self.get_node(Targeting[target_strat]).init_target()
-		#Dont return anything ignore and continue
+		return null
 
+	var targeting = get_node(Targeting[target_strat])
+	var out = targeting.get_target()
+
+	if out is int and out == EnemyEnums.TargetFound.KILLSELF:
+		enemy_death()
+		return null
+
+	if out is int and out == EnemyEnums.TargetFound.SWITCH_RANDOM:
+		targeting.init_target()
 		missle_damage = EnemyTypeDamages['random']
+		health = min(health, EnemyTypeHealth['random'])
+		# switch strategy happened; fetch a real node from the new strategy
+		var new_out = get_node(Targeting[target_strat]).get_target()
+		return new_out if new_out is Node2D else null
 
-		if health > EnemyTypeHealth['random']:	#Only bound health down if it is currently greater
-			health = EnemyTypeHealth['random']
-
-		return EnemyEnums.TargetFound.SWITCH_RANDOM
-	else:
-		#output is a reference to an object
-		return out
+	return out as Node2D
 
 
 func _on_surround_send_laser(target: Variant) -> void:
