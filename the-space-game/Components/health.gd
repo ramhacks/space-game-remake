@@ -54,10 +54,12 @@ func _on_explosion_animation_finished() -> void:
 					Globals.hide_selection_node()
 
 
-	parent.radar_marker.queue_free()
+	if is_instance_valid(parent):
+		if get_parent().radar_marker != null:
+			parent.radar_marker.queue_free()
 	Globals.tower_node_amount -= 1
 
-	if parent is Tower:
+	if parent is Tower and parent.custom_class != "Enemy":
 		parent.remove_from_group(parent.group_)
 		Globals.remove_node_from_group(parent)
 		parent.sprite_var_node_holder.correct_area = false

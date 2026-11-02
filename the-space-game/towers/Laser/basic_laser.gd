@@ -18,6 +18,13 @@ func laser_enemy(parent):
 	if is_instance_valid(target):
 		draw_laser_attack(parent.to_local(parent.global_position), parent.to_local(target.global_position), parent)
 		target.get_node("Hitbox").register_hit(parent, damage, self)
+	else:
+		#Couldnt find any enemies but also check if found an enemy tower instead
+		target = change_collision_list(parent.enemy_towers())
+		if is_instance_valid(target):
+			draw_laser_attack(parent.to_local(parent.global_position), parent.to_local(target.global_position), parent)
+
+			target.get_node("Hitbox").register_hit(parent, damage, self)
 
 
 
@@ -25,6 +32,8 @@ func change_collision_list(col_list):
 	for enemy in col_list:
 		if enemy is Enemy:
 			return enemy
+		elif enemy.get_parent().is_in_group("EnemyTowers"):
+			return enemy.get_parent()
 
 	return null
 

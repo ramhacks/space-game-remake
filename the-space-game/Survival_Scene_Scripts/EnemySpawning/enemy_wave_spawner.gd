@@ -30,7 +30,7 @@ var current_budget = 0
 
 
 @export var first_wave_delay := 20.0
-@export var base_prep_time := 15.0
+@export var base_prep_time := 60.0
 @export var max_wave_duration := 60.0   # failsafe so a stuck enemy can't stall the game
 
 
@@ -80,7 +80,7 @@ func call_radar(node):
 func _ready() -> void:
 	if debug_mode:
 		first_wave_delay = 30
-		base_prep_time = 15
+		base_prep_time = 10000 #Only have one wave
 		max_wave_duration = 60
 
 	if disable_enimies:
@@ -299,7 +299,7 @@ func end_wave() -> void:
 func get_prep_time(w: int) -> float:
 	var t = base_prep_time
 	if w % 5 == 0:
-		t += 8.0   # extra recovery after a spike wave
+		t += 20.0   # extra recovery after a spike wave
 	if (w + 1) % 5 == 0:
-		t += 5.0   # extra time to build up before the next spike
+		t += 30.0   # extra time to build up before the next spike
 	return t

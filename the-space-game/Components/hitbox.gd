@@ -13,7 +13,7 @@ class_name Hitbox
 @export var dynamic_Area: bool
 
 #hit types can be either enemy or player
-#The hit_type determines what this projectile is targeting, if it is going to target a player it will set its 
+#The hit_type determines what this projectile is targeting, if it is going to target a player it will set its
 #hit_type to player if it is targeting enemy it will set its hit_type to enemy, its hit_type may also be a specific class for example
 #this hitbox may only accept projectiles of type enemy_missle. Then its hit_types will be enemy missile
 #Hit type is an array of what classes this hitbox registers
@@ -36,11 +36,9 @@ func _process(delta: float) -> void:
 
 
 func register_hit(sender, damage, missile):
+	print("Im hit: ", damage)
+	print(health_component.health_amount)
 	if sender.custom_class in hit_types:
 		health_component.health_amount -= damage
 		if sender.projectile_type == 'Missile':
 			missile.queue_free()
-
-		
-
-	

@@ -10,7 +10,8 @@ var Missile_1_Dict = {
 	"Custom_Dict": {
 		"Damage": 15,
 		"Range": 200,
-		"Connection_Limit": 1
+		"Connection_Limit": 1,
+		"Power_Delay": 2
 	},
 }
 
@@ -23,7 +24,8 @@ var Missile_2_Dict = {
 	"Custom_Dict": {
 		"Damage": 20,
 		"Range": 240,
-		"Connection_Limit": 1
+		"Connection_Limit": 1,
+		"Power_Delay": 2
 	},
 }
 
@@ -36,7 +38,8 @@ var Missile_3_Dict = {
 	"Custom_Dict": {
 		"Damage": 25,
 		"Range": 280,
-		"Connection_Limit": 1
+		"Connection_Limit": 1,
+		"Power_Delay": 2
 	},
 }
 

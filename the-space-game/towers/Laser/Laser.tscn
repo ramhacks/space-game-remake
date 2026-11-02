@@ -357,7 +357,9 @@ animations = [{
 radius = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
-radius = 58.0
+radius = 58.00862
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a50kf"]
 
 [node name="Laser" unique_id=127248683 groups=["laser", "tower_node"] instance=ExtResource("1_ktcgg")]
 script = ExtResource("2_4d8m5")
@@ -411,7 +413,15 @@ script = ExtResource("21_ys1hr")
 
 [node name="PulseTimer" type="Timer" parent="StateMachine/Pulsar" index="0" unique_id=188044813]
 unique_name_in_owner = true
-wait_time = 0.5
+wait_time = 0.7
+one_shot = true
+
+[node name="EnemyTowerDetector" type="Area2D" parent="." index="14" unique_id=777938733]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyTowerDetector" index="0" unique_id=2070876841]
+shape = SubResource("CircleShape2D_a50kf")
+
+[node name="DelayTimer" type="Timer" parent="." index="15" unique_id=1475018881]
 
 [connection signal="tower_built" from="." to="StateMachine" method="_on_laser_tower_built"]
 [connection signal="timeout" from="StateMachine/Pulsar/PulseTimer" to="StateMachine/Pulsar" method="_on_pulse_timer_timeout"]

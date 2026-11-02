@@ -55,7 +55,7 @@ func draw_laser_attack(pos1, pos2, parent):
 # "Ignore" the power delay mechanic and function on our own delay, while pulsing ignore any do_process requests
 # to avoid stacking of functions
 func _on_pulse_timer_timeout() -> void:
-	if pulses > 0:
+	if pulses >= 0:
 		pulses-=1
 		laser_enemy(temp_parent)
 		$PulseTimer.start()

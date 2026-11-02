@@ -24,6 +24,8 @@ var radar_marker: Radar #node containing pointer to node on minimap representing
 
 var no_power_animation_on = false
 
+var set_power = false
+
 var child_area
 var sprite_node
 var animated_node
@@ -145,7 +147,6 @@ func _ready() -> void:
 
 
 	if !built and power_time_seconds != 0.5:
-
 		power_time_seconds = 0.5
 		$Power_Delay.wait_time = power_time_seconds
 
@@ -158,10 +159,13 @@ func place_build_progress_bar():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-
+	if built and !set_power:
+		$Power_Delay.wait_time = current_upgrade_node.custom_vars_dict["Power_Delay"]
+		if custom_class != "Solar":
+			$Power_Delay.start()
+		set_power = true
 	#set child node and self dynamic variables
 	if Globals.last_deleted_tower in connections:
-		print("ACTIVATED")
 		#Extra layer of precaution just in case we have a stray reference to a node that was supposed to be removed
 		connections.erase(Globals.last_deleted_tower)
 		$Connector.redraw_no_priority(connections)
@@ -269,7 +273,6 @@ func reconnection_lines():
 				connections.erase(node)
 		else:
 			connections.erase(node)
-	print(connections)
 
 
 #traw thin blue power lines to overlapping towers

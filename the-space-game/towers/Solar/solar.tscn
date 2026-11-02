@@ -164,12 +164,11 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_o7vyt"]
 radius = 13.0
 
-[node name="solar_station" unique_id=542042677 instance=ExtResource("1_cmj2o")]
+[node name="solar_station" unique_id=542042677 groups=["tower_node"] instance=ExtResource("1_cmj2o")]
 script = ExtResource("2_lr4nm")
 custom_class = "Solar"
 power_capacity = 200
 power_needed = 1
-power_time_seconds = 1
 
 [node name="Upgrades" type="Node" parent="." index="0" unique_id=464263572]
 script = ExtResource("3_yb4d2")

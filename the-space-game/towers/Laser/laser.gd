@@ -23,8 +23,11 @@ func set_range_area():
 	my_range_base_shape = CircleShape2D.new()
 	my_range_shape = CollisionShape2D.new()
 
+
+
 	my_range_base_shape.radius = self.current_upgrade_node.custom_vars_dict["Range"]
 	my_range_shape.shape = my_range_base_shape
+
 
 	my_range_area = Area2D.new()
 	my_range_area.collision_layer = pow(2, 2-1) + pow(2, 4-1)
@@ -32,10 +35,12 @@ func set_range_area():
 	self.add_child(my_range_area)
 	my_range_area.add_child(my_range_shape)
 
+	get_node("EnemyTowerDetector/CollisionShape2D").shape.radius = self.current_upgrade_node.custom_vars_dict["Range"]
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
+	$Power_Delay.wait_time = self.current_upgrade_node.custom_vars_dict["Power_Delay"]
 	sprite_node = self.get_node("Sprite")
 	child_area = self.get_node("Collision_Area")
 	animated_node = self.get_node("Sprite_Node/Sprite2D")
@@ -67,12 +72,15 @@ func do_process():
 
 	super.do_process()
 
+
 func return_local(pos):
 	return to_local(pos)
 
 func get_overlap():
 	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however
 
+func enemy_towers():
+	return $EnemyTowerDetector.get_overlapping_areas()
 
 func upgrade(upgrade_type):
 	if upgrade_type == "Pulsar":
@@ -82,7 +90,6 @@ func upgrade(upgrade_type):
 		laser_upgrade_type = 'thel'
 
 	$Power_Delay.wait_time = self.current_upgrade_node.custom_vars_dict["Power_Delay"]
-
 
 	my_range_shape.queue_free()
 	my_range_area.queue_free()

@@ -3,7 +3,7 @@ extends Node
 var Base= Path_Node.new()
 
 var Base_Dict = {
-	"Health": 40,
+	"Health": 15,
 	"Energy_Required": 1,
 	"Label": "NaN",
 	"Upgrade_Price": 0,
@@ -11,7 +11,8 @@ var Base_Dict = {
 	"Custom_Dict": {
 		"Damage": 3,
 		"Recharge": 4,
-		"Connection_Limit": 0
+		"Connection_Limit": 0,
+		"Power_Delay": 0
 	}
 }
 

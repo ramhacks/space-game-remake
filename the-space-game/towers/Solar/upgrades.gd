@@ -14,7 +14,8 @@ var Base_Dict = {
 	"Custom_Dict": {
 		"Power Gen Delay": 3,
 		"Energy Produced": 4,
-		"Connection_Limit": 3
+		"Connection_Limit": 3,
+		"Power_Delay": 1 #Generates power doenst need a power delay
 	}
 }
 
@@ -27,7 +28,8 @@ var Solar_1_Dict = {
 	"Custom_Dict": {
 		"Power Gen Delay": 3,
 		"Energy Produced": 9,
-		"Connection_Limit": 3
+		"Connection_Limit": 3,
+		"Power_Delay": 0
 	}
 
 }
@@ -41,7 +43,8 @@ var Solar_2_Dict = {
 	"Custom_Dict": {
 		"Power Gen Delay": 1.5,
 		"Energy Produced": 14,
-		"Connection_Limit": 3
+		"Connection_Limit": 3,
+		"Power_Delay": 0
 	}
 }
 

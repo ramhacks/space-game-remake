@@ -252,26 +252,33 @@ func remove_node_group(tower):
 		var new_group_name = str(power_groups.size()+1)
 		power_groups[new_group_name] = [0, 0]
 
-		# First change group of self then move on to changing connections
-		conn.remove_from_group(conn.group_)
-		conn.group_ = new_group_name
-		conn.add_to_group(new_group_name)
-		power_groups[new_group_name][1] += conn.power_capacity
-		total_capacity += conn.power_capacity
-		var group = iterativeDFS_main(conn, new_group_name)
+		if is_instance_valid(conn):
+			if conn is Tower:
+				# First change group of self then move on to changing connections
+				conn.remove_from_group(conn.group_)
+				conn.group_ = new_group_name
+				conn.add_to_group(new_group_name)
+				power_groups[new_group_name][1] += conn.power_capacity
+				total_capacity += conn.power_capacity
+				var group = iterativeDFS_main(conn, new_group_name)
 
-		var inters = group.filter(func(item): return k_nodes_array.has(item))
+				var inters = group.filter(func(item): return k_nodes_array.has(item))
 
-		k_skip = combine_set(k_skip, inters)
+				k_skip = combine_set(k_skip, inters)
 
+	#Only reconnect the lines after tower is gone to make sure we dont draw lines to a tower
+	# that no longer exists, bind k_nodes_array to signal
+	tower.tree_exited.connect(after_tower_freed.bind(k_nodes_array), CONNECT_ONE_SHOT)
 	tower.queue_free()
 
+
+
+
+func after_tower_freed(k_nodes_array):
 	for conn in k_nodes_array:
-		conn.draw_tower_hover_lines()
+		if conn is Tower:
+			conn.draw_tower_hover_lines()
 		print("DRAW NEW LINES")
-
-
-
 
 
 
@@ -308,12 +315,13 @@ func find_closest_solar(v):
 
 
 			for node in s.connections:
-				if node is Tower:
-					if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered and not node.hovering and node.built:
-						if node.custom_class == "Solar":
-							found = true
-						else:
-							stack.push_front(node)
+				if is_instance_valid(node):
+					if node is Tower:
+						if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered and not node.hovering and node.built:
+							if node.custom_class == "Solar":
+								found = true
+							else:
+								stack.push_front(node)
 
 				# FIX: Moved outside the deletion check so the index always increments accurately
 	return found
@@ -333,14 +341,15 @@ func iterativeDFS_main(v, new_group_name):
 
 
 			for node in s.connections:
-				if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered:
-					node.remove_from_group(node.group_)
-					node.group_ = new_group_name
-					node.add_to_group(new_group_name)
+				if node is Tower:
+					if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered:
+						node.remove_from_group(node.group_)
+						node.group_ = new_group_name
+						node.add_to_group(new_group_name)
 
-					power_groups[new_group_name][1] += node.power_capacity
-					total_capacity += node.power_capacity
-					stack.push_front(node)
+						power_groups[new_group_name][1] += node.power_capacity
+						total_capacity += node.power_capacity
+						stack.push_front(node)
 				# FIX: Moved outside the deletion check so the index always increments accurately
 
 

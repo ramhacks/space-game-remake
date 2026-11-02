@@ -10,8 +10,8 @@ var Base_Dict = {
 	"Custom_Dict": {
 		"Repair Amount": 5,
 		"Range": 150,
-		"Cooldown": 30,
-		"Connection_Limit": 3
+		"Connection_Limit": 3,
+		"Power_Delay": 30
 	}
 
 }
@@ -25,7 +25,7 @@ var Repair_1_Dict = {
 	"Custom_Dict": {
 		"Repair Amount": 10,
 		"Range": 250,
-		"Cooldown": 30,
+		"Power_Delay": 30,
 		"Connection_Limit": 3
 	}
 }

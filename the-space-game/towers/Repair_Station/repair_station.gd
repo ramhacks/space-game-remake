@@ -50,7 +50,7 @@ func _process(delta: float) -> void:
 func do_process():
 	if built:
 		if !set_power_delay:
-			$Power_Delay.wait_time = self.current_upgrade_node.custom_vars_dict["Cooldown"]
+			$Power_Delay.wait_time = self.current_upgrade_node.custom_vars_dict["Power_Delay"]
 			set_power_delay = true
 		var overlap = $Collision_Area.get_overlapping_areas()
 		for node in overlap:

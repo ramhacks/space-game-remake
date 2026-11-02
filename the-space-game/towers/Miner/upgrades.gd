@@ -11,7 +11,8 @@ var Base_Dict = {
 	"Recycle_Price": 30,
 	"Custom_Dict": {
 		"Extraction per Cycle": 2,
-		"Connection_Limit": 1
+		"Connection_Limit": 1,
+		"Power_Delay": 0.5
 	},
 }
 
@@ -23,7 +24,8 @@ var Miner_1_Dict = {
 	"Recycle_Price": 50,
 	"Custom_Dict": {
 		"Extraction per Cycle": 5,
-		"Connection_Limit": 1
+		"Connection_Limit": 1,
+		"Power_Delay": 0.5
 	},
 }
 # Called when the node enters the scene tree for the first time.
