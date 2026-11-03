@@ -10,6 +10,8 @@ var enemy_node
 var radar_node
 var wave_active = false
 
+
+
 @export var self_mob_cap: int = 5
 #Will extend tower but will ignore power generation and all that stuff
 

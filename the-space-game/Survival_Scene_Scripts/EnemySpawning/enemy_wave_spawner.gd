@@ -22,7 +22,7 @@ var enemy_marker_texture
 var random = RandomNumberGenerator.new()
 var enemy_spawner_tower
 var cooldown_node
-
+var game_over_scene
 
 
 

@@ -2,6 +2,8 @@ extends State
 
 var custom_class
 
+var laser_bank: int = 0
+var max_bank: int = 1
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
@@ -9,38 +11,20 @@ func _ready() -> void:
 
 
 func do_process(parent_node):
-	laser_enemy(parent_node)
-
-#Transfer to laser node when implemented
-func laser_enemy(parent):
-	var target = change_collision_list(parent.my_range_area.get_overlapping_bodies())
-	var damage = parent.current_upgrade_node.custom_vars_dict["Damage"]
-	if is_instance_valid(target):
-		draw_laser_attack(parent.to_local(parent.global_position), parent.to_local(target.global_position), parent)
-		target.get_node("Hitbox").register_hit(parent, damage, self)
+	var found = get_parent().laser_enemy(parent_node)
+	if !found and laser_bank < max_bank:
+		laser_bank += 1
+		get_tree().create_timer(0.2).timeout.connect(_on_timeout.bind(parent_node)) # Timeout to try to shoot laser
 	else:
-		#Couldnt find any enemies but also check if found an enemy tower instead
-		target = change_collision_list(parent.enemy_towers())
-		if is_instance_valid(target):
-			draw_laser_attack(parent.to_local(parent.global_position), parent.to_local(target.global_position), parent)
-
-			target.get_node("Hitbox").register_hit(parent, damage, self)
-
-
-
-func change_collision_list(col_list):
-	for enemy in col_list:
-		if enemy is Enemy:
-			return enemy
-		elif enemy.get_parent().is_in_group("EnemyTowers"):
-			return enemy.get_parent()
-
-	return null
-
-func draw_laser_attack(pos1, pos2, parent):
-	var laser_line = parent.get_node("Laser")
-	laser_line.clear_points()
-	laser_line.add_point(pos1)
-	laser_line.add_point(pos2)
-	laser_line.add_point(pos1)
-	parent.get_node("AnimationPlayer").play("laser")
+		#Refund energy no need to use
+		if(Globals.power_groups[parent_node.group_][0]+ parent_node.current_upgrade_node.energy_needs <= Globals.power_groups[parent_node.group_][1]):
+			Globals.power_groups[parent_node.group_][0] += parent_node.current_upgrade_node.energy_needs
+			Globals.total_current += parent_node.current_upgrade_node.energy_needs
+#Keep trying timeout, will run in the background
+func _on_timeout(parent_node):
+	print("Attempt to attack again")
+	var found = get_parent().laser_enemy(parent_node)
+	if found:
+		laser_bank -= 1
+	else:
+		get_tree().create_timer(0.2).timeout.connect(_on_timeout.bind(parent_node)) # Timeout to try to shoot laser

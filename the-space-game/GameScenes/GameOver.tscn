@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://cylf50658lgp2"]
+
+[ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://Visuals/Sprite_Frames/image(1).jpg" id="1_adyfs"]
+[ext_resource type="FontFile" uid="uid://cegun6ox1ah4c" path="res://Visuals/Fonts/632_SF Automaton.ttf" id="2_g5koj"]
+[ext_resource type="Script" uid="uid://r0ekxkx7p64s" path="res://GameScenes/button_handler.gd" id="3_g5koj"]
+[ext_resource type="Script" uid="uid://ddpoulemxooms" path="res://GameScenes/stats.gd" id="4_06i8m"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_26gq8"]
+font = ExtResource("2_g5koj")
+font_size = 40
+font_color = Color(0.34117648, 1, 0.39215687, 1)
+
+[sub_resource type="Theme" id="Theme_t4dq6"]
+default_font = ExtResource("2_g5koj")
+Button/colors/font_color = Color(0.7063132, 0.97322065, 0.33255583, 1)
+Button/fonts/font = ExtResource("2_g5koj")
+
+[sub_resource type="Gradient" id="Gradient_7itxl"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t4dq6"]
+gradient = SubResource("Gradient_7itxl")
+width = 500
+height = 40
+fill_from = Vector2(0.773913, 0.8108696)
+repeat = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g5koj"]
+bg_color = Color(0.80055875, 0.5199263, 0.41862002, 0.59607846)
+
+[sub_resource type="Theme" id="Theme_06i8m"]
+Panel/styles/panel = SubResource("StyleBoxFlat_g5koj")
+
+[sub_resource type="LabelSettings" id="LabelSettings_g5koj"]
+font = ExtResource("2_g5koj")
+font_size = 28
+font_color = Color(0, 0, 0, 1)
+
+[node name="Node2D" type="Node2D" unique_id=1844012325]
+
+[node name="Background_Layer" type="CanvasLayer" parent="." unique_id=1147440536]
+layer = -1
+
+[node name="Background" type="TextureRect" parent="Background_Layer" unique_id=1561781948]
+z_index = 4
+offset_right = 1152.0
+offset_bottom = 710.0
+texture = ExtResource("1_adyfs")
+metadata/_edit_lock_ = true
+
+[node name="GameOver" type="Label" parent="." unique_id=1891558359]
+offset_left = 448.0
+offset_top = 168.0
+offset_right = 704.0
+offset_bottom = 213.0
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_26gq8")
+horizontal_alignment = 1
+
+[node name="ButtonHandler" type="Control" parent="." unique_id=796242434]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_g5koj")
+
+[node name="Restart" type="Button" parent="ButtonHandler" unique_id=1514919721]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 432.0
+offset_right = 836.0
+offset_bottom = 480.0
+theme = SubResource("Theme_t4dq6")
+text = "Restart
+"
+icon = SubResource("GradientTexture2D_t4dq6")
+icon_alignment = 1
+
+[node name="Exit" type="Button" parent="ButtonHandler" unique_id=105271421]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 504.0
+offset_right = 836.0
+offset_bottom = 552.0
+theme = SubResource("Theme_t4dq6")
+text = "Exit
+
+"
+icon = SubResource("GradientTexture2D_t4dq6")
+icon_alignment = 1
+
+[node name="Panel" type="Panel" parent="." unique_id=1599119557]
+z_index = -1
+offset_left = 328.0
+offset_top = 296.0
+offset_right = 832.0
+offset_bottom = 392.0
+theme = SubResource("Theme_06i8m")
+
+[node name="Stats" type="Label" parent="Panel" unique_id=928294185]
+layout_mode = 0
+offset_right = 504.0
+offset_bottom = 96.0
+text = "You Lasted Until Wave "
+label_settings = SubResource("LabelSettings_g5koj")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_06i8m")
+
+[connection signal="pressed" from="ButtonHandler/Restart" to="ButtonHandler" method="_on_restart_pressed"]
+[connection signal="pressed" from="ButtonHandler/Exit" to="ButtonHandler" method="_on_exit_pressed"]

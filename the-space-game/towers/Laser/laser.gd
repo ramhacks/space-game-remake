@@ -1,5 +1,11 @@
 extends Tower
 
+#Functionality
+#
+# Changed so that in can 'bank' laser blasts
+# This means that if it recieves a do_process command but cant find an enemy tower it can bank a max of 1
+# laser blast to shoot after a given time without needing power, this will be run via a coroutine
+#
 #Until laser is added this will be a laser tower
 class_name Laser
 

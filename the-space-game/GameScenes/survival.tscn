@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://bgo6pfx2odm6w" path="res://Survival_Scene_Scripts/survival.gd" id="1_gc75h"]
 [ext_resource type="Script" uid="uid://xhg3p4qggmrm" path="res://Survival_Scene_Scripts/EnemySpawning/enemy_wave_spawner.gd" id="2_opim5"]
 [ext_resource type="Script" uid="uid://u8fk7xpa6mkw" path="res://Survival_Scene_Scripts/game_ticks.gd" id="3_dakgy"]
-[ext_resource type="PackedScene" uid="uid://b2hks6cjiul2f" path="res://Enemy/EnemySpawner/EnemySpawner.tscn" id="3_ondh4"]
 [ext_resource type="Script" uid="uid://0u342yatpkw4" path="res://Survival_Scene_Scripts/camera.gd" id="4_cyyct"]
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://Visuals/Sprite_Frames/image(1).jpg" id="5_puhmn"]
 [ext_resource type="Script" uid="uid://bcxo1l0b0wedc" path="res://UI Scenes/hotbar.gd" id="6_56iln"]
@@ -116,7 +115,7 @@ script = ExtResource("1_gc75h")
 
 [node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035 node_paths=PackedStringArray("CameraArea")]
 script = ExtResource("2_opim5")
-disable_enimies = true
+debug_mode = true
 CameraArea = NodePath("../Camera_Area")
 max_enemy_towers = 3
 mob_cap = 20
@@ -124,9 +123,6 @@ mob_cap = 20
 [node name="CooldownEnemy" type="Timer" parent="Enemy_Wave_Spawner" unique_id=1096147353]
 editor_description = "This is a timer to make sure we dont endlessly spawn enemy waves forever"
 one_shot = true
-
-[node name="EnemySpawner" parent="Enemy_Wave_Spawner" unique_id=679217469 instance=ExtResource("3_ondh4")]
-position = Vector2(368, 288)
 
 [node name="Global_Ticks" type="Timer" parent="." unique_id=289095970]
 wait_time = 10.0

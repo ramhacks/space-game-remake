@@ -246,74 +246,38 @@ func slice_correct(input_array, limit) -> Array:
 			output.append(input_array[i])
 	return output
 
-func reconnection_lines():
-	$Sprite.connections = []
-	$Sprite.connections = $Collision_Area.get_overlapping_areas()
-	connections = $Collision_Area.get_overlapping_areas()
-	$Connector.clear_points()
-
-	print("RECONNECTING")
-	var loop_array: Array
-	loop_array = $Sprite.connections
-	var count = 0
-	for node in loop_array:
-		if node == $Collision_Area or node == $Sprite:
-			return
-		if node is sprite_collider and is_instance_valid(node) and node.correct_area and !node.get_parent().built:
-			continue
-		if count > current_upgrade_node.custom_vars_dict["Connection_Limit"]:
-			return
-		if node is sprite_collider and is_instance_valid(node) and node.correct_area:
-			if len(node.get_parent().connections) < node.get_parent().current_upgrade_node.custom_vars_dict["Connection_Limit"]:
-				$Connector.add_point(to_local(self.global_position))
-				$Connector.add_point(to_local(node.global_position))
-
-				count+=1
-			else:
-				connections.erase(node)
-		else:
-			connections.erase(node)
 
 
 #traw thin blue power lines to overlapping towers
-func draw_tower_hover_lines(input_array=false):
-
-	$Sprite.connections = []
-	$Sprite.connections = $Collision_Area.get_overlapping_areas()
-	connections = $Collision_Area.get_overlapping_areas()
+func draw_tower_hover_lines(input_array = false):
 	$Connector.clear_points()
+	var candidates = input_array if input_array else $Collision_Area.get_overlapping_areas()
+	var limit = int(current_upgrade_node.custom_vars_dict["Connection_Limit"])
 
-	var loop_array: Array
 	if input_array:
-		#Add self to connection points
 		connection_points.append(self.global_position)
 
-		# Make sure that it only does the first ones as there is a limit for connections
-		loop_array = input_array.slice(0, int(current_upgrade_node.custom_vars_dict["Connection_Limit"]))
-	else:
-		#print($Sprite.connections.slice(0, int(current_upgrade_node.custom_vars_dict["Connection_Limit"]) + 1))
-		loop_array = $Sprite.connections
-		#loop_array = $Sprite.connections.slice(0, int(current_upgrade_node.custom_vars_dict["Connection_Limit"]) + 1)
+	connections = []
+	$Sprite.connections = []
+	for node in candidates:
+		if connections.size() >= limit:
+			break
+		if not _valid_neighbor_sprite(node):
+			continue
+		var other = node.get_parent()
+		var other_limit = int(other.current_upgrade_node.custom_vars_dict["Connection_Limit"])
+		var already_linked = other.connections.any(func(c): return Globals._as_tower(c) == self)
+		if other.connections.size() >= other_limit and not already_linked:
+			continue
+		connections.append(node)
+		$Connector.add_point(to_local(self.global_position))
+		$Connector.add_point(to_local(node.global_position))
+		if input_array:
+			connection_points.append(node.global_position)
+	$Sprite.connections = connections.duplicate()
 
-
-	var count = 0
-	for node in loop_array:
-		if node == $Collision_Area:
-			connections.erase(node)
-			return
-		if count > current_upgrade_node.custom_vars_dict["Connection_Limit"]:
-			return
-		if node is sprite_collider and is_instance_valid(node) and node.correct_area:
-			if len(node.get_parent().connections) < node.get_parent().current_upgrade_node.custom_vars_dict["Connection_Limit"]:
-				$Connector.add_point(to_local(self.global_position))
-				$Connector.add_point(to_local(node.global_position))
-				if input_array:
-					connection_points.append(node.global_position)
-				count+=1
-			else:
-				connections.erase(node)
-		else:
-			connections.erase(node)
+func reconnection_lines():
+	draw_tower_hover_lines()
 
 
 
@@ -349,16 +313,12 @@ func add_local_point(point):
 #=====================================================================================
 func set_clickable():
 	clickable = true
-	connections = $Collision_Area.get_overlapping_areas()
+	draw_tower_hover_lines()          # replaces: connections = $Collision_Area.get_overlapping_areas()
 	get_segments()
-
-	set_group($Collision_Area.get_overlapping_areas())
-	if(power_time_seconds > 0):
-
-		$Power_Delay.start() #Start power_timer cycle
-
+	set_group(connections)            # replaces: set_group($Collision_Area.get_overlapping_areas())
+	if power_time_seconds > 0:
+		$Power_Delay.start()
 	self.add_to_group("Placed_Towers")
-	#put on minimap:
 
 func _on_power_delay_timeout() -> void:
 	# Only check when power timeout, avoid checking every single process tick
@@ -404,57 +364,30 @@ func check_built_connections(overlaps) -> bool:
 # 	3. make a new group by generating a unique name for the group
 #
 func set_group(overlaps):
-	var found_valid: bool = false
 	var found_groups = []
+	for node in overlaps:
+		var other = Globals._as_tower(node)
+		if other == null or other == self:
+			continue
+		if other.group_ == 'NAN' or not Globals.power_groups.has(other.group_):
+			continue
+		if not found_groups.has(other.group_):
+			found_groups.append(other.group_)
 
-
-	if(len(overlaps)):
-		for node in overlaps:
-			if(node is sprite_collider):
-				#Make sure it is even avaialble to connect in the first place. if not then do not attemtp as its connection slots are completly full
-				if (node.get_parent().group_ != 'NAN' and len(node.get_parent().connections) <= node.get_parent().current_upgrade_node.custom_vars_dict["Connection_Limit"]):
-					found_groups.append(node.get_parent().group_)
-					if(not found_valid):
-
-						self.add_to_group(node.get_parent().group_)
-
-						Globals.power_groups[node.get_parent().group_][1] += power_capacity
-						Globals.total_capacity += power_capacity
-						group_ = node.get_parent().group_
-						found_valid = true
-
-	#2 types of groups, convert all nodes in every other group to myself, delete all other groups except group
-	#I belong to
-
-	#Can't find any groups, create a new one
-	if not found_valid:
-		var connector_line = Globals.power_lines.instantiate()
-		if(Globals.power_groups.size() - 1 >= 0):
-			if(len(get_tree().get_nodes_in_group(str(Globals.power_groups.size() - 1)))) == 0:
-				group_ = str(Globals.power_groups.size() - 1)
-			else:
-				group_ = str(Globals.power_groups.size() + 1)
-		else:
-			group_ = str(Globals.power_groups.size() + 1)
-		#if tower does not have any towers near by create a new group and a new group line to connect the nodes in this group together
-		self.get_parent().add_child(connector_line)
-
+	if found_groups.is_empty():
+		group_ = Globals.new_group_id()
+		add_to_group(group_)
 		Globals.power_groups[group_] = [0, power_capacity]
-		Globals.total_capacity += power_capacity
-		Globals.total_current += 0
-
-		 #Will change based on power specifications
-		self.add_to_group(group_)
-
-	if(group_ == 'NAN'): #EDGE CASE
+		var connector_line = Globals.power_lines.instantiate()
+		get_parent().add_child(connector_line)
+	else:
 		group_ = found_groups[0]
+		add_to_group(group_)
+		Globals.power_groups[group_][1] += power_capacity
+		for g in found_groups.slice(1):
+			Globals.merge_groups(g, group_)
 
-	if(len(found_groups) > 1):
-
-		for g in found_groups:
-			get_tree().call_group(g, "convert_group", group_)
-		Globals.group_changed_adjust_max_power(group_)
-
+	Globals.recompute_power_totals()
 	$Power_Delay.start()
 
 
@@ -536,3 +469,11 @@ func _on_sprite_2d_draw_line(pos1: Variant, pos2: Variant) -> void:
 	#we need to animate 2 things at once so we have to use attached line node and can't dynamically create one
 
 #This tower has no more health, recycle it
+
+func _valid_neighbor_sprite(node) -> bool:
+	if not is_instance_valid(node) or node.is_queued_for_deletion():
+		return false
+	if not (node is sprite_collider) or not node.correct_area:
+		return false
+	var p = node.get_parent()
+	return is_instance_valid(p) and p != self and not p.is_queued_for_deletion()

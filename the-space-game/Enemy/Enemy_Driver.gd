@@ -7,6 +7,7 @@ var radar_marker: Radar
 
 var health_connected
 
+
 var Targeting: Dictionary = {
 	"random": "Targeting/Random_Target",
 	"power": "Targeting/Power_Target",
@@ -15,13 +16,13 @@ var Targeting: Dictionary = {
 
 var EnemyTypeDamages: Dictionary = {
 	"random": 5,
-	"power": 10,
-	"defense": 10
+	"power": 7,
+	"defense": 7
 }
 
 var EnemyTypeHealth: Dictionary = {
-	"random": 10,
-	"power": 15,
+	"random": 5,
+	"power": 10,
 	"defense": 5
 }
 
@@ -77,6 +78,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	mis = preload("res://Enemy/missle.tscn")
 
+
 #Run this before anything else
 func initialize(target_method, radar, start_position):
 	self.global_position = start_position
@@ -102,8 +104,13 @@ func _process(delta: float) -> void:
 
 func get_new_target() -> Node2D:
 	if get_tree().get_nodes_in_group("tower_node").is_empty():
-		assert(false, "GAME OVER")
-		enemy_death()
+		Globals.reset_all()
+		var scene: PackedScene = load("res://GameScenes/GameOver.tscn")
+		var instance = scene.instantiate()
+
+		get_tree().root.add_child(instance)
+		get_tree().current_scene.queue_free()
+		get_tree().current_scene = instance
 		return null
 
 	var targeting = get_node(Targeting[target_strat])
@@ -145,3 +152,8 @@ func _on_surround_send_laser(target: Variant) -> void:
 		five_frames = 0
 
 	five_frames += 1
+
+func _exit_tree() -> void:
+	#If radar marker still exists delete it
+	if is_instance_valid(radar_marker):
+		radar_marker.queue_free()

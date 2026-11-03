@@ -144,32 +144,10 @@ func start_on():
 
 
 #IMPORTANT, connects them based on group only, if not in group wont connect line between a group at all
-func connect_group_lines(self_node):
-
-	var news = power_groups[self_node.group_][PowerG.MAX_POWER] - self_node.power_capacity
-	power_groups[self_node.group_][PowerG.MAX_POWER] = news
-
-
-
-	total_capacity -= self_node.power_capacity
-
-	if(total_capacity > 0 and total_capacity >= total_current):
-		total_current = total_current % total_capacity
-	elif(total_capacity > 0 and total_capacity < total_current):
-		total_current = total_current
-	else:
-		total_capacity = 0
-		total_current = 0
-
+func connect_group_lines(_self_node):
+	recompute_power_totals()
 	get_tree().call_group('tower_node', "reset_line")
 
-	var group_to_erase = []
-	for power in power_groups:
-		if(get_tree().get_node_count_in_group(power) == 0):
-			group_to_erase.append(power)
-
-	for g_ in group_to_erase:
-		power_groups.erase(g_)
 
 func _process(delta: float) -> void:
 	if len(mineral_queue):
@@ -235,50 +213,63 @@ func combine_set(arr1, arr2) -> Array:
 	# after dfs if k_node found in group skip, we don't need to reassign groups again
 
 func remove_node_group(tower):
+	if not is_instance_valid(tower):
+		return
 	last_deleted_tower = tower
 	tower.remove_from_group("Placed_Towers")
-	var k_nodes_array = tower.connections # Direct node connections
-	power_groups[tower.group_][0] = power_groups[tower.group_][0] - tower.power_capacity
-	total_capacity -= tower.power_capacity
 
-	#This holds k nodes that was found to be in a k_node_group
-	var k_skip = []
+	var old_group = tower.group_
+	var old_current = 0
+	if power_groups.has(old_group):
+		old_current = power_groups[old_group][0]
+	if old_group != "NAN":
+		tower.remove_from_group(old_group)
 
-	for conn in k_nodes_array:
+	# 1. Everyone who touches this tower (either direction)
+	var neighbors = _neighbors_of(tower)
 
-		conn.connections.erase(tower)
-		if conn in k_skip:
-			continue # We don't need to make another group this node is already in a group defined
-		var new_group_name = str(power_groups.size()+1)
-		power_groups[new_group_name] = [0, 0]
+	# 2. Erase the tower from ALL neighbours BEFORE any traversal
+	for t in neighbors:
+		t.connections = t.connections.filter(func(n):
+			return is_instance_valid(n) and _as_tower(n) != tower)
 
-		if is_instance_valid(conn):
-			if conn is Tower:
-				# First change group of self then move on to changing connections
-				conn.remove_from_group(conn.group_)
-				conn.group_ = new_group_name
-				conn.add_to_group(new_group_name)
-				power_groups[new_group_name][1] += conn.power_capacity
-				total_capacity += conn.power_capacity
-				var group = iterativeDFS_main(conn, new_group_name)
+	# 3. Find the disconnected pieces, excluding the removed tower
+	var visited = {}
+	var components = []
+	var remaining_cap = 0
+	for t in neighbors:
+		if visited.has(t):
+			continue
+		var comp = _collect_component(t, tower)
+		for n in comp:
+			visited[n] = true
+			remaining_cap += n.power_capacity
+		components.append(comp)
 
-				var inters = group.filter(func(item): return k_nodes_array.has(item))
+	# 4. One fresh, unique group per piece; split stored power by capacity
+	for comp in components:
+		var gid = new_group_id()
+		var cap = 0
+		for n in comp:
+			n.convert_group(gid)
+			cap += n.power_capacity
+		var share = 0
+		if remaining_cap > 0:
+			share = int(old_current * float(cap) / remaining_cap)
+		power_groups[gid] = [share, cap]
 
-				k_skip = combine_set(k_skip, inters)
+	recompute_power_totals()   # also erases empty groups (incl. old one)
 
-	#Only reconnect the lines after tower is gone to make sure we dont draw lines to a tower
-	# that no longer exists, bind k_nodes_array to signal
-	tower.tree_exited.connect(after_tower_freed.bind(k_nodes_array), CONNECT_ONE_SHOT)
+	# 5. Redraw lines now (queued tower is filtered out) and once more after it's gone
+	for t in neighbors:
+		t.draw_tower_hover_lines()
+	tower.tree_exited.connect(after_tower_freed.bind(neighbors), CONNECT_ONE_SHOT)
 	tower.queue_free()
 
-
-
-
-func after_tower_freed(k_nodes_array):
-	for conn in k_nodes_array:
-		if conn is Tower:
-			conn.draw_tower_hover_lines()
-		print("DRAW NEW LINES")
+func after_tower_freed(neighbors):
+	for t in neighbors:
+		if is_instance_valid(t):
+			t.draw_tower_hover_lines()
 
 
 
@@ -364,3 +355,81 @@ func hide_selection_node():
 	main_scene.remove_child(selection_node)
 	main_scene.hide_selection_ui(tower_selected)
 	tower_selection_mode = false
+
+var next_group_id: int = 1
+
+#AI
+func new_group_id() -> String:
+	while power_groups.has(str(next_group_id)) or get_tree().get_node_count_in_group(str(next_group_id)) > 0:
+		next_group_id += 1
+	var id = str(next_group_id)
+	next_group_id += 1
+	return id
+
+# Accepts either a Tower or its sprite_collider Area, returns the Tower (or null)
+func _as_tower(n):
+	if not is_instance_valid(n) or n.is_queued_for_deletion():
+		return null
+	if n is Tower:
+		return n
+	var p = n.get_parent()
+	if is_instance_valid(p) and p is Tower and not p.is_queued_for_deletion():
+		return p
+	return null
+
+# Undirected neighbours: anyone I list, or anyone who lists me
+func _neighbors_of(n, exclude = null) -> Array:
+	var out = []
+	for c in n.connections:
+		var t = _as_tower(c)
+		if t and t != exclude and t != n and not out.has(t):
+			out.append(t)
+	for other in get_tree().get_nodes_in_group("Placed_Towers"):
+		if other == exclude or other == n or out.has(other) or not is_instance_valid(other):
+			continue
+		for c in other.connections:
+			if _as_tower(c) == n:
+				out.append(other)
+				break
+	return out
+
+func _collect_component(start, exclude) -> Array:
+	var seen = {start: true}
+	var stack = [start]
+	while stack.size() > 0:
+		var cur = stack.pop_back()
+		for nb in _neighbors_of(cur, exclude):
+			if not seen.has(nb):
+				seen[nb] = true
+				stack.push_back(nb)
+	return seen.keys()
+
+# Single source of truth: derive max power and totals from actual group members
+func recompute_power_totals():
+	total_capacity = 0
+	total_current = 0
+	for g in power_groups.keys():
+		var max_p = 0
+		var count = 0
+		for n in get_tree().get_nodes_in_group(g):
+			if n is Tower and not n.is_queued_for_deletion():
+				max_p += n.power_capacity
+				count += 1
+		if count == 0:
+			power_groups.erase(g)
+			continue
+		power_groups[g][1] = max_p
+		power_groups[g][0] = min(power_groups[g][0], max_p)
+		total_capacity += max_p
+		total_current += power_groups[g][0]
+
+func merge_groups(from_g, into_g):
+	if from_g == into_g or not power_groups.has(from_g) or not power_groups.has(into_g):
+		return
+	var cur = power_groups[from_g][0]
+	for n in get_tree().get_nodes_in_group(from_g):
+		n.convert_group(into_g)
+	power_groups[into_g][0] += cur
+	power_groups.erase(from_g)
+
+#END AI

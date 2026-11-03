@@ -12,8 +12,9 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if wave_in_progress:
-		$WaveProgress.value = initial_enemy_count - get_tree().get_nodes_in_group("Enemies").size()
-		if $WaveProgress.value == 100:
+		$WaveProgress.value = initial_enemy_count - get_tree().get_nodes_in_group("wave_enemies").size()
+		if !get_tree().get_nodes_in_group("wave_enemies").size():
+			hide()
 			wave_in_progress = false
 	else:
 		hide()
@@ -25,7 +26,7 @@ func _on_enemy_wave_spawner_wave_start(wavenum: Variant) -> void:
 
 	change_wave_number.emit(wavenum)
 	wave_in_progress = true
-	initial_enemy_count = get_tree().get_nodes_in_group("Enemies").size()
+	initial_enemy_count = get_tree().get_nodes_in_group("wave_enemies").size()
 	$WaveProgress.max_value = initial_enemy_count
 
 	$WaveProgress.value = 0
