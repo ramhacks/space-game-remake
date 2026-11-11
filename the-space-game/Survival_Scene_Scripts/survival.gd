@@ -41,6 +41,7 @@ signal start_enemy_spawning() # Start enemy spawn after tutorial
 
 #Linked to hotbar to spawn the tutorial as its child
 signal spawn_tutorial()
+
 #these two variables are if we are going to place a tower, press the tower button and show the tower following
 #the mouse and then what type of tower we are placing, the functionality of the towers will be the same for
 #most towers but has a few exceptions we will implement at a later point

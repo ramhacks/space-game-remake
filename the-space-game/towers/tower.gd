@@ -24,6 +24,7 @@ var radar_marker: Radar #node containing pointer to node on minimap representing
 
 var no_power_animation_on = false
 
+var powered = true
 var set_power = false
 
 var child_area
@@ -197,9 +198,11 @@ func _process(delta: float) -> void:
 
 	if build_progress == 100 and !built and !set_build_frame:
 		self.get_node("BuildProgress").set_visible(false)
+		# Call tower made to initiate anything a tower needs done when it is built
+		tower_made()
 		built = true
 		#reconnection_lines()
-	else:
+	elif not built:
 		self.get_node("BuildProgress").value = build_progress
 
 func move_minimap_icon():
@@ -396,16 +399,18 @@ func set_group(overlaps):
 
 
 func no_power_available(sender):
-
+	powered = false
 	#only act if we are the ones who's power was not able to be recieved
 	if sender == self and built: #only change if tower is built, if it isn't user can just see that the build meter is not going up
 		no_power_animation_on = true
 
+# Ran right after tower is created, only run once
 func tower_made() -> void:
-	pass
+	$PowerStatus.show()
 
 
 func do_process():
+	powered = true
 	if not enabled:
 		return  # drop late power grants, don't restart Power_Delay
 
@@ -414,7 +419,6 @@ func do_process():
 	if no_power_animation_on and built:
 
 		animated_node.animation = current_upgrade_node.label
-		tower_made()
 		#After changing the animation to the respective thing (if it is a laser we have to pick the
 		#correct path animation to do, change the frame to the last frame
 		#in the animation, this would be the same as the node when it is powered normally)

@@ -45,6 +45,8 @@
 [ext_resource type="Script" uid="uid://wfo6pi7goiwx" path="res://GameScenes/pausemenu.gd" id="40_cyyct"]
 [ext_resource type="Script" uid="uid://d2rkn134m7sds" path="res://Survival_Scene_Scripts/navigation_region_2d.gd" id="40_ruc0v"]
 [ext_resource type="StyleBox" uid="uid://dn11or8hchhjb" path="res://Visuals/Themes/border.tres" id="42_ondh4"]
+[ext_resource type="Texture2D" uid="uid://yw2l2wu3cgal" path="res://Visuals/Sprite_Frames/batterys/empty.png" id="43_y4pdw"]
+[ext_resource type="Texture2D" uid="uid://dj4guh6ok6s7t" path="res://Visuals/Sprite_Frames/batterys/full.png" id="44_bsal8"]
 [ext_resource type="PackedScene" uid="uid://dhvnosafesthb" path="res://UI Scenes/PauseMenu.tscn" id="44_puhmn"]
 [ext_resource type="Script" uid="uid://c8ancrkdwmium" path="res://GameScenes/wave_display.gd" id="45_e30k7"]
 [ext_resource type="Theme" uid="uid://dejtoowi0l1is" path="res://Visuals/Themes/energy_bar.tres" id="45_opim5"]
@@ -112,6 +114,25 @@ Button/styles/hover = ExtResource("42_ondh4")
 Button/styles/normal = ExtResource("42_ondh4")
 Button/styles/pressed = SubResource("StyleBoxFlat_obea2")
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_s2dq8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("43_y4pdw")
+}],
+"loop": true,
+"name": &"empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("44_bsal8")
+}],
+"loop": true,
+"name": &"full",
+"speed": 5.0
+}]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m070p"]
 bg_color = Color(0, 0, 0, 1)
 
@@ -144,7 +165,7 @@ script = ExtResource("1_gc75h")
 script = ExtResource("2_opim5")
 CameraArea = NodePath("../Camera_Area")
 max_enemy_towers = 3
-first_wave_delay = 40.0
+first_wave_delay = 140.0
 mob_cap = 20
 
 [node name="CooldownEnemy" type="Timer" parent="Enemy_Wave_Spawner" unique_id=1096147353]
@@ -376,18 +397,18 @@ metadata/_edit_lock_ = true
 z_index = 1
 layout_mode = 0
 offset_left = 12.0
-offset_top = 69.0
+offset_top = 53.0
 offset_right = 168.0
-offset_bottom = 92.0
+offset_bottom = 76.0
 text = "Connections"
 label_settings = SubResource("LabelSettings_ondh4")
 
 [node name="Connections_Progress" type="ProgressBar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection" unique_id=450582433]
 layout_mode = 0
 offset_left = 12.0
-offset_top = 93.0
+offset_top = 77.0
 offset_right = 188.0
-offset_bottom = 102.0
+offset_bottom = 86.0
 theme = ExtResource("45_opim5")
 show_percentage = false
 
@@ -422,9 +443,10 @@ label_settings = SubResource("LabelSettings_mw3dt")
 
 [node name="Health" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection" unique_id=1475688911]
 anchors_preset = 0
-offset_top = 60.0
-offset_right = 132.0
-offset_bottom = 88.0
+offset_left = 4.0
+offset_top = 53.0
+offset_right = 136.0
+offset_bottom = 81.0
 
 [node name="Label" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Health" unique_id=952004479]
 z_index = 1
@@ -438,10 +460,10 @@ label_settings = SubResource("LabelSettings_btepq")
 
 [node name="ProgressBar" type="ProgressBar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Health" unique_id=1871783462]
 layout_mode = 0
-offset_left = 12.0
-offset_top = -3.0
-offset_right = 188.0
-offset_bottom = 6.0
+offset_left = 8.0
+offset_top = -24.0
+offset_right = 184.0
+offset_bottom = -15.0
 theme = ExtResource("36_56iln")
 show_percentage = false
 
@@ -478,6 +500,12 @@ metadata/_edit_lock_ = true
 layout_mode = 2
 theme = SubResource("Theme_f8rr2")
 text = "Disable"
+
+[node name="PowerStatus" type="AnimatedSprite2D" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection" unique_id=1162402899]
+position = Vector2(36, 109)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_s2dq8")
+animation = &"full"
 
 [node name="Labels" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=1139926820]
 layout_mode = 1

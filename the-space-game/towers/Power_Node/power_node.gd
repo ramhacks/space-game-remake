@@ -24,9 +24,6 @@ func _ready() -> void:
 
 	super._ready()
 
-
-
-
 func get_overlap():
 	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however
 

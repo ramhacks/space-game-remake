@@ -12,8 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://bemi0futfol55" path="res://Visuals/Effects/Explosion/2.png" id="7_ph56o"]
 [ext_resource type="AudioStream" uid="uid://dvlvgvfjn82ee" path="res://sounds/place.mp3" id="10_ju35e"]
 [ext_resource type="AudioStream" uid="uid://ksbp7h0d173s" path="res://sounds/upgrade.mp3" id="11_34gie"]
-[ext_resource type="Texture2D" uid="uid://yw2l2wu3cgal" path="res://Visuals/Sprite_Frames/batterys/empty.png" id="13_jcota"]
-[ext_resource type="Texture2D" uid="uid://dj4guh6ok6s7t" path="res://Visuals/Sprite_Frames/batterys/full.png" id="14_xwru8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3lut5"]
 bg_color = Color(0.0156863, 0.0470588, 0.862745, 1)
@@ -131,25 +129,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_xxeq3"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("13_jcota")
-}],
-"loop": true,
-"name": &"empty",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("14_xwru8")
-}],
-"loop": true,
-"name": &"full",
-"speed": 5.0
-}]
-
 [node name="tower" type="Node2D" unique_id=679217469 groups=["Placed_Towers"]]
 process_mode = 1
 script = ExtResource("1_u867d")
@@ -223,13 +202,6 @@ volume_db = -10.935
 
 [node name="Upgrade" type="AudioStreamPlayer2D" parent="." unique_id=1731448183]
 stream = ExtResource("11_34gie")
-
-[node name="PowerStatus" type="AnimatedSprite2D" parent="." unique_id=1936520131]
-texture_filter = 1
-position = Vector2(8, -13.000001)
-scale = Vector2(0.34999996, 0.31874996)
-sprite_frames = SubResource("SpriteFrames_xxeq3")
-animation = &"full"
 
 [connection signal="area_entered" from="Sprite" to="Sprite" method="_on_area_entered"]
 [connection signal="input_event" from="Sprite" to="." method="_on_sprite_input_event"]

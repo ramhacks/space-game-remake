@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://dy5mg0wjraqro" path="res://Visuals/Sprite_Frames/481.png" id="14_6tau5"]
 [ext_resource type="Texture2D" uid="uid://b086n73fbtqr6" path="res://Visuals/Sprite_Frames/483.png" id="15_bls05"]
 [ext_resource type="Texture2D" uid="uid://de8qe5cponxdy" path="res://Visuals/Sprite_Frames/485.png" id="16_qrksn"]
+[ext_resource type="Texture2D" uid="uid://bi2rjwgx0u0ui" path="res://Visuals/Sprite_Frames/461.png" id="16_ycc0l"]
 [ext_resource type="Script" uid="uid://8mvvecvc7002" path="res://towers/Power_Node/upgrades.gd" id="18_ge3m1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ws7ev"]
@@ -64,6 +65,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("16_ycc0l")
+}],
+"loop": true,
+"name": &"Base_disabled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("3_gmdq8")
 }],
 "loop": false,
@@ -85,7 +94,7 @@ Animated_Target = NodePath("../Sprite_Node")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" parent_id_path=PackedInt32Array(1857245891) index="0" unique_id=570570891]
 sprite_frames = SubResource("SpriteFrames_ws7ev")
-animation = &"Base"
+animation = &"hover"
 script = ExtResource("5_15jqe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=655850702]
@@ -103,3 +112,6 @@ default_color = Color(0, 0.580392, 0.741176, 0.658824)
 
 [node name="Upgrades" type="Node" parent="." index="12" unique_id=2111717730]
 script = ExtResource("18_ge3m1")
+
+[node name="PowerStatus" parent="." index="15" unique_id=1936520131]
+visible = false

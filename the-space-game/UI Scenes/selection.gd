@@ -12,7 +12,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 
 	if Globals.tower_selection_mode and is_instance_valid(tower_data_pull):
-
+		if tower_data_pull.powered:
+			$PowerStatus.animation = "full"
+			$PowerStatus.play()
+		else:
+			$PowerStatus.animation = "empty"
+			$PowerStatus.play()
 		$Side_Buttons/Recycle.text = "Recycle: " + str(tower_data_pull.current_upgrade_node.recycle_price)
 
 		var healthnode = tower_data_pull.get_node("Health")
@@ -28,11 +33,6 @@ func _process(delta: float) -> void:
 				$Health/ProgressBar.value = 100
 			else:
 				$Health/ProgressBar.value = tower_data_pull.get_node("Health").health_amount % 100
-
-
-
-
-
 	else:
 		self.visible = false
 
