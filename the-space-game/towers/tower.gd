@@ -11,7 +11,7 @@ var current_upgrade_node #Node we are currently on in the upgrade tree
 @export var custom_class: String
 
 var health_connected = false
-
+var enabled = true
 #Enemy Collision (For laser enemies):
 var sprite_radius = 1
 
@@ -101,6 +101,11 @@ var sprite_texture #used to get radius and height of sprite to draw selection an
 
 #Last connection amount, lets us detect if it ever changes for any reason
 var past_connection_amount = 0
+
+
+@onready var place_noise = $Place
+@onready var upgrade_noise = $Upgrade
+@onready var collider_sprite = $collider
 
 func reset_line():
 	while connections.has(-1):
@@ -206,24 +211,23 @@ func move_minimap_icon():
 
 
 
-#Build function when upgrading, resets build progress
-func rebuild():
-	build_progress = 0
-	built = false
-	self.get_node("BuildProgress").set_visible(true)
-	self.get_node("BuildProgress").value = 0 #reset value
 
 
 #Hover functionality
 #-----------------------------------------------------------------
 
 func clear_hover_lines():
-	#print("GREEEN: ", hover_line.points)
 	hover_line.clear_points()
 
 
 
 func send_hover_line():
+	if colliding_areas() != 0:
+		collider_sprite.animation = "red"
+		collider_sprite.play()
+	else:
+		collider_sprite.animation = "green"
+		collider_sprite.play()
 	if(show_colliding_asteroids):
 		if(len(sprite_node.get_overlapping_bodies()) > 0):
 			on_object = true
@@ -238,9 +242,6 @@ func send_hover_line():
 
 func slice_correct(input_array, limit) -> Array:
 	var output = []
-
-	var cur = 0
-
 	for i in range(min(len(input_array), limit)):
 		if input_array[i] is sprite_collider:
 			output.append(input_array[i])
@@ -286,6 +287,7 @@ func reconnection_lines():
 
 func set_placed(re_animate, current_overlapping_bodies):  #required for all towers
 
+	place_noise.play()
 	$Sprite.connections = overlap_areas
 	$Connector.clear_points()
 
@@ -296,7 +298,7 @@ func set_placed(re_animate, current_overlapping_bodies):  #required for all towe
 	animated_node.play(current_upgrade_node.label)
 
 
-	animated_node.animation_finished.connect(Callable(set_clickable))
+	animated_node.animation_finished.connect(set_clickable, CONNECT_ONE_SHOT)
 
 
 
@@ -321,6 +323,8 @@ func set_clickable():
 	self.add_to_group("Placed_Towers")
 
 func _on_power_delay_timeout() -> void:
+	if not enabled:
+		return
 	# Only check when power timeout, avoid checking every single process tick
 	if (!built_connected and !hovering):
 		built_connected = Globals.find_closest_solar(self)
@@ -338,7 +342,6 @@ func convert_group(group_target):
 
 
 func check_built_connections(overlaps) -> bool:
-	var found_valid: bool = false
 	var build_lists = []
 	# Only enable power pass through if connected to a built tower. dont have to worry as
 	# if tower is built but not connected to power then there will be no power to pass through
@@ -393,19 +396,25 @@ func set_group(overlaps):
 
 
 func no_power_available(sender):
+
 	#only act if we are the ones who's power was not able to be recieved
 	if sender == self and built: #only change if tower is built, if it isn't user can just see that the build meter is not going up
 		no_power_animation_on = true
 
+func tower_made() -> void:
+	pass
 
 
 func do_process():
+	if not enabled:
+		return  # drop late power grants, don't restart Power_Delay
+
 	past_connection_amount = connections
 	#This if statment is for if there previously was no power available but we got power back
 	if no_power_animation_on and built:
 
 		animated_node.animation = current_upgrade_node.label
-
+		tower_made()
 		#After changing the animation to the respective thing (if it is a laser we have to pick the
 		#correct path animation to do, change the frame to the last frame
 		#in the animation, this would be the same as the node when it is powered normally)
@@ -440,8 +449,10 @@ func get_areas_overlap():
 func get_sprite_overlap():
 	return $Sprite.get_overlapping_areas()
 
+#Called via side buttons UI, each tower has a unique one but they all call their parent upgrade
+# to play the noise
 func upgrade(upgrade_type):
-	pass
+	upgrade_noise.play()
 
 func get_overlap():
 	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however
@@ -458,7 +469,6 @@ func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -
 	if event is InputEventMouseButton and clickable:
 		if event.is_action("BUTTON_LEFT") and !Globals.paused:
 			draw_selection_animation.emit(self.global_position, sprite_texture.get_size().x/2, true,  inherted_node)
-			#print("GROUP: ", group_)
 			#will change the hot bar or something to let us upgrade the selected tower
 
 #power on
@@ -477,3 +487,34 @@ func _valid_neighbor_sprite(node) -> bool:
 		return false
 	var p = node.get_parent()
 	return is_instance_valid(p) and p != self and not p.is_queued_for_deletion()
+
+
+# Enabling and disabling for tower, has several safeguards to make sure
+# we don't disable it and leave bad states in the tower, safe guards are spread throught the file
+func enable():
+	enabled = true
+	no_power_animation_on = false
+	animated_node.animation = current_upgrade_node.label
+	animated_node.frame = animated_node.get_sprite_frames().get_frame_count(animated_node.animation)
+	$Power_Delay.start()
+
+
+func disable():
+	enabled = false
+	animated_node.animation = current_upgrade_node.label + "_disabled"
+	$Power_Delay.stop()
+	no_power_animation_on = false
+
+
+# Rebuilds the tower, we set set_power to false to let process reapply power delay,
+# if the node was previously disabled this may be in a bad state so we make sure that if it is enabled
+# we do a full reset
+func rebuild():
+	build_progress = 0
+	built = false
+	set_power = false  # let _process re-apply Power_Delay for the new node
+	self.get_node("BuildProgress").set_visible(true)
+	self.get_node("BuildProgress").value = 0
+	if enabled:
+		$Power_Delay.wait_time = 0.5
+		$Power_Delay.start()

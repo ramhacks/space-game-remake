@@ -22,7 +22,6 @@ func do_process(parent_node):
 			Globals.total_current += parent_node.current_upgrade_node.energy_needs
 #Keep trying timeout, will run in the background
 func _on_timeout(parent_node):
-	print("Attempt to attack again")
 	var found = get_parent().laser_enemy(parent_node)
 	if found:
 		laser_bank -= 1

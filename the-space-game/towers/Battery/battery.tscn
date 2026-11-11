@@ -78,7 +78,7 @@ animations = [{
 "texture": ExtResource("16_krpu6")
 }],
 "loop": false,
-"name": &"Level 1 dead",
+"name": &"Level 1_disabled",
 "speed": 5.0
 }, {
 "frames": [{
@@ -121,7 +121,7 @@ animations = [{
 "texture": ExtResource("16_krpu6")
 }],
 "loop": false,
-"name": &"Level 2 dead",
+"name": &"Level 2_disabled",
 "speed": 5.0
 }, {
 "frames": [{
@@ -134,7 +134,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o7vyt"]
-radius = 13.0
+radius = 15.0
 
 [node name="battery" unique_id=1530407657 groups=["tower_node"] instance=ExtResource("1_t8boh")]
 script = ExtResource("2_kv32f")
@@ -154,7 +154,7 @@ health_component = NodePath("../Health")
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" parent_id_path=PackedInt32Array(1857245891) index="0" unique_id=619731478]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_3ggyo")
-animation = &"hover"
+animation = &"Level 1"
 script = ExtResource("36_dno7p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=897644095]

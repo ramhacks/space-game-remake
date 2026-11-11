@@ -68,7 +68,7 @@ animations = [{
 "texture": ExtResource("16_3htbu")
 }],
 "loop": true,
-"name": &"Level 1 dead",
+"name": &"Level 1_disabled",
 "speed": 5.0
 }, {
 "frames": [{
@@ -84,7 +84,7 @@ animations = [{
 "texture": ExtResource("16_3htbu")
 }],
 "loop": true,
-"name": &"Level 2 dead",
+"name": &"Level 2_disabled",
 "speed": 5.0
 }, {
 "frames": [{
@@ -117,7 +117,7 @@ Animated_Target = NodePath("../Sprite_Node")
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" parent_id_path=PackedInt32Array(1857245891) index="0" unique_id=1175609505]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_nlb16")
-animation = &"hover"
+animation = &"Level 1"
 script = ExtResource("3_fkvy4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=349499565]

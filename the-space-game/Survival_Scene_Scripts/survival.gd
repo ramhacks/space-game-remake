@@ -12,7 +12,7 @@ var tower_price_dict = {
 	"Relay": 20,
 	"Repair_Station": 300,
 	"Battery":300,
-	"Laser":100,
+	"Laser":400,
 	"Missile_Launcher":400
 
 }
@@ -37,7 +37,7 @@ signal create_radar_node(node)
 signal remove_radar_node(node)
 
 signal rebake_mesh(node_added)
-
+signal start_enemy_spawning() # Start enemy spawn after tutorial
 
 #Linked to hotbar to spawn the tutorial as its child
 signal spawn_tutorial()
@@ -72,7 +72,7 @@ var enemy_node
 
 
 var enemy
-var vbox_children = []#list of children in buttons (upgrade level so on) so if they are removed we can add them back in
+var vbox_children = [] #list of children in buttons (upgrade level so on) so if they are removed we can add them back in
 
 
 # Called when the node enters the scene tree for the first time.
@@ -80,7 +80,7 @@ func _ready() -> void:
 
 	Globals.main_scene = self
 	process_mode = Node.PROCESS_MODE_ALWAYS
-
+	start_enemy_spawning.connect($Enemy_Wave_Spawner.start_spawn)
 	#REMEBER TO ADD YOU TOWER TO THE LOAD ORDER
 
 	radar_node = preload("res://Visuals/Minimap_textures/radar_marker.tscn")
@@ -129,6 +129,8 @@ func _ready() -> void:
 	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Custom"))
 	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button"))
 	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Recycle"))
+	vbox_children.append(self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Disable"))
+
 
 	var vbox = self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons")
 	var children = Globals.get_all_children(vbox)
@@ -152,6 +154,8 @@ func _ready() -> void:
 	await place_first_solar_node()
 	if activate_tutorial:
 		spawn_tutorial.emit()
+	else:
+		start_enemy_spawning.emit()
 
 
 
@@ -268,9 +272,13 @@ func _on_camera_area_place_tower(cur_position_: Variant) -> void:
 
 		if(is_miner_and_overlapping and above_hot_bar_AND_not_on_tower):
 			if(tower_to_place.colliding_areas() == 0):
-				Globals.add_to_mineral_queue(tower_to_place.current_upgrade_node.price,  continue_placing)
+				Globals.add_to_mineral_queue(tower_to_place.current_upgrade_node.price,  continue_placing, cant_place)
 
-
+func cant_place():
+	var resource_label = get_node("HotBar_Layer/ColorRect2/Right Box/Resources")
+	resource_label.modulate = Color.RED  # Change color to red
+	await get_tree().create_timer(0.5).timeout  # Wait for 1 second
+	resource_label.modulate = Color.WHITE  # Reset to default (white removes the tint)
 
 
 
@@ -378,7 +386,14 @@ func show_selection_ui(tower):
 
 	vbox_children[2].text = "Recycle: " + str(tower.current_upgrade_node.recycle_price)
 	vbox.add_child(vbox_children[2])
+	var disable_button = vbox_children[3]
+	if tower.enabled:
+		disable_button.text = "Disable"
+	else:
+		disable_button.text = "Enable"
 
+	if tower.custom_class != "Relay":
+		vbox.add_child(vbox_children[3])
 
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = false
 
@@ -458,3 +473,11 @@ func tower_button_pressed(button_target) -> void:
 
 func remove_selection():
 	pass
+
+#Tutorial is finished start enemy spawning functions
+func _on_hot_bar_layer_tutorial_finished() -> void:
+	start_enemy_spawning.emit()
+
+
+func _on_disable_pressed() -> void:
+	pass # Replace with function body.

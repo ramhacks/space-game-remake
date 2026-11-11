@@ -2,6 +2,10 @@
 
 [ext_resource type="Texture2D" uid="uid://byomb7sbq1xd2" path="res://Visuals/Sprite_Frames/image(1).jpg" id="1_7itxl"]
 [ext_resource type="Script" uid="uid://6fq7xqiv3ncj" path="res://GameScenes/main_menu.gd" id="1_a7w87"]
+[ext_resource type="LabelSettings" uid="uid://dv0inimxvgnrb" path="res://mainlabel.tres" id="3_4juen"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_gvi67"]
+font_color = Color(0.26666668, 0.7137255, 0.2901961, 1)
 
 [sub_resource type="Gradient" id="Gradient_7itxl"]
 
@@ -11,10 +15,6 @@ width = 500
 height = 40
 fill_from = Vector2(0.773913, 0.8108696)
 repeat = 2
-
-[sub_resource type="LabelSettings" id="LabelSettings_7itxl"]
-font_size = 40
-font_color = Color(0.26666668, 0.7137255, 0.2901961, 1)
 
 [node name="MainMenu" type="Control" unique_id=280188112]
 layout_mode = 3
@@ -35,28 +35,61 @@ offset_bottom = 710.0
 texture = ExtResource("1_7itxl")
 metadata/_edit_lock_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1450691384]
+[node name="LevelType" type="VBoxContainer" parent="." unique_id=1092932851]
+visible = false
+layout_mode = 0
+offset_left = 320.0
+offset_top = 192.0
+offset_right = 832.0
+offset_bottom = 344.0
+
+[node name="Label" type="Label" parent="LevelType" unique_id=2103790281]
+layout_mode = 2
+text = "Choose Your Difficulty"
+label_settings = SubResource("LabelSettings_gvi67")
+horizontal_alignment = 1
+
+[node name="Square" type="Button" parent="LevelType" unique_id=1804602484]
+layout_mode = 2
+text = "Normal"
+icon = SubResource("GradientTexture2D_a7w87")
+icon_alignment = 1
+
+[node name="Circle" type="Button" parent="LevelType" unique_id=270855091]
+layout_mode = 2
+text = "Hard"
+icon = SubResource("GradientTexture2D_a7w87")
+icon_alignment = 1
+
+[node name="Back" type="Button" parent="LevelType" unique_id=1443742516]
+layout_mode = 2
+text = "Back
+"
+icon = SubResource("GradientTexture2D_a7w87")
+icon_alignment = 1
+
+[node name="MainButtons" type="VBoxContainer" parent="." unique_id=1450691384]
 layout_mode = 0
 offset_left = 320.0
 offset_top = 192.0
 offset_right = 832.0
 offset_bottom = 576.0
 
-[node name="Start" type="Button" parent="VBoxContainer" unique_id=1398487291]
+[node name="Start" type="Button" parent="MainButtons" unique_id=1398487291]
 layout_mode = 2
 text = "Start
 "
 icon = SubResource("GradientTexture2D_a7w87")
 icon_alignment = 1
 
-[node name="Tutorial" type="Button" parent="VBoxContainer" unique_id=940898694]
+[node name="Tutorial" type="Button" parent="MainButtons" unique_id=940898694]
 layout_mode = 2
 text = "Tutorial
 "
 icon = SubResource("GradientTexture2D_a7w87")
 icon_alignment = 1
 
-[node name="Exit" type="Button" parent="VBoxContainer" unique_id=877929138]
+[node name="Exit" type="Button" parent="MainButtons" unique_id=877929138]
 layout_mode = 2
 text = "Exit"
 icon = SubResource("GradientTexture2D_a7w87")
@@ -69,10 +102,13 @@ offset_top = 64.0
 offset_right = 960.0
 offset_bottom = 192.0
 text = "The Space Game"
-label_settings = SubResource("LabelSettings_7itxl")
+label_settings = ExtResource("3_4juen")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
-[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="LevelType/Square" to="." method="_on_square_pressed"]
+[connection signal="pressed" from="LevelType/Circle" to="." method="_on_circle_pressed"]
+[connection signal="pressed" from="LevelType/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="MainButtons/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="MainButtons/Tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="MainButtons/Exit" to="." method="_on_exit_pressed"]

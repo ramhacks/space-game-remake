@@ -91,7 +91,7 @@ func do_process():
 		target = change_collision_list(my_range_area.get_overlapping_bodies())
 		if is_instance_valid(target):
 		#Each missile is worth its damage amount divided by 4
-			Globals.add_to_mineral_queue(self.current_upgrade_node.custom_vars_dict["Damage"] / 4, complete_missle)
+			Globals.add_to_mineral_queue(self.current_upgrade_node.custom_vars_dict["Damage"] / 4, complete_missle, not_enough_minerals)
 			# if Globals.resources >= (self.current_upgrade_node.custom_vars_dict["Damage"] / 4):
 			# 	Globals.resources = Globals.resources - (self.current_upgrade_node.custom_vars_dict["Damage"] / 4)
 			# 	send_missile(target)
@@ -99,6 +99,8 @@ func do_process():
 
 	super.do_process()
 
+func not_enough_minerals():
+	pass
 
 
 #Transfer to laser node when implemented
@@ -120,5 +122,6 @@ func change_collision_list(col_list):
 
 	return null
 
+#Upgrades only change stats not behavior so dont do anything
 func upgrade(upgrade_type):
-	pass
+	super.upgrade(upgrade_type)

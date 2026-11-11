@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://ms1nm4qyo62h"]
+[gd_scene format=3 uid="uid://0rj7dgmn54ir"]
 
 [ext_resource type="PackedScene" uid="uid://dd0iq32xbef8" path="res://towers/tower.tscn" id="1_8ecru"]
 [ext_resource type="Script" uid="uid://dtfq1tvg3m80k" path="res://towers/Power_Node/power_node.gd" id="2_g6doy"]
@@ -76,9 +76,6 @@ radius = 4.0
 
 [node name="Power_Node" unique_id=732400491 groups=["Relay", "collider", "power", "tower_node"] instance=ExtResource("1_8ecru")]
 script = ExtResource("2_g6doy")
-custom_class = "Relay"
-power_needed = 1
-power_time_seconds = 1
 
 [node name="Health" parent="." index="0" unique_id=1285698131 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_2vsel")]
 death_animation = NodePath("../Explosion")

@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://brityndijl5fs" path="res://Visuals/Sprite_Frames/227.png" id="14_6yjg0"]
 [ext_resource type="Texture2D" uid="uid://dpvemptm8o1ui" path="res://Visuals/Sprite_Frames/229.png" id="15_6lhpm"]
 [ext_resource type="Texture2D" uid="uid://t6cwxbe40n05" path="res://Visuals/Sprite_Frames/231.png" id="16_clqy0"]
+[ext_resource type="Texture2D" uid="uid://dyqx0g25c4fem" path="res://Visuals/Sprite_Frames/234.png" id="17_4nrfe"]
 [ext_resource type="Script" uid="uid://c58n3g86xe4tk" path="res://towers/Laser/sprite_2d.gd" id="17_g20wn"]
 [ext_resource type="Texture2D" uid="uid://3s5d68k2oyth" path="res://Visuals/Sprite_Frames/237.png" id="17_m5ph6"]
 [ext_resource type="Texture2D" uid="uid://dp1kficryqtq6" path="res://Visuals/Sprite_Frames/311.png" id="17_xaw4h"]
@@ -64,6 +65,7 @@
 [ext_resource type="Texture2D" uid="uid://bi3ed6ocdnt8i" path="res://Visuals/Sprite_Frames/355.png" id="37_25b3d"]
 [ext_resource type="Texture2D" uid="uid://cb8ikr5u8tv86" path="res://Visuals/Sprite_Frames/281.png" id="37_qh2w5"]
 [ext_resource type="Texture2D" uid="uid://c3epyg76mibxp" path="res://Visuals/Sprite_Frames/287.png" id="38_ngjfo"]
+[ext_resource type="Texture2D" uid="uid://cdbmvj8ihu38f" path="res://Visuals/Sprite_Frames/284.png" id="38_wba7b"]
 [ext_resource type="Texture2D" uid="uid://kbqwp54y8guj" path="res://Visuals/Sprite_Frames/361.png" id="38_wexco"]
 [ext_resource type="Texture2D" uid="uid://cga6hbivou21j" path="res://Visuals/Sprite_Frames/363.png" id="39_0kiye"]
 [ext_resource type="Texture2D" uid="uid://datb5wnqg4eg6" path="res://Visuals/Sprite_Frames/289.png" id="39_qsa8g"]
@@ -83,7 +85,13 @@
 [ext_resource type="Texture2D" uid="uid://74vxxnfct1cd" path="res://Visuals/Sprite_Frames/303.png" id="46_sqdt3"]
 [ext_resource type="Texture2D" uid="uid://v1ayabqvnif" path="res://Visuals/Sprite_Frames/305.png" id="47_1gaqy"]
 [ext_resource type="Texture2D" uid="uid://1q7f1yeycdem" path="res://Visuals/Sprite_Frames/379.png" id="47_hwr1n"]
+[ext_resource type="Texture2D" uid="uid://c3t2v7t6ohbfh" path="res://Visuals/Sprite_Frames/308.png" id="49_4nrfe"]
+[ext_resource type="Texture2D" uid="uid://b5agtpt6guegu" path="res://Visuals/Sprite_Frames/260.png" id="50_yxk0k"]
+[ext_resource type="Texture2D" uid="uid://3vaeio88y4fe" path="res://Visuals/Sprite_Frames/358.png" id="72_md3ta"]
+[ext_resource type="Texture2D" uid="uid://ytlue1emoc68" path="res://Visuals/Sprite_Frames/382.png" id="83_ldqrc"]
+[ext_resource type="Texture2D" uid="uid://dmh6tclinco0w" path="res://Visuals/Sprite_Frames/334.png" id="84_hfgds"]
 [ext_resource type="Script" uid="uid://bgk2x60kj80tu" path="res://towers/Laser/upgrades.gd" id="91_p061p"]
+[ext_resource type="AudioStream" uid="uid://b85l618ul4vv" path="res://sounds/laser.mp3" id="92_yxk0k"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nlb16"]
 animations = [{
@@ -127,6 +135,14 @@ animations = [{
 "loop": false,
 "name": &"Laser",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("17_4nrfe")
+}],
+"loop": true,
+"name": &"Laser_disabled",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -203,6 +219,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("38_wba7b")
+}],
+"loop": true,
+"name": &"Pulsar 2_disabled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("38_ngjfo")
 }, {
 "duration": 1.0,
@@ -235,6 +259,22 @@ animations = [{
 "loop": true,
 "name": &"Pulsar 3",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("49_4nrfe")
+}],
+"loop": true,
+"name": &"Pulsar 3_disabled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("50_yxk0k")
+}],
+"loop": true,
+"name": &"Pulsar_disabled",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -311,6 +351,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("72_md3ta")
+}],
+"loop": true,
+"name": &"Thel 2_disabled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("38_wexco")
 }, {
 "duration": 1.0,
@@ -346,6 +394,22 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("83_ldqrc")
+}],
+"loop": true,
+"name": &"Thel 3_disabled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("84_hfgds")
+}],
+"loop": true,
+"name": &"Thel_disabled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("4_nb7qc")
 }],
 "loop": false,
@@ -354,7 +418,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qfnyt"]
-radius = 16.0
+radius = 11.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
 radius = 58.00862
@@ -422,6 +486,10 @@ one_shot = true
 shape = SubResource("CircleShape2D_a50kf")
 
 [node name="DelayTimer" type="Timer" parent="." index="15" unique_id=1475018881]
+
+[node name="PewPew" type="AudioStreamPlayer2D" parent="." index="16" unique_id=868089365]
+stream = ExtResource("92_yxk0k")
+volume_db = -6.878
 
 [connection signal="tower_built" from="." to="StateMachine" method="_on_laser_tower_built"]
 [connection signal="timeout" from="StateMachine/Pulsar/PulseTimer" to="StateMachine/Pulsar" method="_on_pulse_timer_timeout"]

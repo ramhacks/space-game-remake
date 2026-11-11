@@ -89,7 +89,7 @@ animations = [{
 "texture": ExtResource("18_6g0ui")
 }],
 "loop": false,
-"name": &"Level 1 dead",
+"name": &"Level 1_disabled",
 "speed": 5.0
 }, {
 "frames": [{
@@ -129,7 +129,7 @@ animations = [{
 "texture": ExtResource("18_6g0ui")
 }],
 "loop": false,
-"name": &"Level 2 dead",
+"name": &"Level 2_disabled",
 "speed": 5.0
 }, {
 "frames": [{
@@ -169,7 +169,7 @@ animations = [{
 "texture": ExtResource("18_6g0ui")
 }],
 "loop": false,
-"name": &"Level 3 dead",
+"name": &"Level 3_disabled",
 "speed": 5.0
 }, {
 "frames": [{
@@ -210,7 +210,7 @@ z_index = 2
 position = Vector2(0, 1.19209e-07)
 scale = Vector2(0.443182, 0.443182)
 sprite_frames = SubResource("SpriteFrames_t4v7f")
-animation = &"Level 3"
+animation = &"Level 1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=1486601280]
 shape = SubResource("CircleShape2D_qfnyt")

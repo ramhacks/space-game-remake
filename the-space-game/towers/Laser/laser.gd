@@ -22,6 +22,8 @@ var my_range_base_shape
 var my_range_shape
 var my_range_area
 
+@onready var laser_noise = $PewPew
+
 
 #For creating the range area it is allowed to interact with, has to be dynamically added so it doesn't change
 #the range of all nodes, this is used to see what nodes we can attack
@@ -104,3 +106,7 @@ func upgrade(upgrade_type):
 	set_range_area()
 
 	$StateMachine.current_state.Transitioned.emit($StateMachine.current_state, upgrade_type)
+	super.upgrade(upgrade_type)
+
+func play_sound():
+	laser_noise.play()

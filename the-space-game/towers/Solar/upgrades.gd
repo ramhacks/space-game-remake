@@ -13,7 +13,7 @@ var Base_Dict = {
 	"Recycle_Price": 100,
 	"Custom_Dict": {
 		"Power Gen Delay": 3,
-		"Energy Produced": 4,
+		"Energy Produced": 8,
 		"Connection_Limit": 3,
 		"Power_Delay": 1 #Generates power doenst need a power delay
 	}
@@ -26,8 +26,8 @@ var Solar_1_Dict = {
 	"Upgrade_Price": 300,
 	"Recycle_Price": 150,
 	"Custom_Dict": {
-		"Power Gen Delay": 3,
-		"Energy Produced": 9,
+		"Power Gen Delay": 2,
+		"Energy Produced": 15,
 		"Connection_Limit": 3,
 		"Power_Delay": 0
 	}

@@ -68,5 +68,7 @@ func do_process():
 func get_overlap():
 	return [1,2,3] #placeholder as we don't need to check for overlapping asteroids, will need to check for nodes however
 
+#Update range area with new stats
 func upgrade(upgrade_type):
 	set_range_area()
+	super.upgrade(upgrade_type)

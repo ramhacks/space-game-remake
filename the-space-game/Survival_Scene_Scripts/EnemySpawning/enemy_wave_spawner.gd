@@ -12,6 +12,7 @@ signal wave_stopped
 @export var CameraArea: Area2D = null
 @export var break_time_jiggle: int = 0
 @export var max_enemy_towers: int = 0
+@export var ENEMY_TOWER_WAVE_SPAWN: int = 3
 #Wave spawner for enemies
 var enemy
 var enemy_node
@@ -78,6 +79,9 @@ func call_radar(node):
 	get_parent().create_radar_node.emit(node)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	pass
+
+func start_spawn():
 	if debug_mode:
 		first_wave_delay = 30
 		base_prep_time = 10000 #Only have one wave
@@ -99,7 +103,6 @@ func _ready() -> void:
 	$CooldownEnemy.one_shot = true
 	$CooldownEnemy.timeout.connect(_on_cooldown_timeout)
 	$CooldownEnemy.start(first_wave_delay)
-
 
 func prepare_enemy_tower_instance(tower_instance: EnemySpawner):
 	wave_active.connect(tower_instance.activate_tower)
@@ -179,6 +182,7 @@ func pick_theme(w: int, game_state = null) -> String:
 	last_theme = choice
 	return choice
 
+# Build the wave
 func build_wave(w: int, game_state = null) -> Array[String]:
 	var budget := get_budget(w)
 	var theme := pick_theme(w, game_state)
@@ -204,6 +208,15 @@ func build_wave(w: int, game_state = null) -> Array[String]:
 
 	return wave
 
+# GEMENI QUICK AND DIRTY CHECK IF POSITON COLLIDING
+func is_position_colliding(pos: Vector2, layer: int) -> bool:
+	var space := get_viewport().world_2d.direct_space_state
+	var query := PhysicsPointQueryParameters2D.new()
+	query.position = pos
+	query.collision_mask = 1 << (layer - 1)  # layer is 1-32
+	query.collide_with_areas = true
+	query.collide_with_bodies = false  # set true if you want bodies too
+	return space.intersect_point(query, 1).size() > 0
 
 func spawn_new_wave(wave_number: int) -> void:
 	# Spawn them all in a random location, they will spread out after picking a target,
@@ -230,14 +243,24 @@ func spawn_new_wave(wave_number: int) -> void:
 
 
 	# After wave 4 enemy spawners can spawn around the map
-	if Globals.wave_number >= 0:
+	if Globals.wave_number >= ENEMY_TOWER_WAVE_SPAWN:
 		if get_tree().get_nodes_in_group("EnemyTowers").size() >= max_enemy_towers:
 			return
 		var spawn_pos: Vector2
-		if Globals.asteroid_generation_type == "Circle":
-			spawn_pos = get_parent().circle_point()
-		else:
-			spawn_pos = get_parent().wave_point()
+
+		var attempts = 2
+
+		for i in range(0, attempts):
+			if Globals.asteroid_generation_type == "Circle":
+				spawn_pos = get_parent().circle_point()
+				if is_position_colliding(spawn_pos, 2):
+					continue
+				break
+			else:
+				spawn_pos = get_parent().wave_point()
+				if is_position_colliding(spawn_pos, 2):
+					continue
+				break
 
 
 		var enemy_marker3 = radar_node.instantiate()
@@ -287,6 +310,9 @@ func _process(delta: float) -> void:
 	var cleared = get_tree().get_nodes_in_group("wave_enemies").size() == 0
 	if cleared:
 		end_wave()
+
+
+
 
 #End wave, deactivate all enemy tower spawners and restart cooldown timer
 func end_wave() -> void:

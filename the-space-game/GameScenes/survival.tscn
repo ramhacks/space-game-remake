@@ -44,6 +44,7 @@
 [ext_resource type="FontFile" uid="uid://baf5yckugqi1b" path="res://Visuals/Fonts/663_Trebuchet MS.ttf" id="39_qqdbo"]
 [ext_resource type="Script" uid="uid://wfo6pi7goiwx" path="res://GameScenes/pausemenu.gd" id="40_cyyct"]
 [ext_resource type="Script" uid="uid://d2rkn134m7sds" path="res://Survival_Scene_Scripts/navigation_region_2d.gd" id="40_ruc0v"]
+[ext_resource type="StyleBox" uid="uid://dn11or8hchhjb" path="res://Visuals/Themes/border.tres" id="42_ondh4"]
 [ext_resource type="PackedScene" uid="uid://dhvnosafesthb" path="res://UI Scenes/PauseMenu.tscn" id="44_puhmn"]
 [ext_resource type="Script" uid="uid://c8ancrkdwmium" path="res://GameScenes/wave_display.gd" id="45_e30k7"]
 [ext_resource type="Theme" uid="uid://dejtoowi0l1is" path="res://Visuals/Themes/energy_bar.tres" id="45_opim5"]
@@ -85,6 +86,32 @@ font_color = Color(0.979485, 0.389826, 0.758559, 1)
 [sub_resource type="Theme" id="Theme_e4hhl"]
 BoxContainer/constants/separation = 10
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1aav7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_obea2"]
+bg_color = Color(0.288518, 0.288518, 0.288518, 1)
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.677578, 0.993103, 0.673959, 1)
+corner_radius_bottom_right = 2
+shadow_color = Color(0.77084, 0.770839, 0.770839, 0.874)
+
+[sub_resource type="Theme" id="Theme_f8rr2"]
+Button/colors/font_color = Color(0.88771874, 0.8786205, 0.8659322, 1)
+Button/colors/font_focus_color = Color(0.266667, 0.713726, 0.290196, 1)
+Button/colors/font_hover_color = Color(0.266667, 0.713726, 0.290196, 1)
+Button/colors/font_hover_pressed_color = Color(0.266667, 0.713726, 0.290196, 1)
+Button/colors/font_pressed_color = Color(0.266667, 0.713726, 0.290196, 1)
+Button/font_sizes/font_size = 16
+Button/fonts/font = ExtResource("30_yaxrf")
+Button/styles/focus = SubResource("StyleBoxEmpty_1aav7")
+Button/styles/hover = ExtResource("42_ondh4")
+Button/styles/normal = ExtResource("42_ondh4")
+Button/styles/pressed = SubResource("StyleBoxFlat_obea2")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m070p"]
 bg_color = Color(0, 0, 0, 1)
 
@@ -115,9 +142,9 @@ script = ExtResource("1_gc75h")
 
 [node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035 node_paths=PackedStringArray("CameraArea")]
 script = ExtResource("2_opim5")
-debug_mode = true
 CameraArea = NodePath("../Camera_Area")
 max_enemy_towers = 3
+first_wave_delay = 40.0
 mob_cap = 20
 
 [node name="CooldownEnemy" type="Timer" parent="Enemy_Wave_Spawner" unique_id=1096147353]
@@ -447,6 +474,93 @@ theme = ExtResource("35_72fwp")
 text = "Recycle "
 metadata/_edit_lock_ = true
 
+[node name="Disable" type="Button" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" unique_id=450316290]
+layout_mode = 2
+theme = SubResource("Theme_f8rr2")
+text = "Disable"
+
+[node name="Labels" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=1139926820]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.334
+anchor_top = -0.805
+anchor_bottom = 0.945
+offset_left = 251.844
+offset_top = 68.04
+offset_right = 772.0
+offset_bottom = -124.96003
+theme = ExtResource("36_tjsn0")
+
+[node name="Forground" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Labels" unique_id=1548129265]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.004
+anchor_right = 0.977
+anchor_bottom = 0.983
+offset_left = -3.1039906
+offset_right = 13.776001
+offset_bottom = 1.527031
+theme = SubResource("Theme_q3g37")
+
+[node name="MinerLabel" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Labels/Forground" unique_id=1982800234]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 8.0
+offset_right = 200.0
+offset_bottom = 57.0
+text = "Miner
+"
+
+[node name="MinerLabel2" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Labels/Forground" unique_id=979812112]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 8.0
+offset_right = 88.0
+offset_bottom = 57.0
+text = "Relay
+"
+
+[node name="LaserLabel" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Labels/Forground" unique_id=269475706]
+layout_mode = 0
+offset_left = 656.0
+offset_top = 8.0
+offset_right = 712.0
+offset_bottom = 57.0
+text = "Laser
+"
+
+[node name="BatteryLabel" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Labels/Forground" unique_id=1133808854]
+layout_mode = 0
+offset_left = 560.0
+offset_top = 8.0
+offset_right = 616.0
+offset_bottom = 57.0
+text = "Battery"
+
+[node name="MissleLabel" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Labels/Forground" unique_id=1637706537]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 8.0
+offset_right = 537.0
+offset_bottom = 57.0
+text = "Missile "
+
+[node name="MissleLabel2" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Labels/Forground" unique_id=1722687448]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 8.0
+offset_right = 438.0
+offset_bottom = 57.0
+text = "Repair Station"
+
+[node name="MissleLabel3" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Labels/Forground" unique_id=1753937788]
+layout_mode = 0
+offset_left = 248.0
+offset_top = 8.0
+offset_right = 321.0
+offset_bottom = 57.0
+text = "Solar "
+
 [node name="MiniMapBackground" type="Panel" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=629173753]
 layout_mode = 1
 anchors_preset = -1
@@ -577,6 +691,7 @@ metadata/_edit_lock_ = true
 [connection signal="hide_info_boxes" from="Camera_Area" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" method="_on_camera_area_hide_info_boxes"]
 [connection signal="input_event" from="Camera_Area" to="Camera_Area" method="_on_input_event"]
 [connection signal="place_tower" from="Camera_Area" to="." method="_on_camera_area_place_tower"]
+[connection signal="tutorial_finished" from="HotBar_Layer" to="." method="_on_hot_bar_layer_tutorial_finished"]
 [connection signal="toggled" from="HotBar_Layer/Hotbar_Background/Pause" to="HotBar_Layer/Hotbar_Background/Pause" method="_on_toggled"]
 [connection signal="nodes_to_connect" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" to="." method="_on_default_hot_bar_nodes_to_connect"]
 [connection signal="nodes_to_connect" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" method="_on_default_hot_bar_nodes_to_connect"]
@@ -588,4 +703,5 @@ metadata/_edit_lock_ = true
 [connection signal="Upgrade_Pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_upgrade_button_upgrade_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" method="_on_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Recycle" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_recycle_pressed"]
+[connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Disable" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_disable_pressed"]
 [connection signal="change_wave_number" from="HotBar_Layer/WaveDisplay" to="HotBar_Layer/WaveNumber" method="_on_wave_display_change_wave_number"]

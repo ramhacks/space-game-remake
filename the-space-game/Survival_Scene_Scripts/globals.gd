@@ -17,10 +17,10 @@ const PowerG = preload("res://enums/power_enums.gd").PowerGroups
 var power_groups = {}
 
 #var starting_resources = 300
-var starting_resources = 1000
+var starting_resources = 100
 
 var last_deleted_tower: Node;
-
+var tutorial_active = false
 
 var total_current = 0
 var total_capacity = 0
@@ -120,8 +120,8 @@ func _ready():
 	power_line_segment = preload("res://General_Purpose_Scenes/power_line_segment.tscn")
 	sprite_collider_instance = preload("res://towers/sprite_collision_shape_setter.tscn")
 
-func add_to_mineral_queue(mineral_change: int, target_function: Callable):
-	mineral_queue.append([mineral_change, target_function])
+func add_to_mineral_queue(mineral_change: int, target_function: Callable, failure_function: Callable):
+	mineral_queue.append([mineral_change, target_function, failure_function])
 
 
 func pause_game():
@@ -156,6 +156,8 @@ func _process(delta: float) -> void:
 		if resources-output[0] >= 0:
 			resources = resources - output[0]
 			output[1].call()
+		else:
+			output[2].call()
 
 
 #Group Power Manegment
@@ -284,38 +286,42 @@ func remove_node_from_group(tower):
 	return
 
 
-func find_closest_solar(v):
-	var discovered = []
-	var stack = []
-	stack.push_front(v)
+# Undirected adjacency for all placed towers, built once per query
+func _build_adjacency() -> Dictionary:
+	var adj = {}
+	for t in get_tree().get_nodes_in_group("Placed_Towers"):
+		if is_instance_valid(t) and not t.is_queued_for_deletion():
+			adj[t] = []
+	for t in adj.keys():
+		for c in t.connections:
+			var o = _as_tower(c)
+			if o and o != t and adj.has(o):
+				if not adj[t].has(o): adj[t].append(o)
+				if not adj[o].has(t): adj[o].append(t)
+	return adj
 
-	# IF self is solar this function is irrelevent
-	if v.custom_class == "Solar" and !v.built:
+func find_closest_solar(v) -> bool:
+	if not is_instance_valid(v):
+		return false
+	if v.custom_class == "Solar" and not v.built:
 		return true
 
+	var adj = _build_adjacency()
+	if not adj.has(v):
+		adj[v] = _neighbors_of(v)
 
-	var found = false
-
-	while len(stack) > 0:
-		var s = stack[0]
-		stack.pop_front()
-		# FIX: The connections loop MUST be nested inside this validation block
-		if typeof(s) != TYPE_INT and is_instance_valid(s) and s not in discovered:
-
-			discovered.append(s)
-
-
-			for node in s.connections:
-				if is_instance_valid(node):
-					if node is Tower:
-						if typeof(node) != TYPE_INT and is_instance_valid(node) and node not in discovered and not node.hovering and node.built:
-							if node.custom_class == "Solar":
-								found = true
-							else:
-								stack.push_front(node)
-
-				# FIX: Moved outside the deletion check so the index always increments accurately
-	return found
+	var seen = {v: true}
+	var stack = [v]
+	while stack.size() > 0:
+		var cur = stack.pop_back()
+		for nb in adj.get(cur, []):
+			if seen.has(nb) or nb.hovering or not nb.built:
+				continue
+			if nb.custom_class == "Solar":
+				return true
+			seen[nb] = true
+			stack.push_back(nb)
+	return false
 
 func iterativeDFS_main(v, new_group_name):
 	var discovered = []

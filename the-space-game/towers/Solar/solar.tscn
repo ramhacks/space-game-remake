@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://bs6dxvmfg6gp6" path="res://Visuals/Sprite_Frames/99.png" id="15_k073u"]
 [ext_resource type="Texture2D" uid="uid://djhxupjn270bb" path="res://Visuals/Sprite_Frames/101.png" id="16_qserg"]
 [ext_resource type="Texture2D" uid="uid://c3o8dgku6dmut" path="res://Visuals/Sprite_Frames/103.png" id="17_2ng4a"]
+[ext_resource type="Texture2D" uid="uid://xc4gw5onqj6s" path="res://Visuals/Sprite_Frames/68.png" id="17_xdh3d"]
 [ext_resource type="Texture2D" uid="uid://cwnmk7gt0sv30" path="res://Visuals/Sprite_Frames/105.png" id="18_prykn"]
 [ext_resource type="Texture2D" uid="uid://c55g8fneuy66s" path="res://Visuals/Sprite_Frames/107.png" id="19_xti1h"]
 [ext_resource type="Texture2D" uid="uid://d1ldc50axy1nf" path="res://Visuals/Sprite_Frames/109.png" id="20_djoai"]
@@ -31,6 +32,7 @@
 [ext_resource type="Texture2D" uid="uid://dusvhek3rmktc" path="res://Visuals/Sprite_Frames/49.png" id="26_7opiw"]
 [ext_resource type="Texture2D" uid="uid://cndvj03e5hi60" path="res://Visuals/Sprite_Frames/51.png" id="27_v6nla"]
 [ext_resource type="Texture2D" uid="uid://wsajvdxxihfa" path="res://Visuals/Sprite_Frames/53.png" id="28_euksq"]
+[ext_resource type="Texture2D" uid="uid://c73h6lrpfwqb1" path="res://Visuals/Sprite_Frames/92.png" id="28_rrvb8"]
 [ext_resource type="Texture2D" uid="uid://manep310y62c" path="res://Visuals/Sprite_Frames/55.png" id="29_iipea"]
 [ext_resource type="Texture2D" uid="uid://dn4076cjg3xb8" path="res://Visuals/Sprite_Frames/57.png" id="30_xspam"]
 [ext_resource type="Texture2D" uid="uid://c82wlpe7lqurf" path="res://Visuals/Sprite_Frames/59.png" id="31_8aa6p"]
@@ -38,6 +40,7 @@
 [ext_resource type="Texture2D" uid="uid://dfyiyrgmdujhs" path="res://Visuals/Sprite_Frames/63.png" id="33_jhvdb"]
 [ext_resource type="Texture2D" uid="uid://b2r4h68ymkcgx" path="res://Visuals/Sprite_Frames/65.png" id="34_knito"]
 [ext_resource type="Script" uid="uid://b8vqm7gdgs7ph" path="res://towers/Solar/solar_animated.gd" id="36_ytiel"]
+[ext_resource type="Texture2D" uid="uid://bdoosp1rdvdfd" path="res://Visuals/Sprite_Frames/116.png" id="39_0apn1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3ggyo"]
 animations = [{
@@ -84,6 +87,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("17_xdh3d")
+}],
+"loop": true,
+"name": &"Level 1_disabled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("3_2kyp7")
 }, {
 "duration": 1.0,
@@ -119,6 +130,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("28_rrvb8")
+}],
+"loop": true,
+"name": &"Level 2_disabled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("13_piehh")
 }, {
 "duration": 1.0,
@@ -151,6 +170,14 @@ animations = [{
 "loop": false,
 "name": &"Level 3",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("39_0apn1")
+}],
+"loop": true,
+"name": &"Level 3_disabled",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,

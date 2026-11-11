@@ -1,7 +1,10 @@
 extends AnimatedSprite2D
 
-var upgrade_level = 1  
+var upgrade_level = 1
 var placed = false #required for all towers
+
+# Has no function, its only puporse is to transfer energy
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.

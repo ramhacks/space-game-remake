@@ -38,6 +38,7 @@ func initialize(radar, pos: Vector2) -> void:
 func _process(delta: float) -> void:
 	pass
 
+
 func upgrade(upgrade_type):
 	pass
 

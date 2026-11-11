@@ -80,7 +80,7 @@ func turn_on():
 
 
 
-#called when this tower is upgraded, called once per upgrade, upgrade level is changed by a script in survival, the side button script
+#Edit things and modify energy being produced
 func upgrade(upgrade_type):
 	self.build_progress = 0
 	self.built = false
@@ -89,3 +89,4 @@ func upgrade(upgrade_type):
 	$Power_Delay.timeout.disconnect(turn_on)
 	$Power_Delay.timeout.connect(_on_power_delay_timeout)
 	connect_toggle = true
+	super.upgrade(upgrade_type)

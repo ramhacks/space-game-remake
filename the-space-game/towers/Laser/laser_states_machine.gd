@@ -24,13 +24,11 @@ func _process(delta) -> void:
 	if current_state:
 		current_state.Update(delta)
 
-
-
-
 func _physics_process(delta: float) -> void:
 	if current_state:
 		current_state.Physics_Update(delta)
 
+# State machine transition, weird name stuff going on here worked on a while ago
 func on_child_transition(state, new_state_name):
 	if state != current_state:
 		return
@@ -47,11 +45,12 @@ func on_child_transition(state, new_state_name):
 
 	current_state = new_state
 
-
+#All functions to actually attack enemy relocated here for all states to use
 func _on_laser_tower_built() -> void:
 	if current_state:
 		current_state.do_process(parent_node)
 
+#Get enemy and send attack, if no enemy bodies found scan for enemy towers
 func laser_enemy(parent) -> bool:
 	var target = change_collision_list(parent.my_range_area.get_overlapping_bodies())
 	var damage = parent.current_upgrade_node.custom_vars_dict["Damage"]
@@ -69,6 +68,9 @@ func laser_enemy(parent) -> bool:
 			return true
 	return false
 
+
+# Change the list of collisions, basically make sure our collision list only contains valid things
+# Don't attempt to attack fellow towers
 func change_collision_list(col_list):
 	for enemy in col_list:
 		if enemy is Enemy:
@@ -78,7 +80,10 @@ func change_collision_list(col_list):
 
 	return null
 
+
+#Simply draw the laser line
 func draw_laser_attack(pos1, pos2, parent):
+	parent.play_sound()
 	var _line = parent.get_node("Laser")
 	_line.clear_points()
 	_line.add_point(pos1)

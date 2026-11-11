@@ -6,9 +6,14 @@
 [ext_resource type="Texture2D" uid="uid://bjlax7wrybigo" path="res://Visuals/Sprite_Frames/Green-Circle-PNG-Photo-2603984782.png" id="2_x3dtl"]
 [ext_resource type="Script" uid="uid://cioxa5wviu4ds" path="res://towers/Set_Tower_Selection_Collision.gd" id="3_hmvqe"]
 [ext_resource type="Script" uid="uid://vb27camnq4vw" path="res://towers/collision_area.gd" id="4_lhcah"]
+[ext_resource type="Texture2D" uid="uid://dwkjsqg5iweog" path="res://Visuals/Sprite_Frames/RedCircle.png" id="5_34gie"]
 [ext_resource type="Script" uid="uid://bj1w3no2nxhfe" path="res://towers/connector.gd" id="5_uevkj"]
 [ext_resource type="Texture2D" uid="uid://b6armdykftyu5" path="res://Visuals/Effects/Explosion/1.png" id="6_sra6u"]
 [ext_resource type="Texture2D" uid="uid://bemi0futfol55" path="res://Visuals/Effects/Explosion/2.png" id="7_ph56o"]
+[ext_resource type="AudioStream" uid="uid://dvlvgvfjn82ee" path="res://sounds/place.mp3" id="10_ju35e"]
+[ext_resource type="AudioStream" uid="uid://ksbp7h0d173s" path="res://sounds/upgrade.mp3" id="11_34gie"]
+[ext_resource type="Texture2D" uid="uid://yw2l2wu3cgal" path="res://Visuals/Sprite_Frames/batterys/empty.png" id="13_jcota"]
+[ext_resource type="Texture2D" uid="uid://dj4guh6ok6s7t" path="res://Visuals/Sprite_Frames/batterys/full.png" id="14_xwru8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3lut5"]
 bg_color = Color(0.0156863, 0.0470588, 0.862745, 1)
@@ -90,6 +95,25 @@ offsets = PackedFloat32Array(0, 0.458333, 1)
 colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699, 0, 1, 0.0183086, 0.319085, 0.184432, 1)
 metadata/_snap_count = 12
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_gw1qi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_x3dtl")
+}],
+"loop": true,
+"name": &"green",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_34gie")
+}],
+"loop": true,
+"name": &"red",
+"speed": 5.0
+}]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
 radius = 58.0
 
@@ -104,6 +128,25 @@ animations = [{
 }],
 "loop": false,
 "name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xxeq3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_jcota")
+}],
+"loop": true,
+"name": &"empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_xwru8")
+}],
+"loop": true,
+"name": &"full",
 "speed": 5.0
 }]
 
@@ -138,11 +181,12 @@ width = 2.0
 default_color = Color(0.52227, 0.952408, 3.85046e-07, 1)
 gradient = SubResource("Gradient_gpy6k")
 
-[node name="collider" type="Sprite2D" parent="." unique_id=1122989570]
+[node name="collider" type="AnimatedSprite2D" parent="." unique_id=1257015597]
 z_index = 2
 position = Vector2(-2, 5)
 scale = Vector2(0.185, 0.183333)
-texture = ExtResource("2_x3dtl")
+sprite_frames = SubResource("SpriteFrames_gw1qi")
+animation = &"green"
 metadata/_edit_lock_ = true
 
 [node name="Sprite" type="Area2D" parent="." unique_id=143090353 groups=["sprite_node"]]
@@ -172,6 +216,20 @@ script = ExtResource("5_uevkj")
 [node name="Explosion" type="AnimatedSprite2D" parent="." unique_id=386470827]
 visible = false
 sprite_frames = SubResource("SpriteFrames_wry6m")
+
+[node name="Place" type="AudioStreamPlayer2D" parent="." unique_id=1327423397]
+stream = ExtResource("10_ju35e")
+volume_db = -10.935
+
+[node name="Upgrade" type="AudioStreamPlayer2D" parent="." unique_id=1731448183]
+stream = ExtResource("11_34gie")
+
+[node name="PowerStatus" type="AnimatedSprite2D" parent="." unique_id=1936520131]
+texture_filter = 1
+position = Vector2(8, -13.000001)
+scale = Vector2(0.34999996, 0.31874996)
+sprite_frames = SubResource("SpriteFrames_xxeq3")
+animation = &"full"
 
 [connection signal="area_entered" from="Sprite" to="Sprite" method="_on_area_entered"]
 [connection signal="input_event" from="Sprite" to="." method="_on_sprite_input_event"]

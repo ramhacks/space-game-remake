@@ -15,6 +15,7 @@ func _process(delta: float) -> void:
 
 var temp_tower_targ;
 var child_target_index;
+
 func continue_upgrade() -> void:
 	temp_tower_targ.level += 1
 
@@ -57,9 +58,11 @@ func process_upgrade(upgrade_label):
 	var price = temp_tower_targ.current_upgrade_node.children[child_target_index].price
 
 	if Globals.tower_selection_mode:
-		Globals.add_to_mineral_queue(price, continue_upgrade)
+		Globals.add_to_mineral_queue(price, continue_upgrade, not_enought_to_upgrade)
 
-
+#Called if not enough minerals held to upgrade it
+func not_enought_to_upgrade():
+	pass
 
 
 
@@ -81,3 +84,12 @@ func _on_custom_upgrade_pressed(label: Variant) -> void:
 
 func _on_upgrade_button_upgrade_pressed(label: Variant) -> void:
 	process_upgrade(label)
+
+
+func _on_disable_pressed() -> void:
+	if Globals.tower_selected.enabled:
+		$Disable.text = "Enable"
+		Globals.tower_selected.disable()
+	else:
+		$Disable.text = "Disable"
+		Globals.tower_selected.enable()

@@ -72,6 +72,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("14_kb7ms")
+}],
+"loop": true,
+"name": &"Level 1_disabled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("16_4ky0b")
 }, {
 "duration": 1.0,
@@ -107,21 +115,18 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_ewh2d")
+"texture": ExtResource("4_u6ypk")
 }],
-"loop": false,
-"name": &"hover",
+"loop": true,
+"name": &"Level 2_disabled",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("14_kb7ms")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_u6ypk")
+"texture": ExtResource("4_ewh2d")
 }],
-"loop": true,
-"name": &"no_power",
+"loop": false,
+"name": &"hover",
 "speed": 5.0
 }]
 

@@ -2,6 +2,7 @@ extends Node
 
 signal disable_pause()
 signal enable_pause()
+signal tutorial_finished()
 const PositionIndexs = preload("res://enums/tutorial_enums.gd").SequenceButtonPositions
 #List of positions (x and y) of each button, sequetially in the tutorial.
 # Makes it easy as we can just move the buttons when they are pressed
@@ -48,6 +49,7 @@ func _ready() -> void:
 
 	Globals.pause_game()
 
+
 ## When continue is pressed change positions of both buttons accordingly
 func _on_continue_pressed() -> void:
 	if current_state + 1 < PositionIndexs.size():
@@ -60,6 +62,7 @@ func _on_continue_pressed() -> void:
 		enable_pause.emit()
 		get_tree().set_pause(false)
 		Globals.restart_game()
+		tutorial_finished.emit()
 		queue_free()
 
 
@@ -138,5 +141,6 @@ func process_state_change() -> void:
 func _on_close_pressed() -> void:
 	enable_pause.emit()
 	get_tree().set_pause(false)
+	tutorial_finished.emit()
 	Globals.restart_game()
 	queue_free()

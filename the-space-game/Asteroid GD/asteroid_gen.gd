@@ -140,14 +140,12 @@ func _ready() -> void:
 	center = [int(vp.x / 2), transformy * -1]
 	var random = RandomNumberGenerator.new()
 	random.randomize()
-
-	var out = random.randi_range(0, 1)
-	if out == 0:
-		Globals.asteroid_generation_type = "Circle"
+	print(Globals.asteroid_generation_type)
+	if Globals.asteroid_generation_type == "Circle":
 		circle_form(random)
 	else:
-		Globals.asteroid_generation_type = "Wave"
 		double_wave(random)
+
 
 # AI
 @export_range(1.0, 5.0) var closeness_bias = 3.5  # 1 = even spread, higher = hugs the circle
