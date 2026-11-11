@@ -406,7 +406,7 @@ func no_power_available(sender):
 
 # Ran right after tower is created, only run once
 func tower_made() -> void:
-	$PowerStatus.show()
+	pass
 
 
 func do_process():

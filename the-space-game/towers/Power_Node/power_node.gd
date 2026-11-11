@@ -30,3 +30,7 @@ func get_overlap():
 func _process(delta: float) -> void:
 	#have to invoke super process or it wont call every frame
 	super._process(delta)
+
+# make it so we dont consume any energy anymore
+func tower_made() -> void:
+	current_upgrade_node.energy_needs = 0

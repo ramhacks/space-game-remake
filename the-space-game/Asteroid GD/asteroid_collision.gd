@@ -18,20 +18,23 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-	
-	
+
+
 func extract(amount):
 	var sprite = self.get_node("Sprite2D")
 	sprite.extractresources(amount)
-	
+
 
 func get_resource_amount():
 	var sprite = self.get_node("Sprite2D")
 	return sprite.resources
 
+#Asteroid no longer has any resources stop signal to all miners that this asteroid is now emptys
 func assign_empty_texture():
 	var sprite = self.get_node("Sprite2D")
+
 	sprite.assign_empty_texture()
+	asteroid_empty = true
 
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:

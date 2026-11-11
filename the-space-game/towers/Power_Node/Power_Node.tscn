@@ -85,6 +85,7 @@ radius = 4.0
 
 [node name="Power_Node" unique_id=732400491 groups=["Relay", "collider", "power", "tower_node"] instance=ExtResource("1_8ecru")]
 script = ExtResource("2_g6doy")
+custom_class = "Relay"
 
 [node name="Health" parent="." index="0" unique_id=1285698131 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_2vsel")]
 death_animation = NodePath("../Explosion")
@@ -112,6 +113,3 @@ default_color = Color(0, 0.580392, 0.741176, 0.658824)
 
 [node name="Upgrades" type="Node" parent="." index="12" unique_id=2111717730]
 script = ExtResource("18_ge3m1")
-
-[node name="PowerStatus" parent="." index="15" unique_id=1936520131]
-visible = false

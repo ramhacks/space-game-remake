@@ -14,7 +14,6 @@ var valid = false
 var current_drained
 
 func mine(line_node):
-
 	if closest:
 	#only mine if there is a node nearby and powered
 		#create mining laser graphic
@@ -31,10 +30,8 @@ func mine(line_node):
 			if(len(asteroids_in_range)):
 				closest = asteroids_in_range[0]
 			else:
-				self.frame = 0 #set as having no power, in this case having no more asteroids to mine
+				self.frame = 0
 				closest = false
-
-
 				#don't send laser, stop all mining operations
 		if closest:
 			draw_line.emit(to_local(self.global_position), to_local(closest.global_position))
