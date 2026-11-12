@@ -1,17 +1,20 @@
 extends Line2D
 
 #in charge of drawing lines connection each node and managing graph connections between nodes
+# Basically in short, this has prefered connections, so line connections will first and always attempt to
+# connect to a relay, then a solar node, then all other nodes
 @export var priority_dict: Dictionary = {
 	'Miner': 1,
 	'Solar': 2,
-	'Relay': 1,
+	'Relay': 3,
 	'Repair_Station': 1,
-	'Battery': 2,
+	'Battery': 1,
 	'Missile_Launcher': 1,
 	'Laser': 1
 	#add more towers here
 }
 
+#Redraw connector for all connections no prority connections
 func redraw_no_priority(nodes):
 	self.clear_points()
 	for target in nodes:

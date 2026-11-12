@@ -30,7 +30,6 @@ func mine(line_node):
 			if(len(asteroids_in_range)):
 				closest = asteroids_in_range[0]
 			else:
-				self.frame = 0
 				closest = false
 				#don't send laser, stop all mining operations
 		if closest:
@@ -44,9 +43,10 @@ func mine(line_node):
 func change_collision_list(col_list):
 	for asteroid in col_list:
 		if asteroid is Asteroid:
-			if asteroid.asteroid_empty == false:
+			if asteroid.asteroid_empty == false and (asteroid not in asteroids_in_range):
 				asteroids_in_range.append(asteroid)
-
+			else:
+				asteroids_in_range.erase(asteroid)
 
 	if(len(asteroids_in_range)):
 		closest = asteroids_in_range[0]

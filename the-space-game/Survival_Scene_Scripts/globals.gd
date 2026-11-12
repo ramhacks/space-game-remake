@@ -16,8 +16,9 @@ const PowerG = preload("res://enums/power_enums.gd").PowerGroups
 ##   unwanted bridging lines across the canvas.
 var power_groups = {}
 
-#var starting_resources = 300
-var starting_resources = 100
+
+#var starting_resources = 200
+var starting_resources = 1000
 
 var last_deleted_tower: Node;
 var tutorial_active = false

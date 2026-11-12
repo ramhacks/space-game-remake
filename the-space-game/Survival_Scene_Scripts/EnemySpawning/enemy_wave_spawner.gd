@@ -84,7 +84,7 @@ func _ready() -> void:
 func start_spawn():
 	if debug_mode:
 		first_wave_delay = 30
-		base_prep_time = 10000 #Only have one wave
+		base_prep_time = 60
 		max_wave_duration = 60
 
 	if disable_enimies:
@@ -139,14 +139,7 @@ func spawn_enemy(pos, type):
 
 
 # AI ASSISTED CODE BELOW
-func _weakness_bonus(theme: String, game_state) -> float:
-	if game_state == null:
-		return 0.0
-	if theme == "siege" and game_state.defense_strength < 5.0:
-		return 2.0
-	if theme == "economy_raid" and game_state.power_redundancy < 2:
-		return 2.0
-	return 0.0
+
 
 func _weighted_index(weights: Array[float]) -> int:
 	var total := 0.0
@@ -161,7 +154,7 @@ func _weighted_index(weights: Array[float]) -> int:
 	return weights.size() - 1
 
 # What type of wave is this
-func pick_theme(w: int, game_state = null) -> String:
+func pick_theme(w: int) -> String:
 	var choice := ""
 
 	if FORCED_THEMES.has(w):
@@ -174,18 +167,19 @@ func pick_theme(w: int, game_state = null) -> String:
 			if w >= THEME_UNLOCK[t] and t != last_theme:
 				candidates.append(t)
 				var waves_since: int = w - last_seen[t]
-				weights.append(1.0 + waves_since + _weakness_bonus(t, game_state))
-
+				weights.append(1.0 + waves_since)
+		print(candidates)
 		choice = candidates[_weighted_index(weights)]
+		print(choice)
 
 	last_seen[choice] = w
 	last_theme = choice
 	return choice
 
 # Build the wave
-func build_wave(w: int, game_state = null) -> Array[String]:
+func build_wave(w: int) -> Array[String]:
 	var budget := get_budget(w)
-	var theme := pick_theme(w, game_state)
+	var theme := pick_theme(w)
 	var theme_weights: Dictionary = THEMES[theme]
 	var wave: Array[String] = []
 

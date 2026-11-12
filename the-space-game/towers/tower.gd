@@ -403,6 +403,7 @@ func no_power_available(sender):
 	#only act if we are the ones who's power was not able to be recieved
 	if sender == self and built: #only change if tower is built, if it isn't user can just see that the build meter is not going up
 		no_power_animation_on = true
+		animated_node.animation = current_upgrade_node.label + "_disabled"
 
 # Ran right after tower is created, only run once
 func tower_made() -> void:

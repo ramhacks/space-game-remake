@@ -163,6 +163,7 @@ script = ExtResource("1_gc75h")
 
 [node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035 node_paths=PackedStringArray("CameraArea")]
 script = ExtResource("2_opim5")
+debug_mode = true
 CameraArea = NodePath("../Camera_Area")
 max_enemy_towers = 3
 first_wave_delay = 140.0

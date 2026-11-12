@@ -16,7 +16,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_cujcw")
-tower_button_target = null
 
 [node name="Info" type="TextureButton" parent="." unique_id=261553226]
 process_mode = 1

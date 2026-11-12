@@ -12,7 +12,7 @@ var tower_unlocks = {
 	"Relay": 0,
 	"Battery": 4,
 	"Laser": 0,
-	"Repair_Station": 3,
+	"Repair_Station": 2,
 	"Missile_Launcher": 5
 }
 
@@ -35,7 +35,7 @@ func _ready() -> void:
 	shortcut_event = InputEventKey.new()
 	$select_button.texture_normal = Normal_Texture
 	$select_button.texture_pressed = Pressed_Texture
-	if tower_unlocks[tower_button_target] == Globals.wave_number:
+	if tower_unlocks[tower_button_target] == Globals.wave_number and !Globals.wave_active:
 		$Unlock.hide()
 	else:
 		$Unlock/Label.text = "Locked Until\nWave #" + str(tower_unlocks[tower_button_target])
@@ -64,7 +64,7 @@ func _on_info_toggled(toggled_on: bool) -> void:
 		Info_Hover_off.emit()
 
 func _process(delta: float) -> void:
-	if tower_unlocks[tower_button_target] == Globals.wave_number:
+	if tower_unlocks[tower_button_target] == Globals.wave_number and !Globals.wave_active:
 		$Unlock.hide()
 	else:
 		$Unlock/Label.text = "Locked Until\nWave #" + str(tower_unlocks[tower_button_target])
