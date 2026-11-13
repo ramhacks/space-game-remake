@@ -91,7 +91,7 @@ var line_node
 
 var hovering: bool = false #hovering next to mouse, not placed yet
 #assumed false until told otherwise
-
+var upgradeing_no_power
 
 
 var clickable: bool = false #this is so that we don't think the tower is being clicked after we place it down
@@ -197,6 +197,8 @@ func _process(delta: float) -> void:
 
 
 	if build_progress == 100 and !built and !set_build_frame:
+		upgradeing_no_power = false #set it false no matter what, wont affect anythign as it is false by
+		#defualt
 		self.get_node("BuildProgress").set_visible(false)
 		# Call tower made to initiate anything a tower needs done when it is built
 		tower_made()
@@ -338,6 +340,9 @@ func set_clickable():
 	self.add_to_group("Placed_Towers")
 
 func _on_power_delay_timeout() -> void:
+	if upgradeing_no_power:
+		do_process()
+		return
 	if not enabled:
 		return
 	# Only check when power timeout, avoid checking every single process tick
@@ -346,7 +351,11 @@ func _on_power_delay_timeout() -> void:
 	#don't emit if it doesn't need power to work
 	if(current_upgrade_node.energy_needs) > 0 and built_connected:
 		#First check if we can continue building by making sure a solar node still exists in the graph
-		built_connected = Globals.find_closest_solar(self)
+		var t = Globals.find_closest_solar(self)
+		if t != null:
+			built_connected = true
+		else:
+			built_connected = false
 		#Expand the connector to show the player we are requesting power
 
 		request_power.emit(self, group_, current_upgrade_node.energy_needs)
@@ -413,8 +422,21 @@ func set_group(overlaps):
 
 
 func no_power_available(sender):
+	#When no power is available check to make sure we have valid connecitons
+	#
+	if custom_class == "Solar":
+		return
+	if len(connections):
+		var solarnear = Globals.find_closest_solar(self)
+		if solarnear is Tower:
+			print(solarnear.custom_class)
+			group_ = solarnear.group_
+
+		return
 	$Connector.no_power()
 	powered = false
+
+
 	#only act if we are the ones who's power was not able to be recieved
 	if sender == self and built: #only change if tower is built, if it isn't user can just see that the build meter is not going up
 		no_power_animation_on = true
@@ -489,6 +511,8 @@ func get_overlap():
 func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and clickable:
 		if event.is_action("BUTTON_LEFT") and !Globals.paused:
+			print(group_)
+			print(Globals.power_groups)
 			draw_selection_animation.emit(self.global_position, sprite_texture.get_size().x/2, true,  inherted_node)
 			#will change the hot bar or something to let us upgrade the selected tower
 
@@ -531,13 +555,14 @@ func disable():
 # if the node was previously disabled this may be in a bad state so we make sure that if it is enabled
 # we do a full reset
 func rebuild():
+	upgradeing_no_power = true
 	build_progress = 0
 	built = false
 	set_power = false  # let _process re-apply Power_Delay for the new node
 	self.get_node("BuildProgress").set_visible(true)
 	self.get_node("BuildProgress").value = 0
 	if enabled:
-		$Power_Delay.wait_time = 0.5
+		$Power_Delay.wait_time = 1
 		$Power_Delay.start()
 
 

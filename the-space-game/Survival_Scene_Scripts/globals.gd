@@ -18,7 +18,8 @@ var power_groups = {}
 
 
 
-var starting_resources = 150
+# var starting_resources = 150
+var starting_resources = 1000
 
 var last_deleted_tower: Node;
 var tutorial_active = false
@@ -302,11 +303,11 @@ func _build_adjacency() -> Dictionary:
 				if not adj[o].has(t): adj[o].append(t)
 	return adj
 
-func find_closest_solar(v) -> bool:
+func find_closest_solar(v) -> Node:
 	if not is_instance_valid(v):
-		return false
+		return null
 	if v.custom_class == "Solar" and not v.built:
-		return true
+		return v
 
 	var adj = _build_adjacency()
 	if not adj.has(v):
@@ -320,10 +321,10 @@ func find_closest_solar(v) -> bool:
 			if seen.has(nb) or nb.hovering or not nb.built:
 				continue
 			if nb.custom_class == "Solar":
-				return true
+				return nb
 			seen[nb] = true
 			stack.push_back(nb)
-	return false
+	return null
 
 func iterativeDFS_main(v, new_group_name):
 	var discovered = []
