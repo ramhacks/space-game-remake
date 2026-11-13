@@ -49,7 +49,6 @@ texture_pressed = ExtResource("4_cvi6u")
 stretch_mode = 0
 
 [node name="Unlock" type="Panel" parent="." unique_id=458314062]
-visible = false
 z_index = 4
 layout_mode = 0
 offset_right = 100.0

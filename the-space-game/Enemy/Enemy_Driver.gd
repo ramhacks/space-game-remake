@@ -104,7 +104,7 @@ func _process(delta: float) -> void:
 
 func get_new_target() -> Node2D:
 	if get_tree().get_nodes_in_group("tower_node").is_empty():
-		Globals.reset_all()
+
 		var scene: PackedScene = load("res://GameScenes/GameOver.tscn")
 		var instance = scene.instantiate()
 

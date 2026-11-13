@@ -20,8 +20,8 @@ func _process(delta: float) -> void:
 			$Energy_Amount_Bar.max_value = Globals.total_capacity
 			$Energy_Amount_Bar.value = Globals.total_current
 		skip_frame = 0
-	$HBoxContainer/Resources.text = str(Globals.resources)
-	$Energy.text = str(Globals.total_current) + " energy"
+	$ResourceContainer/Resources.text = str(Globals.resources)
+	$EnergyContainer/Energy.text = str(Globals.total_current)
 	#Add a way to calculate resources per minute
 
 	skip_frame +=1

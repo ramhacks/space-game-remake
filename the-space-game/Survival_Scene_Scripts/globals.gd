@@ -18,7 +18,7 @@ var power_groups = {}
 
 
 
-var starting_resources = 200
+var starting_resources = 150
 
 var last_deleted_tower: Node;
 var tutorial_active = false

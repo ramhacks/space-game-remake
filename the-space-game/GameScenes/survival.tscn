@@ -52,6 +52,7 @@
 [ext_resource type="Theme" uid="uid://dejtoowi0l1is" path="res://Visuals/Themes/energy_bar.tres" id="45_opim5"]
 [ext_resource type="Script" uid="uid://dwl7nyqc57pp" path="res://GameScenes/wave_number.gd" id="45_wetyh"]
 [ext_resource type="Texture2D" uid="uid://cgublgygpsb4r" path="res://Visuals/Asteroid_Images/892.png" id="49_bsal8"]
+[ext_resource type="Texture2D" uid="uid://cgeax73ntxjj0" path="res://Visuals/New Piskel-1.png(2).png" id="50_s2dq8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
 size = Vector2(1148, 519)
@@ -632,36 +633,45 @@ offset_bottom = 62.0
 script = ExtResource("38_uv5vx")
 metadata/_edit_lock_ = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=1235415511]
+[node name="ResourceContainer" type="HBoxContainer" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=1235415511]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 9.0
 offset_right = 44.0
 offset_bottom = 26.0
 
-[node name="Resources" type="Label" parent="HotBar_Layer/ColorRect2/Right Box/HBoxContainer" unique_id=866234510]
+[node name="Resources" type="Label" parent="HotBar_Layer/ColorRect2/Right Box/ResourceContainer" unique_id=866234510]
 z_index = 4
 layout_mode = 2
 text = "50"
 label_settings = SubResource("LabelSettings_a1qks")
 metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="HotBar_Layer/ColorRect2/Right Box/HBoxContainer" unique_id=1324628871]
+[node name="TextureRect" type="TextureRect" parent="HotBar_Layer/ColorRect2/Right Box/ResourceContainer" unique_id=1324628871]
 texture_filter = 1
 layout_mode = 2
 texture = ExtResource("49_bsal8")
 stretch_mode = 2
 
-[node name="Energy" type="Label" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=1755560519]
-z_index = 4
+[node name="EnergyContainer" type="HBoxContainer" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=1580678604]
 layout_mode = 0
 offset_left = 4.0
-offset_top = 65.0
-offset_right = 133.0
-offset_bottom = 89.0
-text = "0 energy"
+offset_top = 62.0
+offset_right = 78.0
+offset_bottom = 102.0
+
+[node name="Energy" type="Label" parent="HotBar_Layer/ColorRect2/Right Box/EnergyContainer" unique_id=1755560519]
+z_index = 4
+layout_mode = 2
+text = "0"
 label_settings = SubResource("LabelSettings_jdsif")
 metadata/_edit_lock_ = true
+
+[node name="TextureRect" type="TextureRect" parent="HotBar_Layer/ColorRect2/Right Box/EnergyContainer" unique_id=483070073]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("50_s2dq8")
+stretch_mode = 2
 
 [node name="Energy_Amount_Bar" type="ProgressBar" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=2111685262]
 layout_mode = 0
