@@ -17,8 +17,6 @@ var temp_tower_targ;
 var child_target_index;
 
 func continue_upgrade() -> void:
-	temp_tower_targ.level += 1
-
 	temp_tower_targ.current_upgrade_node = temp_tower_targ.current_upgrade_node.children[child_target_index]
 	if len(temp_tower_targ.current_upgrade_node.children) > 0:
 		self.remove_child($Custom)

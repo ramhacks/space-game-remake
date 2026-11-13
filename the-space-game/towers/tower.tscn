@@ -133,6 +133,8 @@ animations = [{
 process_mode = 1
 script = ExtResource("1_u867d")
 
+[node name="Upgrades" type="Node" parent="." unique_id=243826449]
+
 [node name="Hitbox" parent="." unique_id=1883757356 node_paths=PackedStringArray("parent", "radius_inherit") instance=ExtResource("2_65kso")]
 parent = NodePath("..")
 radius_inherit = NodePath("../Sprite")

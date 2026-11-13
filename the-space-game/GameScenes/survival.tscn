@@ -11,25 +11,25 @@
 [ext_resource type="Theme" uid="uid://dyhmoabmqtjno" path="res://Visuals/Themes/hotbar_background2.tres" id="8_wetyh"]
 [ext_resource type="Script" uid="uid://cip2bil7coi4o" path="res://UI Scenes/default_hot_bar.gd" id="9_opim5"]
 [ext_resource type="PackedScene" uid="uid://bxom4d8la8da2" path="res://UI Scenes/Tower_Button_Component.tscn" id="10_ondh4"]
-[ext_resource type="Texture2D" uid="uid://igeheoey3ig6" path="res://Visuals/Button_Textures/Miner/1.png" id="11_f8rr2"]
-[ext_resource type="Texture2D" uid="uid://ddnnqrnv4uq6" path="res://Visuals/Button_Textures/Miner/2.png" id="12_y4pdw"]
-[ext_resource type="Texture2D" uid="uid://b44c0ocnpdod5" path="res://Visuals/Button_Textures/Solar/1.png" id="13_bsal8"]
-[ext_resource type="Texture2D" uid="uid://d372x8ynscjkt" path="res://Visuals/Button_Textures/Solar/2.png" id="14_s2dq8"]
-[ext_resource type="Texture2D" uid="uid://b7fh7v2w2j3fo" path="res://Visuals/Button_Textures/Power_Node/1.png" id="15_yk6cs"]
-[ext_resource type="Texture2D" uid="uid://bi0pq77451ata" path="res://Visuals/Button_Textures/Power_Node/2.png" id="16_pw0x2"]
-[ext_resource type="Texture2D" uid="uid://ukcnbv1dprvt" path="res://Visuals/Button_Textures/Repair_Station/1.png" id="17_yojyt"]
-[ext_resource type="Texture2D" uid="uid://b7vbcwps01pq0" path="res://Visuals/Button_Textures/Repair_Station/2.png" id="18_u5rve"]
-[ext_resource type="Texture2D" uid="uid://ckyi66prmbqju" path="res://Visuals/Button_Textures/Energy_Store/1.png" id="19_opy7k"]
-[ext_resource type="Texture2D" uid="uid://cbxbpfd8y1gmu" path="res://Visuals/Button_Textures/Energy_Store/2.png" id="20_78q7s"]
-[ext_resource type="Texture2D" uid="uid://dfai5t86s5p1r" path="res://Visuals/Button_Textures/Laser/1.png" id="21_yqxd5"]
-[ext_resource type="Texture2D" uid="uid://dmqug6wtwshen" path="res://Visuals/Button_Textures/Laser/2.png" id="22_xas3b"]
-[ext_resource type="Texture2D" uid="uid://bujtl418tsuai" path="res://Visuals/Button_Textures/Missile_Launcher/1.png" id="23_u5tcj"]
-[ext_resource type="Texture2D" uid="uid://5ucry3rwpivb" path="res://Visuals/Button_Textures/Missile_Launcher/2.png" id="24_imvym"]
+[ext_resource type="Texture2D" uid="uid://cwtxhxq67xs80" path="res://Visuals/Button_Textures/Miner/1-1.png(1).png" id="16_y4pdw"]
+[ext_resource type="Texture2D" uid="uid://rqvkpamkbksb" path="res://Visuals/Button_Textures/Miner/1-2.png(1).png" id="17_bsal8"]
+[ext_resource type="Texture2D" uid="uid://dmm30un2q2i4e" path="res://Visuals/Button_Textures/Solar/SolarButton.png" id="18_y4pdw"]
+[ext_resource type="Texture2D" uid="uid://b7oo5hlabaw87" path="res://Visuals/Button_Textures/Solar/2-1.png(1).png" id="19_y4pdw"]
+[ext_resource type="Texture2D" uid="uid://bnrlmy6vgxniw" path="res://Visuals/Button_Textures/Power_Node/1-1.png.png" id="20_y4pdw"]
+[ext_resource type="Texture2D" uid="uid://bbpp4wdnixqbd" path="res://Visuals/Button_Textures/Power_Node/1-2.png.png" id="21_bsal8"]
+[ext_resource type="Texture2D" uid="uid://bgsf3o44mh7eg" path="res://Visuals/Button_Textures/Repair_Station/2-1.png.png" id="22_y4pdw"]
+[ext_resource type="Texture2D" uid="uid://dpi3oh51p3gp" path="res://Visuals/Button_Textures/Repair_Station/2-2.png.png" id="23_bsal8"]
+[ext_resource type="Texture2D" uid="uid://iqemlbw4pqik" path="res://Visuals/Button_Textures/Energy_Store/1-1.png.png" id="24_y4pdw"]
+[ext_resource type="Texture2D" uid="uid://b7aqjujtj4166" path="res://Visuals/Button_Textures/Energy_Store/1-2.png.png" id="25_bsal8"]
 [ext_resource type="Script" uid="uid://cy8w3nxo75um5" path="res://UI Scenes/info_hover.gd" id="25_urhph"]
 [ext_resource type="Texture2D" uid="uid://c6j7e8g0bdpxi" path="res://Visuals/Sprite_Frames/pointer.png" id="26_ko1mr"]
+[ext_resource type="Texture2D" uid="uid://c76h55jchje6k" path="res://Visuals/Button_Textures/Laser/LaserButton.png" id="26_y4pdw"]
 [ext_resource type="Theme" uid="uid://ga7xqep48vn4" path="res://Visuals/Themes/info_text.tres" id="27_v1p1f"]
+[ext_resource type="Texture2D" uid="uid://ghkehjhw7g3v" path="res://Visuals/Button_Textures/Laser/2-1.png.png" id="27_y4pdw"]
 [ext_resource type="Script" uid="uid://dkfsn6ofm5lmi" path="res://UI Scenes/selection.gd" id="28_2xu2k"]
+[ext_resource type="Texture2D" uid="uid://mygrrkde6cl4" path="res://Visuals/Button_Textures/Missile_Launcher/1-1.png.png" id="28_y4pdw"]
 [ext_resource type="Script" uid="uid://b2jcnw76agxu8" path="res://UI Scenes/text_bars.gd" id="29_1iudo"]
+[ext_resource type="Texture2D" uid="uid://bfn6rx1x7k4xo" path="res://Visuals/Button_Textures/Missile_Launcher/1-2.png.png" id="29_bsal8"]
 [ext_resource type="FontFile" uid="uid://cv8a6vbc8ntaf" path="res://Visuals/Fonts/633_Trebuchet MS.ttf" id="30_yaxrf"]
 [ext_resource type="Script" uid="uid://cam8cf4ve0uip" path="res://Survival_Scene_Scripts/side_buttons.gd" id="31_s5jj8"]
 [ext_resource type="Script" uid="uid://b7lwpdws4ldwg" path="res://Survival_Scene_Scripts/UpgradeButtons.gd" id="33_iwtxx"]
@@ -51,6 +51,7 @@
 [ext_resource type="Script" uid="uid://c8ancrkdwmium" path="res://GameScenes/wave_display.gd" id="45_e30k7"]
 [ext_resource type="Theme" uid="uid://dejtoowi0l1is" path="res://Visuals/Themes/energy_bar.tres" id="45_opim5"]
 [ext_resource type="Script" uid="uid://dwl7nyqc57pp" path="res://GameScenes/wave_number.gd" id="45_wetyh"]
+[ext_resource type="Texture2D" uid="uid://cgublgygpsb4r" path="res://Visuals/Asteroid_Images/892.png" id="49_bsal8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy202"]
 size = Vector2(1148, 519)
@@ -163,8 +164,8 @@ script = ExtResource("1_gc75h")
 
 [node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035 node_paths=PackedStringArray("CameraArea")]
 script = ExtResource("2_opim5")
-debug_mode = true
 CameraArea = NodePath("../Camera_Area")
+break_time_jiggle = 10
 max_enemy_towers = 3
 first_wave_delay = 140.0
 mob_cap = 20
@@ -272,8 +273,8 @@ offset_top = 9.0
 offset_right = 172.0
 offset_bottom = 91.0
 tower_button_target = "Miner"
-Normal_Texture = ExtResource("11_f8rr2")
-Pressed_Texture = ExtResource("12_y4pdw")
+Normal_Texture = ExtResource("16_y4pdw")
+Pressed_Texture = ExtResource("17_bsal8")
 metadata/_edit_lock_ = true
 
 [node name="Solar" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=1752326957 instance=ExtResource("10_ondh4")]
@@ -283,8 +284,8 @@ offset_top = 9.0
 offset_right = 280.0
 offset_bottom = 85.0
 tower_button_target = "Solar"
-Normal_Texture = ExtResource("13_bsal8")
-Pressed_Texture = ExtResource("14_s2dq8")
+Normal_Texture = ExtResource("18_y4pdw")
+Pressed_Texture = ExtResource("19_y4pdw")
 metadata/_edit_lock_ = true
 
 [node name="Power Node" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=942494025 instance=ExtResource("10_ondh4")]
@@ -294,8 +295,8 @@ offset_top = 9.0
 offset_right = 4.0
 offset_bottom = 9.0
 tower_button_target = "Relay"
-Normal_Texture = ExtResource("15_yk6cs")
-Pressed_Texture = ExtResource("16_pw0x2")
+Normal_Texture = ExtResource("20_y4pdw")
+Pressed_Texture = ExtResource("21_bsal8")
 metadata/_edit_lock_ = true
 
 [node name="Repair_Station" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=1335251784 instance=ExtResource("10_ondh4")]
@@ -305,8 +306,8 @@ offset_top = 9.0
 offset_right = 328.0
 offset_bottom = 9.0
 tower_button_target = "Repair_Station"
-Normal_Texture = ExtResource("17_yojyt")
-Pressed_Texture = ExtResource("18_u5rve")
+Normal_Texture = ExtResource("22_y4pdw")
+Pressed_Texture = ExtResource("23_bsal8")
 metadata/_edit_lock_ = true
 
 [node name="Battery" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=525753158 instance=ExtResource("10_ondh4")]
@@ -316,8 +317,8 @@ offset_top = 9.0
 offset_right = 544.0
 offset_bottom = 9.0
 tower_button_target = "Battery"
-Normal_Texture = ExtResource("19_opy7k")
-Pressed_Texture = ExtResource("20_78q7s")
+Normal_Texture = ExtResource("24_y4pdw")
+Pressed_Texture = ExtResource("25_bsal8")
 metadata/_edit_lock_ = true
 
 [node name="Laser" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=1904312843 instance=ExtResource("10_ondh4")]
@@ -327,8 +328,8 @@ offset_top = 9.0
 offset_right = 651.0
 offset_bottom = 9.0
 tower_button_target = "Laser"
-Normal_Texture = ExtResource("21_yqxd5")
-Pressed_Texture = ExtResource("22_xas3b")
+Normal_Texture = ExtResource("26_y4pdw")
+Pressed_Texture = ExtResource("27_y4pdw")
 metadata/_edit_lock_ = true
 
 [node name="Missile" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" unique_id=342253895 instance=ExtResource("10_ondh4")]
@@ -338,8 +339,8 @@ offset_top = 9.0
 offset_right = 436.0
 offset_bottom = 9.0
 tower_button_target = "Missile_Launcher"
-Normal_Texture = ExtResource("23_u5tcj")
-Pressed_Texture = ExtResource("24_imvym")
+Normal_Texture = ExtResource("28_y4pdw")
+Pressed_Texture = ExtResource("29_bsal8")
 metadata/_edit_lock_ = true
 
 [node name="Info_Hover" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=1879432484]
@@ -631,16 +632,25 @@ offset_bottom = 62.0
 script = ExtResource("38_uv5vx")
 metadata/_edit_lock_ = true
 
-[node name="Resources" type="Label" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=866234510]
-z_index = 4
+[node name="HBoxContainer" type="HBoxContainer" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=1235415511]
 layout_mode = 0
 offset_left = 4.0
-offset_top = 5.0
-offset_right = 120.0
-offset_bottom = 28.0
-text = "50 minerals"
+offset_top = 9.0
+offset_right = 44.0
+offset_bottom = 26.0
+
+[node name="Resources" type="Label" parent="HotBar_Layer/ColorRect2/Right Box/HBoxContainer" unique_id=866234510]
+z_index = 4
+layout_mode = 2
+text = "50"
 label_settings = SubResource("LabelSettings_a1qks")
 metadata/_edit_lock_ = true
+
+[node name="TextureRect" type="TextureRect" parent="HotBar_Layer/ColorRect2/Right Box/HBoxContainer" unique_id=1324628871]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("49_bsal8")
+stretch_mode = 2
 
 [node name="Energy" type="Label" parent="HotBar_Layer/ColorRect2/Right Box" unique_id=1755560519]
 z_index = 4
@@ -711,6 +721,7 @@ metadata/_edit_lock_ = true
 [connection signal="remove_radar_node" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground" method="_on_survival_remove_radar_node"]
 [connection signal="spawn_tutorial" from="." to="HotBar_Layer" method="_on_survival_spawn_tutorial"]
 [connection signal="child_exiting_tree" from="Enemy_Wave_Spawner" to="Enemy_Wave_Spawner" method="_on_child_exiting_tree"]
+[connection signal="show_tower_warning" from="Enemy_Wave_Spawner" to="HotBar_Layer" method="_on_enemy_wave_spawner_show_tower_warning"]
 [connection signal="wave_start" from="Enemy_Wave_Spawner" to="HotBar_Layer/WaveDisplay" method="_on_enemy_wave_spawner_wave_start"]
 [connection signal="timeout" from="Enemy_Wave_Spawner/CooldownEnemy" to="Enemy_Wave_Spawner" method="_on_cooldown_enemy_timeout"]
 [connection signal="timeout" from="Global_Ticks" to="Enemy_Wave_Spawner" method="_on_global_ticks_timeout"]

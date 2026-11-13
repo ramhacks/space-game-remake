@@ -7,11 +7,15 @@ var Base_Dict = {
 	"Energy_Required": 1,
 	"Label": "Base",
 	"Upgrade_Price": 20,
-	"Recycle_Price": 20,
+	"Recycle_Price": 10,
 	"Custom_Dict": {
 		"Connection_Limit": 5,
 		"Power_Delay": 0
 	},
+}
+
+var dict_path = {
+	"Base": Base,
 }
 
 # Called when the node enters the scene tree for the first time.

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ewug82mch8nq" path="res://UI Scenes/pause_menu.gd" id="1_s4wy4"]
 [ext_resource type="Theme" uid="uid://c31puf50m0oxm" path="res://Visuals/Themes/Upgrade_Button.tres" id="1_trob4"]
+[ext_resource type="Script" uid="uid://dou5ldsxs58d8" path="res://UI Scenes/save_script.gd" id="3_37kan"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s4wy4"]
 bg_color = Color(0, 0, 0, 1)
@@ -71,6 +72,10 @@ shape = SubResource("RectangleShape2D_37kan")
 position = Vector2(123, 331)
 shape = SubResource("RectangleShape2D_37kan")
 
+[node name="SaveScript" type="Node" parent="." unique_id=1673320814]
+script = ExtResource("3_37kan")
+
 [connection signal="pressed" from="Save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="Save" to="SaveScript" method="_on_save_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

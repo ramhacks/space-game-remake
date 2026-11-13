@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Globals="*res://Survival_Scene_Scripts/globals.gd"
+TowerPrices="*uid://cypvcx7cvhb8v"
 
 [display]
 

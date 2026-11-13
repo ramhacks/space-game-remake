@@ -428,16 +428,15 @@ radius = 58.00862
 [node name="Laser" unique_id=127248683 groups=["laser", "tower_node"] instance=ExtResource("1_ktcgg")]
 script = ExtResource("2_4d8m5")
 custom_class = "Laser"
-power_needed = 1
 
-[node name="Upgrades" type="Node" parent="." index="0" unique_id=1943170888]
-script = ExtResource("91_p061p")
-
-[node name="Health" parent="." index="1" unique_id=319312796 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_j2n2b")]
+[node name="Health" parent="." index="0" unique_id=319312796 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_j2n2b")]
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
+
+[node name="Upgrades" parent="." index="1" unique_id=243826449]
+script = ExtResource("91_p061p")
 
 [node name="Hitbox" parent="." index="2" unique_id=1883757356 node_paths=PackedStringArray("health_component")]
 health_component = NodePath("../Health")
@@ -462,7 +461,7 @@ collision_layer = 10
 shape = SubResource("CircleShape2D_emkd0")
 debug_color = Color(1, 1, 1, 0)
 
-[node name="StateMachine" type="Node2D" parent="." index="13" unique_id=599999205 node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node2D" parent="." index="12" unique_id=599999205 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("18_qvvyy")
 initial_state = NodePath("Basic_Laser")
 
@@ -480,14 +479,14 @@ unique_name_in_owner = true
 wait_time = 0.7
 one_shot = true
 
-[node name="EnemyTowerDetector" type="Area2D" parent="." index="14" unique_id=777938733]
+[node name="EnemyTowerDetector" type="Area2D" parent="." index="13" unique_id=777938733]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyTowerDetector" index="0" unique_id=2070876841]
 shape = SubResource("CircleShape2D_a50kf")
 
-[node name="DelayTimer" type="Timer" parent="." index="15" unique_id=1475018881]
+[node name="DelayTimer" type="Timer" parent="." index="14" unique_id=1475018881]
 
-[node name="PewPew" type="AudioStreamPlayer2D" parent="." index="16" unique_id=868089365]
+[node name="PewPew" type="AudioStreamPlayer2D" parent="." index="15" unique_id=868089365]
 stream = ExtResource("92_yxk0k")
 volume_db = -6.878
 

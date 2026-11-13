@@ -5,7 +5,7 @@ var Missile_1_Dict = {
 	"Health": 40,
 	"Energy_Required": 5,
 	"Label": "Level 1",
-	"Upgrade_Price": 400,
+	"Upgrade_Price": TowerPrices.Missile,
 	"Recycle_Price": 300,
 	"Custom_Dict": {
 		"Damage": 15,
@@ -48,6 +48,12 @@ var Missile_3_Dict = {
 var Missile_1 = Path_Node.new()
 var Missile_2 = Path_Node.new()
 var Missile_3 = Path_Node.new()
+
+var dict_path = {
+	"Level 1": Missile_1,
+	"Level 2": Missile_2,
+	"Level 3": Missile_3,
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

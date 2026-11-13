@@ -1,7 +1,7 @@
 extends Node
 
 signal wave_start(int)
-
+signal show_tower_warning
 signal wave_active
 signal wave_stopped
 ## Makes it so enemies will spawn in 30 seconds
@@ -28,7 +28,7 @@ var game_over_scene
 
 
 var current_budget = 0
-
+var enemy_tower_warning
 
 @export var first_wave_delay := 20.0
 @export var base_prep_time := 60.0
@@ -37,7 +37,6 @@ var current_budget = 0
 
 var wave_in_effect := false
 var wave_elapsed := 0.0
-
 
 @export var mob_cap: int
 
@@ -52,8 +51,10 @@ const THEME_UNLOCK = {
 	"swarm": 1,
 	"mixed": 2,
 	"economy_raid": 3,
-	"siege": 5,
+	"siege": 4,
 }
+
+
 
 const FORCED_THEMES = {
 	1: "swarm",
@@ -61,8 +62,11 @@ const FORCED_THEMES = {
 	5: "siege",
 }
 
-const ENEMY_COST = {"random": 1, "power": 3, "defense": 4}
+
+# Costs of the enemy to unlock, how much the 'wave' spends, kind of determines how often enimies will spawn
+const ENEMY_COST = {"random": 1, "power": 2, "defense": 3}
 const ENEMY_UNLOCK = {"random": 1, "power": 3, "defense": 5}
+
 var last_theme := ""
 var last_seen := {}
 
@@ -92,6 +96,8 @@ func start_spawn():
 	radar_node = preload("res://Visuals/Minimap_textures/radar_marker.tscn")
 	enemy_marker_texture = load("res://Visuals/Minimap_textures/enemy.png")
 	enemy_spawner_tower = preload("res://Enemy/EnemySpawner/EnemySpawner.tscn")
+	enemy_tower_warning = preload("res://UI Scenes/enemytoweralert.tscn")
+
 	cooldown_node = $CooldownEnemy
 
 	enemy = preload("res://Enemy/Enemy_Types/Power_Targeter.tscn")
@@ -105,9 +111,11 @@ func start_spawn():
 	$CooldownEnemy.start(first_wave_delay)
 
 func prepare_enemy_tower_instance(tower_instance: EnemySpawner):
+
 	wave_active.connect(tower_instance.activate_tower)
 	wave_stopped.connect(tower_instance.deactivate_tower)
-
+	#Spawn warning sign
+	show_tower_warning.emit()
 
 func _on_cooldown_timeout() -> void:
 	start_wave()
@@ -119,7 +127,6 @@ func spawn_enemy(pos, type):
 	#Enemy Loading code, will be moved here temporarily, when moved, you need to call everything below,
 	#below we add the radar node, initialize the enemy and connect necessary signals so that the radar node can move
 	#with the enemy, when moved you will have to bring a preloaded radar node as well and a preloaded enemy_node
-
 	var enemy_marker2 = radar_node.instantiate()
 	enemy_marker2.texture = enemy_marker_texture
 	enemy_marker2.get_relative.connect(get_parent().get_node("Camera_Area").call_rel)
@@ -168,9 +175,7 @@ func pick_theme(w: int) -> String:
 				candidates.append(t)
 				var waves_since: int = w - last_seen[t]
 				weights.append(1.0 + waves_since)
-		print(candidates)
 		choice = candidates[_weighted_index(weights)]
-		print(choice)
 
 	last_seen[choice] = w
 	last_theme = choice
@@ -186,7 +191,6 @@ func build_wave(w: int) -> Array[String]:
 	while true:
 		var options: Array[String] = []
 		var weights: Array[float] = []
-
 		for e in ENEMY_COST:
 			if w >= ENEMY_UNLOCK[e] and ENEMY_COST[e] <= budget:
 				options.append(e)
@@ -194,7 +198,6 @@ func build_wave(w: int) -> Array[String]:
 
 		if options.is_empty():
 			break
-
 		var picked := options[_weighted_index(weights)]
 		wave.append(picked)
 		budget -= ENEMY_COST[picked]
@@ -228,7 +231,6 @@ func spawn_new_wave(wave_number: int) -> void:
 	var ind = random.randi_range(0, 1)
 
 	var enemies: Array[String] = build_wave(Globals.wave_number)
-
 	for behavior in enemies:
 		if get_tree().get_nodes_in_group("wave_enemies").size() >= mob_cap:
 			break

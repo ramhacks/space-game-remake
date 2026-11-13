@@ -105,7 +105,6 @@ radius = 58.0
 [node name="Repair_Station" unique_id=1029813773 groups=["tower_node"] instance=ExtResource("1_y4khj")]
 script = ExtResource("2_mb1uw")
 custom_class = "Repair_Station"
-power_needed = 1
 power_time_seconds = 1
 
 [node name="Health" parent="." index="0" unique_id=1360236364 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_hl4nw")]
@@ -113,6 +112,9 @@ death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
+
+[node name="Upgrades" parent="." index="1" unique_id=243826449]
+script = ExtResource("18_0jdeu")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" parent_id_path=PackedInt32Array(1857245891) index="0" unique_id=1175609505]
 z_index = 2
@@ -125,6 +127,3 @@ shape = SubResource("CircleShape2D_qfnyt")
 
 [node name="Collider" parent="Collision_Area" parent_id_path=PackedInt32Array(1285518275) index="0" unique_id=1519484617]
 shape = SubResource("CircleShape2D_emkd0")
-
-[node name="Upgrades" type="Node" parent="." index="12" unique_id=1392391812]
-script = ExtResource("18_0jdeu")

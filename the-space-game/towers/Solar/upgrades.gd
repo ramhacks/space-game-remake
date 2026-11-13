@@ -5,11 +5,12 @@ var Base = Path_Node.new()
 var Solar_1 = Path_Node.new()
 var Solar_2 = Path_Node.new()
 
+
 var Base_Dict = {
 	"Health": 45,
 	"Energy_Required": 1,
 	"Label": "Level 1",
-	"Upgrade_Price": 200,
+	"Upgrade_Price": TowerPrices.Solar,
 	"Recycle_Price": 100,
 	"Custom_Dict": {
 		"Power Gen Delay": 3,
@@ -48,6 +49,12 @@ var Solar_2_Dict = {
 	}
 }
 
+#Path for loading saves to match the string to the upgrade object
+var dict_path = {
+	"Level 1": Base,
+	"Level 2": Solar_1,
+	"Level 3": Solar_2
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

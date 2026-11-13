@@ -31,10 +31,13 @@ var child_area
 var sprite_node
 var animated_node
 var inherted_node #for methods that require the inhereted node
+
+#Defined on ready
 var sprite_var_node_holder
+
+#Defined on ready
 var my_collding_radius #so we don't have to call deeper into the node to check this towers collider
 
-var level = 1
 
 var built_connected = false;
 
@@ -52,7 +55,6 @@ var group_: String = 'NAN'
 
 #amount that this tower needs to function
 #We can modify this to be customized when implementing missles/lasers
-@export var power_needed: int
 @export var power_time_seconds: float
 
 var connections: Array = []
@@ -81,8 +83,6 @@ signal draw_laser(tower, pos1, pos2, cooldown_time, tower_origin)
 # signal draw_hover_line(pos1, pos2_list, R, G, B, opacity, line_node)
 signal draw_selection_animation(tower_pos, tower_radius, clicked_self, tower_type)
 signal update_location(loc)
-
-var cur_name: String = "tower name" #used if we want to identify the type of tower
 
 var cooldown_delay: bool = 3  #may need to be adjusted based on upgrade level
 var cooling_down: bool = false
@@ -233,12 +233,24 @@ func send_hover_line():
 		collider_sprite.play()
 	if(show_colliding_asteroids):
 		if(len(sprite_node.get_overlapping_bodies()) > 0):
+
 			on_object = true
 		else:
+			#Override previous
+
 			on_object = false
 
 		hover_line.clear_points()
 		var overlap = child_area.get_overlapping_bodies()
+
+		# If we are not overlapping any asteroids then make collider_sprite
+		# red to visually show the player we are not overlapping asteroids
+		if len(overlap) == 0:
+			collider_sprite.animation = "red"
+			collider_sprite.play()
+		else:
+			collider_sprite.animation = "green"
+			collider_sprite.play()
 		for node in overlap:
 			hover_line.add_point(to_local(self.global_position))
 			hover_line.add_point(to_local(node.global_position))
@@ -335,6 +347,8 @@ func _on_power_delay_timeout() -> void:
 	if(current_upgrade_node.energy_needs) > 0 and built_connected:
 		#First check if we can continue building by making sure a solar node still exists in the graph
 		built_connected = Globals.find_closest_solar(self)
+		#Expand the connector to show the player we are requesting power
+
 		request_power.emit(self, group_, current_upgrade_node.energy_needs)
 
 #Convert group to any group we want
@@ -399,6 +413,7 @@ func set_group(overlaps):
 
 
 func no_power_available(sender):
+	$Connector.no_power()
 	powered = false
 	#only act if we are the ones who's power was not able to be recieved
 	if sender == self and built: #only change if tower is built, if it isn't user can just see that the build meter is not going up
@@ -411,6 +426,7 @@ func tower_made() -> void:
 
 
 func do_process():
+	$Connector.recieved_power()
 	powered = true
 	if not enabled:
 		return  # drop late power grants, don't restart Power_Delay
@@ -523,3 +539,15 @@ func rebuild():
 	if enabled:
 		$Power_Delay.wait_time = 0.5
 		$Power_Delay.start()
+
+
+#Force an upgrade, requires a path_node instance
+func force_upgrade(upgrade_node: Path_Node):
+	current_upgrade_node = upgrade_node
+	animated_node.play(current_upgrade_node.label)
+
+	if custom_class != "Laser":
+		upgrade(null)
+	else:
+		#Make an exception on what upgrade button they pressed as there would be 2 options
+		upgrade(upgrade_node.label) #Change parameter to type, either thel or pulsar

@@ -195,16 +195,15 @@ radius = 13.0
 script = ExtResource("2_lr4nm")
 custom_class = "Solar"
 power_capacity = 200
-power_needed = 1
 
-[node name="Upgrades" type="Node" parent="." index="0" unique_id=464263572]
-script = ExtResource("3_yb4d2")
-
-[node name="Health" parent="." index="1" unique_id=1632793861 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_0ep3i")]
+[node name="Health" parent="." index="0" unique_id=1632793861 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_0ep3i")]
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
+
+[node name="Upgrades" parent="." index="1" unique_id=243826449]
+script = ExtResource("3_yb4d2")
 
 [node name="Hitbox" parent="." index="2" unique_id=1883757356 node_paths=PackedStringArray("health_component")]
 health_component = NodePath("../Health")

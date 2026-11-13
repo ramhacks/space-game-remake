@@ -57,14 +57,14 @@ script = ExtResource("2_fudva")
 self_mob_cap = 5
 custom_class = "Enemy"
 
-[node name="Upgrades" type="Node" parent="." index="0" unique_id=1553973495]
-script = ExtResource("7_kg3vl")
-
-[node name="Health" parent="." index="1" unique_id=1394752835 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_l5or0")]
+[node name="Health" parent="." index="0" unique_id=1394752835 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_l5or0")]
 death_animation = NodePath("../Explosion")
 death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
+
+[node name="Upgrades" parent="." index="1" unique_id=243826449]
+script = ExtResource("7_kg3vl")
 
 [node name="Hitbox" parent="." index="2" unique_id=1883757356 node_paths=PackedStringArray("health_component")]
 health_component = NodePath("../Health")
@@ -74,7 +74,7 @@ hit_types = ["Enemy_Missile", "Laser"]
 sprite_frames = SubResource("SpriteFrames_bacxs")
 animation = &"active"
 
-[node name="SpawnDelay" type="Timer" parent="." index="5" unique_id=1056662277]
+[node name="SpawnDelay" type="Timer" parent="." index="4" unique_id=1056662277]
 wait_time = 40.0
 one_shot = true
 autostart = true
@@ -82,7 +82,7 @@ autostart = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=295804057]
 shape = SubResource("CircleShape2D_kg3vl")
 
-[node name="Panel" type="Panel" parent="." index="14" unique_id=525668734]
+[node name="Panel" type="Panel" parent="." index="13" unique_id=525668734]
 visible = false
 top_level = true
 offset_left = -20.0

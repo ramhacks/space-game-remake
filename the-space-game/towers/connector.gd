@@ -82,3 +82,11 @@ func priority_lines(overlap_areas):
 		#Creating Collision Object to add to scene to detect line interescts
 
 		max+=1
+
+# Two functions to constrict the connections of the tower, in doing so,
+# it will create a wave for the player to visible see when the tower is requesting power
+func no_power():
+	width = 1
+
+func recieved_power():
+	width = 2

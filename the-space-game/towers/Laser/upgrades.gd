@@ -4,7 +4,7 @@ var Base_Dict = {
 	"Health": 40,
 	"Energy_Required": 3,
 	"Label": "Laser",
-	"Upgrade_Price": 300,
+	"Upgrade_Price": TowerPrices.Laser,
 	"Recycle_Price": 150,
 	"Custom_Dict": {
 		"Damage": 10,
@@ -111,6 +111,16 @@ var Thel_3 = Path_Node.new()
 var Pulsar_1 = Path_Node.new()
 var Pulsar_2 = Path_Node.new()
 var Pulsar_3 = Path_Node.new()
+
+var dict_path = {
+	"Base": Base,
+	"Thel 1": Thel_1,
+	"Thel 2": Thel_2,
+	"Thel 3": Thel_3,
+	"Pulsar_1": Pulsar_1,
+	"Pulsar_2": Pulsar_2,
+	"Pulsar_3": Pulsar_3
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

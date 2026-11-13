@@ -10,7 +10,7 @@ var Base_Dict = {
 	"Health": 60,
 	"Energy_Required": 1,
 	"Label": "Level 1",
-	"Upgrade_Price": 300,
+	"Upgrade_Price": TowerPrices.Battery,
 	"Recycle_Price": 100,
 	"Custom_Dict": {
 		"Power Capacity": 50,
@@ -30,7 +30,10 @@ var Battery_1_Dict = {
 	}
 }
 
-
+var dict_path = {
+	"Base": Base,
+	"Level 1": Battery_1
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

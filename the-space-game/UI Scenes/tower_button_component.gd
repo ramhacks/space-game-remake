@@ -6,6 +6,7 @@ class_name Tower_Button
 @export var Normal_Texture: Texture2D
 @export var Pressed_Texture: Texture2D
 
+
 var tower_unlocks = {
 	"Miner": 0,
 	"Solar": 0,
@@ -35,10 +36,12 @@ func _ready() -> void:
 	shortcut_event = InputEventKey.new()
 	$select_button.texture_normal = Normal_Texture
 	$select_button.texture_pressed = Pressed_Texture
+	$Panel/Price.text = str(TowerPrices.NameMatch[tower_button_target])
 	if tower_unlocks[tower_button_target] == Globals.wave_number and !Globals.wave_active:
 		$Unlock.hide()
 	else:
 		$Unlock/Label.text = "Locked Until\nWave #" + str(tower_unlocks[tower_button_target])
+
 
 
 func _on_select_button_pressed() -> void:
@@ -64,7 +67,8 @@ func _on_info_toggled(toggled_on: bool) -> void:
 		Info_Hover_off.emit()
 
 func _process(delta: float) -> void:
-	if tower_unlocks[tower_button_target] == Globals.wave_number and !Globals.wave_active:
+	# Make it less than or equals otherwise they would stay locked if you increase the wave count
+	if tower_unlocks[tower_button_target] <= Globals.wave_number and !Globals.wave_active:
 		$Unlock.hide()
 	else:
 		$Unlock/Label.text = "Locked Until\nWave #" + str(tower_unlocks[tower_button_target])

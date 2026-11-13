@@ -140,7 +140,6 @@ radius = 15.0
 script = ExtResource("2_kv32f")
 custom_class = "Battery"
 power_capacity = 50
-power_needed = 1
 
 [node name="Health" parent="." index="0" unique_id=863427821 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_fbgp1")]
 death_animation = NodePath("../Explosion")
@@ -148,7 +147,10 @@ death_animation_name = "default"
 parent = NodePath("..")
 Animated_Target = NodePath("../Sprite_Node")
 
-[node name="Hitbox" parent="." index="1" unique_id=1883757356 node_paths=PackedStringArray("health_component")]
+[node name="Upgrades" parent="." index="1" unique_id=243826449]
+script = ExtResource("28_ds10r")
+
+[node name="Hitbox" parent="." index="2" unique_id=1883757356 node_paths=PackedStringArray("health_component")]
 health_component = NodePath("../Health")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" parent_id_path=PackedInt32Array(1857245891) index="0" unique_id=619731478]
@@ -159,6 +161,3 @@ script = ExtResource("36_dno7p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=897644095]
 shape = SubResource("CircleShape2D_o7vyt")
-
-[node name="Upgrades" type="Node" parent="." index="12" unique_id=1868515857]
-script = ExtResource("28_ds10r")

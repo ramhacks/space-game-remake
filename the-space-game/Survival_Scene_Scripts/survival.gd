@@ -7,13 +7,13 @@ var solar_tower
 var activate_tutorial = false;
 # Prices of All Towers, Should not be located here
 var tower_price_dict = {
-	"Miner": 45,
-	"Solar": 200,
-	"Relay": 20,
-	"Repair_Station": 300,
-	"Battery":300,
-	"Laser":400,
-	"Missile_Launcher":400
+	"Miner": TowerPrices.Miner,
+	"Solar": TowerPrices.Solar,
+	"Relay": TowerPrices.Relay,
+	"Repair_Station": TowerPrices.Repair,
+	"Battery":TowerPrices.Battery,
+	"Laser":TowerPrices.Laser,
+	"Missile_Launcher":TowerPrices.Missile
 
 }
 

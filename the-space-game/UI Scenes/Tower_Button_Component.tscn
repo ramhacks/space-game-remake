@@ -5,6 +5,17 @@
 [ext_resource type="Texture2D" uid="uid://trco7br4nfk5" path="res://Visuals/Sprite_Frames/infobutton_frame2.png" id="2_a7dk1"]
 [ext_resource type="Texture2D" uid="uid://bx7rohojjycow" path="res://Visuals/Sprite_Frames/miner_button_frame_1.png" id="3_437o5"]
 [ext_resource type="Texture2D" uid="uid://cljqr2udohd4m" path="res://Visuals/Sprite_Frames/miner_button_frame_2.png" id="4_cvi6u"]
+[ext_resource type="FontFile" uid="uid://cegun6ox1ah4c" path="res://Visuals/Fonts/632_SF Automaton.ttf" id="6_a71aa"]
+[ext_resource type="Texture2D" uid="uid://cgublgygpsb4r" path="res://Visuals/Asteroid_Images/892.png" id="7_6eb6p"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a71aa"]
+bg_color = Color(0.20784314, 0.20784314, 0.20784314, 0.81960785)
+
+[sub_resource type="Theme" id="Theme_6eb6p"]
+Panel/styles/panel = SubResource("StyleBoxFlat_a71aa")
+
+[sub_resource type="LabelSettings" id="LabelSettings_6eb6p"]
+font = ExtResource("6_a71aa")
 
 [node name="Control" type="Control" unique_id=874872235]
 process_mode = 1
@@ -38,6 +49,7 @@ texture_pressed = ExtResource("4_cvi6u")
 stretch_mode = 0
 
 [node name="Unlock" type="Panel" parent="." unique_id=458314062]
+visible = false
 z_index = 4
 layout_mode = 0
 offset_right = 100.0
@@ -49,6 +61,33 @@ offset_right = 98.0
 offset_bottom = 116.0
 text = "Locked Until
 Wave #"
+
+[node name="Panel" type="Panel" parent="." unique_id=1187235218]
+layout_mode = 0
+offset_top = 75.0
+offset_right = 100.0
+offset_bottom = 92.0
+theme = SubResource("Theme_6eb6p")
+metadata/_edit_lock_ = true
+
+[node name="Price" type="Label" parent="Panel" unique_id=1750367863]
+layout_mode = 0
+offset_left = 32.0
+offset_top = -1.0
+offset_right = 64.0
+offset_bottom = 22.0
+text = "450"
+label_settings = SubResource("LabelSettings_6eb6p")
+horizontal_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel" unique_id=407726817]
+texture_filter = 1
+layout_mode = 0
+offset_left = 64.0
+offset_top = 1.0
+offset_right = 80.0
+offset_bottom = 16.0
+texture = ExtResource("7_6eb6p")
 
 [connection signal="button_down" from="Info" to="." method="_on_info_button_down"]
 [connection signal="button_up" from="Info" to="." method="_on_info_button_up"]

@@ -1,14 +1,21 @@
 [gd_scene format=3 uid="uid://bh0dbllq435kx"]
 
+[ext_resource type="Script" uid="uid://bnrp4kutp8j4u" path="res://UI Scenes/enemytoweralert.gd" id="1_twr0r"]
 [ext_resource type="LabelSettings" uid="uid://dv0inimxvgnrb" path="res://mainlabel.tres" id="1_ylaf4"]
 
 [node name="TowerAlert" type="Control" unique_id=1599563622]
+z_index = 10
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -408.0
+offset_bottom = -605.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_twr0r")
+blink_amount = 2
+blink_delay = 1
 
 [node name="Panel" type="Panel" parent="." unique_id=548122031]
 layout_mode = 0
@@ -16,6 +23,7 @@ offset_left = 128.0
 offset_top = 56.0
 offset_right = 712.0
 offset_bottom = 248.0
+metadata/_edit_lock_ = true
 
 [node name="Label" type="Label" parent="." unique_id=1386035186]
 layout_mode = 0
@@ -27,3 +35,9 @@ text = "ENEMY TOWER DETECTED
 
 ENEMY TOWER DETECTED"
 label_settings = ExtResource("1_ylaf4")
+metadata/_edit_lock_ = true
+
+[node name="Timer" type="Timer" parent="." unique_id=343959607]
+wait_time = 3.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

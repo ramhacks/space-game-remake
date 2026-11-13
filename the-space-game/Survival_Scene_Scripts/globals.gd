@@ -17,8 +17,8 @@ const PowerG = preload("res://enums/power_enums.gd").PowerGroups
 var power_groups = {}
 
 
-#var starting_resources = 200
-var starting_resources = 1000
+
+var starting_resources = 200
 
 var last_deleted_tower: Node;
 var tutorial_active = false
@@ -98,6 +98,7 @@ func reset_all():
 	power_groups = {}
 	NO_SOLAR_TOWER = true
 	wave_number = 0
+	wave_active = false
 
 
 

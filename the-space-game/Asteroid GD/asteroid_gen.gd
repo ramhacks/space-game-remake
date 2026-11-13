@@ -140,7 +140,6 @@ func _ready() -> void:
 	center = [int(vp.x / 2), transformy * -1]
 	var random = RandomNumberGenerator.new()
 	random.randomize()
-	print(Globals.asteroid_generation_type)
 	if Globals.asteroid_generation_type == "Circle":
 		circle_form(random)
 	else:

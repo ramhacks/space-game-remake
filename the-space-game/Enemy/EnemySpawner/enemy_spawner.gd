@@ -32,7 +32,6 @@ func _ready() -> void:
 func initialize(radar, pos: Vector2) -> void:
 	radar_marker = radar
 	self.global_position = pos
-	print(radar_marker)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
