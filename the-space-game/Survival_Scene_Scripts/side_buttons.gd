@@ -1,7 +1,8 @@
 extends VBoxContainer
 
 signal hide_selection
-
+signal show_upgrade_info
+signal hide_upgrade_info
 var recycle_pressed = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -91,3 +92,13 @@ func _on_disable_pressed() -> void:
 	else:
 		$Disable.text = "Disable"
 		Globals.tower_selected.enable()
+
+
+#Just functions to carry up so that side_buttons still 'owns' them and the signals arn't scrambled between
+# towers
+# makes it easier to tell where the signal came from
+func _on_upgrade_button_mouse_exited() -> void:
+	hide_upgrade_info.emit()
+
+func _on_upgrade_button_mouse_entered() -> void:
+	show_upgrade_info.emit()

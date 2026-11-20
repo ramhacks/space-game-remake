@@ -13,8 +13,9 @@ var Base_Dict = {
 	"Upgrade_Price": TowerPrices.Battery,
 	"Recycle_Price": 100,
 	"Custom_Dict": {
-		"Power Capacity": 50,
-		"Connection_Limit": 2
+		"Power Capacity": 70,
+		"Connection_Limit": 2,
+		"Power_Delay": 1,
 	}
 }
 
@@ -26,7 +27,8 @@ var Battery_1_Dict = {
 	"Recycle_Price": 150,
 	"Custom_Dict": {
 		"Power_Capacity": 100,
-		"Connection_Limit": 2
+		"Connection_Limit": 2,
+		"Power_Delay": 1,
 	}
 }
 

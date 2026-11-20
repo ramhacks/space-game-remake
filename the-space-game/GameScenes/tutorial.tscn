@@ -118,7 +118,7 @@ offset_left = 16.0
 offset_top = 8.0
 offset_right = 240.0
 offset_bottom = 83.0
-text = "Below is the energy bar, some towers consume energy, and it takes energy to build towers. Make sure to keep an eye on how much you produce vs use"
+text = "Below is the energy bar, some towers consume energy, and it takes energy to build towers. Make sure to keep an eye on how much you produce vs consume"
 autowrap_mode = 2
 metadata/_edit_lock_ = true
 
@@ -174,7 +174,7 @@ offset_left = 16.0
 offset_top = 8.0
 offset_right = 240.0
 offset_bottom = 83.0
-text = "Every couple of minutes a new enemy swarm will spawn. Pay attention to the minimap! Some enimies have different colors depending on what tower they are targeting"
+text = "Every couple of minutes a new enemy swarm will spawn. Pay attention to the minimap! Some enimies have different colors depending on what type of tower they are targeting"
 autowrap_mode = 2
 metadata/_edit_lock_ = true
 

@@ -34,6 +34,7 @@
 [ext_resource type="Script" uid="uid://cam8cf4ve0uip" path="res://Survival_Scene_Scripts/side_buttons.gd" id="31_s5jj8"]
 [ext_resource type="Script" uid="uid://b7lwpdws4ldwg" path="res://Survival_Scene_Scripts/UpgradeButtons.gd" id="33_iwtxx"]
 [ext_resource type="Theme" uid="uid://c31puf50m0oxm" path="res://Visuals/Themes/Upgrade_Button.tres" id="34_14b4j"]
+[ext_resource type="PackedScene" uid="uid://c6vuyavqde6g3" path="res://UI Scenes/upgrade_info.tscn" id="34_yk6cs"]
 [ext_resource type="Theme" uid="uid://cavwcn7qaxlkh" path="res://Visuals/Themes/Recycle_Button.tres" id="35_72fwp"]
 [ext_resource type="Theme" uid="uid://bu1u3s2urrm1p" path="res://Visuals/Themes/progressbar1.tres" id="36_56iln"]
 [ext_resource type="Theme" uid="uid://bvpc0uoiyflce" path="res://Visuals/Themes/minimap.tres" id="36_tjsn0"]
@@ -167,8 +168,7 @@ script = ExtResource("1_gc75h")
 script = ExtResource("2_opim5")
 CameraArea = NodePath("../Camera_Area")
 break_time_jiggle = 10
-max_enemy_towers = 3
-first_wave_delay = 140.0
+first_wave_delay = 120.0
 mob_cap = 20
 
 [node name="CooldownEnemy" type="Timer" parent="Enemy_Wave_Spawner" unique_id=1096147353]
@@ -389,12 +389,18 @@ position = Vector2(352, -36)
 shape = SubResource("RectangleShape2D_cyyct")
 
 [node name="Selection" type="Control" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground" unique_id=1347951975]
-visible = false
 anchors_preset = 0
 offset_right = 651.0
 offset_bottom = 131.0
 script = ExtResource("28_2xu2k")
 metadata/_edit_lock_ = true
+
+[node name="UpgradeInfo" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection" unique_id=822128172 instance=ExtResource("34_yk6cs")]
+layout_mode = 1
+offset_left = 550.0
+offset_top = -115.0
+offset_right = 211.0
+offset_bottom = -166.0
 
 [node name="Connecitons_Label" type="Label" parent="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection" unique_id=1223030290]
 z_index = 1
@@ -729,6 +735,7 @@ metadata/_edit_lock_ = true
 [connection signal="finished" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_survival_finished"]
 [connection signal="rebake_mesh" from="." to="NavigationRegion2D" method="_on_survival_rebake_mesh"]
 [connection signal="remove_radar_node" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/MiniMapBackground/Forground" method="_on_survival_remove_radar_node"]
+[connection signal="send_selected_tower" from="." to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/UpgradeInfo" method="_on_survival_send_selected_tower"]
 [connection signal="spawn_tutorial" from="." to="HotBar_Layer" method="_on_survival_spawn_tutorial"]
 [connection signal="child_exiting_tree" from="Enemy_Wave_Spawner" to="Enemy_Wave_Spawner" method="_on_child_exiting_tree"]
 [connection signal="show_tower_warning" from="Enemy_Wave_Spawner" to="HotBar_Layer" method="_on_enemy_wave_spawner_show_tower_warning"]
@@ -748,9 +755,13 @@ metadata/_edit_lock_ = true
 [connection signal="activate_pause" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" to="HotBar_Layer/Hotbar_Background/Pause" method="_on_info_hover_activate_pause"]
 [connection signal="de_activate_pause" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" to="HotBar_Layer/Hotbar_Background/Pause" method="_on_info_hover_de_activate_pause"]
 [connection signal="hide_selection" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" to="." method="_on_side_buttons_hide_selection"]
+[connection signal="hide_upgrade_info" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/UpgradeInfo" method="_on_side_buttons_hide_upgrade_info"]
+[connection signal="show_upgrade_info" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/UpgradeInfo" method="_on_side_buttons_show_upgrade_info"]
 [connection signal="Upgrade_Pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Custom" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_custom_upgrade_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Custom" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Custom" method="_on_pressed"]
 [connection signal="Upgrade_Pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_upgrade_button_upgrade_pressed"]
+[connection signal="mouse_entered" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_upgrade_button_mouse_entered"]
+[connection signal="mouse_exited" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_upgrade_button_mouse_exited"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Upgrade_Button" method="_on_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Recycle" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_recycle_pressed"]
 [connection signal="pressed" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons/Disable" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection/Side_Buttons" method="_on_disable_pressed"]

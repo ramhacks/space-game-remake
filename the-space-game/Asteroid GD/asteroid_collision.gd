@@ -37,7 +37,8 @@ func assign_empty_texture():
 	asteroid_empty = true
 
 
+#Add a way to view how many recourses are in the asteroid when clicking on it
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
 		if event.is_action("BUTTON_LEFT"):
-			print(get_resource_amount())
+			pass

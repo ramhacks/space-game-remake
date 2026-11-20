@@ -422,6 +422,9 @@ func set_group(overlaps):
 
 
 func no_power_available(sender):
+	if not built and build_progress < 100:
+		build_progress += 20
+
 	#When no power is available check to make sure we have valid connecitons
 	#
 	if custom_class == "Solar":
@@ -429,7 +432,6 @@ func no_power_available(sender):
 	if len(connections):
 		var solarnear = Globals.find_closest_solar(self)
 		if solarnear is Tower:
-			print(solarnear.custom_class)
 			group_ = solarnear.group_
 
 		return
@@ -511,8 +513,6 @@ func get_overlap():
 func _on_sprite_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and clickable:
 		if event.is_action("BUTTON_LEFT") and !Globals.paused:
-			print(group_)
-			print(Globals.power_groups)
 			draw_selection_animation.emit(self.global_position, sprite_texture.get_size().x/2, true,  inherted_node)
 			#will change the hot bar or something to let us upgrade the selected tower
 

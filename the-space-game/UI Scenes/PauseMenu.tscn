@@ -28,26 +28,17 @@ script = ExtResource("1_s4wy4")
 [node name="Panel" type="Panel" parent="." unique_id=1083627174]
 layout_mode = 0
 offset_left = 256.0
-offset_top = 64.0
+offset_top = 72.0
 offset_right = 896.0
 offset_bottom = 264.0
 theme = SubResource("Theme_37kan")
 
-[node name="Save" type="Button" parent="." unique_id=539579534]
-layout_mode = 0
-offset_left = 320.0
-offset_top = 104.0
-offset_right = 832.0
-offset_bottom = 128.0
-theme = ExtResource("1_trob4")
-text = "Save"
-
 [node name="Exit" type="Button" parent="." unique_id=1001852933]
 layout_mode = 0
 offset_left = 320.0
-offset_top = 200.0
+offset_top = 144.0
 offset_right = 832.0
-offset_bottom = 223.0
+offset_bottom = 167.0
 theme = ExtResource("1_trob4")
 text = "Exit"
 
@@ -75,7 +66,5 @@ shape = SubResource("RectangleShape2D_37kan")
 [node name="SaveScript" type="Node" parent="." unique_id=1673320814]
 script = ExtResource("3_37kan")
 
-[connection signal="pressed" from="Save" to="." method="_on_save_pressed"]
-[connection signal="pressed" from="Save" to="SaveScript" method="_on_save_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

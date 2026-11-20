@@ -6,11 +6,11 @@ var Base_Dict = {
 	"Energy_Required": 30,
 	"Label": "Level 1",
 	"Upgrade_Price": TowerPrices.Repair,
-	"Recycle_Price": 300,
+	"Recycle_Price": 150,
 	"Custom_Dict": {
 		"Repair Amount": 5,
-		"Range": 150,
-		"Connection_Limit": 3,
+		"Range": 50,
+		"Connection_Limit": 2,
 		"Power_Delay": 30
 	}
 
@@ -20,13 +20,14 @@ var Repair_1_Dict = {
 	"Health": 50,
 	"Energy_Required": 40,
 	"Label": "Level 2",
-	"Upgrade_Price": 300,
-	"Recycle_Price": 150,
+	"Upgrade_Price": 400,
+	"Recycle_Price": 200,
 	"Custom_Dict": {
 		"Repair Amount": 10,
-		"Range": 250,
-		"Power_Delay": 30,
-		"Connection_Limit": 3
+		"Range": 50,
+		"Connection_Limit": 2,
+		"Power_Delay": 30
+
 	}
 }
 

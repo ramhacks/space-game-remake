@@ -41,7 +41,7 @@ signal start_enemy_spawning() # Start enemy spawn after tutorial
 
 #Linked to hotbar to spawn the tutorial as its child
 signal spawn_tutorial()
-
+signal send_selected_tower(tower, upgrade_label)
 #these two variables are if we are going to place a tower, press the tower button and show the tower following
 #the mouse and then what type of tower we are placing, the functionality of the towers will be the same for
 #most towers but has a few exceptions we will implement at a later point
@@ -355,6 +355,7 @@ func get_tower_ui_node(tower_type):
 	return self.get_node(pathstring_button)
 
 
+
 #Runs when tower is selected
 #show selection ui
 func show_selection_ui(tower):
@@ -374,11 +375,11 @@ func show_selection_ui(tower):
 
 
 	if len(tower.current_upgrade_node.children) > 0 and tower.built:
-		if len(tower.current_upgrade_node.children) > 1:
-		#	vbox_children[0].theme = button_themes["Custom_Button"]
-			vbox_children[0].text = tower.current_upgrade_node.children[1].label + ": " + str(tower.current_upgrade_node.children[1].price)
-			vbox_children[0].upgrade_name = tower.current_upgrade_node.children[1].label
-			vbox.add_child(vbox_children[0])
+		# if len(tower.current_upgrade_node.children) > 1:
+		# #	vbox_children[0].theme = button_themes["Custom_Button"]
+		# 	vbox_children[0].text = tower.current_upgrade_node.children[1].label + ": " + str(tower.current_upgrade_node.children[1].price)
+		# 	vbox_children[0].upgrade_name = tower.current_upgrade_node.children[1].label
+		# 	vbox.add_child(vbox_children[0])
 
 		vbox_children[1].text = tower.current_upgrade_node.children[0].label + ": " + str(tower.current_upgrade_node.children[0].price)
 		vbox_children[1].upgrade_name = tower.current_upgrade_node.children[0].label
@@ -399,7 +400,8 @@ func show_selection_ui(tower):
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar").visible = false
 
 	self.get_node("HotBar_Layer/Hotbar_Background/Hotbar_Forground/Selection").show_selection_nodes(tower)
-
+	if len(tower.current_upgrade_node.children):
+		send_selected_tower.emit(tower, tower.current_upgrade_node.children[0].label)
 
 
 

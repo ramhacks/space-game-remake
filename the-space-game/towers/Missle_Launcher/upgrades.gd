@@ -6,11 +6,11 @@ var Missile_1_Dict = {
 	"Energy_Required": 5,
 	"Label": "Level 1",
 	"Upgrade_Price": TowerPrices.Missile,
-	"Recycle_Price": 300,
+	"Recycle_Price": 200,
 	"Custom_Dict": {
 		"Damage": 15,
 		"Range": 200,
-		"Connection_Limit": 1,
+		"Connection_Limit": 2,
 		"Power_Delay": 2
 	},
 }
@@ -20,11 +20,11 @@ var Missile_2_Dict = {
 	"Energy_Required": 10,
 	"Label": "Level 2",
 	"Upgrade_Price": 500,
-	"Recycle_Price": 400,
+	"Recycle_Price": 250,
 	"Custom_Dict": {
 		"Damage": 20,
-		"Range": 240,
-		"Connection_Limit": 1,
+		"Range": 200,
+		"Connection_Limit": 2,
 		"Power_Delay": 2
 	},
 }
@@ -34,11 +34,11 @@ var Missile_3_Dict = {
 	"Energy_Required": 17,
 	"Label": "Level 3",
 	"Upgrade_Price": 1000,
-	"Recycle_Price": 650,
+	"Recycle_Price": 500,
 	"Custom_Dict": {
 		"Damage": 25,
-		"Range": 280,
-		"Connection_Limit": 1,
+		"Range": 200,
+		"Connection_Limit": 2,
 		"Power_Delay": 2
 	},
 }

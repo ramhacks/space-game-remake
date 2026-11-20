@@ -18,8 +18,8 @@ var power_groups = {}
 
 
 
-# var starting_resources = 150
-var starting_resources = 1000
+var starting_resources = 150
+
 
 var last_deleted_tower: Node;
 var tutorial_active = false
@@ -86,6 +86,16 @@ var paused = false # when set to true stop power timer
 ## sent when a tower requests power but there is not enough power available to give it any
 signal no_power_available(sender)
 
+func dict_to_string(d: Dictionary, tower_name: String) -> String:
+	var lines = PackedStringArray()
+	for key in d:
+		if tower_name == "Solar" and key == "Power_Delay":
+			continue
+		if tower_name == "Relay" and key == "Power_Delay":
+			continue
+		if key != "Range" and key != "Connection_Limit":
+			lines.append("%s: %s" % [key, d[key]])
+	return "\n".join(lines)
 
 func reset_all():
 	paused = false

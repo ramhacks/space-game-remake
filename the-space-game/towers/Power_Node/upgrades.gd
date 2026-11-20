@@ -6,7 +6,7 @@ var Base_Dict = {
 	"Health": 10,
 	"Energy_Required": 1,
 	"Label": "Base",
-	"Upgrade_Price": 20,
+	"Upgrade_Price": TowerPrices.Relay,
 	"Recycle_Price": 10,
 	"Custom_Dict": {
 		"Connection_Limit": 5,

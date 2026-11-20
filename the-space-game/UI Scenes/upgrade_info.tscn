@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://c6vuyavqde6g3"]
+
+[ext_resource type="Script" uid="uid://ckg0i4bhneilf" path="res://UI Scenes/upgrade_info.gd" id="1_b3nhr"]
+[ext_resource type="LabelSettings" uid="uid://ck6ak286qp5hs" path="res://UI Scenes/upgrades.tres" id="1_grage"]
+
+[node name="UpgradeInfo" type="Control" unique_id=822128172]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b3nhr")
+
+[node name="Panel" type="Panel" parent="." unique_id=685225217]
+layout_mode = 0
+offset_right = 312.0
+offset_bottom = 80.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1597563843]
+layout_mode = 0
+offset_right = 312.0
+offset_bottom = 80.0
+
+[node name="UpgradeName" type="Label" parent="Panel/VBoxContainer" unique_id=1969239084]
+layout_mode = 2
+text = "Upgrade Name: 
+"
+label_settings = ExtResource("1_grage")
+
+[node name="UpgradeInfo" type="Label" parent="Panel/VBoxContainer" unique_id=117648585]
+layout_mode = 2
+label_settings = ExtResource("1_grage")

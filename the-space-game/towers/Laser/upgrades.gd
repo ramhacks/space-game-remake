@@ -7,10 +7,10 @@ var Base_Dict = {
 	"Upgrade_Price": TowerPrices.Laser,
 	"Recycle_Price": 150,
 	"Custom_Dict": {
-		"Damage": 10,
+		"Damage": 8,
 		"Range": 60,
 		"Power_Delay": 0.5,
-		"Connection_Limit": 1
+		"Connection_Limit": 2
 	}
 }
 
@@ -21,10 +21,10 @@ var Thel_1_Dict = {
 	"Upgrade_Price": 400,
 	"Recycle_Price": 200,
 	"Custom_Dict": {
-		"Damage": 12,
-		"Range": 133,
-		"Power_Delay": 1,
-		"Connection_Limit": 1
+		"Damage": 13,
+		"Range": 80,
+		"Power_Delay": 2,
+		"Connection_Limit": 2
 	}
 }
 
@@ -35,24 +35,24 @@ var Thel_2_Dict = {
 	"Upgrade_Price": 600,
 	"Recycle_Price": 300,
 	"Custom_Dict": {
-		"Damage": 15,
-		"Range": 193,
-		"Power_Delay": 1,
-		"Connection_Limit": 1
+		"Damage": 16,
+		"Range": 85,
+		"Power_Delay": 2,
+		"Connection_Limit": 2
 	}
 }
 
 var Thel_3_Dict = {
 	"Health": 70,
-	"Energy_Required": 17,
+	"Energy_Required": 12,
 	"Label": "Thel 3",
 	"Upgrade_Price": 800,
 	"Recycle_Price": 400,
 	"Custom_Dict": {
 		"Damage": 20,
-		"Range": 260,
-		"Power_Delay": 1,
-		"Connection_Limit": 1
+		"Range": 90,
+		"Power_Delay": 2,
+		"Connection_Limit": 2
 	}
 }
 
@@ -64,9 +64,9 @@ var Pulsar_1_Dict = {
 	"Recycle_Price": 125,
 	"Custom_Dict": {
 		"Damage": 4,
-		"Range": 73,
+		"Range": 70,
 		"Power_Delay": 0.5,
-		"Connection_Limit": 1
+		"Connection_Limit": 2
 	}
 }
 
@@ -78,9 +78,9 @@ var Pulsar_2_Dict = {
 	"Recycle_Price": 175,
 	"Custom_Dict": {
 		"Damage": 4,
-		"Range": 73,
+		"Range": 75,
 		"Power_Delay": 0.5,
-		"Connection_Limit": 1
+		"Connection_Limit": 2
 	}
 }
 
@@ -92,9 +92,9 @@ var Pulsar_3_Dict = {
 	"Recycle_Price": 250,
 	"Custom_Dict": {
 		"Damage": 8,
-		"Range": 85,
+		"Range": 80,
 		"Power_Delay": 0.5,
-		"Connection_Limit": 1,
+		"Connection_Limit": 2,
 	}
 }
 
