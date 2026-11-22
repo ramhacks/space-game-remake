@@ -156,6 +156,7 @@ func _ready() -> void:
 		power_time_seconds = 0.5
 		$Power_Delay.wait_time = power_time_seconds
 
+
 	# tower_targ.get_node("Health").max_health = tower_targ.current_upgrade_node.health
 
 
@@ -166,9 +167,12 @@ func place_build_progress_bar():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if built and !set_power:
-		$Power_Delay.wait_time = current_upgrade_node.custom_vars_dict["Power_Delay"]
+
+
 		if custom_class != "Solar":
+			$Power_Delay.wait_time = current_upgrade_node.custom_vars_dict["Power_Delay"]
 			$Power_Delay.start()
+
 		set_power = true
 	#set child node and self dynamic variables
 	if Globals.last_deleted_tower in connections:
@@ -422,13 +426,20 @@ func set_group(overlaps):
 
 
 func no_power_available(sender):
+	if custom_class == "Solar":
+		return
+
+
+	if sender == self and built: #only change if tower is built, if it isn't user can just see that the build meter is not going up
+		no_power_animation_on = true
+		animated_node.animation = current_upgrade_node.label + "_disabled"
+
 	if not built and build_progress < 100:
 		build_progress += 20
 
 	#When no power is available check to make sure we have valid connecitons
 	#
-	if custom_class == "Solar":
-		return
+
 	if len(connections):
 		var solarnear = Globals.find_closest_solar(self)
 		if solarnear is Tower:
@@ -440,9 +451,7 @@ func no_power_available(sender):
 
 
 	#only act if we are the ones who's power was not able to be recieved
-	if sender == self and built: #only change if tower is built, if it isn't user can just see that the build meter is not going up
-		no_power_animation_on = true
-		animated_node.animation = current_upgrade_node.label + "_disabled"
+
 
 # Ran right after tower is created, only run once
 func tower_made() -> void:

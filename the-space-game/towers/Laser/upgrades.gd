@@ -2,7 +2,7 @@ extends Node
 
 var Base_Dict = {
 	"Health": 40,
-	"Energy_Required": 3,
+	"Energy_Required": 10,
 	"Label": "Laser",
 	"Upgrade_Price": TowerPrices.Laser,
 	"Recycle_Price": 150,
@@ -16,7 +16,7 @@ var Base_Dict = {
 
 var Thel_1_Dict = {
 	"Health": 50,
-	"Energy_Required": 5,
+	"Energy_Required": 15,
 	"Label": "Thel",
 	"Upgrade_Price": 400,
 	"Recycle_Price": 200,
@@ -30,7 +30,7 @@ var Thel_1_Dict = {
 
 var Thel_2_Dict = {
 	"Health": 60,
-	"Energy_Required": 10,
+	"Energy_Required": 20,
 	"Label": "Thel 2",
 	"Upgrade_Price": 600,
 	"Recycle_Price": 300,

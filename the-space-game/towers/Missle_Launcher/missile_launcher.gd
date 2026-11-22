@@ -78,24 +78,17 @@ var target
 func complete_missle():
 	if is_instance_valid(target):
 		send_missile(target)
+
+
 func do_process():
 	if built:
-
-
-		self.power_time_seconds = 2
-
 		if !sent_signal:
 			tower_built.emit()
 			sent_signal = true;
 
 		target = change_collision_list(my_range_area.get_overlapping_bodies())
 		if is_instance_valid(target):
-		#Each missile is worth its damage amount divided by 4
-			Globals.add_to_mineral_queue(self.current_upgrade_node.custom_vars_dict["Damage"] / 4, complete_missle, not_enough_minerals)
-			# if Globals.resources >= (self.current_upgrade_node.custom_vars_dict["Damage"] / 4):
-			# 	Globals.resources = Globals.resources - (self.current_upgrade_node.custom_vars_dict["Damage"] / 4)
-			# 	send_missile(target)
-
+			Globals.add_to_mineral_queue(self.current_upgrade_node.custom_vars_dict["Missile_Materials"], complete_missle, not_enough_minerals)
 
 	super.do_process()
 
@@ -108,7 +101,7 @@ func send_missile(target_):
 	if is_instance_valid(target_):
 		var out = mis.instantiate()
 		out.custom_class = "Player_"
-		out.damage = current_upgrade_node.custom_var
+		out.damage = self.current_upgrade_node.custom_vars_dict["Damage"]
 
 		self.add_child(out)
 		out.set_target(target_)

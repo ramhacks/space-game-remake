@@ -55,11 +55,14 @@ func do_process():
 		var overlap = $Collision_Area.get_overlapping_areas()
 		for node in overlap:
 			if node is sprite_collider and is_instance_valid(node) and node.correct_area and node.get_parent() != self:
+				print(node.get_parent().custom_name)
 				var status = node.get_parent().get_node("Health").heal(self.current_upgrade_node.custom_vars_dict["Repair Amount"])
 				if !status:
 					#Tower already fully repaired add used energy back into pool, no need to repair
 					Globals.power_groups[group_][0] += self.current_upgrade_node.energy_needs
 					Globals.total_current += self.current_upgrade_node.energy_needs
+		$RepairAnimation.show()
+		$RepairAnimation.play()
 
 	super.do_process()
 
@@ -70,5 +73,9 @@ func get_overlap():
 
 #Update range area with new stats
 func upgrade(upgrade_type):
-	set_range_area()
-	super.upgrade(upgrade_type)
+	pass
+
+
+func _on_repair_animation_animation_finished() -> void:
+	print("Finished")
+	$RepairAnimation.hide()

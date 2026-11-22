@@ -19,6 +19,12 @@
 [ext_resource type="Texture2D" uid="uid://du0ov8n1lhgw1" path="res://Visuals/Sprite_Frames/201.png" id="15_0wvx3"]
 [ext_resource type="Texture2D" uid="uid://bumsdhah4ayws" path="res://Visuals/Sprite_Frames/177.png" id="16_3htbu"]
 [ext_resource type="Script" uid="uid://bi1jc454ljya5" path="res://towers/Repair_Station/upgrades.gd" id="18_0jdeu"]
+[ext_resource type="Texture2D" uid="uid://b7f6yyg7a42wf" path="res://towers/Repair_Station/New Piskel-6.png.png" id="20_eho36"]
+[ext_resource type="Texture2D" uid="uid://cunou58jc8yir" path="res://towers/Repair_Station/New Piskel-5.png.png" id="21_w7kfu"]
+[ext_resource type="Texture2D" uid="uid://nwcv3bg5iy08" path="res://towers/Repair_Station/New Piskel-4.png.png" id="22_dlv5g"]
+[ext_resource type="Texture2D" uid="uid://b6xn00vsbliak" path="res://towers/Repair_Station/New Piskel-3.png.png" id="23_rjhvn"]
+[ext_resource type="Texture2D" uid="uid://c4d12ue4s8t7x" path="res://towers/Repair_Station/New Piskel-2.png(2).png" id="24_lgmqs"]
+[ext_resource type="Texture2D" uid="uid://kx2ixfmuyhd" path="res://towers/Repair_Station/New Piskel-1.png(3).png" id="25_unrwu"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nlb16"]
 animations = [{
@@ -73,22 +79,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("15_0wvx3")
-}],
-"loop": true,
-"name": &"Level 2",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("16_3htbu")
-}],
-"loop": true,
-"name": &"Level 2_disabled",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": ExtResource("3_tc5o6")
 }],
 "loop": false,
@@ -102,10 +92,35 @@ radius = 16.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
 radius = 58.0
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_kghqb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_eho36")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_w7kfu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_dlv5g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_rjhvn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_lgmqs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_unrwu")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Repair_Station" unique_id=1029813773 groups=["tower_node"] instance=ExtResource("1_y4khj")]
 script = ExtResource("2_mb1uw")
 custom_class = "Repair_Station"
-power_time_seconds = 1
 
 [node name="Health" parent="." index="0" unique_id=1360236364 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("3_hl4nw")]
 death_animation = NodePath("../Explosion")
@@ -117,7 +132,7 @@ Animated_Target = NodePath("../Sprite_Node")
 script = ExtResource("18_0jdeu")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Sprite_Node" parent_id_path=PackedInt32Array(1857245891) index="0" unique_id=1175609505]
-z_index = 2
+z_index = 3
 sprite_frames = SubResource("SpriteFrames_nlb16")
 animation = &"Level 1"
 script = ExtResource("3_fkvy4")
@@ -127,3 +142,13 @@ shape = SubResource("CircleShape2D_qfnyt")
 
 [node name="Collider" parent="Collision_Area" parent_id_path=PackedInt32Array(1285518275) index="0" unique_id=1519484617]
 shape = SubResource("CircleShape2D_emkd0")
+
+[node name="RepairAnimation" type="AnimatedSprite2D" parent="." index="15" unique_id=2114179341]
+visible = false
+z_index = 2
+texture_filter = 1
+position = Vector2(-9.536743e-07, -1)
+scale = Vector2(2.3125002, 2.28125)
+sprite_frames = SubResource("SpriteFrames_kghqb")
+
+[connection signal="animation_finished" from="RepairAnimation" to="." method="_on_repair_animation_animation_finished"]

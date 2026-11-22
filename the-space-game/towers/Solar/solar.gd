@@ -52,12 +52,14 @@ func _process(delta: float) -> void:
 
 	if built and connect_toggle:
 
-		$Power_Delay.wait_time = 0.5
+		$Power_Delay.wait_time = self.current_upgrade_node.custom_vars_dict["Power Gen Delay"]
+		print($Power_Delay.wait_time)
 		power_time_seconds = self.current_upgrade_node.custom_vars_dict["Power Gen Delay"]
 		$Power_Delay.timeout.connect(turn_on)
 		$Power_Delay.timeout.disconnect(_on_power_delay_timeout)
 		connect_toggle = false
 
+	print($Power_Delay.wait_time)
 	super._process(delta)
 
 
@@ -74,6 +76,7 @@ func set_placed(re_animate, current_overlapping_bodies):
 	super.set_placed(re_animate, current_overlapping_bodies)
 
 func turn_on():
+	print($Power_Delay.wait_time)
 	if !Globals.paused:
 		if(Globals.power_groups[group_][0]+energy_produced <= Globals.power_groups[group_][1]):
 			Globals.power_groups[group_][0] += energy_produced

@@ -13,7 +13,7 @@ var Base_Dict = {
 	"Upgrade_Price": TowerPrices.Solar,
 	"Recycle_Price": 100,
 	"Custom_Dict": {
-		"Power Gen Delay": 3,
+		"Power Gen Delay": 1,
 		"Energy Produced": 15,
 		"Connection_Limit": 3,
 		"Power_Delay": 1 #Generates power doenst need a power delay
@@ -22,12 +22,12 @@ var Base_Dict = {
 
 var Solar_1_Dict = {
 	"Health": 50,
-	"Energy_Required": 1,
+	"Energy_Required": 1.5,
 	"Label": "Level 2",
 	"Upgrade_Price": 300,
 	"Recycle_Price": 150,
 	"Custom_Dict": {
-		"Power Gen Delay": 2,
+		"Power Gen Delay": 1,
 		"Energy Produced": 20,
 		"Connection_Limit": 3,
 		"Power_Delay": 0
@@ -42,7 +42,7 @@ var Solar_2_Dict = {
 	"Upgrade_Price": 400,
 	"Recycle_Price": 200,
 	"Custom_Dict": {
-		"Power Gen Delay": 1.5,
+		"Power Gen Delay": 1,
 		"Energy Produced": 25,
 		"Connection_Limit": 3,
 		"Power_Delay": 0

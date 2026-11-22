@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://cf7ao24yqb5ev" path="res://Visuals/Effects/Explosion/6.png" id="10_drcas"]
 [ext_resource type="Texture2D" uid="uid://b6armdykftyu5" path="res://Visuals/Effects/Explosion/1.png" id="10_whau4"]
 [ext_resource type="Texture2D" uid="uid://bemi0futfol55" path="res://Visuals/Effects/Explosion/2.png" id="11_5am3m"]
+[ext_resource type="Texture2D" uid="uid://oar66lqq78cd" path="res://Visuals/Sprite_Frames/Enemy/6.png" id="14_hdnsv"]
 [ext_resource type="Script" uid="uid://d2fna8yy4kilr" path="res://Enemy/set_type.gd" id="17_lpoy4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0fc7o"]
@@ -56,6 +57,14 @@ animations = [{
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("14_hdnsv")
+}],
+"loop": true,
+"name": &"boss",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("4_ck3r1")
 }],
 "loop": true,
@@ -94,7 +103,6 @@ shape_ = NodePath("../Body_Collider")
 hit_types = ["Player_", "Laser"]
 
 [node name="Health" parent="." unique_id=94786658 node_paths=PackedStringArray("death_animation", "parent", "Animated_Target") instance=ExtResource("2_ju8pu")]
-health_amount = 50
 death_animation = NodePath("../Explosion")
 death_animation_name = "enemy"
 parent = NodePath("..")
@@ -147,7 +155,7 @@ script = ExtResource("9_oba48")
 position = Vector2(0, 2.98023e-08)
 scale = Vector2(0.4, 0.409)
 sprite_frames = SubResource("SpriteFrames_hb4hy")
-animation = &"defense"
+animation = &"boss"
 script = ExtResource("17_lpoy4")
 
 [connection signal="changetarget" from="Targeting" to="Sprite_Node/Sprite2D" method="_on_targeting_changetarget"]

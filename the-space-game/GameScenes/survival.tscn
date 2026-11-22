@@ -168,7 +168,8 @@ script = ExtResource("1_gc75h")
 script = ExtResource("2_opim5")
 CameraArea = NodePath("../Camera_Area")
 break_time_jiggle = 10
-first_wave_delay = 120.0
+first_wave_delay = 80.0
+base_prep_time = 40.0
 mob_cap = 20
 
 [node name="CooldownEnemy" type="Timer" parent="Enemy_Wave_Spawner" unique_id=1096147353]

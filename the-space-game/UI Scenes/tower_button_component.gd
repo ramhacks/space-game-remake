@@ -13,8 +13,8 @@ var tower_unlocks = {
 	"Relay": 0,
 	"Battery": 4,
 	"Laser": 0,
-	"Repair_Station": 2,
-	"Missile_Launcher": 5
+	"Repair_Station": 0,
+	"Missile_Launcher": 3
 }
 
 signal But_pressed(type)

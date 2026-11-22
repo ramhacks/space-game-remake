@@ -35,11 +35,14 @@ func zoom_at(mouse_pos: Vector2, factor: float) -> void:
 	if is_equal_approx(old_zoom, new_zoom):
 		return
 
+	# cursor offset from the screen center (the camera's anchor)
+	var offset = mouse_pos - get_viewport_rect().size / 2.0
+
 	# world point currently under the cursor
-	var world_before = position + mouse_pos / old_zoom
+	var world_before = position + offset / old_zoom
 	cam.zoom = Vector2(new_zoom, new_zoom)
 	# shift the camera so that same point stays under the cursor
-	position = world_before - mouse_pos / new_zoom
+	position = world_before - offset / new_zoom
 
 	# keep an in-progress drag from jumping
 	if dragging:

@@ -18,12 +18,13 @@ var EnemyTypeDamages: Dictionary = {
 	"random": 5,
 	"power": 7,
 	"defense": 7
+
 }
 
 var EnemyTypeHealth: Dictionary = {
 	"random": 5,
 	"power": 10,
-	"defense": 5
+	"defense": 10
 }
 
 var target_strat: String

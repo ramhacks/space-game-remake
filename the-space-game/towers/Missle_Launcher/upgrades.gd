@@ -1,6 +1,6 @@
 extends Node
 
-
+# For missiles their energy requirement is actually the materials they need
 var Missile_1_Dict = {
 	"Health": 40,
 	"Energy_Required": 5,
@@ -8,10 +8,11 @@ var Missile_1_Dict = {
 	"Upgrade_Price": TowerPrices.Missile,
 	"Recycle_Price": 200,
 	"Custom_Dict": {
-		"Damage": 15,
-		"Range": 200,
+		"Damage": 20,
+		"Range": 80,
 		"Connection_Limit": 2,
-		"Power_Delay": 2
+		"Power_Delay": 2,
+		"Missile_Materials": 5,
 	},
 }
 
@@ -22,10 +23,11 @@ var Missile_2_Dict = {
 	"Upgrade_Price": 500,
 	"Recycle_Price": 250,
 	"Custom_Dict": {
-		"Damage": 20,
-		"Range": 200,
+		"Damage": 25,
+		"Range": 80,
 		"Connection_Limit": 2,
-		"Power_Delay": 2
+		"Power_Delay": 2,
+		"Missile_Materials": 5,
 	},
 }
 
@@ -36,10 +38,11 @@ var Missile_3_Dict = {
 	"Upgrade_Price": 1000,
 	"Recycle_Price": 500,
 	"Custom_Dict": {
-		"Damage": 25,
-		"Range": 200,
+		"Damage": 30,
+		"Range": 100,
 		"Connection_Limit": 2,
-		"Power_Delay": 2
+		"Power_Delay": 2,
+		"Missile_Materials": 6,
 	},
 }
 
