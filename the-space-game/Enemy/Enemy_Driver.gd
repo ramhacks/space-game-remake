@@ -18,18 +18,20 @@ var EnemyTypeDamages: Dictionary = {
 	"random": 5,
 	"power": 7,
 	"defense": 7
-
+	#"boss": 10
 }
 
 var EnemyTypeHealth: Dictionary = {
 	"random": 5,
 	"power": 10,
 	"defense": 10
+#	"boss": 30
 }
 
+var health
 var target_strat: String
 
-@export var health = 10
+
 
 var speed:int = 150
 var accel: int = 1
@@ -49,6 +51,7 @@ var five_frames = 0
 var start_targeting = false
 var mis
 
+var laser_target: Node2D = null
 # signal tower_removed
 
 func point_circle(center, angle):
@@ -78,6 +81,7 @@ func next_point(tower_point, p, angle):
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	mis = preload("res://Enemy/missle.tscn")
+	$Health.set_health(10)
 
 
 #Run this before anything else
@@ -85,6 +89,7 @@ func initialize(target_method, radar, start_position):
 	self.global_position = start_position
 	target_strat = target_method
 	health = EnemyTypeHealth[target_strat]
+	$Health.set_health(health)
 	missle_damage = EnemyTypeDamages[target_strat]
 	radar_marker = radar
 	self.get_node(Targeting[target_strat]).init_target()
@@ -100,6 +105,11 @@ func _process(delta: float) -> void:
 
 	if health <= 0:
 		enemy_death()
+
+	var line: Line2D = $Laser
+	if line.visible and is_instance_valid(laser_target) and line.get_point_count() == 2:
+		line.set_point_position(0, line.to_local(global_position))
+		line.set_point_position(1, line.to_local(laser_target.global_position))
 
 
 
@@ -125,6 +135,7 @@ func get_new_target() -> Node2D:
 		targeting.init_target()
 		missle_damage = EnemyTypeDamages['random']
 		health = min(health, EnemyTypeHealth['random'])
+		$Health.set_health(health)
 		# switch strategy happened; fetch a real node from the new strategy
 		var new_out = get_node(Targeting[target_strat]).get_target()
 		return new_out if new_out is Node2D else null
@@ -138,21 +149,42 @@ func _on_surround_send_laser(target: Variant) -> void:
 
 
 		if(!is_instance_valid(target)):
-			var output = get_new_target()
-			if (output):
-				self.get_node("StateMachine").target_node = output
+			target = get_new_target()
+			if (target):
+				self.get_node("StateMachine").target_node = target
 			else:
 				return
 
-
-		var out = mis.instantiate()
-		out.set_damage(missle_damage)
-
-		self.add_child(out)
-		out.set_target(target)
+		laser_attack(target)
+# 		var out = mis.instantiate()
+# 		out.set_damage(missle_damage)
+#
+# 		self.add_child(out)
+# 		out.set_target(target)
 		five_frames = 0
 
 	five_frames += 1
+
+func laser_attack(target: Variant) -> void:
+	if not is_instance_valid(target):
+		var output = get_new_target()
+		if output:
+			get_node("StateMachine").target_node = output
+			target = output   # <- you were missing this
+		else:
+			return
+
+	draw_laser_attack(global_position, target.global_position, self)
+	laser_target = target
+	target.get_node("Hitbox").register_hit(self, missle_damage, self)
+
+
+func draw_laser_attack(from_global: Vector2, to_global: Vector2, parent) -> void:
+	var line: Line2D = parent.get_node("Laser")
+	line.clear_points()
+	line.add_point(line.to_local(from_global))
+	line.add_point(line.to_local(to_global))
+	parent.get_node("AnimationPlayer").play("laser")
 
 func _exit_tree() -> void:
 	#If radar marker still exists delete it

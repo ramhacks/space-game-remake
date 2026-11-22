@@ -8,7 +8,7 @@ var current_state : State
 var states : Dictionary = {}
 var parent_node: Tower
 var laser_line: Line2D
-
+var laser_target: Node2D = null
 
 func _ready() -> void:
 	for child in get_children():
@@ -23,6 +23,11 @@ func _ready() -> void:
 func _process(delta) -> void:
 	if current_state:
 		current_state.Update(delta)
+
+	var line: Line2D = $Laser
+	if line.visible and is_instance_valid(laser_target) and line.get_point_count() == 2:
+		line.set_point_position(0, line.to_local(global_position))
+		line.set_point_position(1, line.to_local(laser_target.global_position))
 
 func _physics_process(delta: float) -> void:
 	if current_state:
@@ -62,6 +67,7 @@ func laser_enemy(parent) -> bool:
 		#Couldnt find any enemies but also check if found an enemy tower instead
 		target = change_collision_list(parent.enemy_towers())
 		if is_instance_valid(target):
+			laser_target = target
 			draw_laser_attack(parent.to_local(parent.global_position), parent.to_local(target.global_position), parent)
 
 			target.get_node("Hitbox").register_hit(parent, damage, self)
@@ -88,5 +94,4 @@ func draw_laser_attack(pos1, pos2, parent):
 	_line.clear_points()
 	_line.add_point(pos1)
 	_line.add_point(pos2)
-	_line.add_point(pos1)
 	parent.get_node("AnimationPlayer").play("laser")

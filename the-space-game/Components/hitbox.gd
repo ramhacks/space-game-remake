@@ -36,7 +36,10 @@ func _process(delta: float) -> void:
 
 
 func register_hit(sender, damage, missile):
-	if sender.custom_class in hit_types:
+	if sender.is_in_group("Enemies"):
+		health_component.health_amount -= damage
+		return
+	elif sender.custom_class in hit_types:
 		health_component.health_amount -= damage
 		if sender.projectile_type == 'Missile':
 			missile.queue_free()

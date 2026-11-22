@@ -87,8 +87,8 @@ func _ready() -> void:
 
 func start_spawn():
 	if debug_mode:
-		first_wave_delay = 30
-		base_prep_time = 60
+		first_wave_delay = 10
+		base_prep_time = 0
 		max_wave_duration = 60
 
 	if disable_enimies:
