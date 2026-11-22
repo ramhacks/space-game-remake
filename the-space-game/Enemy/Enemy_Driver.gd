@@ -12,20 +12,21 @@ var Targeting: Dictionary = {
 	"random": "Targeting/Random_Target",
 	"power": "Targeting/Power_Target",
 	"defense": "Targeting/Defense_Target",
+	"boss": "Targeting/Boss_Target"
 }
 
 var EnemyTypeDamages: Dictionary = {
 	"random": 5,
 	"power": 7,
-	"defense": 7
-	#"boss": 10
+	"defense": 7,
+	"boss": 8
 }
 
 var EnemyTypeHealth: Dictionary = {
 	"random": 5,
 	"power": 10,
-	"defense": 10
-#	"boss": 30
+	"defense": 10,
+	"boss": 30
 }
 
 var health
@@ -155,12 +156,14 @@ func _on_surround_send_laser(target: Variant) -> void:
 			else:
 				return
 
-		laser_attack(target)
-# 		var out = mis.instantiate()
-# 		out.set_damage(missle_damage)
-#
-# 		self.add_child(out)
-# 		out.set_target(target)
+		if target_strat == "boss":
+			laser_attack(target)
+		else:
+			var out = mis.instantiate()
+			out.set_damage(missle_damage)
+
+			self.add_child(out)
+			out.set_target(target)
 		five_frames = 0
 
 	five_frames += 1

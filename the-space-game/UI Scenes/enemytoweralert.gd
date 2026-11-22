@@ -11,7 +11,8 @@ func _ready() -> void:
 	$Timer.wait_time = blink_delay * 2
 	$Timer.start()
 
-
+func change_text(new_text: String) -> void:
+	$Label.text = new_text
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

@@ -45,6 +45,7 @@ const THEMES = {
 	"economy_raid": {"random": 0.3, "power": 0.6, "defense": 0.1},
 	"siege":        {"random": 0.3, "power": 0.1, "defense": 0.6},
 	"mixed":        {"random": 0.4, "power": 0.3, "defense": 0.3},
+	"boss": 		{"boss": 0.7, "random": 0.1, "power": 0.1, "defense": 0.1}
 }
 
 const THEME_UNLOCK = {
@@ -57,15 +58,22 @@ const THEME_UNLOCK = {
 
 
 const FORCED_THEMES = {
-	1: "swarm",
+	#1: "swarm",
+	1: "boss",
 	3: "economy_raid",
 	5: "siege",
+
+
 }
 
 
 # Costs of the enemy to unlock, how much the 'wave' spends, kind of determines how often enimies will spawn
-const ENEMY_COST = {"random": 1, "power": 2, "defense": 3}
-const ENEMY_UNLOCK = {"random": 1, "power": 3, "defense": 5}
+# #On average the budget for an average wave will be
+# Equation: 1 + 1.2w + 0.5·w^1.1 ( replace with x or y to graph)
+# starting 2.7 - 11.8 for the first and sixth wave respectfully
+const ENEMY_COST = {"random": 1, "power": 2, "defense": 3, "boss": 4}
+
+const ENEMY_UNLOCK = {"random": 1, "power": 3, "defense": 5, "boss": 5}
 
 var last_theme := ""
 var last_seen := {}
@@ -166,6 +174,11 @@ func pick_theme(w: int) -> String:
 
 	if FORCED_THEMES.has(w):
 		choice = FORCED_THEMES[w]
+	elif is_boss_wave(w):
+		var warning = enemy_tower_warning.initialize()
+		warning.change_text("Boss Wave Incoming")
+		self.add_child(warning)
+		choice = "boss"
 	else:
 		var candidates: Array[String] = []
 		var weights: Array[float] = []
@@ -181,10 +194,26 @@ func pick_theme(w: int) -> String:
 	last_theme = choice
 	return choice
 
+func boss_interval(boss_index: int) -> int:
+	return 4 + boss_index / 3   # integer division
+
+# Deterministic, so get_budget and pick_theme always agree
+func is_boss_wave(w: int) -> bool:
+	var wave := 0
+	var n := 0
+	while wave < w:
+		wave += boss_interval(n)
+		n += 1
+	return wave == w
+
 # Build the wave
 func build_wave(w: int) -> Array[String]:
 	var budget := get_budget(w)
+
 	var theme := pick_theme(w)
+
+	# Every 4th wave there is a boss wave
+
 	var theme_weights: Dictionary = THEMES[theme]
 	var wave: Array[String] = []
 
@@ -240,8 +269,18 @@ func spawn_new_wave(wave_number: int) -> void:
 
 	# After wave 4 enemy spawners can spawn around the map
 	if Globals.wave_number >= ENEMY_TOWER_WAVE_SPAWN:
+
+
 		if get_tree().get_nodes_in_group("EnemyTowers").size() >= max_enemy_towers:
 			return
+
+		# Dont always spawn one, make them rare
+		var dont_spawn = random.randi_range(0, 2)
+		if dont_spawn:
+			#Only spawn if dont spawn is 0
+			return
+
+
 		var spawn_pos: Vector2
 
 		var attempts = 2
@@ -267,7 +306,9 @@ func spawn_new_wave(wave_number: int) -> void:
 		get_parent().get_node("Camera_Area").send_rel.connect(enemy_marker3.receive_relative)
 
 		get_parent().create_radar_node.emit(enemy_marker3)
-
+		var warning = enemy_tower_warning.initialize()
+		warning.change_text("Enemy Towers Spawning")
+		self.add_child(warning)
 		var amount = random.randi_range(1, 2)
 		for i in range(0, amount):
 			if get_tree().get_nodes_in_group("EnemyTowers").size() >= max_enemy_towers:

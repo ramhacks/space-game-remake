@@ -21,7 +21,6 @@ func _ready() -> void:
 
 #On spawn set health
 func set_health(health: int) -> void:
-	print(self.get_parent())
 	health_amount = health
 	max_health = health
 # Called every frame. 'delta' is the elapsed time since the previous frame.

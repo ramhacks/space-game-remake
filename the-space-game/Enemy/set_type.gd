@@ -16,3 +16,6 @@ func _process(delta: float) -> void:
 func _on_targeting_changetarget(newtarget: String) -> void:
 	if self.sprite_frames.has_animation(newtarget):
 		play(newtarget)
+
+	if newtarget == "boss":
+		self.scale *= 2

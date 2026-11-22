@@ -11,11 +11,13 @@
 [ext_resource type="Script" uid="uid://d164rprjpewch" path="res://Enemy/Enemy_Types/random_target.gd" id="5_q62d7"]
 [ext_resource type="Script" uid="uid://bkc765jr6ix8t" path="res://Enemy/Enemy_Types/power_target.gd" id="6_mh5em"]
 [ext_resource type="Script" uid="uid://1vcjintxflwf" path="res://Enemy/Enemy_Types/defense_target.gd" id="7_mh5em"]
+[ext_resource type="Script" uid="uid://bvvart81n8014" path="res://Enemy/Enemy_Types/boss_target.gd" id="9_0i70h"]
 [ext_resource type="Texture2D" uid="uid://cg5xh8ggybyex" path="res://Visuals/Effects/Explosion/7.png" id="9_neqc8"]
 [ext_resource type="Script" uid="uid://cr3m42ii5qpk7" path="res://towers/sprite_node.gd" id="9_oba48"]
 [ext_resource type="Texture2D" uid="uid://cf7ao24yqb5ev" path="res://Visuals/Effects/Explosion/6.png" id="10_drcas"]
 [ext_resource type="Texture2D" uid="uid://b6armdykftyu5" path="res://Visuals/Effects/Explosion/1.png" id="10_whau4"]
 [ext_resource type="Texture2D" uid="uid://bemi0futfol55" path="res://Visuals/Effects/Explosion/2.png" id="11_5am3m"]
+[ext_resource type="Texture2D" uid="uid://oar66lqq78cd" path="res://Visuals/Sprite_Frames/Enemy/6.png" id="14_hdnsv"]
 [ext_resource type="Script" uid="uid://d2fna8yy4kilr" path="res://Enemy/set_type.gd" id="17_lpoy4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0fc7o"]
@@ -53,7 +55,10 @@ animations = [{
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hb4hy"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_hdnsv")
+}],
 "loop": true,
 "name": &"boss",
 "speed": 5.0
@@ -203,6 +208,9 @@ script = ExtResource("6_mh5em")
 [node name="Defense_Target" type="Node" parent="Targeting" unique_id=731733052]
 script = ExtResource("7_mh5em")
 
+[node name="Boss_Target" type="Node" parent="Targeting" unique_id=708004011]
+script = ExtResource("9_0i70h")
+
 [node name="Explosion" type="AnimatedSprite2D" parent="." unique_id=889576243]
 visible = false
 sprite_frames = SubResource("SpriteFrames_namxv")
@@ -215,7 +223,7 @@ script = ExtResource("9_oba48")
 position = Vector2(0, 2.98023e-08)
 scale = Vector2(0.4, 0.409)
 sprite_frames = SubResource("SpriteFrames_hb4hy")
-animation = &"random"
+animation = &"boss"
 script = ExtResource("17_lpoy4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1250355206]
