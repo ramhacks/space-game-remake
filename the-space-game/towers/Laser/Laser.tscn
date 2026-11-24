@@ -423,6 +423,11 @@ radius = 11.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_emkd0"]
 radius = 58.00862
 
+[sub_resource type="Gradient" id="Gradient_gpy6k"]
+offsets = PackedFloat32Array(0, 0.458333, 1)
+colors = PackedColorArray(0.0132408, 0.597205, 0.093748, 1, 0.00868765, 0.922699, 0, 1, 0.0183086, 0.319085, 0.184432, 1)
+metadata/_snap_count = 12
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_a50kf"]
 
 [node name="Laser" unique_id=127248683 groups=["laser", "tower_node"] instance=ExtResource("1_ktcgg")]
@@ -465,13 +470,19 @@ debug_color = Color(1, 1, 1, 0)
 script = ExtResource("18_qvvyy")
 initial_state = NodePath("Basic_Laser")
 
-[node name="Thel" type="Node" parent="StateMachine" index="0" unique_id=398864837]
+[node name="Laser" type="Line2D" parent="StateMachine" index="0" unique_id=1553320990]
+points = PackedVector2Array(644, 199)
+width = 2.0
+default_color = Color(0.93074954, 0.86522686, 0.25658074, 1)
+gradient = SubResource("Gradient_gpy6k")
+
+[node name="Thel" type="Node" parent="StateMachine" index="1" unique_id=398864837]
 script = ExtResource("19_gvtru")
 
-[node name="Basic_Laser" type="Node" parent="StateMachine" index="1" unique_id=1336750801]
+[node name="Basic_Laser" type="Node" parent="StateMachine" index="2" unique_id=1336750801]
 script = ExtResource("20_80jae")
 
-[node name="Pulsar" type="Node" parent="StateMachine" index="2" unique_id=698462853]
+[node name="Pulsar" type="Node" parent="StateMachine" index="3" unique_id=698462853]
 script = ExtResource("21_ys1hr")
 
 [node name="PulseTimer" type="Timer" parent="StateMachine/Pulsar" index="0" unique_id=188044813]

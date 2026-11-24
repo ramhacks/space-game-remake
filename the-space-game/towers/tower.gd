@@ -136,6 +136,9 @@ func hide_circle():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#If this is a placed tower instantly on spawn hide Connection label
+	if !hovering:
+		$Connection_Label.hide()
 
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	#set child node static variables
@@ -156,6 +159,7 @@ func _ready() -> void:
 		power_time_seconds = 0.5
 		$Power_Delay.wait_time = power_time_seconds
 
+	$Connection_Label.set_limit(current_upgrade_node.custom_vars_dict["Connection_Limit"])
 
 	# tower_targ.get_node("Health").max_health = tower_targ.current_upgrade_node.health
 
@@ -167,8 +171,7 @@ func place_build_progress_bar():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if built and !set_power:
-
-
+		$Connection_Label.hide()
 		if custom_class != "Solar":
 			$Power_Delay.wait_time = current_upgrade_node.custom_vars_dict["Power_Delay"]
 			$Power_Delay.start()
@@ -297,6 +300,7 @@ func draw_tower_hover_lines(input_array = false):
 		if input_array:
 			connection_points.append(node.global_position)
 	$Sprite.connections = connections.duplicate()
+	$Connection_Label.set_current(len(connections))
 
 func reconnection_lines():
 	draw_tower_hover_lines()

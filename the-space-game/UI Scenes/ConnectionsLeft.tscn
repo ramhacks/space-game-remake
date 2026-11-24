@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bxeittmjgx1rc"]
+
+[ext_resource type="Script" uid="uid://bsgturtksry1g" path="res://UI Scenes/connections_left.gd" id="1_jfpmg"]
+
+[node name="Control" type="Control" unique_id=493362624]
+z_index = 10
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1128.0
+offset_bottom = -625.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jfpmg")
+
+[node name="Panel" type="Panel" parent="." unique_id=775423279]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 23.0
+
+[node name="Label" type="Label" parent="." unique_id=345341106]
+layout_mode = 0
+offset_left = 4.0
+offset_right = 36.0
+offset_bottom = 23.0
+text = "0/5"

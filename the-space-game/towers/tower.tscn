@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bemi0futfol55" path="res://Visuals/Effects/Explosion/2.png" id="7_ph56o"]
 [ext_resource type="AudioStream" uid="uid://dvlvgvfjn82ee" path="res://sounds/place.mp3" id="10_ju35e"]
 [ext_resource type="AudioStream" uid="uid://ksbp7h0d173s" path="res://sounds/upgrade.mp3" id="11_34gie"]
+[ext_resource type="PackedScene" uid="uid://bxeittmjgx1rc" path="res://UI Scenes/ConnectionsLeft.tscn" id="13_gw1qi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3lut5"]
 bg_color = Color(0.0156863, 0.0470588, 0.862745, 1)
@@ -204,6 +205,12 @@ volume_db = -10.935
 
 [node name="Upgrade" type="AudioStreamPlayer2D" parent="." unique_id=1731448183]
 stream = ExtResource("11_34gie")
+
+[node name="Connection_Label" parent="." unique_id=493362624 instance=ExtResource("13_gw1qi")]
+offset_left = 10.0
+offset_top = -37.0
+offset_right = 10.0
+offset_bottom = -37.0
 
 [connection signal="area_entered" from="Sprite" to="Sprite" method="_on_area_entered"]
 [connection signal="input_event" from="Sprite" to="." method="_on_sprite_input_event"]

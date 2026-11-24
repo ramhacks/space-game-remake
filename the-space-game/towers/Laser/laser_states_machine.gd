@@ -10,7 +10,10 @@ var parent_node: Tower
 var laser_line: Line2D
 var laser_target: Node2D = null
 
+var line:Line2D
+
 func _ready() -> void:
+	line = $Laser
 	for child in get_children():
 		if child is State:
 			states[child.name.to_lower()] = child
@@ -24,7 +27,7 @@ func _process(delta) -> void:
 	if current_state:
 		current_state.Update(delta)
 
-	var line: Line2D = $Laser
+
 	if line.visible and is_instance_valid(laser_target) and line.get_point_count() == 2:
 		line.set_point_position(0, line.to_local(global_position))
 		line.set_point_position(1, line.to_local(laser_target.global_position))
