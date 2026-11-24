@@ -106,6 +106,15 @@ label_settings = ExtResource("3_4juen")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Goal" type="Label" parent="." unique_id=1672780111]
+layout_mode = 0
+offset_left = 432.0
+offset_top = 157.0
+offset_right = 771.0
+offset_bottom = 589.0
+text = "Survive for as many waves as you can!"
+autowrap_mode = 2
+
 [connection signal="pressed" from="LevelType/Square" to="." method="_on_square_pressed"]
 [connection signal="pressed" from="LevelType/Circle" to="." method="_on_circle_pressed"]
 [connection signal="pressed" from="LevelType/Back" to="." method="_on_back_pressed"]

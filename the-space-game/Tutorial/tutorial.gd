@@ -46,7 +46,6 @@ func _ready() -> void:
 	$Close.position = close_button_positions[current_state]
 	$MiniMap.show()
 	get_tree().set_pause(true)
-
 	Globals.pause_game()
 
 

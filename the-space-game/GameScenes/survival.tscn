@@ -166,7 +166,6 @@ script = ExtResource("1_gc75h")
 
 [node name="Enemy_Wave_Spawner" type="Node" parent="." unique_id=583756035 node_paths=PackedStringArray("CameraArea")]
 script = ExtResource("2_opim5")
-debug_mode = true
 CameraArea = NodePath("../Camera_Area")
 break_time_jiggle = 10
 first_wave_delay = 80.0
@@ -750,7 +749,9 @@ metadata/_edit_lock_ = true
 [connection signal="hide_info_boxes" from="Camera_Area" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" method="_on_camera_area_hide_info_boxes"]
 [connection signal="input_event" from="Camera_Area" to="Camera_Area" method="_on_input_event"]
 [connection signal="place_tower" from="Camera_Area" to="." method="_on_camera_area_place_tower"]
+[connection signal="disable_pause" from="HotBar_Layer" to="HotBar_Layer/Hotbar_Background/Pause" method="_on_hot_bar_layer_disable_pause"]
 [connection signal="tutorial_finished" from="HotBar_Layer" to="." method="_on_hot_bar_layer_tutorial_finished"]
+[connection signal="tutorial_finished" from="HotBar_Layer" to="HotBar_Layer/Hotbar_Background/Pause" method="_on_hot_bar_layer_tutorial_finished"]
 [connection signal="toggled" from="HotBar_Layer/Hotbar_Background/Pause" to="HotBar_Layer/Hotbar_Background/Pause" method="_on_toggled"]
 [connection signal="nodes_to_connect" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" to="." method="_on_default_hot_bar_nodes_to_connect"]
 [connection signal="nodes_to_connect" from="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Default_Hot Bar" to="HotBar_Layer/Hotbar_Background/Hotbar_Forground/Info_Hover" method="_on_default_hot_bar_nodes_to_connect"]
