@@ -25,3 +25,18 @@ func _process(delta: float) -> void:
 	#Add a way to calculate resources per minute
 
 	skip_frame +=1
+
+
+#Highlighting signal recievers
+func _on_hot_bar_layer_de_highlight_energy_bar() -> void:
+	$EnergyHighlight.hide()
+
+func _on_hot_bar_layer_highlight_mineral_bar() -> void:
+	$MineralHighlight.show()
+
+
+func _on_hot_bar_layer_highlight_energy_bar() -> void:
+	$EnergyHighlight.show()
+
+func _on_hot_bar_layer_de_highlight_mineral_bar() -> void:
+	$MineralHighlight.hide()

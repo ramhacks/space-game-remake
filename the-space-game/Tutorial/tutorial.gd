@@ -2,6 +2,7 @@ extends Node
 
 signal disable_pause()
 signal enable_pause()
+signal tutorial_step(step: int)
 signal tutorial_finished()
 const PositionIndexs = preload("res://enums/tutorial_enums.gd").SequenceButtonPositions
 #List of positions (x and y) of each button, sequetially in the tutorial.
@@ -45,6 +46,7 @@ func _ready() -> void:
 	$Back.position = back_button_positions[current_state]
 	$Close.position = close_button_positions[current_state]
 	$MiniMap.show()
+	tutorial_step.emit(PositionIndexs.MINIMAP)
 	get_tree().set_pause(true)
 	Globals.pause_game()
 
@@ -80,6 +82,7 @@ func _on_back_pressed() -> void:
 func process_state_change() -> void:
 	match current_state:
 		PositionIndexs.MINIMAP:
+			tutorial_step.emit(PositionIndexs.MINIMAP)
 			$MiniMap.show()
 			$Enemies.hide()
 			$Minerals.hide()
@@ -88,6 +91,7 @@ func process_state_change() -> void:
 			$TowerSelections.hide()
 			$GoodLuck.hide()
 		PositionIndexs.SOLAR:
+			tutorial_step.emit(PositionIndexs.SOLAR)
 			$MiniMap.hide()
 			$Enemies.hide()
 			$Minerals.hide()
@@ -96,6 +100,7 @@ func process_state_change() -> void:
 			$Energy.hide()
 			$GoodLuck.hide()
 		PositionIndexs.ENERGY:
+			tutorial_step.emit(PositionIndexs.ENERGY)
 			$MiniMap.hide()
 			$Enemies.hide()
 			$TowerSelections.hide()
@@ -104,6 +109,7 @@ func process_state_change() -> void:
 			$Energy.show()
 			$GoodLuck.hide()
 		PositionIndexs.TOWERS:
+			tutorial_step.emit(PositionIndexs.TOWERS)
 			$MiniMap.hide()
 			$Enemies.hide()
 			$TowerSelections.show()
@@ -112,6 +118,7 @@ func process_state_change() -> void:
 			$Energy.hide()
 			$GoodLuck.hide()
 		PositionIndexs.MINERALS:
+			tutorial_step.emit(PositionIndexs.MINERALS)
 			$MiniMap.hide()
 			$Enemies.hide()
 			$TowerSelections.hide()
@@ -120,6 +127,7 @@ func process_state_change() -> void:
 			$Energy.hide()
 			$GoodLuck.hide()
 		PositionIndexs.ENEMIES:
+			tutorial_step.emit(PositionIndexs.ENEMIES)
 			$MiniMap.hide()
 			$Enemies.show()
 			$TowerSelections.hide()
@@ -128,6 +136,7 @@ func process_state_change() -> void:
 			$Energy.hide()
 			$GoodLuck.hide()
 		PositionIndexs.GOODLUCK:
+			tutorial_step.emit(PositionIndexs.GOODLUCK)
 			$MiniMap.hide()
 			$Enemies.hide()
 			$Minerals.hide()

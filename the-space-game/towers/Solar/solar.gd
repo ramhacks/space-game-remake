@@ -91,3 +91,11 @@ func upgrade(upgrade_type):
 	$Power_Delay.timeout.connect(_on_power_delay_timeout)
 	connect_toggle = true
 	super.upgrade(upgrade_type)
+
+#This is only for solar as we are going to be abusing the fact that its the only tower on the board at the beginning
+# to access it
+func show_highlight():
+	$TutorialHighlight.show()
+
+func hide_highlight():
+	$TutorialHighlight.hide()

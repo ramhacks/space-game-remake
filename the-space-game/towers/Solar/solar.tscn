@@ -191,6 +191,16 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_o7vyt"]
 radius = 13.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xdh3d"]
+bg_color = Color(1, 0.9882353, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="Theme" id="Theme_rrvb8"]
+Panel/styles/panel = SubResource("StyleBoxFlat_xdh3d")
+
 [node name="solar_station" unique_id=542042677 groups=["tower_node"] instance=ExtResource("1_cmj2o")]
 script = ExtResource("2_lr4nm")
 custom_class = "Solar"
@@ -216,3 +226,11 @@ script = ExtResource("36_ytiel")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite" parent_id_path=PackedInt32Array(143090353) index="0" unique_id=446612207]
 shape = SubResource("CircleShape2D_o7vyt")
+
+[node name="TutorialHighlight" type="Panel" parent="." index="16" unique_id=1840733632]
+visible = false
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
+theme = SubResource("Theme_rrvb8")

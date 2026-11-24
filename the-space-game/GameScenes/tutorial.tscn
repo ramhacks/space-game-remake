@@ -146,7 +146,7 @@ offset_left = 16.0
 offset_top = 8.0
 offset_right = 240.0
 offset_bottom = 83.0
-text = "Here you also have your minerals. Get more by mining the asteroids. Use miners to do this! In order to operate miners you need energy. "
+text = "Here you also have your minerals. Get more minerals by placing MINERS next to asteroids"
 autowrap_mode = 2
 metadata/_edit_lock_ = true
 
